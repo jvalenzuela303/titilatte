@@ -1,0 +1,48 @@
+# =============================================================================
+# Grafana Provisioning — Dashboards
+# Minimarket Platform — Fase 3
+#
+# Este archivo le indica a Grafana dónde encontrar los dashboards predefinidos
+# al iniciar el contenedor. Grafana los carga automáticamente desde el directorio
+# montado en /var/lib/grafana/dashboards.
+#
+# Montajes necesarios en docker-compose.monitoring.yml:
+#   - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+#   - ./grafana/provisioning:/etc/grafana/provisioning:ro
+#
+# Documentación oficial:
+#   https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards
+# =============================================================================
+
+apiVersion: 1
+
+providers:
+  - name: 'Minimarket'
+    # ID de la organización en Grafana (default: 1 para instalaciones simples)
+    orgId: 1
+
+    # Carpeta de destino en la UI de Grafana.
+    # Cadena vacía = carpeta "General" (raíz).
+    folder: ''
+
+    # folderUid: ''  # Opcional — UID de carpeta personalizada
+
+    # Tipo de provider: "file" lee JSONs desde el sistema de archivos del contenedor
+    type: file
+
+    # Impide que los usuarios eliminen dashboards provisionados desde la UI.
+    # Poner true en entornos donde los dashboards deben ser inmutables (producción).
+    disableDeletion: false
+
+    # Permite que Grafana actualice el dashboard en BD si cambia el JSON en disco.
+    # Con false, solo se carga la primera vez.
+    updateIntervalSeconds: 30
+
+    # Si true, Grafana permite editar dashboards provisionados en la UI
+    # (los cambios se perderían en el próximo reload si updateIntervalSeconds > 0).
+    allowUiUpdates: true
+
+    options:
+      # Ruta dentro del contenedor donde Grafana buscará archivos *.json
+      # Debe coincidir con el destino del volumen montado.
+      path: /var/lib/grafana/dashboards

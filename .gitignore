@@ -1,0 +1,67 @@
+# =============================================================================
+# .gitignore — Minimarket Platform
+# =============================================================================
+
+# ---- Archivos de entorno (NUNCA al repositorio) ----
+.env
+.env.local
+.env.*.local
+infra/.env
+
+# ---- Java / Maven ----
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.log
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ---- Node / Frontend ----
+node_modules/
+dist/
+dist-ssr/
+*.local
+frontend/dist/
+frontend/node_modules/
+
+#claude 
+.claude
+
+# ---- IDEs ----
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+.factorypath
+
+# ---- OS ----
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# ---- Docker ----
+# Los volúmenes de datos locales no van al repo
+docker-data/
+
+# ---- Logs ----
+logs/
+*.log
+spring.log
+
+# ---- Temporales ----
+*.tmp
+*.temp
+*.bak
+*.orig

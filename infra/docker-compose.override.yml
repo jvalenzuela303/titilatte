@@ -1,0 +1,120 @@
+# =============================================================================
+# Minimarket Platform — Docker Compose Override (desarrollo local)
+# Este archivo se aplica AUTOMÁTICAMENTE sobre docker-compose.yml cuando
+# ejecutas `docker compose up` desde el directorio infra/.
+# NO hacer commit de valores reales de .env; este archivo es seguro para git.
+# =============================================================================
+
+name: minimarket
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL — expone puerto al host para acceso con pgAdmin / DBeaver
+  # ---------------------------------------------------------------------------
+  postgres:
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+
+  # ---------------------------------------------------------------------------
+  # Backend — modo desarrollo
+  # - Puerto 5005 expuesto para remote debugging JVM (JDWP)
+  # - Volumen del código fuente montado para hot reload con Spring DevTools
+  # - JAVA_OPTS sobreescrito para incluir el agente JDWP
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      target: runtime
+    ports:
+      # JVM Remote Debug (conectar con IntelliJ / VSCode Java Debugger)
+      - "5005:5005"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      # Spring DevTools requiere que la app se lance con el jar, no con el plugin.
+      # El agente JDWP habilita attach desde el IDE; suspend=n = no bloquea arranque.
+      JAVA_OPTS: >-
+        -Xms256m -Xmx512m
+        -XX:+UseG1GC
+        -XX:MaxGCPauseMillis=200
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      # Deshabilita caché de plantillas Thymeleaf (si se usa) y activa DevTools
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: "true"
+    volumes:
+      # Monta el código fuente para que Spring DevTools detecte cambios de clases.
+      # El JAR compilado sigue siendo el punto de entrada; el devtools monitorea
+      # el classpath y reinicia el ApplicationContext cuando detecta cambios.
+      - ../backend/src:/app/src:ro
+      # Caché de Maven para acelerar recompilaciones manuales dentro del contenedor
+      - maven_cache:/root/.m2
+    # En dev el healthcheck puede tardar más mientras Spring DevTools reinicia
+    healthcheck:
+      start_period: 90s
+
+  # ---------------------------------------------------------------------------
+  # Frontend — reemplaza el build estático por el dev server de Vite
+  # Hot Module Replacement (HMR) funciona en el puerto 5173.
+  # Nginx sigue en el 80 y hace proxy hacia este servidor de desarrollo.
+  # ---------------------------------------------------------------------------
+  frontend:
+    # Sobreescribe la imagen del build estático con la imagen de desarrollo
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      # Stage "development" definido en el Dockerfile del frontend
+      target: development
+    ports:
+      # Puerto Vite accesible directamente para debugging sin pasar por nginx
+      - "5173:5173"
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost/api/v1}
+      # Habilita HMR sobre Docker (necesario para que el browser reciba updates)
+      CHOKIDAR_USEPOLLING: "true"
+      VITE_HMR_HOST: localhost
+      VITE_HMR_PORT: "5173"
+    volumes:
+      # NOTA SELinux (Fedora/RHEL): el sufijo :z relabela el contenido del
+      # bind mount con el contexto svirt_sandbox_file_t, permitiendo al
+      # contenedor leer archivos del host aunque SELinux esté en enforcing mode.
+      # Sin :z los archivos montados son inaccesibles dentro del contenedor.
+      #
+      # Código fuente — hot reload
+      - ../frontend/src:/app/src:rw,z
+      - ../frontend/public:/app/public:rw,z
+      # Archivos de configuración raíz — necesarios para que Vite arranque.
+      # Sin index.html Vite no puede determinar el entry point.
+      - ../frontend/index.html:/app/index.html:ro,z
+      - ../frontend/vite.config.ts:/app/vite.config.ts:ro,z
+      - ../frontend/tsconfig.json:/app/tsconfig.json:ro,z
+      - ../frontend/tsconfig.node.json:/app/tsconfig.node.json:ro,z
+      - ../frontend/vitest.config.ts:/app/vitest.config.ts:ro,z
+      # node_modules permanece dentro del contenedor (no se monta desde el host)
+      # para evitar incompatibilidades de binarios nativos entre OS.
+      - frontend_node_modules:/app/node_modules
+    healthcheck:
+      # Usar 127.0.0.1 explícito: en Alpine, 'localhost' resuelve a ::1 (IPv6)
+      # primero, pero Vite solo escucha en IPv4 (0.0.0.0). wget de busybox
+      # no hace fallback a IPv4, por lo que la conexión falla con "refused".
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:5173/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # Nginx — en desarrollo apunta el upstream de frontend al dev server de Vite
+  # La variable FRONTEND_UPSTREAM se inyecta en nginx.conf via envsubst.
+  # En producción el upstream sería el contenedor nginx del frontend (puerto 80).
+  # ---------------------------------------------------------------------------
+  nginx:
+    environment:
+      FRONTEND_UPSTREAM: "frontend:5173"
+
+# =============================================================================
+# Volúmenes adicionales para desarrollo
+# =============================================================================
+volumes:
+  maven_cache:
+    driver: local
+  frontend_node_modules:
+    driver: local

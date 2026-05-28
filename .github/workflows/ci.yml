@@ -1,0 +1,233 @@
+# =============================================================================
+# CI — Integración Continua
+# =============================================================================
+# Propósito: Validar que el código en PRs y pushes a develop compila,
+# pasa tests y produce imágenes Docker válidas antes de cualquier despliegue.
+#
+# Triggers:
+#   - pull_request → main o develop (toda PR debe pasar CI)
+#   - push → develop (valida merges directos a develop)
+#
+# Jobs:
+#   1. backend-ci   — Compila y testea el backend Java 21 / Spring Boot 3
+#   2. frontend-ci  — Lint, test y build del frontend React 18 / Vite
+#   3. docker-build-check — Verifica que las imágenes Docker construyen sin errores
+# =============================================================================
+
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - develop
+
+# Cancela runs anteriores del mismo PR/branch para ahorrar minutos de Actions.
+# Los runs en main nunca se cancelan (concurrency group único por SHA).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: Backend CI — Java 21 + Maven + Spring Boot 3
+  # ---------------------------------------------------------------------------
+  backend-ci:
+    name: Backend CI (Java 21 / Maven)
+    runs-on: ubuntu-latest
+
+    # Variables de entorno para los tests de Spring Boot.
+    # Se usa H2 en memoria para tests (perfil "test") — sin necesidad de
+    # un PostgreSQL real en el runner de CI.
+    env:
+      SPRING_PROFILES_ACTIVE: test
+      # Suprime el banner de Spring Boot en los logs de CI para reducir ruido
+      SPRING_MAIN_BANNER_MODE: off
+
+    steps:
+      # --- Checkout -----------------------------------------------------------
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      # --- Java 21 (Temurin) --------------------------------------------------
+      # Eclipse Temurin es la distribución OpenJDK recomendada por Adoptium.
+      # Se configura aquí (no en el Dockerfile de CI) para aprovechar el caché
+      # de Actions y evitar descargas repetidas.
+      - name: Configurar Java 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          # Activa el caché integrado de Maven de setup-java.
+          # Cachea ~/.m2/repository usando pom.xml como clave de hash.
+          cache: 'maven'
+
+      # --- Tests unitarios ----------------------------------------------------
+      # Ejecuta solo los tests (fase "test"). Esto es rápido y falla pronto
+      # si hay errores de compilación o tests fallidos.
+      - name: Ejecutar tests unitarios
+        working-directory: backend
+        run: mvn -B test -Dspring.profiles.active=test
+
+      # --- Verify (tests de integración + empaquetado) ------------------------
+      # La fase "verify" incluye: compile → test → package → verify.
+      # -DskipTests=false asegura que los tests no se omitan accidentalmente.
+      # El JAR resultante NO se usa aquí — las imágenes Docker se construyen
+      # en el job docker-build-check.
+      - name: Verificar build completo (verify)
+        working-directory: backend
+        run: mvn -B verify -Dspring.profiles.active=test -DskipTests=false
+
+      # --- Reportes de Surefire -----------------------------------------------
+      # Sube los reportes XML de Surefire como artifact para revisión en la UI
+      # de GitHub Actions. Se sube aunque el job falle (if: always()) para
+      # poder diagnosticar qué tests fallaron.
+      - name: Subir reporte Surefire
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: surefire-reports-${{ github.run_id }}
+          path: backend/target/surefire-reports/
+          # Retención de 7 días — suficiente para revisión post-PR
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Frontend CI — React 18 + TypeScript + Vite + Vitest
+  # ---------------------------------------------------------------------------
+  frontend-ci:
+    name: Frontend CI (Node 20 / Vite)
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- Checkout -----------------------------------------------------------
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      # --- Node.js 20 ---------------------------------------------------------
+      # Node 20 LTS coincide con la versión usada en el Dockerfile del frontend.
+      # cache: 'npm' activa el caché integrado de setup-node usando
+      # package-lock.json como clave — equivalente a actions/cache para npm.
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          # El cache path debe apuntar al directorio del frontend donde está
+          # el package-lock.json
+          cache-dependency-path: frontend/package-lock.json
+
+      # --- Instalar dependencias ----------------------------------------------
+      # npm ci es más rápido y reproducible que npm install en CI:
+      # - Usa package-lock.json exacto (no resuelve ranges de versión)
+      # - Falla si package-lock.json no está sincronizado con package.json
+      # - Limpia node_modules antes de instalar
+      - name: Instalar dependencias (npm ci)
+        working-directory: frontend
+        run: npm ci
+
+      # --- Type-check (lint estático) -----------------------------------------
+      # El proyecto no tiene ESLint configurado en los scripts de package.json.
+      # Se usa TypeScript compiler en modo --noEmit como equivalente de lint:
+      # detecta errores de tipos, imports inexistentes y referencias rotas.
+      # Nota: si se agrega un script "lint" a package.json (p.ej. ESLint),
+      # reemplazar este step por: npm run lint
+      - name: Type-check TypeScript (tsc --noEmit)
+        working-directory: frontend
+        run: npx tsc --noEmit
+
+      # --- Tests con Vitest ---------------------------------------------------
+      # --run ejecuta Vitest en modo non-interactive (no watch mode).
+      # Es equivalente a `vitest run` — necesario en entornos CI donde
+      # no hay terminal interactiva y el proceso debe terminar con exit code.
+      - name: Ejecutar tests (Vitest)
+        working-directory: frontend
+        run: npm test -- --run
+        env:
+          # CI=true activa modo no-interactivo en muchas herramientas Node
+          CI: true
+
+      # --- Build de producción ------------------------------------------------
+      # Verifica que el bundle de producción compila sin errores.
+      # tsc && vite build: primero valida tipos, luego genera el bundle.
+      # Los artifacts del build NO se suben aquí — el job docker-build-check
+      # construye la imagen completa que incluye el build.
+      - name: Build de producción (Vite)
+        working-directory: frontend
+        run: npm run build
+        env:
+          # VITE_API_URL en CI apunta a /api/v1 (relativo).
+          # En producción el valor real se inyecta vía --build-arg en docker build.
+          VITE_API_URL: /api/v1
+
+  # ---------------------------------------------------------------------------
+  # Job 3: Docker Build Check
+  # Verifica que las imágenes Docker construyen correctamente.
+  # No hace push — solo valida la integridad del Dockerfile y el build context.
+  # ---------------------------------------------------------------------------
+  docker-build-check:
+    name: Docker Build Check
+    runs-on: ubuntu-latest
+    # Solo se ejecuta si ambos jobs de CI pasaron exitosamente.
+    needs:
+      - backend-ci
+      - frontend-ci
+
+    steps:
+      # --- Checkout -----------------------------------------------------------
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      # --- Docker Buildx ------------------------------------------------------
+      # Buildx es el driver moderno de build — necesario para caché avanzado
+      # y builds multi-plataforma. Se usa aquí para consistencia con el job
+      # de build-and-push en cd.yml.
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # --- Build imagen Backend -----------------------------------------------
+      # --target runtime: construye solo hasta el stage "runtime" (no el stage
+      # "builder" intermedio), igual que en producción.
+      # --load: carga la imagen en el Docker daemon local (sin push).
+      # --cache-from: reutiliza caché de capas de GitHub Actions cache.
+      - name: Verificar build imagen Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          target: runtime
+          push: false
+          load: true
+          tags: minimarket-backend:check
+          # Caché de capas via GitHub Actions cache (type=gha).
+          # Reduce tiempo de build reutilizando capas de Maven y JDK.
+          cache-from: type=gha,scope=backend-ci
+          cache-to: type=gha,mode=max,scope=backend-ci
+
+      # --- Build imagen Frontend ----------------------------------------------
+      # --target runtime: construye el stage de Nginx con los archivos
+      # estáticos compilados. Omite el stage "development".
+      - name: Verificar build imagen Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          target: runtime
+          push: false
+          load: true
+          tags: minimarket-frontend:check
+          cache-from: type=gha,scope=frontend-ci
+          cache-to: type=gha,mode=max,scope=frontend-ci
+          # Inyecta la URL de la API como build-arg (variable de Vite en tiempo de build)
+          build-args: |
+            VITE_API_URL=/api/v1
+
+      # --- Verificar imágenes construidas -------------------------------------
+      # Confirmación explícita en los logs de que las imágenes están disponibles.
+      - name: Listar imágenes construidas
+        run: |
+          echo "Imágenes Docker verificadas:"
+          docker images minimarket-backend:check
+          docker images minimarket-frontend:check

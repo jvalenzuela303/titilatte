@@ -1,0 +1,320 @@
+# =============================================================================
+# CD — Despliegue Continuo
+# =============================================================================
+# Propósito: Publicar imágenes Docker a GHCR y desplegar en producción
+# automáticamente cuando se hace push a main (merge de PR aprobado).
+#
+# Triggers:
+#   - push → main (solo cuando CI pasa en el mismo commit)
+#
+# Jobs:
+#   1. build-and-push — Construye y publica imágenes a ghcr.io
+#   2. deploy         — Despliega en el servidor de producción via SSH
+#   3. notify         — Notifica resultado del deploy a Slack (siempre)
+#
+# Secretos requeridos (configurar en Settings → Secrets → Actions):
+#   - SSH_HOST          — IP o dominio del servidor de producción
+#   - SSH_USER          — Usuario SSH (p.ej. "deploy" o "ubuntu")
+#   - SSH_PRIVATE_KEY   — Clave privada SSH (contenido del archivo .pem o id_rsa)
+#   - SSH_PORT          — Puerto SSH (default: 22, puede omitirse)
+#   - ENV_FILE          — Contenido completo del .env de producción
+#   - SLACK_WEBHOOK_URL — URL del Incoming Webhook de Slack
+#
+# GITHUB_TOKEN es automático — no requiere configuración manual.
+# Tiene permisos de escritura en packages para publicar en ghcr.io.
+# =============================================================================
+
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+# Garantiza que solo un deploy corra a la vez en producción.
+# Si hay un deploy en curso y llega otro push, el nuevo espera (no cancela).
+concurrency:
+  group: cd-production
+  cancel-in-progress: false
+
+# Permisos mínimos para el GITHUB_TOKEN:
+# - contents: read  — para checkout
+# - packages: write — para publicar imágenes en ghcr.io
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: Build & Push — Construye imágenes y las publica en ghcr.io
+  # ---------------------------------------------------------------------------
+  build-and-push:
+    name: Build & Push Docker Images
+    runs-on: ubuntu-latest
+
+    # outputs permite que el job "deploy" use el SHA del commit como tag
+    outputs:
+      image-tag: ${{ github.sha }}
+
+    steps:
+      # --- Checkout -----------------------------------------------------------
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      # --- Docker Buildx ------------------------------------------------------
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # --- Autenticación en GitHub Container Registry -------------------------
+      # GITHUB_TOKEN es automáticamente disponible en cada workflow run.
+      # Tiene permisos de escritura en packages gracias a la sección "permissions"
+      # de arriba. No requiere secretos adicionales para ghcr.io.
+      - name: Login en GitHub Container Registry (ghcr.io)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Metadata Backend ---------------------------------------------------
+      # docker/metadata-action genera automáticamente los tags de la imagen:
+      # - SHA del commit (p.ej. sha-a1b2c3d)
+      # - "latest" para pushes a main
+      # También extrae labels OCI estándar (autor, URL, descripción).
+      - name: Extraer metadata para imagen Backend
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/backend
+          tags: |
+            # Tag con el SHA completo del commit (inmutable — ideal para rollback)
+            type=sha,format=long,prefix=
+            # Tag "latest" apuntando siempre al último build de main
+            type=raw,value=latest,enable={{is_default_branch}}
+            # Tag adicional con el SHA corto para legibilidad
+            type=sha,prefix=sha-
+
+      # --- Metadata Frontend --------------------------------------------------
+      - name: Extraer metadata para imagen Frontend
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/frontend
+          tags: |
+            type=sha,format=long,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-
+
+      # --- Build & Push Backend -----------------------------------------------
+      # Construye la imagen del backend y la publica en ghcr.io con los tags
+      # generados por metadata-action. El caché de capas se almacena en el
+      # registro GHCR (type=registry) para persistir entre runs.
+      - name: Build & Push Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          target: runtime
+          push: true
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          labels: ${{ steps.meta-backend.outputs.labels }}
+          # Caché en el registro (más eficiente que gha para imágenes de producción)
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/backend:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/backend:buildcache,mode=max
+          # Provenance attestation para supply chain security (SLSA)
+          provenance: true
+          sbom: true
+
+      # --- Build & Push Frontend ----------------------------------------------
+      - name: Build & Push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          target: runtime
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/frontend:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/frontend:buildcache,mode=max
+          provenance: true
+          sbom: true
+          build-args: |
+            VITE_API_URL=/api/v1
+
+      # --- Resumen en la UI de GitHub Actions ---------------------------------
+      - name: Resumen de imágenes publicadas
+        run: |
+          echo "### Imágenes publicadas en ghcr.io" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Imagen | Tag |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| backend | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| backend | \`latest\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| frontend | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| frontend | \`latest\` |" >> $GITHUB_STEP_SUMMARY
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Deploy — Despliega en el servidor de producción via SSH
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Deploy a Producción
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    # Protección adicional: este job solo corre en la rama main.
+    # Evita deploys accidentales desde ramas de feature si el workflow
+    # se modifica por error.
+    if: github.ref == 'refs/heads/main'
+
+    # Entorno de GitHub para auditoría y protection rules opcionales.
+    # En Settings → Environments → production se pueden configurar:
+    # - Reviewers requeridos antes del deploy
+    # - Branches permitidas (solo main)
+    # - Wait timer (delay entre merge y deploy)
+    environment:
+      name: production
+
+    steps:
+      - name: Deploy en servidor de producción
+        uses: appleboy/ssh-action@v1
+        env:
+          # Los secrets sensibles se pasan como variables de entorno SSH.
+          # appleboy/ssh-action los reenvía a la sesión remota a través del canal
+          # SSH cifrado. Nunca se interpolan inline en el bloque "script:",
+          # por lo que su contenido no aparece en los logs de GitHub Actions.
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+          GHCR_PULL_TOKEN: ${{ secrets.GHCR_PULL_TOKEN }}
+          GHCR_PULL_USER: ${{ secrets.GHCR_PULL_USER }}
+          IMAGE_TAG: ${{ github.sha }}
+          DEPLOY_ACTOR: ${{ github.actor }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Puerto SSH — usa el valor del secret o 22 como default
+          port: ${{ secrets.SSH_PORT || 22 }}
+          # Timeout de conexión SSH (segundos)
+          connect_timeout: 30s
+          # Script ejecutado en el servidor remoto.
+          # Todas las variables sensibles llegan desde el bloque env: de arriba.
+          # Ningún secret se interpola directamente en este bloque de script.
+          envs: ENV_FILE,IMAGE_TAG,DEPLOY_ACTOR,GHCR_PULL_TOKEN,GHCR_PULL_USER
+          script: |
+            set -euo pipefail
+
+            echo "==> Iniciando deploy del commit: ${IMAGE_TAG}"
+            echo "==> Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            echo "==> Iniciado por: ${DEPLOY_ACTOR}"
+
+            # Navegar al directorio de la aplicación
+            cd /opt/minimarket
+
+            # Escribir el archivo .env de producción desde la variable de entorno.
+            # ENV_FILE llega como variable de entorno SSH (no interpolada en el script),
+            # por lo que su contenido nunca aparece en los logs de GitHub Actions.
+            printf '%s' "${ENV_FILE}" > .env
+            chmod 600 .env
+
+            # Hacer login en ghcr.io desde el servidor para poder hacer pull
+            # de las imágenes privadas.
+            # SEGURIDAD: GHCR_PULL_TOKEN es un PAT con scope read:packages únicamente.
+            # Nunca se usa el GITHUB_TOKEN del runner — ese token solo existe en
+            # el entorno de Actions y no debe transmitirse a servidores externos.
+            echo "${GHCR_PULL_TOKEN}" | docker login ghcr.io \
+              -u "${GHCR_PULL_USER}" --password-stdin
+
+            # Descargar las nuevas imágenes antes de recrear contenedores.
+            # Esto reduce el tiempo en que los contenedores están detenidos.
+            echo "==> Descargando nuevas imágenes..."
+            docker compose pull
+
+            # Recrear los contenedores con las nuevas imágenes.
+            # -d: background (detached mode)
+            # --remove-orphans: elimina contenedores de servicios que ya no
+            #   están definidos en docker-compose.yml
+            echo "==> Aplicando nuevas imágenes..."
+            docker compose up -d --remove-orphans
+
+            # Limpiar imágenes sin uso para liberar espacio en disco.
+            # -f evita la confirmación interactiva.
+            echo "==> Limpiando imágenes obsoletas..."
+            docker image prune -f
+
+            echo "==> Deploy completado exitosamente"
+            echo "==> Verificando estado de los contenedores:"
+            docker compose ps
+
+  # ---------------------------------------------------------------------------
+  # Job 3: Notify — Notifica resultado del deploy a Slack
+  # ---------------------------------------------------------------------------
+  notify:
+    name: Notificar Resultado en Slack
+    runs-on: ubuntu-latest
+    needs: deploy
+    # SIEMPRE se ejecuta, incluso si el job "deploy" falló o fue cancelado.
+    # Esto garantiza que el equipo reciba notificaciones de fallos, no solo éxitos.
+    if: always()
+
+    steps:
+      - name: Notificar en Slack
+        uses: slackapi/slack-github-action@v1
+        with:
+          # SLACK_WEBHOOK_URL debe ser un Incoming Webhook de Slack.
+          # Crear en: https://api.slack.com/apps → Incoming Webhooks → Add New Webhook
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "${{ needs.deploy.result == 'success' && 'Deploy exitoso' || 'Deploy fallido' }} — Minimarket"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Estado:*\n${{ needs.deploy.result == 'success' && ':white_check_mark: Exitoso' || ':x: Fallido' }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Rama:*\n`${{ github.ref_name }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|`${{ github.sha }}`>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Autor:*\n${{ github.actor }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Commit message:*\n${{ github.event.head_commit.message }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Ver workflow"
+                      },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

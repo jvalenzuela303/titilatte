@@ -1,0 +1,130 @@
+# =============================================================================
+# Prometheus — Configuración de Scraping
+# Minimarket Platform — Fase 2
+#
+# Este archivo es montado como volumen en el contenedor de Prometheus
+# (ver docker-compose.monitoring.yml).
+#
+# Targets:
+#   - minimarket-backend  : métricas JVM + Spring Boot via Actuator/Micrometer
+#   - postgres            : métricas de PostgreSQL via postgres-exporter
+#   - nginx               : métricas de conexiones/requests via nginx-exporter
+#
+# Para que el backend exponga /actuator/prometheus, el proyecto Spring Boot
+# necesita las dependencias:
+#   - spring-boot-starter-actuator
+#   - micrometer-registry-prometheus
+# Y en application.yml:
+#   management.endpoints.web.exposure.include: health,prometheus
+# =============================================================================
+
+global:
+  # Frecuencia de scraping global: cada 15 segundos es el estándar.
+  # Aumentar a 30s si el volumen de series genera problemas de almacenamiento.
+  scrape_interval: 15s
+
+  # Timeout por scrape individual — debe ser menor que scrape_interval
+  scrape_timeout: 10s
+
+  # Frecuencia de evaluación de reglas de alerta (cuando se configuren en Fase 3+)
+  evaluation_interval: 15s
+
+  # Labels externos: se añaden a todas las series de este Prometheus.
+  # Útil cuando se federan múltiples instancias o se envía a Thanos/Mimir.
+  external_labels:
+    environment: staging
+    project: minimarket
+
+# =============================================================================
+# Reglas de alerta — Fase 3: alerta de latencia p95 en /products/barcode
+# =============================================================================
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+# =============================================================================
+# Scrape Configs
+# =============================================================================
+scrape_configs:
+
+  # ---------------------------------------------------------------------------
+  # Backend — Spring Boot 3 + Micrometer
+  # Expone: JVM heap/GC, threads, HTTP request latency, Hikari pool, Flyway.
+  # El path /actuator/prometheus requiere Micrometer + registro de Prometheus.
+  # ---------------------------------------------------------------------------
+  - job_name: 'minimarket-backend'
+    metrics_path: '/actuator/prometheus'
+    # El backend no está expuesto al host — solo accesible dentro de backend-net.
+    # Prometheus debe estar en la misma red Docker (ver docker-compose.monitoring.yml).
+    static_configs:
+      - targets: ['backend:8080']
+        labels:
+          service: backend
+          language: java
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL — postgres-exporter (prometheuscommunity/postgres-exporter)
+  # Expone: conexiones activas, locks, tamaño de tablas, replication lag, etc.
+  # Puerto estándar del exporter: 9187
+  # ---------------------------------------------------------------------------
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+        labels:
+          service: postgres
+          db: minimarket_db
+
+  # ---------------------------------------------------------------------------
+  # Nginx — nginx-prometheus-exporter (nginx/nginx-prometheus-exporter)
+  # Requiere que nginx tenga habilitado el módulo stub_status.
+  # Puerto estándar del exporter: 9113
+  # En nginx.conf agregar:
+  #   location /stub_status { stub_status; allow 127.0.0.1; deny all; }
+  # ---------------------------------------------------------------------------
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+        labels:
+          service: nginx
+
+  # ---------------------------------------------------------------------------
+  # Cache Caffeine + SSE — métricas filtradas del backend
+  # Extrae únicamente las series relevantes para caché y conexiones SSE,
+  # evitando duplicar las métricas generales ya recogidas en minimarket-backend.
+  #
+  # match[]: parámetro de la API de Prometheus para filtrar series en el scrape.
+  # Spring Boot publica las métricas de Caffeine con el prefijo "cache_" via
+  # Micrometer; el tag cache.manager identifica cada instancia de caché.
+  # La métrica sse_active_connections es un Gauge custom registrado en el
+  # ApplicationContext (ver SseMetricsService.java).
+  # ---------------------------------------------------------------------------
+  - job_name: 'minimarket-cache'
+    metrics_path: '/actuator/prometheus'
+    params:
+      'match[]':
+        - 'cache_gets_total{name=~"products.*|barcodes.*"}'
+        - 'cache_size{name=~"products.*|barcodes.*"}'
+        - 'cache_evictions_total{name=~"products.*|barcodes.*"}'
+        - 'http_server_requests_seconds_count'
+        - 'http_server_requests_seconds_sum'
+        - 'http_server_requests_seconds_bucket'
+        - 'sse_active_connections'
+    static_configs:
+      - targets: ['backend:8080']
+        labels:
+          service: backend
+    relabel_configs:
+      # Reemplaza la etiqueta "instance" con un alias legible en lugar de
+      # "backend:8080", que es ambiguo cuando se federan múltiples entornos.
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'minimarket-backend'
+    scrape_interval: 10s   # Más frecuente que el global para datos de caché en tiempo real
+
+  # ---------------------------------------------------------------------------
+  # Prometheus — auto-scraping de sus propias métricas (diagnóstico)
+  # ---------------------------------------------------------------------------
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: prometheus

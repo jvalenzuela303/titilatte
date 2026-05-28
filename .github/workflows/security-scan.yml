@@ -1,0 +1,241 @@
+# =============================================================================
+# Security Scan — Escaneo Periódico de Seguridad
+# =============================================================================
+# Propósito: Detectar vulnerabilidades CVE en dependencias y en las imágenes
+# Docker antes de que impacten producción. Se ejecuta semanalmente y bajo
+# demanda (workflow_dispatch).
+#
+# Triggers:
+#   - schedule: lunes a las 6:00 AM UTC (0 6 * * 1)
+#   - workflow_dispatch: ejecución manual desde la UI de GitHub Actions
+#
+# Jobs:
+#   1. dependency-check — OWASP Dependency-Check para dependencias Java (CVE)
+#   2. docker-scan      — Trivy para vulnerabilidades en imágenes Docker
+#
+# Resultados:
+#   - dependency-check: reporte HTML/XML subido como artifact
+#   - docker-scan: reporte SARIF subido a GitHub Security tab (Code Scanning)
+#
+# IMPORTANTE: Los resultados de Trivy aparecen en:
+#   Repository → Security → Code scanning alerts
+# =============================================================================
+
+name: Security Scan
+
+on:
+  # Lunes a las 6:00 AM UTC — fuera del horario laboral de Santiago (3:00 AM CLT)
+  schedule:
+    - cron: '0 6 * * 1'
+  # Permite ejecución manual desde la UI de GitHub Actions para scans ad-hoc
+  workflow_dispatch:
+    inputs:
+      scan-target:
+        description: 'Qué escanear (all, dependencies, docker)'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - dependencies
+          - docker
+
+# Permisos necesarios para subir resultados SARIF a GitHub Security
+permissions:
+  contents: read
+  # security-events: write es requerido para upload-sarif (Code Scanning)
+  security-events: write
+  # actions: read es requerido por github/codeql-action/upload-sarif
+  actions: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: Dependency Check — OWASP Dependency-Check para dependencias Java
+  # ---------------------------------------------------------------------------
+  dependency-check:
+    name: OWASP Dependency-Check (Java)
+    runs-on: ubuntu-latest
+    # Condicional para workflow_dispatch: solo si scan-target es "all" o "dependencies"
+    if: |
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' && (
+        github.event.inputs.scan-target == 'all' ||
+        github.event.inputs.scan-target == 'dependencies'
+      )
+
+    steps:
+      # --- Checkout -----------------------------------------------------------
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      # --- Caché de la base de datos NVD de OWASP ----------------------------
+      # La base de datos de CVEs de OWASP puede tomar varios minutos en
+      # descargarse. Se cachea semanalmente para acelerar los scans.
+      # La clave incluye el número de semana del año para forzar actualización
+      # semanal de la base de datos de vulnerabilidades.
+      - name: Cachear base de datos NVD (OWASP)
+        uses: actions/cache@v4
+        with:
+          path: ~/.dependency-check/data
+          key: dependency-check-nvd-${{ runner.os }}-week${{ github.run_id }}
+          restore-keys: |
+            dependency-check-nvd-${{ runner.os }}-
+
+      # --- OWASP Dependency-Check --------------------------------------------
+      # Escanea las dependencias del pom.xml del backend en busca de CVEs
+      # conocidos en la National Vulnerability Database (NVD).
+      #
+      # Parámetros clave:
+      # --project: nombre del proyecto en el reporte
+      # --scan: directorio o archivo a escanear (pom.xml del backend)
+      # --format: genera reportes en HTML (legible) y XML (para parseo)
+      # --out: directorio de salida del reporte
+      # --failBuildOnCVSS: falla si hay CVEs con score >= 7.0 (High/Critical)
+      #   Comentado por defecto para no bloquear el workflow en scans iniciales.
+      #   Descomentar cuando el baseline de vulnerabilidades esté controlado.
+      - name: Escanear dependencias Java con OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@v3.1.0
+        with:
+          project: 'minimarket-backend'
+          path: './backend'
+          format: 'HTML XML'
+          out: 'dependency-check-report'
+          # Opciones adicionales del scanner
+          args: >-
+            --enableRetired
+            --enableExperimental
+            --suppression backend/.dependency-check-suppressions.xml
+          # Nota: --suppression apunta a un archivo de supresiones de falsos
+          # positivos. Crear el archivo si no existe (ver documentación OWASP).
+          # Si el archivo no existe, remover la línea --suppression.
+
+      # --- Subir reporte como artifact ----------------------------------------
+      - name: Subir reporte Dependency-Check
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-check-report-${{ github.run_id }}
+          path: dependency-check-report/
+          # Retención de 30 días — alineado con ciclo de revisión mensual
+          retention-days: 30
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Docker Scan — Trivy para vulnerabilidades en imágenes Docker
+  # ---------------------------------------------------------------------------
+  docker-scan:
+    name: Trivy Docker Image Scan
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' && (
+        github.event.inputs.scan-target == 'all' ||
+        github.event.inputs.scan-target == 'docker'
+      )
+
+    strategy:
+      # Ejecuta el scan de ambas imágenes en paralelo.
+      # fail-fast: false garantiza que ambos scans completen aunque uno falle.
+      fail-fast: false
+      matrix:
+        image:
+          - name: backend
+            context: ./backend
+            dockerfile: ./backend/Dockerfile
+          - name: frontend
+            context: ./frontend
+            dockerfile: ./frontend/Dockerfile
+
+    steps:
+      # --- Checkout -----------------------------------------------------------
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      # --- Buildx -------------------------------------------------------------
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # --- Construir imagen localmente ----------------------------------------
+      # Trivy necesita la imagen disponible localmente para escanearla.
+      # Se construye con --load (no se hace push) usando el stage runtime.
+      - name: Construir imagen ${{ matrix.image.name }} para escaneo
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.image.context }}
+          file: ${{ matrix.image.dockerfile }}
+          target: runtime
+          push: false
+          load: true
+          tags: minimarket-${{ matrix.image.name }}:scan
+          # Caché de la build para acelerar scans periódicos
+          cache-from: type=gha,scope=security-${{ matrix.image.name }}
+          cache-to: type=gha,mode=max,scope=security-${{ matrix.image.name }}
+
+      # --- Trivy — Escaneo de vulnerabilidades --------------------------------
+      # Trivy escanea la imagen en busca de:
+      # - Vulnerabilidades en el OS (Alpine packages)
+      # - Vulnerabilidades en dependencias de lenguaje (Java JARs, npm packages)
+      #
+      # severity: HIGH,CRITICAL — solo reporta vulnerabilidades serias.
+      #   UNKNOWN y LOW/MEDIUM se omiten para reducir ruido.
+      #   Ajustar a "CRITICAL" si se quiere solo lo más urgente.
+      #
+      # format: sarif — formato estándar para Code Scanning de GitHub.
+      #   El archivo SARIF se sube a la Security tab del repositorio.
+      #
+      # exit-code: 0 — no falla el workflow (solo reporta).
+      #   Cambiar a "1" para bloquear merges cuando se detectan vulnerabilidades.
+      - name: Escanear imagen ${{ matrix.image.name }} con Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: minimarket-${{ matrix.image.name }}:scan
+          format: sarif
+          output: trivy-${{ matrix.image.name }}.sarif
+          severity: HIGH,CRITICAL
+          exit-code: '0'
+          # Ignorar vulnerabilidades sin fix disponible (unfixed).
+          # Descomentar si se prefiere ver también las que no tienen patch:
+          # ignore-unfixed: false
+          ignore-unfixed: true
+          # Timeout para scans de imágenes grandes
+          timeout: '10m0s'
+          # Limitar a vulnerabilidades en OS y librerías del lenguaje
+          vuln-type: 'os,library'
+
+      # --- Subir resultados SARIF a GitHub Security ---------------------------
+      # Los resultados aparecen en: Repository → Security → Code scanning alerts
+      # Requiere permiso security-events: write (configurado en la sección
+      # "permissions" del workflow).
+      #
+      # category: distingue los resultados de backend y frontend en la UI
+      # de Code Scanning para que no se mezclen.
+      - name: Subir resultados Trivy a GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-${{ matrix.image.name }}.sarif
+          category: trivy-${{ matrix.image.name }}
+
+      # --- Subir SARIF también como artifact ----------------------------------
+      # Backup del reporte SARIF como artifact de Actions para descarga directa,
+      # en caso de que Code Scanning no esté habilitado en el repositorio.
+      - name: Subir reporte SARIF como artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-sarif-${{ matrix.image.name }}-${{ github.run_id }}
+          path: trivy-${{ matrix.image.name }}.sarif
+          retention-days: 30
+
+      # --- Escaneo adicional en formato tabla (para logs) ---------------------
+      # Genera una salida en formato tabla en los logs del runner para
+      # revisión rápida sin necesidad de abrir la UI de Code Scanning.
+      - name: Mostrar vulnerabilidades en logs (formato tabla)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: minimarket-${{ matrix.image.name }}:scan
+          format: table
+          severity: HIGH,CRITICAL
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          timeout: '10m0s'

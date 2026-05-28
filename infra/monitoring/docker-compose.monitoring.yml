@@ -1,0 +1,190 @@
+# =============================================================================
+# Minimarket Platform — Stack de Monitoreo (Opcional)
+# Fase 2
+#
+# Se levanta de forma INDEPENDIENTE del stack principal.
+# Comparte las redes del stack principal para poder hacer scraping a los
+# contenedores de backend, postgres y nginx.
+#
+# Uso (desde el directorio infra/monitoring/):
+#   docker compose -f docker-compose.monitoring.yml --env-file ../.env up -d
+#
+# O desde infra/:
+#   docker compose -f monitoring/docker-compose.monitoring.yml \
+#                  --env-file .env up -d
+#
+# URLs:
+#   Prometheus : http://localhost:9090
+#   Grafana    : http://localhost:3000  (admin / ver GRAFANA_ADMIN_PASSWORD en .env)
+#
+# Para conectar postgres-exporter a la base de datos del stack principal,
+# asegúrate de que la red "minimarket_backend-net" exista (levanta el stack
+# principal antes que este).
+# =============================================================================
+
+name: minimarket-monitoring
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # Prometheus — servidor de métricas y scraping
+  # Almacena series temporales en volumen local con retención de 15 días.
+  # ---------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    container_name: minimarket-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      # Configuración de scraping — montada en solo lectura
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      # Datos persistentes — sobreviven reinicios del contenedor
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      # Retención de 15 días (ajustar según espacio en disco disponible)
+      - '--storage.tsdb.retention.time=15d'
+      - '--storage.tsdb.path=/prometheus'
+      # Habilita la API de administración (permite eliminar series, reload de config)
+      - '--web.enable-admin-api'
+      # Habilita reload de configuración via POST /-/reload
+      - '--web.enable-lifecycle'
+    networks:
+      # Red propia del stack de monitoreo
+      - monitoring-net
+      # Red del stack principal — para hacer scraping a backend y exporters
+      - minimarket_backend-net
+      - minimarket_frontend-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9090/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ---------------------------------------------------------------------------
+  # Grafana — visualización de métricas
+  # Datasource de Prometheus preconfigurado via variable de entorno.
+  # Puerto 3000 expuesto al host.
+  # ---------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:10.4.3
+    container_name: minimarket-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Credenciales de administrador — NUNCA dejar en "admin" en staging/prod
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?ERROR: GRAFANA_ADMIN_PASSWORD no definido en .env}
+      # Deshabilitar el wizard de onboarding inicial
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      # Timezone para los dashboards (ajustar según región del servidor)
+      GF_DATE_FORMATS_DEFAULT_TIMEZONE: America/Santiago
+      # Nombre de la instancia (aparece en el título del browser)
+      GF_INSTANCE_NAME: Minimarket Monitoring
+      # Conectar automáticamente a Prometheus como datasource por defecto
+      GF_DATASOURCES_DEFAULT_DATASOURCE_URL: http://prometheus:9090
+    volumes:
+      - grafana_data:/var/lib/grafana
+      # Provisioning automático de dashboards — Fase 3
+      # Los archivos .json en grafana/dashboards/ se cargan al iniciar el contenedor.
+      # El directorio de provisioning contiene la configuración del provider (default.yaml).
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - monitoring-net
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # postgres-exporter — expone métricas de PostgreSQL a Prometheus
+  # Imagen oficial de la comunidad: prometheuscommunity/postgres-exporter
+  # Puerto estándar: 9187
+  #
+  # Se conecta a la BD del stack principal via backend-net.
+  # La variable DATA_SOURCE_NAME usa el formato de URI de libpq.
+  # ---------------------------------------------------------------------------
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: minimarket-postgres-exporter
+    restart: unless-stopped
+    environment:
+      # URI de conexión al PostgreSQL del stack principal.
+      # "postgres" es el nombre del contenedor, resolvible via backend-net.
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+      # Nivel de log del exporter
+      PG_EXPORTER_LOG_LEVEL: warn
+    networks:
+      # El exporter vive en monitoring-net para que Prometheus lo scrapeé
+      - monitoring-net
+      # Y en backend-net para poder conectarse al contenedor postgres
+      - minimarket_backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9187/metrics | head -1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ---------------------------------------------------------------------------
+  # nginx-exporter — expone métricas de Nginx a Prometheus
+  # Requiere stub_status habilitado en nginx.conf:
+  #   location /stub_status {
+  #     stub_status;
+  #     allow 127.0.0.1;  # o la IP de la red Docker
+  #     deny all;
+  #   }
+  # Puerto estándar: 9113
+  # ---------------------------------------------------------------------------
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    container_name: minimarket-nginx-exporter
+    restart: unless-stopped
+    command:
+      # URL del endpoint stub_status del nginx principal (accesible via frontend-net)
+      - '--nginx.scrape-uri=http://nginx/stub_status'
+    networks:
+      - monitoring-net
+      # Frontend-net para acceder al nginx del stack principal
+      - minimarket_frontend-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9113/metrics | head -1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+# =============================================================================
+# Redes
+# monitoring-net     : red interna del stack de monitoreo
+# minimarket_*-net   : redes EXTERNAS del stack principal (deben existir previamente)
+# =============================================================================
+networks:
+  monitoring-net:
+    driver: bridge
+
+  # Redes externas del stack principal — se referencian, no se crean aquí.
+  # El prefijo "minimarket_" es el nombre del proyecto en docker-compose.yml (name: minimarket).
+  minimarket_backend-net:
+    external: true
+
+  minimarket_frontend-net:
+    external: true
+
+# =============================================================================
+# Volúmenes
+# =============================================================================
+volumes:
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
