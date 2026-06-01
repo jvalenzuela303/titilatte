@@ -32,7 +32,11 @@ import {
 import dayjs from 'dayjs'
 import apiClient from '@/config/axios'
 import { useCartStore } from '@/store/cartStore'
-import type { Product, Sale, SaleType, PaymentMethod, CreateSaleRequest } from '@/types'
+import { useAuthStore } from '@/store/authStore'
+import promotionService from '@/services/promotionService'
+import type { Product, Sale, SaleType, PaymentMethod, CreateSaleRequest, Promotion } from '@/types'
+import '@/styles/print.css'
+import ThermalReceipt from '@/components/ThermalReceipt'
 
 const { Text, Title } = Typography
 
@@ -42,11 +46,32 @@ const { Text, Title } = Typography
 const SCAN_SPEED_MS = 100
 const MIN_SCAN_LENGTH = 3
 
+// ─── Weight-based products ────────────────────────────────────────────────────
+// Products whose unit code belongs to this set are sold by weight/volume and
+// require the cashier to enter a decimal quantity instead of a whole number.
+const WEIGHT_UNIT_CODES = new Set(['KG', 'GR', 'LT', 'ML'])
+const isByWeight = (product: Product) =>
+  WEIGHT_UNIT_CODES.has(product.unit.code.toUpperCase())
+
+/** Format a quantity for display: integers show without decimals, others trim trailing zeros */
+const formatQty = (qty: number): string =>
+  Number.isInteger(qty) ? String(qty) : parseFloat(qty.toFixed(3)).toString()
+
+/**
+ * Ley de redondeo chilena — redondea al múltiplo de $10 más cercano.
+ * 0–4 → baja  (ej. $1.234 → $1.230)
+ * 5–9 → sube  (ej. $1.235 → $1.240)
+ */
+const roundChilean = (amount: number): number => Math.round(amount / 10) * 10
+
 const POSPage: React.FC = () => {
   const { token } = theme.useToken()
   const { message } = App.useApp()
   const { items, addItem, removeItem, updateQuantity, clearCart, getTotal } = useCartStore()
+  const activeBranchId = useAuthStore((s) => s.activeBranchId)
   const total = getTotal()
+  const roundedTotal = roundChilean(total)
+  const rounding = roundedTotal - total   // negativo → baja, positivo → sube
 
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<Product[]>([])
@@ -57,6 +82,11 @@ const POSPage: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false)
   const [completedSale, setCompletedSale] = useState<Sale | null>(null)
   const [ticketVisible, setTicketVisible] = useState(false)
+  const [activePromotions, setActivePromotions] = useState<Promotion[]>([])
+
+  // Weight modal state
+  const [weightModalProduct, setWeightModalProduct] = useState<Product | null>(null)
+  const [weightInput, setWeightInput] = useState<number | null>(null)
 
   // Barcode scanner timing state
   const lastKeyTimeRef = useRef<number>(0)
@@ -66,12 +96,13 @@ const POSPage: React.FC = () => {
 
   const change =
     paymentMethod === 'EFECTIVO' && amountReceived !== null
-      ? Math.max(0, amountReceived - total)
+      ? Math.max(0, amountReceived - roundedTotal)
       : null
 
-  // Focus search input on page mount
+  // Focus search input on page mount and load active promotions
   useEffect(() => {
     searchInputRef.current?.focus()
+    promotionService.getActive().then((r) => setActivePromotions(r.data)).catch(() => {})
     return () => {
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
     }
@@ -86,9 +117,14 @@ const POSPage: React.FC = () => {
         const res = await apiClient.get<Product>(
           `/products/barcode/${encodeURIComponent(code.trim())}`
         )
-        // Barcode exact match — add to cart directly
-        addItem(res.data)
-        message.success(`"${res.data.name}" agregado al carrito`)
+        if (isByWeight(res.data)) {
+          // Weight product — ask cashier for weight before adding
+          setWeightModalProduct(res.data)
+          setWeightInput(null)
+        } else {
+          addItem(res.data)
+          message.success(`"${res.data.name}" agregado al carrito`)
+        }
         setSearchQuery('')
         setSearchResults([])
       } catch {
@@ -172,6 +208,21 @@ const POSPage: React.FC = () => {
     [lookupByName]
   )
 
+  // ─── Weight modal confirm ─────────────────────────────────────────────────
+
+  const handleAddWeightProduct = () => {
+    if (!weightModalProduct || !weightInput || weightInput <= 0) return
+    addItem(weightModalProduct, weightInput)
+    message.success(
+      `"${weightModalProduct.name}" agregado — ${formatQty(weightInput)} ${weightModalProduct.unit.abbreviation}`
+    )
+    setWeightModalProduct(null)
+    setWeightInput(null)
+    setSearchResults([])
+    setSearchQuery('')
+    searchInputRef.current?.focus()
+  }
+
   // ─── Confirm sale ──────────────────────────────────────────────────────────
 
   const handleConfirmSale = async () => {
@@ -179,23 +230,22 @@ const POSPage: React.FC = () => {
       message.warning('El carrito está vacío')
       return
     }
-    if (paymentMethod === 'EFECTIVO' && (amountReceived === null || amountReceived < total)) {
+    if (paymentMethod === 'EFECTIVO' && (amountReceived === null || amountReceived < roundedTotal)) {
       message.warning('El monto recibido es insuficiente')
       return
     }
 
+    const paidAmount = paymentMethod === 'EFECTIVO' ? (amountReceived ?? roundedTotal) : roundedTotal
     const payload: CreateSaleRequest = {
       type: saleType,
       items: items.map((i) => ({
         productId: i.product.id,
         quantity: i.quantity,
       })),
-      payments: [
-        {
-          method: paymentMethod,
-          amount: paymentMethod === 'EFECTIVO' ? (amountReceived ?? total) : total,
-        },
-      ],
+      paymentMethod,
+      paymentAmount: paidAmount,
+      changeAmount: paymentMethod === 'EFECTIVO' ? Math.max(0, paidAmount - roundedTotal) : 0,
+      ...(activeBranchId ? { branchId: activeBranchId } : {}),
     }
 
     setIsProcessing(true)
@@ -207,7 +257,7 @@ const POSPage: React.FC = () => {
       setAmountReceived(null)
       setPaymentMethod('EFECTIVO')
       setSaleType('CONTADO')
-      message.success(`Venta #${res.data.saleNumber} registrada exitosamente`)
+      message.success(`Ticket #${res.data.saleNumber} registrado exitosamente`)
     } catch {
       message.error('Error al procesar la venta. Intenta nuevamente.')
     } finally {
@@ -224,7 +274,7 @@ const POSPage: React.FC = () => {
         title={
           <Space>
             <CheckCircleOutlined style={{ color: token.colorSuccess }} />
-            <span>Venta completada</span>
+            <span>Venta confirmada — Ticket #{String(completedSale.saleNumber).padStart(6, '0')}</span>
           </Space>
         }
         open={ticketVisible}
@@ -256,10 +306,11 @@ const POSPage: React.FC = () => {
             <Title level={4} style={{ margin: 0 }}>
               Minimarket
             </Title>
-            <Text type="secondary">Ticket #{completedSale.saleNumber}</Text>
-            <br />
+            <Title level={2} style={{ margin: '4px 0', color: token.colorPrimary }}>
+              #{String(completedSale.saleNumber).padStart(6, '0')}
+            </Title>
             <Text type="secondary" style={{ fontSize: 12 }}>
-              {dayjs(completedSale.createdAt).format('DD/MM/YYYY HH:mm')}
+              {dayjs(completedSale.createdAt).format('DD/MM/YYYY HH:mm:ss')}
             </Text>
           </div>
 
@@ -271,11 +322,11 @@ const POSPage: React.FC = () => {
                 <Text style={{ fontSize: 13 }}>{d.productName}</Text>
                 <br />
                 <Text type="secondary" style={{ fontSize: 12 }}>
-                  {d.quantity} x S/. {d.unitPrice.toFixed(2)}
+                  {formatQty(d.quantity)} x ${Math.round(d.unitPrice).toLocaleString('es-CL')}
                 </Text>
               </Col>
               <Col span={10} style={{ textAlign: 'right' }}>
-                <Text strong>S/. {d.subtotal.toFixed(2)}</Text>
+                <Text strong>${Math.round(d.subtotal).toLocaleString('es-CL')}</Text>
               </Col>
             </Row>
           ))}
@@ -283,28 +334,40 @@ const POSPage: React.FC = () => {
           <Divider dashed />
 
           <Descriptions column={1} size="small">
-            <Descriptions.Item label="Subtotal">
-              S/. {(completedSale.totalAmount - completedSale.taxAmount).toFixed(2)}
+            <Descriptions.Item label="Neto">
+              ${Math.round(completedSale.totalAmount - completedSale.taxAmount).toLocaleString('es-CL')}
             </Descriptions.Item>
-            <Descriptions.Item label="Impuestos">
-              S/. {completedSale.taxAmount.toFixed(2)}
+            <Descriptions.Item label="IVA">
+              ${Math.round(completedSale.taxAmount).toLocaleString('es-CL')}
             </Descriptions.Item>
+            {(() => {
+              const exact = Math.round(completedSale.totalAmount)
+              const rounded = roundChilean(exact)
+              const diff = rounded - exact
+              return diff !== 0 ? (
+                <Descriptions.Item label="Redondeo">
+                  <Text style={{ color: diff < 0 ? token.colorSuccess : token.colorWarning }}>
+                    {diff > 0 ? '+' : ''}${diff.toLocaleString('es-CL')}
+                  </Text>
+                </Descriptions.Item>
+              ) : null
+            })()}
             <Descriptions.Item label={<Text strong>Total</Text>}>
               <Text strong style={{ fontSize: 16 }}>
-                S/. {completedSale.totalAmount.toFixed(2)}
+                ${roundChilean(Math.round(completedSale.totalAmount)).toLocaleString('es-CL')}
               </Text>
             </Descriptions.Item>
             {completedSale.payments.map((p, idx) => (
               <React.Fragment key={idx}>
                 {p.amount > 0 && (
-                  <Descriptions.Item label={`Pago (${p.method})`}>
-                    S/. {p.amount.toFixed(2)}
+                  <Descriptions.Item label={p.method}>
+                    ${Math.round(p.amount).toLocaleString('es-CL')}
                   </Descriptions.Item>
                 )}
                 {p.changeAmount > 0 && (
                   <Descriptions.Item label={<Text type="success">Vuelto</Text>}>
                     <Text type="success" strong>
-                      S/. {p.changeAmount.toFixed(2)}
+                      ${Math.round(p.changeAmount).toLocaleString('es-CL')}
                     </Text>
                   </Descriptions.Item>
                 )}
@@ -315,7 +378,11 @@ const POSPage: React.FC = () => {
           <Divider dashed />
           <div style={{ textAlign: 'center' }}>
             <Text type="secondary" style={{ fontSize: 12 }}>
-              Cajero: {completedSale.sellerName}
+              Cajero: {completedSale.seller.firstName} {completedSale.seller.lastName}
+            </Text>
+            <br />
+            <Text type="secondary" style={{ fontSize: 11 }}>
+              {completedSale.seller.email}
             </Text>
           </div>
         </div>
@@ -358,6 +425,14 @@ const POSPage: React.FC = () => {
               Presiona Enter para buscar. Los lectores USB de código de barras son detectados
               automáticamente.
             </Text>
+            {activePromotions.length > 0 && (
+              <Alert
+                type="success"
+                message={`${activePromotions.length} promoción(es) activa(s)`}
+                style={{ marginTop: 8 }}
+                showIcon
+              />
+            )}
           </Card>
 
           <Card
@@ -379,7 +454,7 @@ const POSPage: React.FC = () => {
           >
             {isSearching ? (
               <div style={{ textAlign: 'center', padding: 40 }}>
-                <Spin tip="Buscando..." />
+                <Spin tip="Buscando..."><div /></Spin>
               </div>
             ) : searchResults.length === 0 ? (
               <Empty
@@ -402,15 +477,20 @@ const POSPage: React.FC = () => {
                         size="small"
                         icon={<PlusOutlined />}
                         onClick={() => {
-                          addItem(product)
-                          message.success(`"${product.name}" agregado`)
-                          setSearchResults([])
-                          setSearchQuery('')
-                          searchInputRef.current?.focus()
+                          if (isByWeight(product)) {
+                            setWeightModalProduct(product)
+                            setWeightInput(null)
+                          } else {
+                            addItem(product)
+                            message.success(`"${product.name}" agregado`)
+                            setSearchResults([])
+                            setSearchQuery('')
+                            searchInputRef.current?.focus()
+                          }
                         }}
-                        disabled={!product.active || product.stockCurrent <= 0}
+                        disabled={!product.active || (product.trackStock && product.stockCurrent <= 0)}
                       >
-                        Agregar
+                        {isByWeight(product) ? 'Pesar' : 'Agregar'}
                       </Button>,
                     ]}
                     style={{ opacity: !product.active ? 0.5 : 1 }}
@@ -419,8 +499,11 @@ const POSPage: React.FC = () => {
                       title={
                         <Space>
                           <Text strong>{product.name}</Text>
-                          {product.stockCurrent <= product.stockMinimum && (
+                          {product.trackStock && product.stockCurrent <= product.stockMinimum && (
                             <Tag color="orange">Stock bajo</Tag>
+                          )}
+                          {!product.trackStock && (
+                            <Tag color="purple">Sin control stock</Tag>
                           )}
                           {!product.active && <Tag color="red">Inactivo</Tag>}
                         </Space>
@@ -440,7 +523,7 @@ const POSPage: React.FC = () => {
                       }
                     />
                     <Text strong style={{ fontSize: 16, color: token.colorPrimary }}>
-                      S/. {product.salePrice.toFixed(2)}
+                      ${Math.round(product.salePrice).toLocaleString('es-CL')}
                     </Text>
                   </List.Item>
                 )}
@@ -503,21 +586,28 @@ const POSPage: React.FC = () => {
                         {item.product.name}
                       </Text>
                       <Text type="secondary" style={{ fontSize: 12 }}>
-                        S/. {item.unitPrice.toFixed(2)} c/u
+                        ${Math.round(item.unitPrice).toLocaleString('es-CL')} / {item.product.unit.abbreviation}
                       </Text>
                       <Space size={8} style={{ display: 'flex', marginTop: 4 }}>
                         <InputNumber
-                          min={1}
-                          max={item.product.stockCurrent}
+                          min={isByWeight(item.product) ? 0.001 : 1}
+                          step={isByWeight(item.product) ? 0.1 : 1}
+                          precision={isByWeight(item.product) ? 3 : 0}
+                          max={item.product.stockCurrent || undefined}
                           value={item.quantity}
                           size="small"
                           onChange={(val) => {
                             if (val !== null) updateQuantity(item.product.id, val)
                           }}
-                          style={{ width: 70 }}
+                          style={{ width: isByWeight(item.product) ? 85 : 70 }}
                         />
+                        {isByWeight(item.product) && (
+                          <Text type="secondary" style={{ fontSize: 11 }}>
+                            {item.product.unit.abbreviation}
+                          </Text>
+                        )}
                         <Text strong style={{ color: token.colorPrimary }}>
-                          S/. {item.subtotal.toFixed(2)}
+                          ${Math.round(item.subtotal).toLocaleString('es-CL')}
                         </Text>
                       </Space>
                     </div>
@@ -533,10 +623,31 @@ const POSPage: React.FC = () => {
             style={{ borderRadius: token.borderRadiusLG, boxShadow: token.boxShadowTertiary }}
           >
             <Space direction="vertical" style={{ width: '100%' }} size="small">
+              {rounding !== 0 && (
+                <Row justify="space-between" align="middle">
+                  <Text type="secondary" style={{ fontSize: 13 }}>Subtotal:</Text>
+                  <Text type="secondary" style={{ fontSize: 13 }}>
+                    ${Math.round(total).toLocaleString('es-CL')}
+                  </Text>
+                </Row>
+              )}
+              {rounding !== 0 && (
+                <Row justify="space-between" align="middle">
+                  <Text type="secondary" style={{ fontSize: 12 }}>Redondeo:</Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: rounding < 0 ? token.colorSuccess : token.colorWarning,
+                    }}
+                  >
+                    {rounding > 0 ? '+' : ''}${rounding.toLocaleString('es-CL')}
+                  </Text>
+                </Row>
+              )}
               <Row justify="space-between" align="middle">
                 <Text style={{ fontSize: 16 }}>Total a pagar:</Text>
                 <Title level={3} style={{ margin: 0, color: token.colorPrimary }}>
-                  S/. {total.toFixed(2)}
+                  ${roundedTotal.toLocaleString('es-CL')}
                 </Title>
               </Row>
 
@@ -580,27 +691,27 @@ const POSPage: React.FC = () => {
               {paymentMethod === 'EFECTIVO' && (
                 <div>
                   <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
-                    Monto recibido (S/.)
+                    Monto recibido ($)
                   </Text>
                   <InputNumber
                     min={0}
-                    step={0.5}
-                    precision={2}
+                    step={100}
+                    precision={0}
                     value={amountReceived}
                     onChange={(val) => setAmountReceived(val)}
                     style={{ width: '100%' }}
                     size="large"
-                    placeholder="0.00"
+                    placeholder="0"
                   />
                   {change !== null && change > 0 && (
                     <Alert
-                      message={`Vuelto: S/. ${change.toFixed(2)}`}
+                      message={`Vuelto: $${Math.round(change).toLocaleString('es-CL')}`}
                       type="success"
                       style={{ marginTop: 8 }}
                       showIcon
                     />
                   )}
-                  {amountReceived !== null && amountReceived < total && total > 0 && (
+                  {amountReceived !== null && amountReceived < roundedTotal && roundedTotal > 0 && (
                     <Alert
                       message="Monto insuficiente"
                       type="error"
@@ -642,8 +753,59 @@ const POSPage: React.FC = () => {
       </Row>
 
       {renderTicket()}
+
+      {/* ── Weight input modal ── */}
+      <Modal
+        title={
+          <Space>
+            <span>Ingresar peso —</span>
+            <Text strong>{weightModalProduct?.name}</Text>
+          </Space>
+        }
+        open={weightModalProduct !== null}
+        onCancel={() => { setWeightModalProduct(null); setWeightInput(null) }}
+        onOk={handleAddWeightProduct}
+        okText="Agregar al carrito"
+        cancelText="Cancelar"
+        okButtonProps={{ disabled: !weightInput || weightInput <= 0 }}
+        width={320}
+      >
+        {weightModalProduct && (
+          <Space direction="vertical" style={{ width: '100%', paddingTop: 8 }} size="middle">
+            <Text type="secondary">
+              Precio: ${Math.round(weightModalProduct.salePrice).toLocaleString('es-CL')} / {weightModalProduct.unit.abbreviation}
+            </Text>
+            <InputNumber
+              autoFocus
+              min={0.001}
+              step={0.1}
+              precision={3}
+              addonAfter={weightModalProduct.unit.abbreviation}
+              style={{ width: '100%' }}
+              size="large"
+              placeholder="0.000"
+              value={weightInput}
+              onChange={(val) => setWeightInput(val)}
+              onPressEnter={handleAddWeightProduct}
+            />
+            {weightInput !== null && weightInput > 0 && (
+              <Text strong style={{ fontSize: 16 }}>
+                Total: ${Math.round(weightModalProduct.salePrice * weightInput).toLocaleString('es-CL')}
+              </Text>
+            )}
+          </Space>
+        )}
+      </Modal>
+
+      {/* ── Thermal receipt — hidden on screen, visible on print only ── */}
+      {completedSale && (
+        <div id="receipt-print">
+          <ThermalReceipt sale={completedSale} />
+        </div>
+      )}
     </div>
   )
 }
+
 
 export default POSPage
