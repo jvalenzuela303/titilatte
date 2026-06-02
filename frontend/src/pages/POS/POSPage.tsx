@@ -47,9 +47,11 @@ const SCAN_SPEED_MS = 100
 const MIN_SCAN_LENGTH = 3
 
 // ─── Weight-based products ────────────────────────────────────────────────────
-// Products whose unit code belongs to this set are sold by weight/volume and
+// Products whose unit code belongs to this set are sold by weight and
 // require the cashier to enter a decimal quantity instead of a whole number.
-const WEIGHT_UNIT_CODES = new Set(['KG', 'GR', 'LT', 'ML'])
+// NOTE: LT and ML are excluded — liquid products (beverages, etc.) are sold
+// by unit/quantity, not weighed at the register.
+const WEIGHT_UNIT_CODES = new Set(['KG', 'GR'])
 const isByWeight = (product: Product) =>
   WEIGHT_UNIT_CODES.has(product.unit.code.toUpperCase())
 
