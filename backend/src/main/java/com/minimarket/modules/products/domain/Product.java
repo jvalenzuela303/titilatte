@@ -23,6 +23,9 @@ public class Product {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "branch_id")
+    private UUID branchId;
+
     @Column(name = "barcode", nullable = false, unique = true, length = 50)
     private String barcode;
 
@@ -49,6 +52,9 @@ public class Product {
 
     @Column(name = "is_active", nullable = false)
     private boolean active = true;
+
+    @Column(name = "track_stock", nullable = false)
+    private boolean trackStock = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)

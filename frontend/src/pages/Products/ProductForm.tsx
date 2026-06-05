@@ -8,6 +8,7 @@ import {
   Input,
   InputNumber,
   Select,
+  Switch,
   Row,
   Col,
   Divider,
@@ -25,6 +26,13 @@ interface TaxOption {
   rate: number
 }
 
+interface UnitOption {
+  id: string
+  code: string
+  name: string
+  abbreviation: string
+}
+
 const productSchema = z
   .object({
     barcode: z.string().min(1, 'El código de barras es requerido').max(50),
@@ -32,9 +40,11 @@ const productSchema = z
     description: z.string().max(500).optional(),
     purchasePrice: z
       .number({ required_error: 'El precio de compra es requerido' })
+      .int('Debe ser un número entero')
       .positive('Debe ser mayor a 0'),
     salePrice: z
       .number({ required_error: 'El precio de venta es requerido' })
+      .int('Debe ser un número entero')
       .positive('Debe ser mayor a 0'),
     stockMinimum: z
       .number({ required_error: 'El stock mínimo es requerido' })
@@ -46,6 +56,8 @@ const productSchema = z
       .positive('Debe ser mayor a 0'),
     categoryId: z.string().min(1, 'Selecciona una categoría'),
     taxId: z.string().min(1, 'Selecciona un impuesto'),
+    unitId: z.string().min(1, 'Selecciona una unidad de medida'),
+    trackStock: z.boolean(),
   })
   .refine((d) => d.salePrice >= d.purchasePrice, {
     message: 'El precio de venta debe ser mayor o igual al precio de compra',
@@ -77,6 +89,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const isEditing = product !== null
   const [categories, setCategories] = useState<ProductCategory[]>([])
   const [taxes, setTaxes] = useState<TaxOption[]>([])
+  const [units, setUnits] = useState<UnitOption[]>([])
   const [loadingMeta, setLoadingMeta] = useState(false)
 
   const {
@@ -96,24 +109,28 @@ const ProductForm: React.FC<ProductFormProps> = ({
       stockMaximum: 100,
       categoryId: '',
       taxId: '',
+      unitId: '',
+      trackStock: true,
     },
   })
 
-  // Load categories and taxes when modal opens
+  // Load categories, taxes and units when modal opens
   useEffect(() => {
     if (!open) return
 
     const loadMeta = async () => {
       setLoadingMeta(true)
       try {
-        const [catRes, taxRes] = await Promise.all([
-          apiClient.get<ProductCategory[]>('/categories'),
+        const [catRes, taxRes, unitRes] = await Promise.all([
+          apiClient.get<ProductCategory[]>('/categories?activeOnly=true'),
           apiClient.get<TaxOption[]>('/taxes'),
+          apiClient.get<UnitOption[]>('/units'),
         ])
         setCategories(catRes.data)
         setTaxes(taxRes.data)
+        setUnits(unitRes.data)
       } catch {
-        message.error('No se pudieron cargar categorías e impuestos')
+        message.error('No se pudieron cargar categorías, impuestos o unidades')
       } finally {
         setLoadingMeta(false)
       }
@@ -136,6 +153,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
           stockMaximum: product.stockMaximum,
           categoryId: product.category.id,
           taxId: product.tax.id,
+          unitId: product.unit.id,
+          trackStock: product.trackStock,
         })
       } else {
         reset({
@@ -148,6 +167,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
           stockMaximum: 100,
           categoryId: '',
           taxId: '',
+          unitId: '',
+          trackStock: true,
         })
       }
     }
@@ -166,7 +187,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       cancelText="Cancelar"
       confirmLoading={isSubmitting}
       width={660}
-      destroyOnHidden
+      forceRender
     >
       <Form layout="vertical" style={{ marginTop: 8 }}>
         <Divider orientation="left" plain>
@@ -209,7 +230,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     placeholder="Seleccionar categoría"
                     options={categories.map((c) => ({
                       value: c.id,
-                      label: c.name,
+                      label: `[${c.code}] ${c.name}`,
                     }))}
                     showSearch
                     optionFilterProp="label"
@@ -262,7 +283,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
-              label="Precio compra (S/.)"
+              label="Precio compra ($)"
               validateStatus={validateStatus('purchasePrice')}
               help={errors.purchasePrice?.message}
               required
@@ -274,10 +295,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
                   <InputNumber
                     {...field}
                     min={0}
-                    step={0.1}
-                    precision={2}
+                    step={50}
+                    precision={0}
+                    prefix="$"
                     style={{ width: '100%' }}
-                    placeholder="0.00"
+                    placeholder="0"
                   />
                 )}
               />
@@ -285,7 +307,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           </Col>
           <Col span={8}>
             <Form.Item
-              label="Precio venta (S/.)"
+              label="Precio venta ($)"
               validateStatus={validateStatus('salePrice')}
               help={errors.salePrice?.message}
               required
@@ -297,10 +319,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
                   <InputNumber
                     {...field}
                     min={0}
-                    step={0.1}
-                    precision={2}
+                    step={50}
+                    precision={0}
+                    prefix="$"
                     style={{ width: '100%' }}
-                    placeholder="0.00"
+                    placeholder="0"
                   />
                 )}
               />
@@ -323,7 +346,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     placeholder="Seleccionar"
                     options={taxes.map((t) => ({
                       value: t.id,
-                      label: `${t.name} (${t.rate}%)`,
+                      label: `${t.name} (${(t.rate * 100).toFixed(0)}%)`,
                     }))}
                   />
                 )}
@@ -338,8 +361,52 @@ const ProductForm: React.FC<ProductFormProps> = ({
           </Text>
         </Divider>
 
+        <Form.Item label="Controlar stock">
+          <Controller
+            name="trackStock"
+            control={control}
+            render={({ field }) => (
+              <Switch
+                checked={field.value}
+                onChange={field.onChange}
+                checkedChildren="Sí"
+                unCheckedChildren="No"
+              />
+            )}
+          />
+          <Text type="secondary" style={{ marginLeft: 10, fontSize: 12 }}>
+            Desactiva para productos de elaboración propia con stock volátil (pan, pasteles)
+          </Text>
+        </Form.Item>
+
         <Row gutter={16}>
-          <Col span={12}>
+          <Col span={8}>
+            <Form.Item
+              label="Unidad de medida"
+              validateStatus={validateStatus('unitId')}
+              help={errors.unitId?.message}
+              required
+            >
+              <Controller
+                name="unitId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    loading={loadingMeta}
+                    placeholder="Seleccionar"
+                    options={units.map((u) => ({
+                      value: u.id,
+                      label: `${u.name} (${u.abbreviation})`,
+                    }))}
+                    showSearch
+                    optionFilterProp="label"
+                  />
+                )}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
             <Form.Item
               label="Stock mínimo"
               validateStatus={validateStatus('stockMinimum')}
@@ -355,7 +422,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
               />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col span={8}>
             <Form.Item
               label="Stock máximo"
               validateStatus={validateStatus('stockMaximum')}

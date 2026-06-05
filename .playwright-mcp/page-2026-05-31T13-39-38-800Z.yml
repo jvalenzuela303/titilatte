@@ -1,0 +1,195 @@
+- generic [ref=e1]:
+  - generic [ref=e12]:
+    - complementary [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15] [cursor=pointer]:
+          - img "shop" [ref=e16]:
+            - img [ref=e17]
+          - strong [ref=e20]: Minimarket
+        - menu [ref=e21]:
+          - menuitem "dashboard Dashboard" [ref=e22] [cursor=pointer]:
+            - img "dashboard" [ref=e23]:
+              - img [ref=e24]
+            - generic [ref=e26]: Dashboard
+          - menuitem "shopping-cart POS - Ventas" [ref=e27] [cursor=pointer]:
+            - img "shopping-cart" [ref=e28]:
+              - img [ref=e29]
+            - generic [ref=e31]: POS - Ventas
+          - menuitem "appstore Productos" [ref=e32] [cursor=pointer]:
+            - img "appstore" [ref=e33]:
+              - img [ref=e34]
+            - generic [ref=e36]: Productos
+          - menuitem "inbox Stock" [ref=e37] [cursor=pointer]:
+            - img "inbox" [ref=e38]:
+              - img [ref=e39]
+            - generic [ref=e41]: Stock
+          - menuitem "shopping Compras" [ref=e42] [cursor=pointer]:
+            - img "shopping" [ref=e43]:
+              - img [ref=e44]
+            - generic [ref=e46]: Compras
+          - menuitem "wallet Caja" [ref=e47] [cursor=pointer]:
+            - img "wallet" [ref=e48]:
+              - img [ref=e49]
+            - generic [ref=e51]: Caja
+          - menuitem "team Clientes" [ref=e52] [cursor=pointer]:
+            - img "team" [ref=e53]:
+              - img [ref=e54]
+            - generic [ref=e56]: Clientes
+          - menuitem "bar-chart Reportes" [ref=e57] [cursor=pointer]:
+            - img "bar-chart" [ref=e58]:
+              - img [ref=e59]
+            - generic [ref=e61]: Reportes
+          - menuitem "apartment Sucursales" [ref=e62] [cursor=pointer]:
+            - img "apartment" [ref=e63]:
+              - img [ref=e64]
+            - generic [ref=e66]: Sucursales
+          - menuitem "tag Promociones" [ref=e67] [cursor=pointer]:
+            - img "tag" [ref=e68]:
+              - img [ref=e69]
+            - generic [ref=e71]: Promociones
+          - menuitem "bell Alertas" [ref=e72] [cursor=pointer]:
+            - img "bell" [ref=e73]:
+              - img [ref=e74]
+            - generic [ref=e76]: Alertas
+          - menuitem "calendar Cierre Período" [ref=e77] [cursor=pointer]:
+            - img "calendar" [ref=e78]:
+              - img [ref=e79]
+            - generic [ref=e81]: Cierre Período
+          - menuitem "audit Auditoria" [ref=e82] [cursor=pointer]:
+            - img "audit" [ref=e83]:
+              - img [ref=e84]
+            - generic [ref=e86]: Auditoria
+    - generic [ref=e87]:
+      - banner [ref=e88]:
+        - button "Toggle menu" [ref=e89] [cursor=pointer]:
+          - img "menu-fold" [ref=e91]:
+            - img [ref=e92]
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - img "apartment" [ref=e96]:
+              - img [ref=e97]
+            - generic [ref=e99]: "Sucursal:"
+            - generic "Seleccionar sucursal activa" [ref=e100] [cursor=pointer]:
+              - generic [ref=e102]:
+                - combobox "Seleccionar sucursal activa" [ref=e104]
+                - generic: Todas
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e105]: Administrador
+          - button "user Administrador" [ref=e106] [cursor=pointer]:
+            - img "user" [ref=e108]:
+              - img [ref=e109]
+            - generic [ref=e111]: Administrador
+      - main [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - navigation [ref=e115]:
+              - list [ref=e116]:
+                - listitem [ref=e117]: Inicio
+                - listitem [ref=e118]: /
+                - listitem [ref=e119]: Promociones
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - heading "Promociones" [level=3] [ref=e123]
+                - generic [ref=e124]: Gestiona descuentos y ofertas activas
+              - generic [ref=e126]:
+                - button "reload Actualizar" [ref=e128] [cursor=pointer]:
+                  - img "reload" [ref=e130]:
+                    - img [ref=e131]
+                  - generic [ref=e133]: Actualizar
+                - button "plus Nueva Promoción" [ref=e135] [cursor=pointer]:
+                  - img "plus" [ref=e137]:
+                    - img [ref=e138]
+                  - generic [ref=e141]: Nueva Promoción
+          - generic [ref=e142]:
+            - generic [ref=e146]:
+              - generic [ref=e147]: Activas ahora
+              - generic [ref=e148]:
+                - img "tag" [ref=e150]:
+                  - img [ref=e151]
+                - generic [ref=e153]: "0"
+            - generic [ref=e157]:
+              - generic [ref=e158]: Programadas
+              - generic [ref=e160]: "0"
+            - generic [ref=e164]:
+              - generic [ref=e165]: Vencidas
+              - generic [ref=e167]: "0"
+          - table [ref=e176]:
+            - rowgroup [ref=e185]:
+              - row "Nombre Tipo Valor Vigencia Aplica a Estado Acciones" [ref=e186]:
+                - columnheader "Nombre" [ref=e187]
+                - columnheader "Tipo" [ref=e188]
+                - columnheader "Valor" [ref=e189]
+                - columnheader "Vigencia" [ref=e190]
+                - columnheader "Aplica a" [ref=e191]
+                - columnheader "Estado" [ref=e192]
+                - columnheader "Acciones" [ref=e193]
+            - rowgroup [ref=e194]:
+              - row "No hay datos No hay datos" [ref=e195]:
+                - cell "No hay datos No hay datos" [ref=e196]:
+                  - generic [ref=e198]:
+                    - img "No hay datos" [ref=e200]
+                    - generic [ref=e206]: No hay datos
+  - generic [ref=e207]:
+    - dialog "Nueva Promoción":
+      - generic [ref=e208]:
+        - button "Close" [ref=e209] [cursor=pointer]:
+          - generic "Cerrar" [ref=e210]:
+            - img "close" [ref=e211]:
+              - img [ref=e212]
+        - generic [ref=e215]: Nueva Promoción
+        - generic [ref=e217]:
+          - generic [ref=e219]:
+            - generic "Nombre" [ref=e221]: "* Nombre"
+            - textbox "* Nombre" [ref=e225]:
+              - /placeholder: "Ej: Descuento 20% en bebidas"
+          - generic [ref=e227]:
+            - generic "Descripción" [ref=e229]
+            - textbox "Descripción" [ref=e233]:
+              - /placeholder: Descripción interna de la promoción (opcional)
+          - generic [ref=e235]:
+            - generic "Tipo de promoción" [ref=e237]: "* Tipo de promoción"
+            - generic [ref=e241] [cursor=pointer]:
+              - generic [ref=e243]:
+                - combobox "* Tipo de promoción" [ref=e245]
+                - generic: Seleccionar tipo...
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e247]:
+            - generic "Aplica a" [ref=e249]: "* Aplica a"
+            - generic [ref=e253] [cursor=pointer]:
+              - generic [ref=e255]:
+                - combobox "* Aplica a" [ref=e257]
+                - generic: Seleccionar...
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e259]:
+            - generic "Vigencia (inicio – fin)" [ref=e261]: "* Vigencia (inicio – fin)"
+            - generic [ref=e265]:
+              - textbox "* Vigencia (inicio – fin)" [ref=e267]:
+                - /placeholder: Fecha inicial
+              - generic "to" [ref=e269]:
+                - img "swap-right" [ref=e270]:
+                  - img [ref=e271]
+              - textbox "Fecha final" [ref=e274]
+              - generic:
+                - img "calendar":
+                  - img
+          - generic [ref=e276]:
+            - generic "Sucursal (opcional)" [ref=e278]
+            - textbox "Sucursal (opcional)" [ref=e282]:
+              - /placeholder: ID de sucursal (dejar en blanco para todas)
+          - generic [ref=e284]:
+            - generic "Activa" [ref=e286]
+            - switch "Activa" [checked] [ref=e290] [cursor=pointer]:
+              - generic [ref=e292]:
+                - generic: Activa
+                - generic: Inactiva
+        - generic [ref=e293]:
+          - button "Cancelar" [ref=e294] [cursor=pointer]:
+            - generic [ref=e295]: Cancelar
+          - button "Crear promoción" [ref=e296] [cursor=pointer]:
+            - generic [ref=e297]: Crear promoción

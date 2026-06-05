@@ -9,10 +9,12 @@ export const cashService = {
   open: (data: { openingAmount: number; notes?: string }) =>
     api.post<CashRegister>('/cash/open', data),
   close: (id: string, data: { countedAmount: number; notes?: string }) =>
-    api.post<CashRegister>(`/cash/${id}/close`, data),
+    api.patch<CashRegister>(`/cash/${id}/close`, data),
   getSummary: (id: string) => api.get<CashSummary>(`/cash/${id}/summary`),
   getMovements: (id: string) =>
     api.get<{ content: CashMovement[] }>(`/cash/${id}/movements`),
+  getHistory: (page = 0, size = 20) =>
+    api.get<{ content: CashRegister[]; totalElements: number }>(`/cash/history?page=${page}&size=${size}`),
   addMovement: (
     id: string,
     data: {

@@ -25,6 +25,7 @@ import {
   PlusOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  EditOutlined,
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
@@ -36,7 +37,8 @@ import type { StockEntry, StockMovement, StockStatus, Product } from '@/types'
 
 const { Text } = Typography
 
-function computeStatus(current: number, minimum: number, maximum: number | null): StockStatus {
+function computeStatus(current: number, minimum: number, maximum: number | null, trackStock: boolean): StockStatus {
+  if (!trackStock) return 'NO_TRACK'
   if (current <= 0) return 'CRITICAL'
   if (current <= minimum) return 'LOW'
   if (maximum != null && current >= maximum) return 'OVERSTOCK'
@@ -48,18 +50,21 @@ const statusConfig: Record<StockStatus, { color: string; label: string }> = {
   LOW: { color: 'orange', label: 'Bajo' },
   CRITICAL: { color: 'red', label: 'Crítico' },
   OVERSTOCK: { color: 'blue', label: 'Sobrestock' },
+  NO_TRACK: { color: 'default', label: 'Sin control' },
 }
 
-const movementTypeConfig: Record<string, { color: string; icon: React.ReactNode }> = {
-  ENTRY: { color: 'green', icon: <ArrowUpOutlined /> },
-  EXIT: { color: 'red', icon: <ArrowDownOutlined /> },
-  ADJUSTMENT: { color: 'blue', icon: <ReloadOutlined /> },
-  SALE: { color: 'orange', icon: <ArrowDownOutlined /> },
-  RETURN: { color: 'cyan', icon: <ArrowUpOutlined /> },
+const movementTypeConfig: Record<string, { color: string; icon: React.ReactNode; label: string }> = {
+  COMPRA: { color: 'green', icon: <ArrowUpOutlined />, label: 'Compra' },
+  VENTA: { color: 'orange', icon: <ArrowDownOutlined />, label: 'Venta' },
+  AJUSTE: { color: 'blue', icon: <ReloadOutlined />, label: 'Ajuste' },
+  DEVOLUCION: { color: 'cyan', icon: <ArrowUpOutlined />, label: 'Devolución' },
+  MERMA: { color: 'red', icon: <ArrowDownOutlined />, label: 'Merma' },
+  PRODUCCION_PROPIA: { color: 'purple', icon: <ArrowUpOutlined />, label: 'Producción Propia' },
 }
 
 interface AdjustmentFormValues {
   productId: string
+  movementType: 'AJUSTE' | 'COMPRA' | 'MERMA' | 'PRODUCCION_PROPIA'
   quantity: number
   notes: string
 }
@@ -80,6 +85,7 @@ const StockPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [products, setProducts] = useState<Product[]>([])
   const [activeTab, setActiveTab] = useState('stock')
+  const [preselectedEntry, setPreselectedEntry] = useState<StockEntry | null>(null)
 
   const [form] = Form.useForm<AdjustmentFormValues>()
 
@@ -89,7 +95,7 @@ const StockPage: React.FC = () => {
       const res = await stockService.getStock()
       const withStatus = res.data.content.map((p) => ({
         ...p,
-        status: computeStatus(p.stockCurrent, p.stockMinimum, p.stockMaximum),
+        status: computeStatus(p.stockCurrent, p.stockMinimum, p.stockMaximum, p.trackStock),
       }))
       setStockList(withStatus)
     } catch {
@@ -132,8 +138,14 @@ const StockPage: React.FC = () => {
     }
   }, [activeTab, loadMovements])
 
-  const handleOpenAdjustModal = async () => {
-    await loadProducts()
+  const handleOpenAdjustModal = async (entry?: StockEntry) => {
+    if (entry) {
+      setPreselectedEntry(entry)
+      form.setFieldValue('productId', entry.id)
+    } else {
+      setPreselectedEntry(null)
+      await loadProducts()
+    }
     setAdjustModalOpen(true)
   }
 
@@ -142,12 +154,14 @@ const StockPage: React.FC = () => {
     try {
       await stockService.createAdjustment({
         productId: values.productId,
+        movementType: values.movementType,
         quantity: values.quantity,
         notes: values.notes,
       })
       message.success('Ajuste de stock registrado exitosamente')
       setAdjustModalOpen(false)
       form.resetFields()
+      setPreselectedEntry(null)
       loadStock()
     } catch {
       message.error('Error al registrar el ajuste')
@@ -183,6 +197,9 @@ const StockPage: React.FC = () => {
       width: 110,
       align: 'center',
       render: (v: number, record: StockEntry) => {
+        if (record.status === 'NO_TRACK') {
+          return <Text type="secondary" style={{ fontSize: 16 }}>—</Text>
+        }
         const isCritical = record.status === 'CRITICAL'
         const isLow = record.status === 'LOW'
         return (
@@ -229,6 +246,26 @@ const StockPage: React.FC = () => {
         return <Tag color={cfg.color}>{cfg.label}</Tag>
       },
     },
+    ...(canAdjust
+      ? [
+          {
+            title: '',
+            key: 'actions',
+            width: 80,
+            align: 'center' as const,
+            render: (_: unknown, record: StockEntry) =>
+              record.trackStock === true ? (
+                <Button
+                  size="small"
+                  icon={<EditOutlined />}
+                  onClick={() => { void handleOpenAdjustModal(record) }}
+                >
+                  Ajustar
+                </Button>
+              ) : null,
+          },
+        ]
+      : []),
   ]
 
   const movementColumns: ColumnsType<StockMovement> = [
@@ -245,20 +282,20 @@ const StockPage: React.FC = () => {
     },
     {
       title: 'Producto',
-      dataIndex: 'productName',
+      dataIndex: ['product', 'name'],
       key: 'productName',
       ellipsis: true,
     },
     {
       title: 'Tipo',
-      dataIndex: 'type',
-      key: 'type',
+      dataIndex: 'movementType',
+      key: 'movementType',
       width: 110,
       render: (v: string) => {
-        const cfg = movementTypeConfig[v] ?? { color: 'default', icon: null }
+        const cfg = movementTypeConfig[v] ?? { color: 'default', icon: null, label: v }
         return (
           <Tag color={cfg.color} icon={cfg.icon}>
-            {v}
+            {cfg.label}
           </Tag>
         )
       },
@@ -277,15 +314,15 @@ const StockPage: React.FC = () => {
     },
     {
       title: 'Stock Anterior',
-      dataIndex: 'previousStock',
-      key: 'previousStock',
+      dataIndex: 'quantityBefore',
+      key: 'quantityBefore',
       width: 110,
       align: 'center',
     },
     {
       title: 'Stock Nuevo',
-      dataIndex: 'newStock',
-      key: 'newStock',
+      dataIndex: 'quantityAfter',
+      key: 'quantityAfter',
       width: 110,
       align: 'center',
       render: (v: number) => <Text strong>{v}</Text>,
@@ -301,8 +338,12 @@ const StockPage: React.FC = () => {
       title: 'Usuario',
       dataIndex: 'createdBy',
       key: 'createdBy',
-      width: 130,
-      render: (v: string) => <Text type="secondary" style={{ fontSize: 12 }}>{v}</Text>,
+      width: 150,
+      render: (v: StockMovement['createdBy']) => (
+        <Text type="secondary" style={{ fontSize: 12 }}>
+          {v?.email ?? '-'}
+        </Text>
+      ),
     },
   ]
 
@@ -317,7 +358,7 @@ const StockPage: React.FC = () => {
             <Button
               type="primary"
               icon={<PlusOutlined />}
-              onClick={handleOpenAdjustModal}
+              onClick={() => { void handleOpenAdjustModal() }}
             >
               Ajuste de Stock
             </Button>
@@ -408,11 +449,13 @@ const StockPage: React.FC = () => {
                   <Table
                     columns={stockColumns}
                     dataSource={stockList}
-                    rowKey="productId"
+                    rowKey="id"
                     scroll={{ x: 700 }}
                     pagination={{ pageSize: 20, showTotal: (t) => `${t} productos` }}
                     rowClassName={(record) =>
-                      record.status === 'CRITICAL'
+                      record.status === 'NO_TRACK'
+                        ? ''
+                        : record.status === 'CRITICAL'
                         ? 'ant-table-row-danger'
                         : record.status === 'LOW'
                         ? 'ant-table-row-warning'
@@ -448,17 +491,22 @@ const StockPage: React.FC = () => {
 
       {/* Adjustment Modal */}
       <Modal
-        title="Ajuste de Stock"
+        title={
+          preselectedEntry
+            ? `Ajuste de Stock — ${preselectedEntry.name}`
+            : 'Ajuste de Stock'
+        }
         open={adjustModalOpen}
         onCancel={() => {
           setAdjustModalOpen(false)
           form.resetFields()
+          setPreselectedEntry(null)
         }}
         onOk={() => form.submit()}
         okText="Registrar ajuste"
         cancelText="Cancelar"
         confirmLoading={isSubmitting}
-        destroyOnHidden
+        forceRender
       >
         <Form
           form={form}
@@ -466,19 +514,48 @@ const StockPage: React.FC = () => {
           onFinish={handleAdjustSubmit}
           style={{ marginTop: 8 }}
         >
+          {preselectedEntry ? (
+            <>
+              <Form.Item name="productId" hidden><Input /></Form.Item>
+              <Form.Item label="Producto">
+                <Space>
+                  <Text code style={{ fontSize: 12 }}>{preselectedEntry.barcode}</Text>
+                  <Text strong>{preselectedEntry.name}</Text>
+                  <Text type="secondary">— Stock actual: <Text strong>{preselectedEntry.stockCurrent}</Text></Text>
+                </Space>
+              </Form.Item>
+            </>
+          ) : (
+            <Form.Item
+              label="Producto"
+              name="productId"
+              rules={[{ required: true, message: 'Selecciona un producto' }]}
+            >
+              <Select
+                showSearch
+                placeholder="Buscar producto..."
+                optionFilterProp="label"
+                options={products.map((p) => ({
+                  value: p.id,
+                  label: `${p.name} (${p.barcode}) — Stock: ${p.stockCurrent}`,
+                }))}
+              />
+            </Form.Item>
+          )}
+
           <Form.Item
-            label="Producto"
-            name="productId"
-            rules={[{ required: true, message: 'Selecciona un producto' }]}
+            label="Tipo de movimiento"
+            name="movementType"
+            rules={[{ required: true, message: 'Selecciona el tipo de movimiento' }]}
           >
             <Select
-              showSearch
-              placeholder="Buscar producto..."
-              optionFilterProp="label"
-              options={products.map((p) => ({
-                value: p.id,
-                label: `${p.name} (${p.barcode}) — Stock: ${p.stockCurrent}`,
-              }))}
+              placeholder="Seleccionar tipo..."
+              options={[
+                { value: 'PRODUCCION_PROPIA', label: '🏭 Producción Propia (elaboración interna)' },
+                { value: 'COMPRA', label: 'Compra / Entrada de mercadería' },
+                { value: 'AJUSTE', label: 'Ajuste de inventario' },
+                { value: 'MERMA', label: 'Merma / Pérdida' },
+              ]}
             />
           </Form.Item>
 

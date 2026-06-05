@@ -67,9 +67,10 @@ public class StockServiceImpl implements StockService {
     public StockMovementResponse adjust(StockAdjustmentRequest request, String authorizedByEmail) {
         if (request.movementType() != MovementType.AJUSTE
                 && request.movementType() != MovementType.COMPRA
-                && request.movementType() != MovementType.MERMA) {
+                && request.movementType() != MovementType.MERMA
+                && request.movementType() != MovementType.PRODUCCION_PROPIA) {
             throw new BusinessException(
-                    "Manual adjustments only support types: AJUSTE, COMPRA, MERMA.");
+                    "Manual adjustments only support types: AJUSTE, COMPRA, MERMA, PRODUCCION_PROPIA.");
         }
 
         Product product = productRepository.findByIdAndDeletedAtIsNull(request.productId())
@@ -92,8 +93,13 @@ public class StockServiceImpl implements StockService {
         product.setStockCurrent(quantityAfter);
         productRepository.save(product);
 
+        UUID branchId = product.getBranchId() != null
+                ? product.getBranchId()
+                : UUID.fromString("00000000-0000-0000-0000-000000000001");
+
         StockMovement movement = StockMovement.builder()
                 .product(product)
+                .branchId(branchId)
                 .movementType(request.movementType())
                 .quantity(request.quantity())
                 .quantityBefore(quantityBefore)

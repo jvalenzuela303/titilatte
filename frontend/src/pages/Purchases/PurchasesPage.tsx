@@ -335,7 +335,7 @@ const PurchasesPage: React.FC = () => {
           <Button onClick={() => setDetailPurchase(null)}>Cerrar</Button>
         }
         width={780}
-        destroyOnHidden
+        forceRender
       >
         {detailPurchase && (
           <>

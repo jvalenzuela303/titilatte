@@ -1,0 +1,555 @@
+- generic [ref=e2]:
+  - navigation "Menú principal":
+    - link "Saltar al contenido principal" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Ir a la barra de herramientas" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Escritorio" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+          - generic [ref=e11]: Escritorio
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Inicio" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Actualizaciones" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+      - listitem [ref=e17]
+      - listitem [ref=e19]:
+        - link "Entradas" [ref=e20] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e21]: 
+          - generic [ref=e22]: Entradas
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Todas las entradas" [ref=e25] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e26]:
+            - link "Añadir entrada" [ref=e27] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e28]:
+            - link "Categorías" [ref=e29] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e30]:
+            - link "Etiquetas" [ref=e31] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e32]:
+        - link "Medios" [ref=e33] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e34]: 
+          - generic [ref=e35]: Medios
+        - list [ref=e36]:
+          - listitem [ref=e37]:
+            - link "Biblioteca" [ref=e38] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e39]:
+            - link "Añadir medios" [ref=e40] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=e41]:
+        - link "Páginas" [ref=e42] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e43]: 
+          - generic [ref=e44]: Páginas
+        - list [ref=e45]:
+          - listitem [ref=e46]:
+            - link "Todas las páginas" [ref=e47] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e48]:
+            - link "Añadir página" [ref=e49] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e50]:
+        - link "Comentarios" [ref=e51] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e52]: 
+          - generic [ref=e53]: Comentarios
+      - listitem [ref=e54]
+      - listitem [ref=e56]:
+        - link "WooCommerce" [ref=e57] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+          - generic [ref=e59]: WooCommerce
+        - list [ref=e60]:
+          - listitem [ref=e61]:
+            - link "Inicio 2" [ref=e62] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Inicio
+              - generic [ref=e63]: "2"
+          - listitem [ref=e64]:
+            - link "Pedidos 6" [ref=e65] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_order
+              - text: Pedidos
+              - generic [ref=e66]: "6"
+          - listitem [ref=e67]:
+            - link "Clientes" [ref=e68] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=e69]:
+            - link "Cupones" [ref=e70] [cursor=pointer]:
+              - /url: admin.php?page=coupons-moved
+          - listitem [ref=e71]:
+            - link "Informes" [ref=e72] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=e73]:
+            - link "Ajustes" [ref=e74] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=e75]:
+            - link "Estado" [ref=e76] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=e77]:
+            - link "Extensiones" [ref=e78] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=e79]:
+        - link "Productos" [ref=e80] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=e81]: 
+          - generic [ref=e82]: Productos
+        - list [ref=e83]:
+          - listitem [ref=e84]:
+            - link "Todos los productos" [ref=e85] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=e86]:
+            - link "Añadir un nuevo producto" [ref=e87] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=e88]:
+            - link "Marcas" [ref=e89] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_brand&post_type=product
+          - listitem [ref=e90]:
+            - link "Categorías" [ref=e91] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=e92]:
+            - link "Etiquetas" [ref=e93] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=e94]:
+            - link "Atributos" [ref=e95] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=e96]:
+            - link "Valoraciones" [ref=e97] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=e98]:
+        - link "Pagos" [ref=e99] [cursor=pointer]:
+          - /url: admin.php?page=wc-settings&tab=checkout&from=PAYMENTS_MENU_ITEM
+          - generic [ref=e101]: Pagos
+      - listitem [ref=e102]:
+        - link "Análisis" [ref=e103] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=e104]: 
+          - generic [ref=e105]: Análisis
+        - list [ref=e106]:
+          - listitem [ref=e107]:
+            - link "Resumen" [ref=e108] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=e109]:
+            - link "Productos" [ref=e110] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=e111]:
+            - link "Ingresos" [ref=e112] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=e113]:
+            - link "Pedidos" [ref=e114] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=e115]:
+            - link "Variaciones" [ref=e116] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=e117]:
+            - link "Categorías" [ref=e118] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=e119]:
+            - link "Cupones" [ref=e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=e121]:
+            - link "Impuestos" [ref=e122] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=e123]:
+            - link "Descargas" [ref=e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=e125]:
+            - link "Inventario" [ref=e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=e127]:
+            - link "Ajustes" [ref=e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=e129]:
+        - link "Marketing" [ref=e130] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=e131]: 
+          - generic [ref=e132]: Marketing
+        - list [ref=e133]:
+          - listitem [ref=e134]:
+            - link "Resumen" [ref=e135] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=e136]:
+            - link "Cupones" [ref=e137] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=e138]
+      - listitem [ref=e140]:
+        - link "Apariencia" [ref=e141] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e142]: 
+          - generic [ref=e143]: Apariencia
+        - list [ref=e144]:
+          - listitem [ref=e145]:
+            - link "Temas" [ref=e146] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=e147]:
+            - link "Editor" [ref=e148] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=e149]:
+            - link "Fuentes" [ref=e150] [cursor=pointer]:
+              - /url: font-library.php
+      - listitem [ref=e151]:
+        - link "Plugins" [ref=e152] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e153]: 
+          - generic [ref=e154]: Plugins
+        - list [ref=e155]:
+          - listitem [ref=e156]:
+            - link "Plugins instalados" [ref=e157] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e158]:
+            - link "Añadir plugin" [ref=e159] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=e160]:
+        - link "Usuarios" [ref=e161] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e162]: 
+          - generic [ref=e163]: Usuarios
+        - list [ref=e164]:
+          - listitem [ref=e165]:
+            - link "Todos los usuarios" [ref=e166] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e167]:
+            - link "Añadir usuario" [ref=e168] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e169]:
+            - link "Perfil" [ref=e170] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e171]:
+        - link "Herramientas" [ref=e172] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e173]: 
+          - generic [ref=e174]: Herramientas
+        - list [ref=e175]:
+          - listitem [ref=e176]:
+            - link "Herramientas disponibles" [ref=e177] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e178]:
+            - link "Importar" [ref=e179] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e180]:
+            - link "Exportar" [ref=e181] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e182]:
+            - link "Salud del sitio" [ref=e183] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e184]:
+            - link "Exportar los datos personales" [ref=e185] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e186]:
+            - link "Borrar los datos personales" [ref=e187] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=e188]:
+            - link "Acciones programadas" [ref=e189] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+          - listitem [ref=e190]:
+            - link "Editor de archivos de temas" [ref=e191] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=e192]:
+            - link "Editor de archivos de plugins" [ref=e193] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e194]:
+        - link "Ajustes" [ref=e195] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e196]: 
+          - generic [ref=e197]: Ajustes
+        - list [ref=e198]:
+          - listitem [ref=e199]:
+            - link "Generales" [ref=e200] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e201]:
+            - link "Conectores" [ref=e202] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=e203]:
+            - link "Escritura" [ref=e204] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e205]:
+            - link "Lectura" [ref=e206] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e207]:
+            - link "Comentarios" [ref=e208] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e209]:
+            - link "Medios" [ref=e210] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e211]:
+            - link "Enlaces permanentes" [ref=e212] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e213]:
+            - link "Privacidad" [ref=e214] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=e215]:
+        - button "Contraer el menú principal" [expanded] [ref=e216] [cursor=pointer]:
+          - generic [ref=e218]: Cerrar menú
+  - generic [ref=e219]:
+    - generic [ref=e220]:
+      - navigation "Barra de herramientas":
+        - menu:
+          - group [ref=e221]:
+            - menuitem "Acerca de WordPress" [ref=e222] [cursor=pointer]:
+              - generic [ref=e224]: Acerca de WordPress
+          - group [ref=e225]:
+            - menuitem "Le Coq Wines" [ref=e226] [cursor=pointer]
+          - group [ref=e227]:
+            - menuitem "Visible" [ref=e228] [cursor=pointer]
+          - group [ref=e229]:
+            - menuitem "Ctrl+K Abrir paleta de comandos" [ref=e230] [cursor=pointer]:
+              - generic [ref=e232]:
+                - text: Ctrl+K
+                - generic [ref=e233]: Abrir paleta de comandos
+          - group [ref=e234]:
+            - menuitem "0 comentarios en moderación" [ref=e235] [cursor=pointer]:
+              - generic [ref=e237]: "0"
+              - generic [ref=e238]: 0 comentarios en moderación
+          - group [ref=e239]:
+            - menuitem "Añadir" [ref=e240] [cursor=pointer]:
+              - generic [ref=e242]: Añadir
+        - menu [ref=e243]:
+          - group [ref=e244]:
+            - menuitem "Hola, Juan Pablo" [ref=e245] [cursor=pointer]
+    - heading "Ajustes" [level=1] [ref=e248]
+    - main [ref=e250]:
+      - generic [ref=e253]:
+        - navigation [ref=e254]:
+          - link "General" [ref=e255] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=general
+          - link "Productos" [ref=e256] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=products
+          - link "Impuesto" [ref=e257] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=tax
+          - link "Envío" [ref=e258] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=shipping
+          - link "Pagos" [ref=e259] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=checkout
+          - link "Cuentas y privacidad" [ref=e260] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=account
+          - link "Correos electrónicos" [ref=e261] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=email
+          - link "Integración" [ref=e262] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=integration
+          - link "Visibilidad del sitio" [ref=e263] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=site-visibility
+          - link "Punto de venta" [ref=e264] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=point-of-sale
+          - link "Avanzado" [ref=e265] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced
+        - heading "Avanzado" [level=1] [ref=e266]
+        - list [ref=e267]:
+          - listitem [ref=e268]:
+            - link "Instalación de páginas" [ref=e269] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced&section=
+            - text: "|"
+          - listitem [ref=e270]:
+            - link "Claves de la API REST" [ref=e271] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced&section=keys
+            - text: "|"
+          - listitem [ref=e272]:
+            - link "Webhooks" [ref=e273] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced&section=webhooks
+            - text: "|"
+          - listitem [ref=e274]:
+            - link "API heredada" [ref=e275] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced&section=legacy_api
+            - text: "|"
+          - listitem [ref=e276]:
+            - link "WooCommerce.com" [ref=e277] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced&section=woocommerce_com
+            - text: "|"
+          - listitem [ref=e278]:
+            - link "Modelos (beta)" [ref=e279] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced&section=blueprint
+            - text: "|"
+          - listitem [ref=e280]:
+            - link "Características" [ref=e281] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced&section=features
+        - heading "Instalación de páginas" [level=2] [ref=e282]
+        - paragraph [ref=e284]: Estas páginas tienen que definirse para que WooCommerce sepa dónde enviar a los usuarios para finalizar la compra.
+        - table [ref=e285]:
+          - rowgroup [ref=e286]:
+            - 'row "Página del carrito Página en la que los compradores revisarán su carrito de compra. × Carrito (ID: 42)" [ref=e287]':
+              - rowheader "Página del carrito Página en la que los compradores revisarán su carrito de compra." [ref=e288]:
+                - generic [ref=e289]:
+                  - text: Página del carrito
+                  - generic "Página en la que los compradores revisarán su carrito de compra." [ref=e290]: 
+              - 'cell "× Carrito (ID: 42)" [ref=e291]':
+                - combobox [ref=e292] [cursor=pointer]
+                - 'combobox "× Carrito (ID: 42)" [ref=e295] [cursor=pointer]':
+                  - 'textbox "Carrito (ID: 42)" [ref=e296]':
+                    - generic [ref=e297]: ×
+            - 'row "Página de pago Página en la que los compradores finalizarán su compra. × Finalizar compra (ID: 43)" [ref=e298]':
+              - rowheader "Página de pago Página en la que los compradores finalizarán su compra." [ref=e299]:
+                - generic [ref=e300]:
+                  - text: Página de pago
+                  - generic "Página en la que los compradores finalizarán su compra." [ref=e301]: 
+              - 'cell "× Finalizar compra (ID: 43)" [ref=e302]':
+                - combobox [ref=e303] [cursor=pointer]
+                - 'combobox "× Finalizar compra (ID: 43)" [ref=e306] [cursor=pointer]':
+                  - 'textbox "Finalizar compra (ID: 43)" [ref=e307]':
+                    - generic [ref=e308]: ×
+            - 'row "Página de mi cuenta Contenidos de la página: [woocommerce_my_account] × Mi cuenta (ID: 44)" [ref=e309]':
+              - 'rowheader "Página de mi cuenta Contenidos de la página: [woocommerce_my_account]" [ref=e310]':
+                - generic [ref=e311]:
+                  - text: Página de mi cuenta
+                  - 'generic "Contenidos de la página: [woocommerce_my_account]" [ref=e312]': 
+              - 'cell "× Mi cuenta (ID: 44)" [ref=e313]':
+                - combobox [ref=e314] [cursor=pointer]
+                - 'combobox "× Mi cuenta (ID: 44)" [ref=e317] [cursor=pointer]':
+                  - 'textbox "Mi cuenta (ID: 44)" [ref=e318]':
+                    - generic [ref=e319]: ×
+            - row "Términos y condiciones Si defines una página de términos y condiciones se preguntará al cliente si los acepta en el momento de pagar. Buscar una página…" [ref=e320]:
+              - rowheader "Términos y condiciones Si defines una página de términos y condiciones se preguntará al cliente si los acepta en el momento de pagar." [ref=e321]:
+                - generic [ref=e322]:
+                  - text: Términos y condiciones
+                  - generic "Si defines una página de términos y condiciones se preguntará al cliente si los acepta en el momento de pagar." [ref=e323]: 
+              - cell "Buscar una página…" [ref=e324]:
+                - combobox [ref=e325] [cursor=pointer]
+                - combobox "Buscar una página…" [ref=e328] [cursor=pointer]:
+                  - textbox [ref=e329]
+        - table
+        - heading "Variables de finalización de compra" [level=2] [ref=e330]
+        - paragraph [ref=e332]: Las variables se adjuntan a las URLs de tu página para manejar las acciones específicas durante el proceso de finalización de compra. Deben ser únicas.
+        - table [ref=e333]:
+          - rowgroup [ref=e334]:
+            - row "Pagar Variable de la página de «Finalizar compra → Pagar». order-pay" [ref=e335]:
+              - rowheader "Pagar Variable de la página de «Finalizar compra → Pagar»." [ref=e336]:
+                - generic [ref=e337]:
+                  - text: Pagar
+                  - generic "Variable de la página de «Finalizar compra → Pagar»." [ref=e338]: 
+              - cell "order-pay" [ref=e339]:
+                - textbox "Pagar Variable de la página de «Finalizar compra → Pagar»." [ref=e340]:
+                  - /placeholder: ""
+                  - text: order-pay
+            - row "Pedido recibido Variable de la página «Finalizar compra → Pedido recibido». order-received" [ref=e341]:
+              - rowheader "Pedido recibido Variable de la página «Finalizar compra → Pedido recibido»." [ref=e342]:
+                - generic [ref=e343]:
+                  - text: Pedido recibido
+                  - generic "Variable de la página «Finalizar compra → Pedido recibido»." [ref=e344]: 
+              - cell "order-received" [ref=e345]:
+                - textbox "Pedido recibido Variable de la página «Finalizar compra → Pedido recibido»." [ref=e346]:
+                  - /placeholder: ""
+                  - text: order-received
+            - row "Añadir método de pago Variable de la página «Finalizar compra → Añadir método de pago». add-payment-method" [ref=e347]:
+              - rowheader "Añadir método de pago Variable de la página «Finalizar compra → Añadir método de pago»." [ref=e348]:
+                - generic [ref=e349]:
+                  - text: Añadir método de pago
+                  - generic "Variable de la página «Finalizar compra → Añadir método de pago»." [ref=e350]: 
+              - cell "add-payment-method" [ref=e351]:
+                - textbox "Añadir método de pago Variable de la página «Finalizar compra → Añadir método de pago»." [ref=e352]:
+                  - /placeholder: ""
+                  - text: add-payment-method
+            - row "Borrar método de pago Variable para la página de borrar método de pago. delete-payment-method" [ref=e353]:
+              - rowheader "Borrar método de pago Variable para la página de borrar método de pago." [ref=e354]:
+                - generic [ref=e355]:
+                  - text: Borrar método de pago
+                  - generic "Variable para la página de borrar método de pago." [ref=e356]: 
+              - cell "delete-payment-method" [ref=e357]:
+                - textbox "Borrar método de pago Variable para la página de borrar método de pago." [ref=e358]:
+                  - /placeholder: ""
+                  - text: delete-payment-method
+            - row "Establecer método de pago por defecto Variable para la configuración de una página para el método de pago por defecto. set-default-payment-method" [ref=e359]:
+              - rowheader "Establecer método de pago por defecto Variable para la configuración de una página para el método de pago por defecto." [ref=e360]:
+                - generic [ref=e361]:
+                  - text: Establecer método de pago por defecto
+                  - generic "Variable para la configuración de una página para el método de pago por defecto." [ref=e362]: 
+              - cell "set-default-payment-method" [ref=e363]:
+                - textbox "Establecer método de pago por defecto Variable para la configuración de una página para el método de pago por defecto." [ref=e364]:
+                  - /placeholder: ""
+                  - text: set-default-payment-method
+        - heading "Variables de la cuenta" [level=2] [ref=e365]
+        - paragraph [ref=e367]: Las variables se añaden a las URLs de tu página para manejar acciones específicas en las páginas de cuentas. Deberían ser únicas y pueden dejarse en blanco para desactivar la variable.
+        - table [ref=e368]:
+          - rowgroup [ref=e369]:
+            - row "Pedidos Variable para la página «Mi cuenta → Pedidos». orders" [ref=e370]:
+              - rowheader "Pedidos Variable para la página «Mi cuenta → Pedidos»." [ref=e371]:
+                - generic [ref=e372]:
+                  - text: Pedidos
+                  - generic "Variable para la página «Mi cuenta → Pedidos»." [ref=e373]: 
+              - cell "orders" [ref=e374]:
+                - textbox "Pedidos Variable para la página «Mi cuenta → Pedidos»." [ref=e375]:
+                  - /placeholder: ""
+                  - text: orders
+            - row "Ver pedido Variable de la página «Mi cuenta → Ver pedido». view-order" [ref=e376]:
+              - rowheader "Ver pedido Variable de la página «Mi cuenta → Ver pedido»." [ref=e377]:
+                - generic [ref=e378]:
+                  - text: Ver pedido
+                  - generic "Variable de la página «Mi cuenta → Ver pedido»." [ref=e379]: 
+              - cell "view-order" [ref=e380]:
+                - textbox "Ver pedido Variable de la página «Mi cuenta → Ver pedido»." [ref=e381]:
+                  - /placeholder: ""
+                  - text: view-order
+            - row "Descargas Variable para la página «Mi cuenta → Descargas». downloads" [ref=e382]:
+              - rowheader "Descargas Variable para la página «Mi cuenta → Descargas»." [ref=e383]:
+                - generic [ref=e384]:
+                  - text: Descargas
+                  - generic "Variable para la página «Mi cuenta → Descargas»." [ref=e385]: 
+              - cell "downloads" [ref=e386]:
+                - textbox "Descargas Variable para la página «Mi cuenta → Descargas»." [ref=e387]:
+                  - /placeholder: ""
+                  - text: downloads
+            - row "Editar cuenta Variable de la página «Mi cuenta → Editar cuenta». edit-account" [ref=e388]:
+              - rowheader "Editar cuenta Variable de la página «Mi cuenta → Editar cuenta»." [ref=e389]:
+                - generic [ref=e390]:
+                  - text: Editar cuenta
+                  - generic "Variable de la página «Mi cuenta → Editar cuenta»." [ref=e391]: 
+              - cell "edit-account" [ref=e392]:
+                - textbox "Editar cuenta Variable de la página «Mi cuenta → Editar cuenta»." [ref=e393]:
+                  - /placeholder: ""
+                  - text: edit-account
+            - row "Direcciones Variable para la página «Mi cuenta → Direcciones». edit-address" [ref=e394]:
+              - rowheader "Direcciones Variable para la página «Mi cuenta → Direcciones»." [ref=e395]:
+                - generic [ref=e396]:
+                  - text: Direcciones
+                  - generic "Variable para la página «Mi cuenta → Direcciones»." [ref=e397]: 
+              - cell "edit-address" [ref=e398]:
+                - textbox "Direcciones Variable para la página «Mi cuenta → Direcciones»." [ref=e399]:
+                  - /placeholder: ""
+                  - text: edit-address
+            - row "Métodos de pago Variable para la página «Mi cuenta → Métodos de pago». payment-methods" [ref=e400]:
+              - rowheader "Métodos de pago Variable para la página «Mi cuenta → Métodos de pago»." [ref=e401]:
+                - generic [ref=e402]:
+                  - text: Métodos de pago
+                  - generic "Variable para la página «Mi cuenta → Métodos de pago»." [ref=e403]: 
+              - cell "payment-methods" [ref=e404]:
+                - textbox "Métodos de pago Variable para la página «Mi cuenta → Métodos de pago»." [ref=e405]:
+                  - /placeholder: ""
+                  - text: payment-methods
+            - row "Contraseña perdida Variable de la página «Mi cuenta → Contraseña olvidada». lost-password" [ref=e406]:
+              - rowheader "Contraseña perdida Variable de la página «Mi cuenta → Contraseña olvidada»." [ref=e407]:
+                - generic [ref=e408]:
+                  - text: Contraseña perdida
+                  - generic "Variable de la página «Mi cuenta → Contraseña olvidada»." [ref=e409]: 
+              - cell "lost-password" [ref=e410]:
+                - textbox "Contraseña perdida Variable de la página «Mi cuenta → Contraseña olvidada»." [ref=e411]:
+                  - /placeholder: ""
+                  - text: lost-password
+            - 'row "Salir Variable para forzar la desconexión. Puedes añadir esto a tus menús con un enlace personalizado: tusitio.com/?customer-logout=true customer-logout" [ref=e412]':
+              - 'rowheader "Salir Variable para forzar la desconexión. Puedes añadir esto a tus menús con un enlace personalizado: tusitio.com/?customer-logout=true" [ref=e413]':
+                - generic [ref=e414]:
+                  - text: Salir
+                  - 'generic "Variable para forzar la desconexión. Puedes añadir esto a tus menús con un enlace personalizado: tusitio.com/?customer-logout=true" [ref=e415]': 
+              - cell "customer-logout" [ref=e416]:
+                - 'textbox "Salir Variable para forzar la desconexión. Puedes añadir esto a tus menús con un enlace personalizado: tusitio.com/?customer-logout=true" [ref=e417]':
+                  - /placeholder: ""
+                  - text: customer-logout
+        - paragraph [ref=e418]:
+          - button "Guardar cambios" [disabled] [ref=e419]
+  - contentinfo [ref=e420]:
+    - paragraph [ref=e421]:
+      - generic [ref=e422]:
+        - text: Si te gusta
+        - strong [ref=e423]: WooCommerce
+        - text: ", por favor, déjanos una puntuación de"
+        - link "cinco estrellas" [ref=e424] [cursor=pointer]:
+          - /url: https://wordpress.org/support/plugin/woocommerce/reviews?rate=5#new-post
+          - text: ★★★★★
+        - text: . ¡Gracias anticipadas!
+    - paragraph [ref=e425]: Versión 10.8.1

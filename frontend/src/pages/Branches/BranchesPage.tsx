@@ -267,7 +267,7 @@ const BranchesPage: React.FC = () => {
         okText={editingBranch ? 'Guardar Cambios' : 'Crear Sucursal'}
         cancelText="Cancelar"
         confirmLoading={submitting}
-        destroyOnHidden
+        forceRender
         width={480}
       >
         <Form form={form} layout="vertical" style={{ marginTop: 8 }}>

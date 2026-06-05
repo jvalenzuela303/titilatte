@@ -1,0 +1,26 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - text:             
+    - heading [level=1] [ref=e3]: Añadir página
+  - dialog "Te damos la bienvenida al editor" [active] [ref=e8]:
+    - document [ref=e9]:
+      - button "Cerrar" [ref=e11] [cursor=pointer]:
+        - img [ref=e12]
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - list "Controles de guía" [ref=e18]:
+            - listitem [ref=e19]:
+              - button "Página 1 de 4" [ref=e20] [cursor=pointer]:
+                - img [ref=e21]
+            - listitem [ref=e23]:
+              - button "Página 2 de 4" [ref=e24] [cursor=pointer]:
+                - img [ref=e25]
+            - listitem [ref=e27]:
+              - button "Página 3 de 4" [ref=e28] [cursor=pointer]:
+                - img [ref=e29]
+            - listitem [ref=e31]:
+              - button "Página 4 de 4" [ref=e32] [cursor=pointer]:
+                - img [ref=e33]
+          - heading "Te damos la bienvenida al editor" [level=1] [ref=e35]
+          - paragraph [ref=e36]: En el editor de WordPress, cada párrafo, imagen o vídeo se presenta como un «bloque» de diferente de contenido.
+        - button "Siguiente" [ref=e38] [cursor=pointer]

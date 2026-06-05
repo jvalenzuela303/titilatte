@@ -145,7 +145,7 @@ class ProductControllerIntegrationTest {
                 new BigDecimal("800.00"),
                 BigDecimal.ZERO,
                 new BigDecimal("100.00"),
-                categoryId, taxId, unitId
+                categoryId, taxId, unitId, null
         );
     }
 

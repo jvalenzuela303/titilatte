@@ -18,6 +18,7 @@ import {
   Alert,
   Space,
   Divider,
+  Descriptions,
   App,
 } from 'antd'
 import {
@@ -26,6 +27,8 @@ import {
   PoweroffOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  EyeOutlined,
+  HistoryOutlined,
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
@@ -72,6 +75,17 @@ const CashPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('movements')
   const [movementType, setMovementType] = useState<'INGRESO' | 'EGRESO'>('INGRESO')
 
+  // Historial
+  const [history, setHistory] = useState<CashRegister[]>([])
+  const [historyLoading, setHistoryLoading] = useState(false)
+  const [historyTotal, setHistoryTotal] = useState(0)
+  const [historyPage, setHistoryPage] = useState(0)
+  const [detailRegister, setDetailRegister] = useState<CashRegister | null>(null)
+  const [detailSummary, setDetailSummary] = useState<CashSummary | null>(null)
+  const [detailMovements, setDetailMovements] = useState<CashMovement[]>([])
+  const [detailLoading, setDetailLoading] = useState(false)
+  const [detailOpen, setDetailOpen] = useState(false)
+
   const fetchCurrent = async () => {
     setLoadingRegister(true)
     try {
@@ -105,6 +119,40 @@ const CashPage: React.FC = () => {
     }
   }, [])
 
+  const fetchHistory = useCallback(async (page = 0) => {
+    setHistoryLoading(true)
+    try {
+      const res = await cashService.getHistory(page, 15)
+      setHistory(res.data.content)
+      setHistoryTotal(res.data.totalElements)
+      setHistoryPage(page)
+    } catch {
+      message.error('Error al cargar el historial de caja')
+    } finally {
+      setHistoryLoading(false)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const openDetail = async (reg: CashRegister) => {
+    setDetailRegister(reg)
+    setDetailSummary(null)
+    setDetailMovements([])
+    setDetailOpen(true)
+    setDetailLoading(true)
+    try {
+      const [sumRes, movRes] = await Promise.all([
+        cashService.getSummary(reg.id),
+        cashService.getMovements(reg.id),
+      ])
+      setDetailSummary(sumRes.data)
+      setDetailMovements(movRes.data.content ?? [])
+    } catch {
+      message.error('Error al cargar el detalle de caja')
+    } finally {
+      setDetailLoading(false)
+    }
+  }
+
   useEffect(() => {
     fetchCurrent()
   }, [])
@@ -129,7 +177,13 @@ const CashPage: React.FC = () => {
       openForm.resetFields()
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'errorFields' in err) return
-      message.error('Error al abrir la caja')
+      const status = (err as { response?: { status?: number } })?.response?.status
+      if (status === 409) {
+        message.error('Ya hay una caja abierta en esta sucursal. Ciérrala antes de abrir una nueva.')
+        await fetchCurrent()
+      } else {
+        message.error('Error al abrir la caja')
+      }
     } finally {
       setOpeningSubmit(false)
     }
@@ -240,61 +294,133 @@ const CashPage: React.FC = () => {
   // ── No hay caja abierta ─────────────────────────────────────────────────────
   if (!register) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '60vh',
-        }}
-      >
-        <Card
-          style={{ width: '100%', maxWidth: 460, textAlign: 'center' }}
-          variant="outlined"
+      <>
+        <Tabs
+          defaultActiveKey="open"
+          onChange={(key) => {
+            if (key === 'history' && history.length === 0) fetchHistory(0)
+          }}
+          items={[
+            {
+              key: 'open',
+              label: (
+                <Space><WalletOutlined />Abrir Caja</Space>
+              ),
+              children: (
+                <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 32 }}>
+                  <Card style={{ width: '100%', maxWidth: 460, textAlign: 'center' }} variant="outlined">
+                    <WalletOutlined style={{ fontSize: 56, color: '#bfbfbf', marginBottom: 16 }} />
+                    <Title level={4} style={{ color: '#8c8c8c' }}>No tienes una caja abierta</Title>
+                    <Text type="secondary">Abre una caja para comenzar a registrar ventas y movimientos.</Text>
+                    <Divider />
+                    <Form form={openForm} layout="vertical">
+                      <Form.Item
+                        name="openingAmount"
+                        label="Monto inicial ($)"
+                        rules={[
+                          { required: true, message: 'Ingresa el monto inicial' },
+                          { type: 'number', min: 0, message: 'Debe ser mayor o igual a 0' },
+                        ]}
+                      >
+                        <InputNumber style={{ width: '100%' }} min={0} step={1000} placeholder="Ej: 50000" prefix="$" />
+                      </Form.Item>
+                      <Form.Item name="notes" label="Notas (opcional)">
+                        <TextArea rows={2} placeholder="Observaciones iniciales" />
+                      </Form.Item>
+                      <Button type="primary" icon={<WalletOutlined />} block size="large" loading={openingSubmit} onClick={handleOpenCash}>
+                        Abrir Caja
+                      </Button>
+                    </Form>
+                  </Card>
+                </div>
+              ),
+            },
+            {
+              key: 'history',
+              label: (
+                <Space><HistoryOutlined />Historial</Space>
+              ),
+              children: (
+                <HistoryTab
+                  history={history}
+                  loading={historyLoading}
+                  total={historyTotal}
+                  page={historyPage}
+                  onPageChange={fetchHistory}
+                  onDetail={openDetail}
+                />
+              ),
+            },
+          ]}
+        />
+
+        {/* Modal Detalle de Caja (historial sin caja abierta) */}
+        <Modal
+          title={detailRegister ? `Caja N° ${detailRegister.registerNumber} — ${dayjs(detailRegister.openedAt).format('DD/MM/YYYY')}` : 'Detalle de Caja'}
+          open={detailOpen}
+          onCancel={() => { setDetailOpen(false); setDetailRegister(null) }}
+          footer={null}
+          width={760}
         >
-          <WalletOutlined style={{ fontSize: 56, color: '#bfbfbf', marginBottom: 16 }} />
-          <Title level={4} style={{ color: '#8c8c8c' }}>
-            No tienes una caja abierta
-          </Title>
-          <Text type="secondary">
-            Abre una caja para comenzar a registrar ventas y movimientos.
-          </Text>
-
-          <Divider />
-
-          <Form form={openForm} layout="vertical">
-            <Form.Item
-              name="openingAmount"
-              label="Monto inicial ($)"
-              rules={[
-                { required: true, message: 'Ingresa el monto inicial' },
-                { type: 'number', min: 0, message: 'Debe ser mayor o igual a 0' },
-              ]}
-            >
-              <InputNumber
-                style={{ width: '100%' }}
-                min={0}
-                step={1000}
-                placeholder="Ej: 50000"
-                prefix="$"
+          {detailLoading ? (
+            <div style={{ textAlign: 'center', padding: 40 }}><Spin /></div>
+          ) : detailSummary && (
+            <>
+              <Row gutter={[12, 12]} style={{ marginBottom: 16 }}>
+                {[
+                  { label: 'Apertura', value: detailSummary.openingAmount, color: '#595959' },
+                  { label: 'Ventas', value: detailSummary.totalSales, color: '#1677ff' },
+                  { label: 'Ingresos', value: detailSummary.totalIncome, color: '#52c41a' },
+                  { label: 'Egresos', value: detailSummary.totalExpense, color: '#ff4d4f' },
+                  { label: 'Esperado', value: detailSummary.expectedAmount, color: '#722ed1' },
+                  { label: 'Contado', value: detailSummary.countedAmount ?? 0, color: '#13c2c2' },
+                ].map(({ label, value, color }) => (
+                  <Col xs={12} sm={8} key={label}>
+                    <Card size="small">
+                      <Statistic title={label} value={value} prefix="$" precision={0} valueStyle={{ color, fontSize: 16 }} />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+              {detailSummary.countedAmount != null && (
+                <Alert
+                  style={{ marginBottom: 12 }}
+                  showIcon
+                  type={(detailSummary.difference ?? 0) === 0 ? 'success' : (detailSummary.difference ?? 0) > 0 ? 'warning' : 'error'}
+                  message={
+                    <Text>
+                      Diferencia:{' '}
+                      <Text strong style={{ color: (detailSummary.difference ?? 0) >= 0 ? '#52c41a' : '#ff4d4f' }}>
+                        {(detailSummary.difference ?? 0) >= 0 ? '+' : ''}${Math.round(detailSummary.difference ?? 0).toLocaleString('es-CL')}
+                      </Text>
+                      {(detailSummary.difference ?? 0) > 0 && ' (sobrante)'}
+                      {(detailSummary.difference ?? 0) < 0 && ' (faltante)'}
+                      {(detailSummary.difference ?? 0) === 0 && ' (cuadra exacto)'}
+                    </Text>
+                  }
+                />
+              )}
+              <Descriptions size="small" column={2} bordered style={{ marginBottom: 16 }}>
+                <Descriptions.Item label="Apertura">{dayjs(detailSummary.openedAt).format('DD/MM/YYYY HH:mm')}</Descriptions.Item>
+                <Descriptions.Item label="Cierre">{detailSummary.closedAt ? dayjs(detailSummary.closedAt).format('DD/MM/YYYY HH:mm') : '—'}</Descriptions.Item>
+                <Descriptions.Item label="Cajero" span={2}>{detailSummary.cashierName}</Descriptions.Item>
+              </Descriptions>
+              <Table
+                rowKey="id"
+                dataSource={detailMovements}
+                size="small"
+                pagination={{ pageSize: 8, showSizeChanger: false }}
+                columns={[
+                  { title: 'Tipo', dataIndex: 'movementType', width: 120, render: (v: CashMovement['movementType']) => <Tag color={movementTypeColor[v]}>{movementTypeLabel[v]}</Tag> },
+                  { title: 'Descripción', dataIndex: 'description', ellipsis: true },
+                  { title: 'Monto', dataIndex: 'amount', align: 'right' as const, width: 110, render: (v: number, r: CashMovement) => <Text strong style={{ color: r.movementType === 'EGRESO' ? '#ff4d4f' : '#52c41a' }}>{r.movementType === 'EGRESO' ? '-' : '+'}${Math.round(v).toLocaleString('es-CL')}</Text> },
+                  { title: 'Hora', dataIndex: 'createdAt', width: 70, render: (v: string) => dayjs(v).format('HH:mm') },
+                ]}
               />
-            </Form.Item>
-            <Form.Item name="notes" label="Notas (opcional)">
-              <TextArea rows={2} placeholder="Observaciones iniciales" />
-            </Form.Item>
-            <Button
-              type="primary"
-              icon={<WalletOutlined />}
-              block
-              size="large"
-              loading={openingSubmit}
-              onClick={handleOpenCash}
-            >
-              Abrir Caja
-            </Button>
-          </Form>
-        </Card>
-      </div>
+            </>
+          )}
+        </Modal>
+      </>
     )
   }
 
@@ -330,7 +456,6 @@ const CashPage: React.FC = () => {
 
       <Tabs
         activeKey={activeTab}
-        onChange={setActiveTab}
         items={[
           {
             key: 'movements',
@@ -487,8 +612,129 @@ const CashPage: React.FC = () => {
               <Spin />
             ),
           },
+          {
+            key: 'history',
+            label: (
+              <Space>
+                <HistoryOutlined />
+                Historial
+              </Space>
+            ),
+            children: <HistoryTab
+              history={history}
+              loading={historyLoading}
+              total={historyTotal}
+              page={historyPage}
+              onPageChange={fetchHistory}
+              onDetail={openDetail}
+            />,
+          },
         ]}
+        onChange={(key) => {
+          setActiveTab(key)
+          if (key === 'history' && history.length === 0) fetchHistory(0)
+        }}
       />
+
+      {/* Modal Detalle de Caja (historial) */}
+      <Modal
+        title={
+          detailRegister
+            ? `Caja N° ${detailRegister.registerNumber} — ${dayjs(detailRegister.openedAt).format('DD/MM/YYYY')}`
+            : 'Detalle de Caja'
+        }
+        open={detailOpen}
+        onCancel={() => { setDetailOpen(false); setDetailRegister(null) }}
+        footer={null}
+        width={760}
+      >
+        {detailLoading ? (
+          <div style={{ textAlign: 'center', padding: 40 }}><Spin /></div>
+        ) : detailSummary && (
+          <>
+            <Row gutter={[12, 12]} style={{ marginBottom: 16 }}>
+              {[
+                { label: 'Apertura', value: detailSummary.openingAmount, color: '#595959' },
+                { label: 'Ventas', value: detailSummary.totalSales, color: '#1677ff' },
+                { label: 'Ingresos', value: detailSummary.totalIncome, color: '#52c41a' },
+                { label: 'Egresos', value: detailSummary.totalExpense, color: '#ff4d4f' },
+                { label: 'Esperado', value: detailSummary.expectedAmount, color: '#722ed1' },
+                { label: 'Contado', value: detailSummary.countedAmount ?? 0, color: '#13c2c2' },
+              ].map(({ label, value, color }) => (
+                <Col xs={12} sm={8} key={label}>
+                  <Card size="small">
+                    <Statistic title={label} value={value} prefix="$" precision={0} valueStyle={{ color, fontSize: 16 }} />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+            {detailSummary.countedAmount != null && (
+              <Alert
+                style={{ marginBottom: 12 }}
+                showIcon
+                type={
+                  (detailSummary.difference ?? 0) === 0
+                    ? 'success'
+                    : (detailSummary.difference ?? 0) > 0
+                      ? 'warning'
+                      : 'error'
+                }
+                message={
+                  <Text>
+                    Diferencia:{' '}
+                    <Text strong style={{ color: (detailSummary.difference ?? 0) >= 0 ? '#52c41a' : '#ff4d4f' }}>
+                      {(detailSummary.difference ?? 0) >= 0 ? '+' : ''}$
+                      {Math.round(detailSummary.difference ?? 0).toLocaleString('es-CL')}
+                    </Text>
+                    {(detailSummary.difference ?? 0) > 0 && ' (sobrante)'}
+                    {(detailSummary.difference ?? 0) < 0 && ' (faltante)'}
+                    {(detailSummary.difference ?? 0) === 0 && ' (cuadra exacto)'}
+                  </Text>
+                }
+              />
+            )}
+            <Descriptions size="small" column={2} bordered style={{ marginBottom: 16 }}>
+              <Descriptions.Item label="Apertura">{dayjs(detailSummary.openedAt).format('DD/MM/YYYY HH:mm')}</Descriptions.Item>
+              <Descriptions.Item label="Cierre">{detailSummary.closedAt ? dayjs(detailSummary.closedAt).format('DD/MM/YYYY HH:mm') : '—'}</Descriptions.Item>
+              <Descriptions.Item label="Cajero" span={2}>{detailSummary.cashierName}</Descriptions.Item>
+            </Descriptions>
+            <Table
+              rowKey="id"
+              dataSource={detailMovements}
+              size="small"
+              pagination={{ pageSize: 8, showSizeChanger: false }}
+              columns={[
+                {
+                  title: 'Tipo',
+                  dataIndex: 'movementType',
+                  width: 120,
+                  render: (v: CashMovement['movementType']) => (
+                    <Tag color={movementTypeColor[v]}>{movementTypeLabel[v]}</Tag>
+                  ),
+                },
+                { title: 'Descripción', dataIndex: 'description', ellipsis: true },
+                {
+                  title: 'Monto',
+                  dataIndex: 'amount',
+                  align: 'right' as const,
+                  width: 110,
+                  render: (v: number, r: CashMovement) => (
+                    <Text strong style={{ color: r.movementType === 'EGRESO' ? '#ff4d4f' : '#52c41a' }}>
+                      {r.movementType === 'EGRESO' ? '-' : '+'}${Math.round(v).toLocaleString('es-CL')}
+                    </Text>
+                  ),
+                },
+                {
+                  title: 'Hora',
+                  dataIndex: 'createdAt',
+                  width: 70,
+                  render: (v: string) => dayjs(v).format('HH:mm'),
+                },
+              ]}
+            />
+          </>
+        )}
+      </Modal>
 
       {/* Modal Cerrar Caja */}
       <Modal
@@ -503,7 +749,7 @@ const CashPage: React.FC = () => {
         okText="Confirmar Cierre"
         okButtonProps={{ danger: true, loading: closeSubmit }}
         cancelText="Cancelar"
-        destroyOnHidden
+        forceRender
       >
         <Form form={closeForm} layout="vertical">
           <Row gutter={16}>
@@ -558,6 +804,113 @@ const CashPage: React.FC = () => {
         </Form>
       </Modal>
     </div>
+  )
+}
+
+// ── Historial de Caja (sub-componente) ─────────────────────────────────────
+
+interface HistoryTabProps {
+  history: CashRegister[]
+  loading: boolean
+  total: number
+  page: number
+  onPageChange: (page: number) => void
+  onDetail: (reg: CashRegister) => void
+}
+
+const HistoryTab: React.FC<HistoryTabProps> = ({
+  history, loading, total, page, onPageChange, onDetail,
+}) => {
+  const columns: ColumnsType<CashRegister> = [
+    {
+      title: 'N° Caja',
+      dataIndex: 'registerNumber',
+      width: 80,
+      render: (v: number) => <Text strong>#{v}</Text>,
+    },
+    {
+      title: 'Cajero',
+      dataIndex: 'cashierName',
+      ellipsis: true,
+    },
+    {
+      title: 'Apertura',
+      dataIndex: 'openedAt',
+      width: 140,
+      render: (v: string) => dayjs(v).format('DD/MM/YYYY HH:mm'),
+    },
+    {
+      title: 'Cierre',
+      dataIndex: 'closedAt',
+      width: 140,
+      render: (v?: string) => v ? dayjs(v).format('DD/MM/YYYY HH:mm') : '—',
+    },
+    {
+      title: 'Apertura ($)',
+      dataIndex: 'openingAmount',
+      align: 'right',
+      width: 110,
+      render: (v: number) => `$${Math.round(v).toLocaleString('es-CL')}`,
+    },
+    {
+      title: 'Esperado ($)',
+      dataIndex: 'expectedClosingAmount',
+      align: 'right',
+      width: 110,
+      render: (v?: number) => v != null ? `$${Math.round(v).toLocaleString('es-CL')}` : '—',
+    },
+    {
+      title: 'Contado ($)',
+      dataIndex: 'countedAmount',
+      align: 'right',
+      width: 110,
+      render: (v?: number) => v != null ? `$${Math.round(v).toLocaleString('es-CL')}` : '—',
+    },
+    {
+      title: 'Diferencia',
+      dataIndex: 'differenceAmount',
+      align: 'right',
+      width: 100,
+      render: (v?: number) => {
+        if (v == null) return '—'
+        const color = v > 0 ? '#52c41a' : v < 0 ? '#ff4d4f' : '#595959'
+        return <Text strong style={{ color }}>{v >= 0 ? '+' : ''}${Math.round(v).toLocaleString('es-CL')}</Text>
+      },
+    },
+    {
+      title: 'Estado',
+      dataIndex: 'status',
+      width: 90,
+      render: (v: string) => <Tag color={v === 'OPEN' ? 'success' : 'default'}>{v === 'OPEN' ? 'Abierta' : 'Cerrada'}</Tag>,
+    },
+    {
+      title: '',
+      key: 'actions',
+      width: 60,
+      render: (_: unknown, record: CashRegister) => (
+        <Button size="small" icon={<EyeOutlined />} onClick={() => onDetail(record)} />
+      ),
+    },
+  ]
+
+  return (
+    <Card>
+      <Table
+        rowKey="id"
+        dataSource={history}
+        columns={columns}
+        loading={loading}
+        scroll={{ x: 900 }}
+        size="small"
+        pagination={{
+          current: page + 1,
+          pageSize: 15,
+          total,
+          showSizeChanger: false,
+          onChange: (p) => onPageChange(p - 1),
+        }}
+      />
+    </Card>
   )
 }
 

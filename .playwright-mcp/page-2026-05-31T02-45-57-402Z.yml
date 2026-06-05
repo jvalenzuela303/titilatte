@@ -1,0 +1,119 @@
+- generic [ref=e66]:
+  - complementary [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e69] [cursor=pointer]:
+        - img "shop" [ref=e70]:
+          - img [ref=e71]
+        - strong [ref=e74]: Minimarket
+      - menu [ref=e75]:
+        - menuitem "dashboard Dashboard" [ref=e76] [cursor=pointer]:
+          - img "dashboard" [ref=e77]:
+            - img [ref=e78]
+          - generic [ref=e80]: Dashboard
+        - menuitem "shopping-cart POS - Ventas" [ref=e81] [cursor=pointer]:
+          - img "shopping-cart" [ref=e82]:
+            - img [ref=e83]
+          - generic [ref=e85]: POS - Ventas
+        - menuitem "appstore Productos" [ref=e86] [cursor=pointer]:
+          - img "appstore" [ref=e87]:
+            - img [ref=e88]
+          - generic [ref=e90]: Productos
+        - menuitem "inbox Stock" [ref=e91] [cursor=pointer]:
+          - img "inbox" [ref=e92]:
+            - img [ref=e93]
+          - generic [ref=e95]: Stock
+        - menuitem "shopping Compras" [ref=e96] [cursor=pointer]:
+          - img "shopping" [ref=e97]:
+            - img [ref=e98]
+          - generic [ref=e100]: Compras
+        - menuitem "wallet Caja" [ref=e101] [cursor=pointer]:
+          - img "wallet" [ref=e102]:
+            - img [ref=e103]
+          - generic [ref=e105]: Caja
+        - menuitem "team Clientes" [ref=e106] [cursor=pointer]:
+          - img "team" [ref=e107]:
+            - img [ref=e108]
+          - generic [ref=e110]: Clientes
+        - menuitem "bar-chart Reportes" [ref=e111] [cursor=pointer]:
+          - img "bar-chart" [ref=e112]:
+            - img [ref=e113]
+          - generic [ref=e115]: Reportes
+        - menuitem "apartment Sucursales" [ref=e116] [cursor=pointer]:
+          - img "apartment" [ref=e117]:
+            - img [ref=e118]
+          - generic [ref=e120]: Sucursales
+        - menuitem "audit Auditoria" [ref=e121] [cursor=pointer]:
+          - img "audit" [ref=e122]:
+            - img [ref=e123]
+          - generic [ref=e125]: Auditoria
+  - generic [ref=e126]:
+    - banner [ref=e127]:
+      - button "Toggle menu" [ref=e128] [cursor=pointer]:
+        - img "menu-fold" [ref=e130]:
+          - img [ref=e131]
+      - generic [ref=e133]:
+        - generic [ref=e134]:
+          - img "apartment" [ref=e135]:
+            - img [ref=e136]
+          - generic [ref=e138]: "Sucursal:"
+          - generic "Seleccionar sucursal activa" [ref=e139] [cursor=pointer]:
+            - generic [ref=e141]:
+              - combobox "Seleccionar sucursal activa" [ref=e143]
+              - generic: Todas
+            - generic:
+              - img:
+                - img
+        - generic [ref=e144]: Administrador
+        - button "user Administrador" [ref=e145] [cursor=pointer]:
+          - img "user" [ref=e147]:
+            - img [ref=e148]
+          - generic [ref=e150]: Administrador
+    - main [ref=e151]:
+      - generic [ref=e152]:
+        - generic [ref=e153]:
+          - navigation [ref=e154]:
+            - list [ref=e155]:
+              - listitem [ref=e156]: Inicio
+              - listitem [ref=e157]: /
+              - listitem [ref=e158]: Stock
+          - generic [ref=e159]:
+            - generic [ref=e160]:
+              - heading "Control de Stock" [level=3] [ref=e162]
+              - generic [ref=e163]: Monitorea inventario y registra ajustes
+            - button "plus Ajuste de Stock" [ref=e165] [cursor=pointer]:
+              - img "plus" [ref=e167]:
+                - img [ref=e168]
+              - generic [ref=e171]: Ajuste de Stock
+        - generic [ref=e172]:
+          - generic [ref=e176]:
+            - generic [ref=e177]: Stock OK
+            - generic [ref=e179]: "36"
+          - generic [ref=e183]:
+            - generic [ref=e184]: Stock Bajo
+            - generic [ref=e186]: "0"
+          - generic [ref=e190]:
+            - generic [ref=e191]: Stock Crítico (agotado)
+            - generic [ref=e193]: "0"
+        - generic [ref=e196]:
+          - tablist [ref=e197]:
+            - generic [ref=e199]:
+              - tab "Inventario actual" [ref=e201] [cursor=pointer]
+              - tab "Historial de movimientos" [active] [selected] [ref=e203] [cursor=pointer]
+          - tabpanel "Historial de movimientos" [ref=e535]:
+            - table [ref=e542]:
+              - rowgroup [ref=e552]:
+                - row "Fecha Producto Tipo Cantidad Stock Anterior Stock Nuevo Notas Usuario" [ref=e553]:
+                  - columnheader "Fecha" [ref=e554]
+                  - columnheader "Producto" [ref=e555]
+                  - columnheader "Tipo" [ref=e556]
+                  - columnheader "Cantidad" [ref=e557]
+                  - columnheader "Stock Anterior" [ref=e558]
+                  - columnheader "Stock Nuevo" [ref=e559]
+                  - columnheader "Notas" [ref=e560]
+                  - columnheader "Usuario" [ref=e561]
+              - rowgroup [ref=e562]:
+                - row "No hay datos No hay datos" [ref=e563]:
+                  - cell "No hay datos No hay datos" [ref=e564]:
+                    - generic [ref=e566]:
+                      - img "No hay datos" [ref=e568]
+                      - generic [ref=e574]: No hay datos

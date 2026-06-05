@@ -1,0 +1,85 @@
+- generic [active] [ref=e1]:
+  - link "Saltar al contenido" [ref=e2] [cursor=pointer]:
+    - /url: "#wp--skip-link--target"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e7]:
+        - paragraph [ref=e8]:
+          - link "Le Coq Wines" [ref=e9] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl
+        - navigation [ref=e11]:
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Inicio" [ref=e18] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/
+            - listitem [ref=e19]:
+              - link "Tienda" [ref=e20] [cursor=pointer]:
+                - /url: /#tienda
+            - listitem [ref=e21]:
+              - link "Quienes Somos" [ref=e22] [cursor=pointer]:
+                - /url: "#quienessomos"
+            - listitem [ref=e23]:
+              - link "Contacto" [ref=e24] [cursor=pointer]:
+                - /url: "#contacto"
+            - listitem [ref=e25]:
+              - link "Redes Sociales" [ref=e26] [cursor=pointer]:
+                - /url: /#redessociales
+            - listitem [ref=e27]:
+              - link "Mi cuenta" [ref=e28] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/mi-cuenta/
+    - main [ref=e29]:
+      - generic [ref=e31]:
+        - figure [ref=e33]:
+          - img "Pequeña totara en la cresta sobre Long Point" [ref=e34]
+        - generic [ref=e36]:
+          - heading "No se encontró la página" [level=1] [ref=e37]
+          - paragraph [ref=e38]: La página que buscas no existe o se ha movido. Intenta buscarla utilizando el siguiente formulario.
+          - search [ref=e39]:
+            - generic [ref=e40]: Buscar
+            - generic [ref=e41]:
+              - searchbox "Buscar" [ref=e42]
+              - button "Buscar" [ref=e43] [cursor=pointer]
+    - contentinfo [ref=e44]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e49]:
+            - heading "Le Coq Wines" [level=2] [ref=e50]:
+              - link "Le Coq Wines" [ref=e51] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl
+            - paragraph [ref=e52]: La mejor experiencia en una botella
+          - generic [ref=e53]:
+            - navigation "2" [ref=e54]:
+              - list [ref=e55]:
+                - listitem [ref=e56]:
+                  - link "Blog" [ref=e57] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e58]:
+                  - link "Acerca de" [ref=e59] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e60]:
+                  - link "FAQs" [ref=e61] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e62]:
+                  - link "Autores" [ref=e63] [cursor=pointer]:
+                    - /url: "#"
+            - navigation "3" [ref=e64]:
+              - list [ref=e65]:
+                - listitem [ref=e66]:
+                  - link "Eventos" [ref=e67] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e68]:
+                  - link "Tienda" [ref=e69] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e70]:
+                  - link "Patrones" [ref=e71] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e72]:
+                  - link "Temas" [ref=e73] [cursor=pointer]:
+                    - /url: "#"
+        - generic [ref=e75]:
+          - paragraph [ref=e76]: Twenty Twenty-Five
+          - paragraph [ref=e77]:
+            - text: Diseñado con
+            - link "WordPress" [ref=e78] [cursor=pointer]:
+              - /url: https://es.wordpress.org
+  - status [ref=e79]

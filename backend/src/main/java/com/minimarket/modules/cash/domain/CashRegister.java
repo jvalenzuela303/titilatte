@@ -3,8 +3,10 @@ package com.minimarket.modules.cash.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.generator.EventType;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
@@ -25,11 +27,15 @@ public class CashRegister {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Generated(event = EventType.INSERT)
     @Column(name = "register_number", insertable = false, updatable = false)
     private Long registerNumber;
 
     @Column(name = "cashier_id", nullable = false)
     private UUID cashierId;
+
+    @Column(name = "branch_id", nullable = false)
+    private UUID branchId;
 
     @Column(name = "opening_amount", nullable = false, precision = 12, scale = 2)
     private BigDecimal openingAmount;
@@ -40,7 +46,8 @@ public class CashRegister {
     @Column(name = "counted_amount", precision = 12, scale = 2)
     private BigDecimal countedAmount;
 
-    // differenceAmount is GENERATED in DB — read-only
+    // differenceAmount is GENERATED ALWAYS AS (...) STORED in DB — Hibernate must re-read after write
+    @Generated(event = {EventType.INSERT, EventType.UPDATE})
     @Column(name = "difference_amount", insertable = false, updatable = false, precision = 12, scale = 2)
     private BigDecimal differenceAmount;
 

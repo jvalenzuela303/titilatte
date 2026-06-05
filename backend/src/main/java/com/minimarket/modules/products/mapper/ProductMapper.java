@@ -19,6 +19,7 @@ public class ProductMapper {
                 product.getStockMinimum(),
                 product.getStockMaximum(),
                 product.isActive(),
+                product.isTrackStock(),
                 new ProductResponse.CategoryDto(
                         product.getCategory().getId(),
                         product.getCategory().getCode(),

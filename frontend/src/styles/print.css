@@ -1,0 +1,47 @@
+/* ──────────────────────────────────────────────
+   Thermal receipt print styles
+   Target: 80mm paper (POS printer)
+   ────────────────────────────────────────────── */
+
+/* Hidden from screen — only appears on print */
+#receipt-print {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 4mm 4mm;
+  }
+
+  /*
+   * visibility: hidden en todo el árbol.
+   * A diferencia de display:none, los descendientes PUEDEN sobreescribir
+   * con visibility:visible — funciona sin importar qué tan anidado esté #receipt-print.
+   */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Mostrar solo la boleta y todo su contenido */
+  #receipt-print,
+  #receipt-print * {
+    visibility: visible !important;
+  }
+
+  #receipt-print {
+    display: block !important;
+    position: static;
+    width: 72mm;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  html {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -30,6 +30,9 @@ public class StockMovement {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(name = "branch_id", nullable = false)
+    private UUID branchId;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "movement_type", nullable = false,

@@ -1,0 +1,123 @@
+- generic [ref=e12]:
+  - complementary [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15] [cursor=pointer]:
+        - img "shop" [ref=e16]:
+          - img [ref=e17]
+        - strong [ref=e20]: Minimarket
+      - menu [ref=e21]:
+        - menuitem "dashboard Dashboard" [ref=e22] [cursor=pointer]:
+          - img "dashboard" [ref=e23]:
+            - img [ref=e24]
+          - generic [ref=e26]: Dashboard
+        - menuitem "shopping-cart POS - Ventas" [ref=e27] [cursor=pointer]:
+          - img "shopping-cart" [ref=e28]:
+            - img [ref=e29]
+          - generic [ref=e31]: POS - Ventas
+        - menuitem "appstore Productos" [ref=e32] [cursor=pointer]:
+          - img "appstore" [ref=e33]:
+            - img [ref=e34]
+          - generic [ref=e36]: Productos
+        - menuitem "inbox Stock" [ref=e37] [cursor=pointer]:
+          - img "inbox" [ref=e38]:
+            - img [ref=e39]
+          - generic [ref=e41]: Stock
+        - menuitem "shopping Compras" [ref=e42] [cursor=pointer]:
+          - img "shopping" [ref=e43]:
+            - img [ref=e44]
+          - generic [ref=e46]: Compras
+        - menuitem "wallet Caja" [ref=e47] [cursor=pointer]:
+          - img "wallet" [ref=e48]:
+            - img [ref=e49]
+          - generic [ref=e51]: Caja
+        - menuitem "team Clientes" [ref=e52] [cursor=pointer]:
+          - img "team" [ref=e53]:
+            - img [ref=e54]
+          - generic [ref=e56]: Clientes
+        - menuitem "bar-chart Reportes" [ref=e57] [cursor=pointer]:
+          - img "bar-chart" [ref=e58]:
+            - img [ref=e59]
+          - generic [ref=e61]: Reportes
+        - menuitem "apartment Sucursales" [ref=e62] [cursor=pointer]:
+          - img "apartment" [ref=e63]:
+            - img [ref=e64]
+          - generic [ref=e66]: Sucursales
+        - menuitem "tag Promociones" [ref=e67] [cursor=pointer]:
+          - img "tag" [ref=e68]:
+            - img [ref=e69]
+          - generic [ref=e71]: Promociones
+        - menuitem "bell Alertas" [ref=e72] [cursor=pointer]:
+          - img "bell" [ref=e73]:
+            - img [ref=e74]
+          - generic [ref=e76]: Alertas
+        - menuitem "calendar Cierre Período" [ref=e77] [cursor=pointer]:
+          - img "calendar" [ref=e78]:
+            - img [ref=e79]
+          - generic [ref=e81]: Cierre Período
+        - menuitem "audit Auditoria" [ref=e82] [cursor=pointer]:
+          - img "audit" [ref=e83]:
+            - img [ref=e84]
+          - generic [ref=e86]: Auditoria
+  - generic [ref=e87]:
+    - banner [ref=e88]:
+      - button "Toggle menu" [ref=e89] [cursor=pointer]:
+        - img "menu-fold" [ref=e91]:
+          - img [ref=e92]
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - img "apartment" [ref=e96]:
+            - img [ref=e97]
+          - generic [ref=e99]: "Sucursal:"
+          - generic "Seleccionar sucursal activa" [ref=e100] [cursor=pointer]:
+            - generic [ref=e102]:
+              - combobox "Seleccionar sucursal activa" [ref=e104]
+              - generic: Todas
+            - generic:
+              - img:
+                - img
+        - generic [ref=e105]: Administrador
+        - button "user Administrador" [ref=e106] [cursor=pointer]:
+          - img "user" [ref=e108]:
+            - img [ref=e109]
+          - generic [ref=e111]: Administrador
+    - main [ref=e112]:
+      - generic [ref=e113]:
+        - generic [ref=e114]:
+          - navigation [ref=e115]:
+            - list [ref=e116]:
+              - listitem [ref=e117]: Inicio
+              - listitem [ref=e118]: /
+              - listitem [ref=e119]: Cierre Período
+          - generic [ref=e121]:
+            - heading "Cierre de Período" [level=3] [ref=e123]
+            - generic [ref=e124]: Gestiona los cierres mensuales y compara el rendimiento financiero
+        - generic [ref=e127]:
+          - tablist [ref=e128]:
+            - generic [ref=e130]:
+              - tab "Períodos cerrados" [ref=e132] [cursor=pointer]
+              - tab "Nuevo cierre" [active] [selected] [ref=e134] [cursor=pointer]
+              - tab "Comparación mensual" [ref=e136] [cursor=pointer]
+          - tabpanel "Nuevo cierre" [ref=e139]:
+            - generic [ref=e141]:
+              - generic [ref=e142]:
+                - strong [ref=e144]: "Año:"
+                - generic [ref=e145] [cursor=pointer]:
+                  - generic [ref=e147]:
+                    - combobox [ref=e149]
+                    - generic "2026" [ref=e150]
+                  - generic:
+                    - img:
+                      - img
+              - generic [ref=e151]:
+                - strong [ref=e153]: "Mes:"
+                - generic [ref=e154] [cursor=pointer]:
+                  - generic [ref=e156]:
+                    - combobox [ref=e158]
+                    - generic "Mayo" [ref=e159]
+                  - generic:
+                    - img:
+                      - img
+              - button "eye Vista previa" [ref=e161] [cursor=pointer]:
+                - img "eye" [ref=e163]:
+                  - img [ref=e164]
+                - generic [ref=e166]: Vista previa

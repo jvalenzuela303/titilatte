@@ -119,6 +119,7 @@ class ProductServiceTest {
                 BigDecimal.ZERO,
                 null,
                 true,
+                true,
                 new ProductResponse.CategoryDto(categoryId, "BEBIDAS", "Bebidas"),
                 new ProductResponse.TaxDto(taxId, "IVA19", "IVA 19%", new BigDecimal("0.1900")),
                 new ProductResponse.UnitDto(unitId, "UND", "Unidad", "und"),
@@ -144,7 +145,8 @@ class ProductServiceTest {
                     new BigDecimal("100.00"),
                     categoryId,
                     taxId,
-                    unitId
+                    unitId,
+                    null
             );
         }
 
@@ -199,7 +201,7 @@ class ProductServiceTest {
                     new BigDecimal("800.00"),
                     BigDecimal.ZERO,
                     null,
-                    categoryId, taxId, unitId
+                    categoryId, taxId, unitId, null
             );
             when(productRepository.findByBarcodeAndDeletedAtIsNull("1234567890123"))
                     .thenReturn(Optional.of(existingProduct));
@@ -224,7 +226,7 @@ class ProductServiceTest {
                     new BigDecimal("500.00"),  // sale < purchase
                     BigDecimal.ZERO,
                     null,
-                    categoryId, taxId, unitId
+                    categoryId, taxId, unitId, null
             );
             when(productRepository.findByBarcodeAndDeletedAtIsNull("8888888888888"))
                     .thenReturn(Optional.empty());
@@ -250,7 +252,7 @@ class ProductServiceTest {
             // Arrange
             UUID nonExistentId = UUID.randomUUID();
             UpdateProductRequest request = new UpdateProductRequest(
-                    null, "Nuevo nombre", null, null, null, null, null, null, null, null, null);
+                    null, "Nuevo nombre", null, null, null, null, null, null, null, null, null, null);
             when(productRepository.findByIdAndDeletedAtIsNull(nonExistentId))
                     .thenReturn(Optional.empty());
 
@@ -277,7 +279,7 @@ class ProductServiceTest {
 
             UpdateProductRequest request = new UpdateProductRequest(
                     "0000000000001",  // barcode ya usado por anotherProduct
-                    null, null, null, null, null, null, null, null, null, null);
+                    null, null, null, null, null, null, null, null, null, null, null);
 
             when(productRepository.findByIdAndDeletedAtIsNull(productId))
                     .thenReturn(Optional.of(existingProduct));
@@ -297,7 +299,7 @@ class ProductServiceTest {
             UpdateProductRequest request = new UpdateProductRequest(
                     null, "Agua 1L", null,
                     new BigDecimal("600.00"), new BigDecimal("900.00"),
-                    null, null, null, null, null, null);
+                    null, null, null, null, null, null, null);
 
             when(productRepository.findByIdAndDeletedAtIsNull(productId))
                     .thenReturn(Optional.of(existingProduct));

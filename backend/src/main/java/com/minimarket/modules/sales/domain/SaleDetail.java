@@ -46,4 +46,7 @@ public class SaleDetail {
 
     @Column(name = "tax_amount", nullable = false, precision = 12, scale = 4)
     private BigDecimal taxAmount;
+
+    @Column(name = "applied_promotion_id")
+    private UUID appliedPromotionId;
 }

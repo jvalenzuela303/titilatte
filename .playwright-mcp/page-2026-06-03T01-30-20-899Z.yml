@@ -1,0 +1,114 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation "Barra de herramientas":
+      - menu:
+        - group [ref=e3]:
+          - menuitem "Acerca de WordPress" [ref=e4] [cursor=pointer]:
+            - generic [ref=e6]: Acerca de WordPress
+        - group [ref=e7]:
+          - menuitem "Le Coq Wines" [ref=e8] [cursor=pointer]
+        - group [ref=e9]:
+          - menuitem "Visible" [ref=e10] [cursor=pointer]
+        - group [ref=e11]:
+          - menuitem "Editar el sitio" [ref=e12] [cursor=pointer]
+        - group [ref=e13]:
+          - menuitem "0 comentarios en moderación" [ref=e14] [cursor=pointer]:
+            - generic [ref=e16]: "0"
+            - generic [ref=e17]: 0 comentarios en moderación
+        - group [ref=e18]:
+          - menuitem "Añadir" [ref=e19] [cursor=pointer]:
+            - generic [ref=e21]: Añadir
+        - group [ref=e22]:
+          - menuitem "Editar la página" [ref=e23] [cursor=pointer]
+      - menu [ref=e24]:
+        - group [ref=e25]:
+          - menuitem "Hola, Juan Pablo" [ref=e26] [cursor=pointer]
+        - group [ref=e27]:
+          - menuitem "Buscar" [ref=e28]:
+            - generic [ref=e29]:
+              - textbox "Buscar" [ref=e30] [cursor=pointer]
+              - generic [ref=e31]: Buscar
+  - link "Saltar al contenido" [ref=e32] [cursor=pointer]:
+    - /url: "#wp--skip-link--target"
+  - generic [ref=e33]:
+    - banner [ref=e34]:
+      - generic [ref=e37]:
+        - paragraph [ref=e38]:
+          - link "Le Coq Wines" [ref=e39] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl
+        - navigation [ref=e41]:
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Inicio" [ref=e48] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/
+            - listitem [ref=e49]:
+              - link "Tienda" [ref=e50] [cursor=pointer]:
+                - /url: /#tienda
+            - listitem [ref=e51]:
+              - link "Quienes Somos" [ref=e52] [cursor=pointer]:
+                - /url: "#quienessomos"
+            - listitem [ref=e53]:
+              - link "Contacto" [ref=e54] [cursor=pointer]:
+                - /url: "#contacto"
+            - listitem [ref=e55]:
+              - link "Redes Sociales" [ref=e56] [cursor=pointer]:
+                - /url: /#redessociales
+            - listitem [ref=e57]:
+              - link "Mi cuenta" [ref=e58] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/mi-cuenta/
+    - main [ref=e59]:
+      - heading "Carrito" [level=1] [ref=e60]
+      - generic [ref=e61]:
+        - text: "[et_pb_section fb_built=»1″ admin_label=»section» _builder_version=»3.22″][et_pb_row admin_label=»row» _builder_version=»3.25″ background_size=»initial» background_position=»top_left» background_repeat=»repeat»][et_pb_column type=»4_4″ _builder_version=»3.25″ custom_padding=»|||» custom_padding__hover=»|||»][et_pb_text admin_label=»Text» _builder_version=»3.27.4″ background_size=»initial» background_position=»top_left» background_repeat=»repeat»]"
+        - generic [ref=e62]:
+          - status [ref=e64]:
+            - img [ref=e65]
+            - generic [ref=e67]: Tu carrito está vacío.
+          - paragraph [ref=e68]:
+            - link "Volver a la tienda" [ref=e69] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/tienda/
+        - text: "[/et_pb_text][/et_pb_column][/et_pb_row][/et_pb_section]"
+    - contentinfo [ref=e70]:
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - generic [ref=e75]:
+            - heading "Le Coq Wines" [level=2] [ref=e76]:
+              - link "Le Coq Wines" [ref=e77] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl
+            - paragraph [ref=e78]: La mejor experiencia en una botella
+          - generic [ref=e79]:
+            - navigation "2" [ref=e80]:
+              - list [ref=e81]:
+                - listitem [ref=e82]:
+                  - link "Blog" [ref=e83] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e84]:
+                  - link "Acerca de" [ref=e85] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e86]:
+                  - link "FAQs" [ref=e87] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e88]:
+                  - link "Autores" [ref=e89] [cursor=pointer]:
+                    - /url: "#"
+            - navigation "3" [ref=e90]:
+              - list [ref=e91]:
+                - listitem [ref=e92]:
+                  - link "Eventos" [ref=e93] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e94]:
+                  - link "Tienda" [ref=e95] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e96]:
+                  - link "Patrones" [ref=e97] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e98]:
+                  - link "Temas" [ref=e99] [cursor=pointer]:
+                    - /url: "#"
+        - generic [ref=e101]:
+          - paragraph [ref=e102]: Twenty Twenty-Five
+          - paragraph [ref=e103]:
+            - text: Diseñado con
+            - link "WordPress" [ref=e104] [cursor=pointer]:
+              - /url: https://es.wordpress.org
+  - status [ref=e105]

@@ -225,6 +225,7 @@ public class ReportServiceImpl implements ReportService {
                 JOIN product_categories pc ON pc.id = p.category_id
                 WHERE p.deleted_at IS NULL
                   AND p.is_active = true
+                  AND p.track_stock = true
                   AND p.stock_current <= p.stock_minimum
                 ORDER BY (p.stock_current - p.stock_minimum) ASC
                 """);

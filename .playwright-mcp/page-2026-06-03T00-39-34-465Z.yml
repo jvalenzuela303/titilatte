@@ -1,0 +1,5 @@
+- generic [ref=e2]:
+  - paragraph [ref=e3]: Ha habido un error crítico en esta web.
+  - paragraph [ref=e4]:
+    - link "Aprende más sobre el diagnóstico de WordPress." [ref=e5] [cursor=pointer]:
+      - /url: https://wordpress.org/documentation/article/faq-troubleshooting/

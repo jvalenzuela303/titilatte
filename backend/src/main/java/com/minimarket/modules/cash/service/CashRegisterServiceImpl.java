@@ -44,14 +44,22 @@ public class CashRegisterServiceImpl implements CashRegisterService {
     @Override
     @Transactional
     public CashRegisterResponse openCash(UUID userId, OpenCashRequest request) {
-        // Verify no existing OPEN register for this cashier
-        cashRegisterRepository.findByCashierIdAndStatus(userId, CashStatus.OPEN)
+        User cashier = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+
+        UUID branchId = cashier.getBranchId() != null
+                ? cashier.getBranchId()
+                : UUID.fromString("00000000-0000-0000-0000-000000000001");
+
+        // Verify no existing OPEN register for this branch (one register per branch at a time)
+        cashRegisterRepository.findByBranchIdAndStatus(branchId, CashStatus.OPEN)
                 .ifPresent(existing -> {
                     throw new CashRegisterAlreadyOpenException();
                 });
 
         CashRegister register = CashRegister.builder()
                 .cashierId(userId)
+                .branchId(branchId)
                 .openingAmount(request.openingAmount())
                 .status(CashStatus.OPEN)
                 .openedAt(OffsetDateTime.now())

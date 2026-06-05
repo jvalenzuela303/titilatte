@@ -408,7 +408,7 @@ const CustomersPage: React.FC = () => {
         okText={editingCustomer ? 'Guardar Cambios' : 'Crear Cliente'}
         cancelText="Cancelar"
         confirmLoading={customerSubmitting}
-        destroyOnHidden
+        forceRender
       >
         <Form form={customerForm} layout="vertical">
           <Row gutter={16}>
@@ -466,7 +466,7 @@ const CustomersPage: React.FC = () => {
         okText="Registrar Pago"
         cancelText="Cancelar"
         confirmLoading={paymentSubmitting}
-        destroyOnHidden
+        forceRender
       >
         {paymentTarget && (
           <>
@@ -542,7 +542,7 @@ const CustomersPage: React.FC = () => {
         okText="Actualizar Límite"
         cancelText="Cancelar"
         confirmLoading={creditLimitSubmitting}
-        destroyOnHidden
+        forceRender
       >
         {creditLimitTarget && (
           <>

@@ -12,14 +12,10 @@ interface AuthState {
   isAuthenticated: boolean
   isLoading: boolean
   error: string | null
-  /** Active branch selected by a global ADMIN (branchId === null on the User).
-   *  Null means no specific branch is selected (viewing all). */
-  activeBranchId: string | null
   login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
   setTokens: (accessToken: string, refreshToken: string) => void
   clearAuth: () => void
-  setActiveBranchId: (branchId: string | null) => void
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -31,7 +27,6 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
       error: null,
-      activeBranchId: null,
 
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null })
@@ -41,16 +36,25 @@ export const useAuthStore = create<AuthState>()(
             { email, password },
             { headers: { 'Content-Type': 'application/json' } }
           )
-          const { accessToken, refreshToken, user } = response.data
+          const data = response.data
+
+          // Map flat backend response to frontend User shape
+          const user: User = {
+            id: data.userId,
+            email: data.email,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            roles: data.roles.map((name) => ({ id: name, name })),
+          }
 
           // Persist tokens in localStorage for axios interceptor access
-          localStorage.setItem('access_token', accessToken)
-          localStorage.setItem('refresh_token', refreshToken)
+          localStorage.setItem('access_token', data.accessToken)
+          localStorage.setItem('refresh_token', data.refreshToken)
 
           set({
             user,
-            accessToken,
-            refreshToken,
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -93,7 +97,6 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: false,
           error: null,
           isLoading: false,
-          activeBranchId: null,
         })
       },
 
@@ -113,12 +116,7 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: false,
           error: null,
           isLoading: false,
-          activeBranchId: null,
         })
-      },
-
-      setActiveBranchId: (branchId: string | null) => {
-        set({ activeBranchId: branchId })
       },
     }),
     {

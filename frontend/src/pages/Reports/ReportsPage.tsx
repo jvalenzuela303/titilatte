@@ -733,7 +733,6 @@ const ReportsPage: React.FC = () => {
           { key: 'sales', label: 'Ventas', children: <SalesTab /> },
           { key: 'profit', label: 'Utilidades', children: <ProfitTab /> },
           { key: 'topProducts', label: 'Top Productos', children: <TopProductsTab /> },
-          { key: 'debtors', label: 'Deudores', children: <DebtorsTab /> },
           { key: 'stockCritical', label: 'Stock Crítico', children: <StockCriticalTab /> },
         ]}
       />

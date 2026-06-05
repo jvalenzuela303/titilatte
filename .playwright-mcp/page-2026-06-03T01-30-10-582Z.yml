@@ -1,0 +1,299 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation "Barra de herramientas":
+      - menu:
+        - group [ref=e3]:
+          - menuitem "Acerca de WordPress" [ref=e4] [cursor=pointer]:
+            - generic [ref=e6]: Acerca de WordPress
+        - group [ref=e7]:
+          - menuitem "Le Coq Wines" [ref=e8] [cursor=pointer]
+        - group [ref=e9]:
+          - menuitem "Visible" [ref=e10] [cursor=pointer]
+        - group [ref=e11]:
+          - menuitem "Editar el sitio" [ref=e12] [cursor=pointer]
+        - group [ref=e13]:
+          - menuitem "0 comentarios en moderación" [ref=e14] [cursor=pointer]:
+            - generic [ref=e16]: "0"
+            - generic [ref=e17]: 0 comentarios en moderación
+        - group [ref=e18]:
+          - menuitem "Añadir" [ref=e19] [cursor=pointer]:
+            - generic [ref=e21]: Añadir
+      - menu [ref=e22]:
+        - group [ref=e23]:
+          - menuitem "Hola, Juan Pablo" [ref=e24] [cursor=pointer]
+        - group [ref=e25]:
+          - menuitem "Buscar" [ref=e26]:
+            - generic [ref=e27]:
+              - textbox "Buscar" [ref=e28] [cursor=pointer]
+              - generic [ref=e29]: Buscar
+  - link "Saltar al contenido" [ref=e30] [cursor=pointer]:
+    - /url: "#wp--skip-link--target"
+  - generic [ref=e31]:
+    - banner [ref=e32]:
+      - generic [ref=e35]:
+        - paragraph [ref=e36]:
+          - link "Le Coq Wines" [ref=e37] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl
+        - navigation [ref=e39]:
+          - list [ref=e44]:
+            - listitem [ref=e45]:
+              - link "Inicio" [ref=e46] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/
+            - listitem [ref=e47]:
+              - link "Tienda" [ref=e48] [cursor=pointer]:
+                - /url: /#tienda
+            - listitem [ref=e49]:
+              - link "Quienes Somos" [ref=e50] [cursor=pointer]:
+                - /url: "#quienessomos"
+            - listitem [ref=e51]:
+              - link "Contacto" [ref=e52] [cursor=pointer]:
+                - /url: "#contacto"
+            - listitem [ref=e53]:
+              - link "Redes Sociales" [ref=e54] [cursor=pointer]:
+                - /url: /#redessociales
+            - listitem [ref=e55]:
+              - link "Mi cuenta" [ref=e56] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/mi-cuenta/
+    - main [ref=e57]:
+      - navigation "Breadcrumb" [ref=e59]:
+        - link "Inicio" [ref=e60] [cursor=pointer]:
+          - /url: https://www.lecoqwines.cl
+        - text: / Tienda
+      - heading "Tienda" [level=1] [ref=e61]
+      - generic [ref=e62]:
+        - status [ref=e64]: Mostrando 1–16 de 37 resultados
+        - combobox "Pedido de la tienda" [ref=e67]:
+          - option "Orden predeterminado" [selected]
+          - option "Ordenar por popularidad"
+          - option "Ordenar por puntuación media"
+          - option "Ordenar por los últimos"
+          - 'option "Ordenar por precio: bajo a alto"'
+          - 'option "Ordenar por precio: alto a bajo"'
+      - generic [ref=e68]:
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - link "Mystique Syrah 2021 - Valle del Elqui" [ref=e72] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/mystique-syrah-2021-valle-del-elqui/
+              - img "Mystique Syrah 2021 - Valle del Elqui" [ref=e73]
+            - heading "Mystique Syrah 2021 – Valle del Elqui" [level=2] [ref=e75]:
+              - link "Mystique Syrah 2021 – Valle del Elqui" [ref=e76] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/mystique-syrah-2021-valle-del-elqui/
+            - generic [ref=e80]: $22.500
+            - 'button "Añadir al carrito: “Mystique Syrah 2021 - Valle del Elqui”" [ref=e82] [cursor=pointer]':
+              - generic [ref=e83]: Añadir al carrito
+          - listitem [ref=e84]:
+            - link "Smooth Breeze Moscatel de Alejandría 2023" [ref=e86] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/smooth-breeze-moscatel-de-alejandria-2023/
+              - img "Smooth Breeze Moscatel de Alejandría 2023" [ref=e87]
+            - heading "Smooth Breeze Moscatel de Alejandría 2023" [level=2] [ref=e89]:
+              - link "Smooth Breeze Moscatel de Alejandría 2023" [ref=e90] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/smooth-breeze-moscatel-de-alejandria-2023/
+            - generic [ref=e94]: $10.490
+            - 'button "Añadir al carrito: “Smooth Breeze Moscatel de Alejandría 2023”" [ref=e96] [cursor=pointer]':
+              - generic [ref=e97]: Añadir al carrito
+          - listitem [ref=e98]:
+            - link "LE COQ Family Selection 2022 New Edition" [ref=e100] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/le-coq-gran-reserva-family-selection/
+              - img "LE COQ Family Selection 2022 New Edition" [ref=e101]
+            - heading "LE COQ Family Selection 2022 New Edition" [level=2] [ref=e103]:
+              - link "LE COQ Family Selection 2022 New Edition" [ref=e104] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/le-coq-gran-reserva-family-selection/
+            - generic [ref=e108]: $18.000
+            - 'button "Añadir al carrito: “LE COQ Family Selection 2022 New Edition”" [ref=e110] [cursor=pointer]':
+              - generic [ref=e111]: Añadir al carrito
+          - listitem [ref=e112]:
+            - link "CAJA 6 Unidades - LE COQ Gran Reserva Family Selection 2021" [ref=e114] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/pack-06-le-coq-gran-reserva-family-selection-2019/
+              - img "CAJA 6 Unidades - LE COQ Gran Reserva Family Selection 2021" [ref=e115]
+            - heading "CAJA 6 Unidades – LE COQ Gran Reserva Family Selection 2021" [level=2] [ref=e117]:
+              - link "CAJA 6 Unidades – LE COQ Gran Reserva Family Selection 2021" [ref=e118] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/pack-06-le-coq-gran-reserva-family-selection-2019/
+            - generic [ref=e122]: $95.100
+            - 'button "Añadir al carrito: “CAJA 6 Unidades - LE COQ Gran Reserva Family Selection 2021”" [ref=e124] [cursor=pointer]':
+              - generic [ref=e125]: Añadir al carrito
+          - listitem [ref=e126]:
+            - link "Set 04 Copas SPIEGELAU Winelovers Bordeaux" [ref=e128] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-copas-riedel/
+              - img "Set 04 Copas SPIEGELAU Winelovers Bordeaux" [ref=e129]
+            - heading "Set 04 Copas SPIEGELAU Winelovers Bordeaux" [level=2] [ref=e131]:
+              - link "Set 04 Copas SPIEGELAU Winelovers Bordeaux" [ref=e132] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/set-copas-riedel/
+            - generic [ref=e136]: $21.990
+            - link "Lee más sobre “Set 04 Copas SPIEGELAU Winelovers Bordeaux”" [ref=e138] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-copas-riedel/
+              - generic [ref=e139]: Leer más
+          - listitem [ref=e140]:
+            - link "Set 04 Copas SPIEGELAU Winelovers White Wine" [ref=e142] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/valvulas-de-vacio/
+              - img "Set 04 Copas SPIEGELAU Winelovers White Wine" [ref=e143]
+            - heading "Set 04 Copas SPIEGELAU Winelovers White Wine" [level=2] [ref=e145]:
+              - link "Set 04 Copas SPIEGELAU Winelovers White Wine" [ref=e146] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/valvulas-de-vacio/
+            - generic [ref=e150]: $21.990
+            - link "Lee más sobre “Set 04 Copas SPIEGELAU Winelovers White Wine”" [ref=e152] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/valvulas-de-vacio/
+              - generic [ref=e153]: Leer más
+          - listitem [ref=e154]:
+            - link "Set 04 Copas SPIEGELAU Winelovers Champagne" [ref=e156] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantadores-riedel/
+              - img "Set 04 Copas SPIEGELAU Winelovers Champagne" [ref=e157]
+            - heading "Set 04 Copas SPIEGELAU Winelovers Champagne" [level=2] [ref=e159]:
+              - link "Set 04 Copas SPIEGELAU Winelovers Champagne" [ref=e160] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/decantadores-riedel/
+            - generic [ref=e164]: $21.990
+            - link "Lee más sobre “Set 04 Copas SPIEGELAU Winelovers Champagne”" [ref=e166] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantadores-riedel/
+              - generic [ref=e167]: Leer más
+          - listitem [ref=e168]:
+            - link "Decantador SPIEGELAU Classic Bar" [ref=e170] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-classic-bar/
+              - img "Decantador SPIEGELAU Classic Bar" [ref=e171]
+            - heading "Decantador SPIEGELAU Classic Bar" [level=2] [ref=e173]:
+              - link "Decantador SPIEGELAU Classic Bar" [ref=e174] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-classic-bar/
+            - generic [ref=e178]: $22.990
+            - link "Lee más sobre “Decantador SPIEGELAU Classic Bar”" [ref=e180] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-classic-bar/
+              - generic [ref=e181]: Leer más
+          - listitem [ref=e182]:
+            - link "Decantador SPIEGELAU Hybrid" [ref=e184] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-hybrid/
+              - img "Decantador SPIEGELAU Hybrid" [ref=e185]
+            - heading "Decantador SPIEGELAU Hybrid" [level=2] [ref=e187]:
+              - link "Decantador SPIEGELAU Hybrid" [ref=e188] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-hybrid/
+            - generic [ref=e192]: $39.990
+            - link "Lee más sobre “Decantador SPIEGELAU Hybrid”" [ref=e194] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-hybrid/
+              - generic [ref=e195]: Leer más
+          - listitem [ref=e196]:
+            - link "Decantador SPIEGELAU Toscana" [ref=e198] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-toscana/
+              - img "Decantador SPIEGELAU Toscana" [ref=e199]
+            - heading "Decantador SPIEGELAU Toscana" [level=2] [ref=e201]:
+              - link "Decantador SPIEGELAU Toscana" [ref=e202] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-toscana/
+            - generic [ref=e206]: $69.990
+            - link "Lee más sobre “Decantador SPIEGELAU Toscana”" [ref=e208] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/decantador-spiegelau-toscana/
+              - generic [ref=e209]: Leer más
+          - listitem [ref=e210]:
+            - link "Set 4 Copas SPIEGELAU Cerveza American Wheat" [ref=e212] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-4-copas-spiegelau-cerveza-american-wheat/
+              - img "Set 4 Copas SPIEGELAU Cerveza American Wheat" [ref=e213]
+            - heading "Set 4 Copas SPIEGELAU Cerveza American Wheat" [level=2] [ref=e215]:
+              - link "Set 4 Copas SPIEGELAU Cerveza American Wheat" [ref=e216] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/set-4-copas-spiegelau-cerveza-american-wheat/
+            - generic [ref=e220]: $27.990
+            - link "Lee más sobre “Set 4 Copas SPIEGELAU Cerveza American Wheat”" [ref=e222] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-4-copas-spiegelau-cerveza-american-wheat/
+              - generic [ref=e223]: Leer más
+          - listitem [ref=e224]:
+            - link "Set 2 Copas SPIEGELAU Cerveza Barrel Aged" [ref=e226] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-2-copas-spiegelau-cerveza-barrel-aged/
+              - img "Set 2 Copas SPIEGELAU Cerveza Barrel Aged" [ref=e227]
+            - heading "Set 2 Copas SPIEGELAU Cerveza Barrel Aged" [level=2] [ref=e229]:
+              - link "Set 2 Copas SPIEGELAU Cerveza Barrel Aged" [ref=e230] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/set-2-copas-spiegelau-cerveza-barrel-aged/
+            - generic [ref=e234]: $14.990
+            - link "Lee más sobre “Set 2 Copas SPIEGELAU Cerveza Barrel Aged”" [ref=e236] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-2-copas-spiegelau-cerveza-barrel-aged/
+              - generic [ref=e237]: Leer más
+          - listitem [ref=e238]:
+            - link "Set 2 Copas SPIEGELAU Cerveza Stout" [ref=e240] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-2-copas-spiegelau-cerveza-stout/
+              - img "Set 2 Copas SPIEGELAU Cerveza Stout" [ref=e241]
+            - heading "Set 2 Copas SPIEGELAU Cerveza Stout" [level=2] [ref=e243]:
+              - link "Set 2 Copas SPIEGELAU Cerveza Stout" [ref=e244] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/set-2-copas-spiegelau-cerveza-stout/
+            - generic [ref=e248]: $14.990
+            - link "Lee más sobre “Set 2 Copas SPIEGELAU Cerveza Stout”" [ref=e250] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-2-copas-spiegelau-cerveza-stout/
+              - generic [ref=e251]: Leer más
+          - listitem [ref=e252]:
+            - link "LE COQ Limited Edition Single Barrels 2019" [ref=e254] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/vino-le-coq-limited-edition-single-barrels/
+              - img "LE COQ Limited Edition Single Barrels 2019" [ref=e255]
+            - heading "LE COQ Limited Edition Single Barrels 2019" [level=2] [ref=e257]:
+              - link "LE COQ Limited Edition Single Barrels 2019" [ref=e258] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/vino-le-coq-limited-edition-single-barrels/
+            - generic [ref=e262]: $35.890
+            - link "Lee más sobre “LE COQ Limited Edition Single Barrels 2019”" [ref=e264] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/vino-le-coq-limited-edition-single-barrels/
+              - generic [ref=e265]: Leer más
+          - listitem [ref=e266]:
+            - link "Set Decantador + 04 Copas SPIEGELAU Salute Decanterset" [ref=e268] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-decantador-04-copas-spiegelau-salute-decanterset/
+              - img "Set Decantador + 04 Copas SPIEGELAU Salute Decanterset" [ref=e269]
+            - heading "Set Decantador + 04 Copas SPIEGELAU Salute Decanterset" [level=2] [ref=e271]:
+              - link "Set Decantador + 04 Copas SPIEGELAU Salute Decanterset" [ref=e272] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/set-decantador-04-copas-spiegelau-salute-decanterset/
+            - generic [ref=e276]: $54.990
+            - link "Lee más sobre “Set Decantador + 04 Copas SPIEGELAU Salute Decanterset”" [ref=e278] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/set-decantador-04-copas-spiegelau-salute-decanterset/
+              - generic [ref=e279]: Leer más
+          - listitem [ref=e280]:
+            - link "Corta Cápsula WINE (Foil Cutter)" [ref=e282] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/corta-capsula-wine-foil-cutter/
+              - img "Corta Cápsula WINE (Foil Cutter)" [ref=e283]
+            - heading "Corta Cápsula WINE (Foil Cutter)" [level=2] [ref=e285]:
+              - link "Corta Cápsula WINE (Foil Cutter)" [ref=e286] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl/producto/corta-capsula-wine-foil-cutter/
+            - generic [ref=e290]: $3.000
+            - link "Lee más sobre “Corta Cápsula WINE (Foil Cutter)”" [ref=e292] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/producto/corta-capsula-wine-foil-cutter/
+              - generic [ref=e293]: Leer más
+        - navigation "Paginación" [ref=e294]:
+          - generic [ref=e295]:
+            - text: "1"
+            - link "Página 2" [ref=e296] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/tienda/page/2/
+              - text: "2"
+            - link "Página 3" [ref=e297] [cursor=pointer]:
+              - /url: https://www.lecoqwines.cl/tienda/page/3/
+              - text: "3"
+          - link "Página siguiente" [ref=e298] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/tienda/page/2/
+    - contentinfo [ref=e299]:
+      - generic [ref=e301]:
+        - generic [ref=e302]:
+          - generic [ref=e304]:
+            - heading "Le Coq Wines" [level=2] [ref=e305]:
+              - link "Le Coq Wines" [ref=e306] [cursor=pointer]:
+                - /url: https://www.lecoqwines.cl
+            - paragraph [ref=e307]: La mejor experiencia en una botella
+          - generic [ref=e308]:
+            - navigation "2" [ref=e309]:
+              - list [ref=e310]:
+                - listitem [ref=e311]:
+                  - link "Blog" [ref=e312] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e313]:
+                  - link "Acerca de" [ref=e314] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e315]:
+                  - link "FAQs" [ref=e316] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e317]:
+                  - link "Autores" [ref=e318] [cursor=pointer]:
+                    - /url: "#"
+            - navigation "3" [ref=e319]:
+              - list [ref=e320]:
+                - listitem [ref=e321]:
+                  - link "Eventos" [ref=e322] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e323]:
+                  - link "Tienda" [ref=e324] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e325]:
+                  - link "Patrones" [ref=e326] [cursor=pointer]:
+                    - /url: "#"
+                - listitem [ref=e327]:
+                  - link "Temas" [ref=e328] [cursor=pointer]:
+                    - /url: "#"
+        - generic [ref=e330]:
+          - paragraph [ref=e331]: Twenty Twenty-Five
+          - paragraph [ref=e332]:
+            - text: Diseñado con
+            - link "WordPress" [ref=e333] [cursor=pointer]:
+              - /url: https://es.wordpress.org

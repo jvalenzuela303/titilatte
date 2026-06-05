@@ -1,0 +1,1640 @@
+- generic [ref=e2]:
+  - navigation "Menú principal":
+    - link "Saltar al contenido principal" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Ir a la barra de herramientas" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Escritorio" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+          - generic [ref=e11]: Escritorio
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Inicio" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Actualizaciones" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+      - listitem [ref=e17]
+      - listitem [ref=e19]:
+        - link "Entradas" [ref=e20] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e21]: 
+          - generic [ref=e22]: Entradas
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Todas las entradas" [ref=e25] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e26]:
+            - link "Añadir entrada" [ref=e27] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e28]:
+            - link "Categorías" [ref=e29] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e30]:
+            - link "Etiquetas" [ref=e31] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e32]:
+        - link "Medios" [ref=e33] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e34]: 
+          - generic [ref=e35]: Medios
+        - list [ref=e36]:
+          - listitem [ref=e37]:
+            - link "Biblioteca" [ref=e38] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e39]:
+            - link "Añadir medios" [ref=e40] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=e41]:
+        - link "Páginas" [ref=e42] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e43]: 
+          - generic [ref=e44]: Páginas
+        - list [ref=e45]:
+          - listitem [ref=e46]:
+            - link "Todas las páginas" [ref=e47] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e48]:
+            - link "Añadir página" [ref=e49] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e50]:
+        - link "Comentarios" [ref=e51] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e52]: 
+          - generic [ref=e53]: Comentarios
+      - listitem [ref=e54]
+      - listitem [ref=e56]:
+        - link "WooCommerce" [ref=e57] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+          - generic [ref=e59]: WooCommerce
+        - list [ref=e60]:
+          - listitem [ref=e61]:
+            - link "Inicio 2" [ref=e62] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Inicio
+              - generic [ref=e63]: "2"
+          - listitem [ref=e64]:
+            - link "Pedidos 6" [ref=e65] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_order
+              - text: Pedidos
+              - generic [ref=e66]: "6"
+          - listitem [ref=e67]:
+            - link "Clientes" [ref=e68] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=e69]:
+            - link "Cupones" [ref=e70] [cursor=pointer]:
+              - /url: admin.php?page=coupons-moved
+          - listitem [ref=e71]:
+            - link "Informes" [ref=e72] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=e73]:
+            - link "Ajustes" [ref=e74] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=e75]:
+            - link "Estado" [ref=e76] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=e77]:
+            - link "Extensiones" [ref=e78] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=e79]:
+        - link "Productos" [ref=e80] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=e81]: 
+          - generic [ref=e82]: Productos
+        - list [ref=e83]:
+          - listitem [ref=e84]:
+            - link "Todos los productos" [ref=e85] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=e86]:
+            - link "Añadir un nuevo producto" [ref=e87] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=e88]:
+            - link "Marcas" [ref=e89] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_brand&post_type=product
+          - listitem [ref=e90]:
+            - link "Categorías" [ref=e91] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=e92]:
+            - link "Etiquetas" [ref=e93] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=e94]:
+            - link "Atributos" [ref=e95] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=e96]:
+            - link "Valoraciones" [ref=e97] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=e98]:
+        - link "Pagos" [ref=e99] [cursor=pointer]:
+          - /url: admin.php?page=wc-settings&tab=checkout&from=PAYMENTS_MENU_ITEM
+          - generic [ref=e101]: Pagos
+      - listitem [ref=e102]:
+        - link "Análisis" [ref=e103] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=e104]: 
+          - generic [ref=e105]: Análisis
+        - list [ref=e106]:
+          - listitem [ref=e107]:
+            - link "Resumen" [ref=e108] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=e109]:
+            - link "Productos" [ref=e110] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=e111]:
+            - link "Ingresos" [ref=e112] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=e113]:
+            - link "Pedidos" [ref=e114] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=e115]:
+            - link "Variaciones" [ref=e116] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=e117]:
+            - link "Categorías" [ref=e118] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=e119]:
+            - link "Cupones" [ref=e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=e121]:
+            - link "Impuestos" [ref=e122] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=e123]:
+            - link "Descargas" [ref=e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=e125]:
+            - link "Inventario" [ref=e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=e127]:
+            - link "Ajustes" [ref=e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=e129]:
+        - link "Marketing" [ref=e130] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=e131]: 
+          - generic [ref=e132]: Marketing
+        - list [ref=e133]:
+          - listitem [ref=e134]:
+            - link "Resumen" [ref=e135] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=e136]:
+            - link "Cupones" [ref=e137] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=e138]
+      - listitem [ref=e140]:
+        - link "Apariencia" [ref=e141] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e142]: 
+          - generic [ref=e143]: Apariencia
+        - list [ref=e144]:
+          - listitem [ref=e145]:
+            - link "Temas" [ref=e146] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=e147]:
+            - link "Editor" [ref=e148] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=e149]:
+            - link "Fuentes" [ref=e150] [cursor=pointer]:
+              - /url: font-library.php
+      - listitem [ref=e151]:
+        - link "Plugins" [ref=e152] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e153]: 
+          - generic [ref=e154]: Plugins
+        - list [ref=e155]:
+          - listitem [ref=e156]:
+            - link "Plugins instalados" [ref=e157] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e158]:
+            - link "Añadir plugin" [ref=e159] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=e160]:
+        - link "Usuarios" [ref=e161] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e162]: 
+          - generic [ref=e163]: Usuarios
+        - list [ref=e164]:
+          - listitem [ref=e165]:
+            - link "Todos los usuarios" [ref=e166] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e167]:
+            - link "Añadir usuario" [ref=e168] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e169]:
+            - link "Perfil" [ref=e170] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e171]:
+        - link "Herramientas" [ref=e172] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e173]: 
+          - generic [ref=e174]: Herramientas
+        - list [ref=e175]:
+          - listitem [ref=e176]:
+            - link "Herramientas disponibles" [ref=e177] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e178]:
+            - link "Importar" [ref=e179] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e180]:
+            - link "Exportar" [ref=e181] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e182]:
+            - link "Salud del sitio" [ref=e183] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e184]:
+            - link "Exportar los datos personales" [ref=e185] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e186]:
+            - link "Borrar los datos personales" [ref=e187] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=e188]:
+            - link "Acciones programadas" [ref=e189] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+          - listitem [ref=e190]:
+            - link "Editor de archivos de temas" [ref=e191] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=e192]:
+            - link "Editor de archivos de plugins" [ref=e193] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e194]:
+        - link "Ajustes" [ref=e195] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e196]: 
+          - generic [ref=e197]: Ajustes
+        - list [ref=e198]:
+          - listitem [ref=e199]:
+            - link "Generales" [ref=e200] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e201]:
+            - link "Conectores" [ref=e202] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=e203]:
+            - link "Escritura" [ref=e204] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e205]:
+            - link "Lectura" [ref=e206] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e207]:
+            - link "Comentarios" [ref=e208] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e209]:
+            - link "Medios" [ref=e210] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e211]:
+            - link "Enlaces permanentes" [ref=e212] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e213]:
+            - link "Privacidad" [ref=e214] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=e215]:
+        - button "Contraer el menú principal" [expanded] [ref=e216] [cursor=pointer]:
+          - generic [ref=e218]: Cerrar menú
+  - generic [ref=e219]:
+    - generic [ref=e220]:
+      - navigation "Barra de herramientas":
+        - menu:
+          - group [ref=e221]:
+            - menuitem "Acerca de WordPress" [ref=e222] [cursor=pointer]:
+              - generic [ref=e224]: Acerca de WordPress
+          - group [ref=e225]:
+            - menuitem "Le Coq Wines" [ref=e226] [cursor=pointer]
+          - group [ref=e227]:
+            - menuitem "Visible" [ref=e228] [cursor=pointer]
+          - group [ref=e229]:
+            - menuitem "Ctrl+K Abrir paleta de comandos" [ref=e230] [cursor=pointer]:
+              - generic [ref=e232]:
+                - text: Ctrl+K
+                - generic [ref=e233]: Abrir paleta de comandos
+          - group [ref=e234]:
+            - menuitem "0 comentarios en moderación" [ref=e235] [cursor=pointer]:
+              - generic [ref=e237]: "0"
+              - generic [ref=e238]: 0 comentarios en moderación
+          - group [ref=e239]:
+            - menuitem "Añadir" [ref=e240] [cursor=pointer]:
+              - generic [ref=e242]: Añadir
+        - menu [ref=e243]:
+          - group [ref=e244]:
+            - menuitem "Hola, Juan Pablo" [ref=e245] [cursor=pointer]
+    - main [ref=e246]:
+      - generic [ref=e247]:
+        - button "Ayuda" [ref=e250] [cursor=pointer]
+        - generic [ref=e251]:
+          - heading "Añadir plugins" [level=1] [ref=e252]
+          - button "Subir plugin" [ref=e253] [cursor=pointer]
+          - heading "Filtrar lista de plugins" [level=2] [ref=e254]
+          - paragraph [ref=e255]:
+            - text: Los plugins amplían y expanden la funcionalidad de WordPress. Puedes instalar plugins desde el
+            - link "directorio de plugins de WordPress" [ref=e256] [cursor=pointer]:
+              - /url: https://es.wordpress.org/plugins/
+            - text: desde esta página, o subir un plugin en formato .zip haciendo clic en el botón de arriba.
+          - generic [ref=e257]:
+            - list [ref=e258]:
+              - listitem [ref=e259]:
+                - link "Resultados de la búsqueda" [ref=e260] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=search
+              - listitem [ref=e261]:
+                - link "Destacados" [ref=e262] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=featured
+              - listitem [ref=e263]:
+                - link "Populares" [ref=e264] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=popular
+              - listitem [ref=e265]:
+                - link "Recomendados" [ref=e266] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=recommended
+              - listitem [ref=e267]:
+                - link "Favoritos" [ref=e268] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=favorites
+              - listitem [ref=e269]:
+                - link "WooCommerce Marketplace" [ref=e270] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=woo
+            - generic [ref=e271]:
+              - generic [ref=e272]: Buscar plugins
+              - searchbox "Buscar plugins" [ref=e273]: woocommerce
+              - generic [ref=e274]: "Buscar plugins por:"
+              - combobox "Buscar plugins por:" [ref=e275] [cursor=pointer]:
+                - option "Palabra clave" [selected]
+                - option "Autor"
+                - option "Etiqueta"
+          - generic [ref=e276]:
+            - generic [ref=e277]:
+              - heading "Navegación por la lista de plugins" [level=2] [ref=e278]
+              - generic [ref=e279]:
+                - text: 10.000 elementos
+                - generic [ref=e280]:
+                  - generic [ref=e281]: «
+                  - generic [ref=e282]: ‹
+                  - generic [ref=e283]:
+                    - generic [ref=e284]: Página actual
+                    - textbox "Página actual" [ref=e285]: "1"
+                    - generic [ref=e286]: de 278
+                  - link "Página siguiente" [ref=e287] [cursor=pointer]:
+                    - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?s=woocommerce&tab=search&type=term&paged=2
+                    - generic [ref=e288]: Página siguiente
+                    - text: ›
+                  - link "Última página" [ref=e289] [cursor=pointer]:
+                    - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?s=woocommerce&tab=search&type=term&paged=278
+                    - generic [ref=e290]: Última página
+                    - text: »
+            - generic [ref=e291]:
+              - heading "Lista de plugins" [level=2] [ref=e292]
+              - generic [ref=e293]:
+                - generic [ref=e294]:
+                  - generic [ref=e295]:
+                    - heading "WooCommerce" [level=3] [ref=e297]:
+                      - link "WooCommerce" [ref=e298] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e300]:
+                      - listitem [ref=e301]:
+                        - button "Activo" [disabled] [ref=e302]
+                      - listitem [ref=e303]:
+                        - link "Más información sobre WooCommerce 10.8.1" [ref=e304] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e305]:
+                      - paragraph [ref=e306]: Todo lo que necesitas para publicar una tienda en línea en pocos días y seguir creciendo durante años. WooCommerce crece contigo, desde tu primera venta hasta que alcances ingresos millonarios.
+                      - paragraph [ref=e307]:
+                        - generic [ref=e308]:
+                          - text: Por
+                          - link "Automattic" [ref=e309] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/automattic/
+                  - generic [ref=e310]:
+                    - generic [ref=e311]:
+                      - generic [ref=e313]: Valoración de 4,5 basada en 4.800 valoraciones
+                      - text: (4.800)
+                    - generic [ref=e319]:
+                      - strong [ref=e320]: "Última actualización:"
+                      - text: hace 6 días
+                    - generic [ref=e321]: 7+ millones instalaciones activas
+                    - generic [ref=e323]:
+                      - strong [ref=e324]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e325]:
+                  - generic [ref=e326]:
+                    - heading "WooCommerce PayPal Payments" [level=3] [ref=e328]:
+                      - link "WooCommerce PayPal Payments" [ref=e329] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-paypal-payments&TB_iframe=true&width=600&height=550
+                    - list [ref=e331]:
+                      - listitem [ref=e332]:
+                        - button "Instalar WooCommerce PayPal Payments 4.0.4 ahora" [ref=e333] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e334]:
+                        - link "Más información sobre WooCommerce PayPal Payments 4.0.4" [ref=e335] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-paypal-payments&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e336]:
+                      - paragraph [ref=e337]: La última solución completa de procesamiento de pagos de PayPal. Acepta PayPal, «Paga más tarde», tarjetas de crédito/débito, monederos digitales alternativos, tipos de pago locales y cuentas bancarias
+                      - paragraph [ref=e338]:
+                        - generic [ref=e339]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e340] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e341]:
+                    - paragraph [ref=e342]:
+                      - strong [ref=e343]: Se necesitan plugins adicionales
+                    - generic [ref=e344]:
+                      - generic [ref=e345]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e346] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e347]:
+                    - generic [ref=e348]:
+                      - generic [ref=e350]: Valoración de 3,0 basada en 558 valoraciones
+                      - text: (558)
+                    - generic [ref=e356]:
+                      - strong [ref=e357]: "Última actualización:"
+                      - text: hace 2 semanas
+                    - generic [ref=e358]: 800.000+ instalaciones activas
+                    - generic [ref=e360]:
+                      - strong [ref=e361]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e362]:
+                  - generic [ref=e363]:
+                    - heading "WooCommerce Stripe Payment Gateway" [level=3] [ref=e365]:
+                      - link "WooCommerce Stripe Payment Gateway" [ref=e366] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-gateway-stripe&TB_iframe=true&width=600&height=550
+                    - list [ref=e368]:
+                      - listitem [ref=e369]:
+                        - button "Instalar WooCommerce Stripe Payment Gateway 10.7.0 ahora" [ref=e370] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e371]:
+                        - link "Más información sobre WooCommerce Stripe Payment Gateway 10.7.0" [ref=e372] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-gateway-stripe&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e373]:
+                      - paragraph [ref=e374]: Acepta tarjetas de débito y crédito en más de 135 monedas, muchos métodos locales como Alipay, ACH y SEPA, y pagos rápidos con Apple Pay y Google Pay.
+                      - paragraph [ref=e375]:
+                        - generic [ref=e376]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e377] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e378]:
+                    - paragraph [ref=e379]:
+                      - strong [ref=e380]: Se necesitan plugins adicionales
+                    - generic [ref=e381]:
+                      - generic [ref=e382]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e383] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e384]:
+                    - generic [ref=e385]:
+                      - generic [ref=e387]: Valoración de 3,0 basada en 227 valoraciones
+                      - text: (227)
+                    - generic [ref=e393]:
+                      - strong [ref=e394]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e395]: 700.000+ instalaciones activas
+                    - generic [ref=e396]: No probado con tu versión de WordPress
+                - generic [ref=e397]:
+                  - generic [ref=e398]:
+                    - heading "Google para WooCommerce" [level=3] [ref=e400]:
+                      - link "Google para WooCommerce" [ref=e401] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=google-listings-and-ads&TB_iframe=true&width=600&height=550
+                    - list [ref=e403]:
+                      - listitem [ref=e404]:
+                        - button "Instalar Google para WooCommerce 3.7.0 ahora" [ref=e405] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e406]:
+                        - link "Más información sobre Google para WooCommerce 3.7.0" [ref=e407] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=google-listings-and-ads&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e408]:
+                      - paragraph [ref=e409]: Integración nativa con Google que permite a los vendedores mostrar fácilmente sus productos en la red de Google.
+                      - paragraph [ref=e410]:
+                        - generic [ref=e411]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e412] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e413]:
+                    - paragraph [ref=e414]:
+                      - strong [ref=e415]: Se necesitan plugins adicionales
+                    - generic [ref=e416]:
+                      - generic [ref=e417]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e418] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e419]:
+                    - generic [ref=e420]:
+                      - generic [ref=e422]: Valoración de 2,5 basada en 262 valoraciones
+                      - text: (262)
+                    - generic [ref=e428]:
+                      - strong [ref=e429]: "Última actualización:"
+                      - text: hace 2 semanas
+                    - generic [ref=e430]: 900.000+ instalaciones activas
+                    - generic [ref=e431]: No probado con tu versión de WordPress
+                - generic [ref=e432]:
+                  - generic [ref=e433]:
+                    - 'heading "WooPayments: Integrated WooCommerce Payments" [level=3] [ref=e435]':
+                      - 'link "WooPayments: Integrated WooCommerce Payments" [ref=e436] [cursor=pointer]':
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-payments&TB_iframe=true&width=600&height=550
+                    - list [ref=e438]:
+                      - listitem [ref=e439]:
+                        - 'button "Instalar WooPayments: Integrated WooCommerce Payments 10.8.0 ahora" [ref=e440] [cursor=pointer]': Instalar ahora
+                      - listitem [ref=e441]:
+                        - 'link "Más información sobre WooPayments: Integrated WooCommerce Payments 10.8.0" [ref=e442] [cursor=pointer]':
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-payments&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e443]:
+                      - paragraph [ref=e444]: Acepta de forma segura tarjetas de crédito y débito en tu tienda WooCommerce. Gestiona pagos sin salir de tu escritorio de WordPress. Solo con WooPayments.
+                      - paragraph [ref=e445]:
+                        - generic [ref=e446]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e447] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e448]:
+                    - paragraph [ref=e449]:
+                      - strong [ref=e450]: Se necesitan plugins adicionales
+                    - generic [ref=e451]:
+                      - generic [ref=e452]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e453] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e454]:
+                    - generic [ref=e455]:
+                      - generic [ref=e457]: Valoración de 3,0 basada en 150 valoraciones
+                      - text: (150)
+                    - generic [ref=e463]:
+                      - strong [ref=e464]: "Última actualización:"
+                      - text: hace 2 semanas
+                    - generic [ref=e465]: 900.000+ instalaciones activas
+                    - generic [ref=e467]:
+                      - strong [ref=e468]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e469]:
+                  - generic [ref=e470]:
+                    - heading "Customer Reviews for WooCommerce" [level=3] [ref=e472]:
+                      - link "Customer Reviews for WooCommerce" [ref=e473] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=customer-reviews-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e475]:
+                      - listitem [ref=e476]:
+                        - button "Instalar Customer Reviews for WooCommerce 5.109.0 ahora" [ref=e477] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e478]:
+                        - link "Más información sobre Customer Reviews for WooCommerce 5.109.0" [ref=e479] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=customer-reviews-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e480]:
+                      - paragraph [ref=e481]: El plugin Customer Reviews for WooCommerce te ayuda a obtener más ventas con demostración social. Establece recordatorios para las valoraciones automatizadas y aumenta la tasa de conversión.
+                      - paragraph [ref=e482]:
+                        - generic [ref=e483]:
+                          - text: Por
+                          - link "CusRev" [ref=e484] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/ivole/
+                  - generic [ref=e485]:
+                    - generic [ref=e486]:
+                      - generic [ref=e488]: Valoración de 5,0 basada en 1.521 valoraciones
+                      - text: (1.521)
+                    - generic [ref=e494]:
+                      - strong [ref=e495]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e496]: 80.000+ instalaciones activas
+                    - generic [ref=e497]: No probado con tu versión de WordPress
+                - generic [ref=e498]:
+                  - generic [ref=e499]:
+                    - heading "PDF Invoices & Packing Slips for WooCommerce" [level=3] [ref=e501]:
+                      - link "PDF Invoices & Packing Slips for WooCommerce" [ref=e502] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-pdf-invoices-packing-slips&TB_iframe=true&width=600&height=550
+                    - list [ref=e504]:
+                      - listitem [ref=e505]:
+                        - button "Instalar PDF Invoices & Packing Slips for WooCommerce 5.13.0 ahora" [ref=e506] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e507]:
+                        - link "Más información sobre PDF Invoices & Packing Slips for WooCommerce 5.13.0" [ref=e508] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-pdf-invoices-packing-slips&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e509]:
+                      - paragraph [ref=e510]: Crea, imprime y envía automáticamente correos electrónicos con facturas en PDF o XML y albaranes en PDF para pedidos de WooCommerce.
+                      - paragraph [ref=e511]:
+                        - generic [ref=e512]:
+                          - text: Por
+                          - link "WP Overnight" [ref=e513] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/wpovernight/
+                  - generic [ref=e514]:
+                    - paragraph [ref=e515]:
+                      - strong [ref=e516]: Se necesitan plugins adicionales
+                    - generic [ref=e517]:
+                      - generic [ref=e518]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e519] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e520]:
+                    - generic [ref=e521]:
+                      - generic [ref=e523]: Valoración de 5,0 basada en 1.857 valoraciones
+                      - text: (1.857)
+                    - generic [ref=e529]:
+                      - strong [ref=e530]: "Última actualización:"
+                      - text: hace 1 día
+                    - generic [ref=e531]: 300.000+ instalaciones activas
+                    - generic [ref=e533]:
+                      - strong [ref=e534]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e535]:
+                  - generic [ref=e536]:
+                    - heading "Germanized for WooCommerce" [level=3] [ref=e538]:
+                      - link "Germanized for WooCommerce" [ref=e539] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-germanized&TB_iframe=true&width=600&height=550
+                    - list [ref=e541]:
+                      - listitem [ref=e542]:
+                        - button "Instalar Germanized for WooCommerce 4.0.6 ahora" [ref=e543] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e544]:
+                        - link "Más información sobre Germanized for WooCommerce 4.0.6" [ref=e545] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-germanized&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e546]:
+                      - paragraph [ref=e547]: Germanized extends WooCommerce to become a legally compliant shop for the german market. Must Have for every german WooCommerce shop owner.
+                      - paragraph [ref=e548]:
+                        - generic [ref=e549]:
+                          - text: Por
+                          - link "vendidero" [ref=e550] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/vendidero/
+                  - generic [ref=e551]:
+                    - generic [ref=e552]:
+                      - generic [ref=e554]: Valoración de 5,0 basada en 490 valoraciones
+                      - text: (490)
+                    - generic [ref=e560]:
+                      - strong [ref=e561]: "Última actualización:"
+                      - text: hace 12 horas
+                    - generic [ref=e562]: 70.000+ instalaciones activas
+                    - generic [ref=e564]:
+                      - strong [ref=e565]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e566]:
+                  - generic [ref=e567]:
+                    - heading "Mercado Pago payments for WooCommerce" [level=3] [ref=e569]:
+                      - link "Mercado Pago payments for WooCommerce" [ref=e570] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-mercadopago&TB_iframe=true&width=600&height=550
+                    - list [ref=e572]:
+                      - listitem [ref=e573]:
+                        - button "Instalar Mercado Pago payments for WooCommerce 8.7.21 ahora" [ref=e574] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e575]:
+                        - link "Más información sobre Mercado Pago payments for WooCommerce 8.7.21" [ref=e576] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-mercadopago&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e577]:
+                      - paragraph [ref=e578]: Ofrece a tus clientes la mejor experiencia en comercio electrónico al utilizar Mercado Pago como tu método de pago.
+                      - paragraph [ref=e579]:
+                        - generic [ref=e580]:
+                          - text: Por
+                          - link "Mercado Pago" [ref=e581] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/mercadopago/
+                  - generic [ref=e582]:
+                    - paragraph [ref=e583]:
+                      - strong [ref=e584]: Se necesitan plugins adicionales
+                    - generic [ref=e585]:
+                      - generic [ref=e586]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e587] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e588]:
+                    - generic [ref=e589]:
+                      - generic [ref=e591]: Valoración de 4,0 basada en 690 valoraciones
+                      - text: (690)
+                    - generic [ref=e597]:
+                      - strong [ref=e598]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e599]: 100.000+ instalaciones activas
+                    - generic [ref=e600]: No probado con tu versión de WordPress
+                - generic [ref=e601]:
+                  - generic [ref=e602]:
+                    - heading "MailPoet – Newsletters, Email Marketing, and Automation" [level=3] [ref=e604]:
+                      - link "MailPoet – Newsletters, Email Marketing, and Automation" [ref=e605] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=mailpoet&TB_iframe=true&width=600&height=550
+                    - list [ref=e607]:
+                      - listitem [ref=e608]:
+                        - button "Instalar MailPoet – Newsletters, Email Marketing, and Automation 5.28.1 ahora" [ref=e609] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e610]:
+                        - link "Más información sobre MailPoet – Newsletters, Email Marketing, and Automation 5.28.1" [ref=e611] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=mailpoet&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e612]:
+                      - paragraph [ref=e613]: Envía elegantes boletines desde WordPress. Recopila suscriptores con formularios de registro, automatiza tus correos electrónicos para WooCommerce, avisos de entradas del blog y más
+                      - paragraph [ref=e614]:
+                        - generic [ref=e615]:
+                          - text: Por
+                          - link "MailPoet" [ref=e616] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/mailpoet/
+                  - generic [ref=e617]:
+                    - generic [ref=e618]:
+                      - generic [ref=e620]: Valoración de 4,5 basada en 1.419 valoraciones
+                      - text: (1.419)
+                    - generic [ref=e626]:
+                      - strong [ref=e627]: "Última actualización:"
+                      - text: hace 11 horas
+                    - generic [ref=e628]: 500.000+ instalaciones activas
+                    - generic [ref=e630]:
+                      - strong [ref=e631]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e632]:
+                  - generic [ref=e633]:
+                    - heading "Pinterest para WooCommerce" [level=3] [ref=e635]:
+                      - link "Pinterest para WooCommerce" [ref=e636] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=pinterest-for-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e638]:
+                      - listitem [ref=e639]:
+                        - button "Instalar Pinterest para WooCommerce 1.4.27 ahora" [ref=e640] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e641]:
+                        - link "Más información sobre Pinterest para WooCommerce 1.4.27" [ref=e642] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=pinterest-for-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e643]:
+                      - paragraph [ref=e644]: Pon tus productos delante de los usuarios de Pinterest que buscan ideas y cosas que comprar. Conecta tu tienda WooCommerce para que tu catálogo sea navegable.
+                      - paragraph [ref=e645]:
+                        - generic [ref=e646]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e647] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e648]:
+                    - paragraph [ref=e649]:
+                      - strong [ref=e650]: Se necesitan plugins adicionales
+                    - generic [ref=e651]:
+                      - generic [ref=e652]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e653] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e654]:
+                    - generic [ref=e655]:
+                      - generic [ref=e657]: Valoración de 2,5 basada en 67 valoraciones
+                      - text: (67)
+                    - generic [ref=e663]:
+                      - strong [ref=e664]: "Última actualización:"
+                      - text: hace 2 días
+                    - generic [ref=e665]: 300.000+ instalaciones activas
+                    - generic [ref=e667]:
+                      - strong [ref=e668]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e669]:
+                  - generic [ref=e670]:
+                    - heading "Mailchimp for WooCommerce" [level=3] [ref=e672]:
+                      - link "Mailchimp for WooCommerce" [ref=e673] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=mailchimp-for-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e675]:
+                      - listitem [ref=e676]:
+                        - button "Instalar Mailchimp for WooCommerce 6.1.1 ahora" [ref=e677] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e678]:
+                        - link "Más información sobre Mailchimp for WooCommerce 6.1.1" [ref=e679] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=mailchimp-for-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e680]:
+                      - paragraph [ref=e681]: Conecta tu tienda con tu audiencia de Mailchimp para rastrear las ventas, crear correos electrónicos segmentados, enviar correos electrónicos de carritos abandonados y más.
+                      - paragraph [ref=e682]:
+                        - generic [ref=e683]:
+                          - text: Por
+                          - link "Mailchimp" [ref=e684] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/mailchimp/
+                  - generic [ref=e685]:
+                    - paragraph [ref=e686]:
+                      - strong [ref=e687]: Se necesitan plugins adicionales
+                    - generic [ref=e688]:
+                      - generic [ref=e689]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e690] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e691]:
+                    - generic [ref=e692]:
+                      - generic [ref=e694]: Valoración de 4,0 basada en 726 valoraciones
+                      - text: (726)
+                    - generic [ref=e700]:
+                      - strong [ref=e701]: "Última actualización:"
+                      - text: hace 5 días
+                    - generic [ref=e702]: 200.000+ instalaciones activas
+                    - generic [ref=e704]:
+                      - strong [ref=e705]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e706]:
+                  - generic [ref=e707]:
+                    - heading "Meta for WooCommerce" [level=3] [ref=e709]:
+                      - link "Meta for WooCommerce" [ref=e710] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=facebook-for-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e712]:
+                      - listitem [ref=e713]:
+                        - button "Instalar Meta for WooCommerce 3.7.0 ahora" [ref=e714] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e715]:
+                        - link "Más información sobre Meta for WooCommerce 3.7.0" [ref=e716] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=facebook-for-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e717]:
+                      - paragraph [ref=e718]: Reach more customers and drive sales on Facebook, Instagram and WhatsApp with the official Meta for WooCommerce plugin.
+                      - paragraph [ref=e719]:
+                        - generic [ref=e720]:
+                          - text: Por
+                          - link "Facebook" [ref=e721] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/facebook/
+                  - generic [ref=e722]:
+                    - paragraph [ref=e723]:
+                      - strong [ref=e724]: Se necesitan plugins adicionales
+                    - generic [ref=e725]:
+                      - generic [ref=e726]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e727] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e728]:
+                    - generic [ref=e729]:
+                      - generic [ref=e731]: Valoración de 2,0 basada en 475 valoraciones
+                      - text: (475)
+                    - generic [ref=e737]:
+                      - strong [ref=e738]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e739]: 400.000+ instalaciones activas
+                    - generic [ref=e740]: No probado con tu versión de WordPress
+                - generic [ref=e741]:
+                  - generic [ref=e742]:
+                    - heading "PPOM – Product Addons & Custom Fields for WooCommerce" [level=3] [ref=e744]:
+                      - link "PPOM – Product Addons & Custom Fields for WooCommerce" [ref=e745] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-product-addon&TB_iframe=true&width=600&height=550
+                    - list [ref=e747]:
+                      - listitem [ref=e748]:
+                        - button "Instalar PPOM – Product Addons & Custom Fields for WooCommerce 34.0.2 ahora" [ref=e749] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e750]:
+                        - link "Más información sobre PPOM – Product Addons & Custom Fields for WooCommerce 34.0.2" [ref=e751] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-product-addon&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e752]:
+                      - paragraph [ref=e753]: Añade fácilmente una serie de campos personalizados a los productos de WooCommerce, desde cuadros de texto hasta selectores de fecha, lo que permite a los clientes personalizar sus pedidos.
+                      - paragraph [ref=e754]:
+                        - generic [ref=e755]:
+                          - text: Por
+                          - link "Themeisle" [ref=e756] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/themeisle/
+                  - generic [ref=e757]:
+                    - paragraph [ref=e758]:
+                      - strong [ref=e759]: Se necesitan plugins adicionales
+                    - generic [ref=e760]:
+                      - generic [ref=e761]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e762] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e763]:
+                    - generic [ref=e764]:
+                      - generic [ref=e766]: Valoración de 4,5 basada en 280 valoraciones
+                      - text: (280)
+                    - generic [ref=e772]:
+                      - strong [ref=e773]: "Última actualización:"
+                      - text: hace 14 horas
+                    - generic [ref=e774]: 20.000+ instalaciones activas
+                    - generic [ref=e776]:
+                      - strong [ref=e777]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e778]:
+                  - generic [ref=e779]:
+                    - heading "WooCommerce Square" [level=3] [ref=e781]:
+                      - link "WooCommerce Square" [ref=e782] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-square&TB_iframe=true&width=600&height=550
+                    - list [ref=e784]:
+                      - listitem [ref=e785]:
+                        - button "Instalar WooCommerce Square 5.4.0 ahora" [ref=e786] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e787]:
+                        - link "Más información sobre WooCommerce Square 5.4.0" [ref=e788] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-square&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e789]:
+                      - paragraph [ref=e790]: Securely accept payments, synchronize sales, and seamlessly manage inventory and product data between WooCommerce and Square POS.
+                      - paragraph [ref=e791]:
+                        - generic [ref=e792]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e793] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e794]:
+                    - paragraph [ref=e795]:
+                      - strong [ref=e796]: Se necesitan plugins adicionales
+                    - generic [ref=e797]:
+                      - generic [ref=e798]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e799] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e800]:
+                    - generic [ref=e801]:
+                      - generic [ref=e803]: Valoración de 2,0 basada en 122 valoraciones
+                      - text: (122)
+                    - generic [ref=e809]:
+                      - strong [ref=e810]: "Última actualización:"
+                      - text: hace 5 días
+                    - generic [ref=e811]: 80.000+ instalaciones activas
+                    - generic [ref=e813]:
+                      - strong [ref=e814]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e815]:
+                  - generic [ref=e816]:
+                    - heading "Checkout Field Editor and Manager for WooCommerce" [level=3] [ref=e818]:
+                      - link "Checkout Field Editor and Manager for WooCommerce" [ref=e819] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woo-checkout-field-editor-pro&TB_iframe=true&width=600&height=550
+                    - list [ref=e821]:
+                      - listitem [ref=e822]:
+                        - button "Activar Checkout Field Editor and Manager for WooCommerce 2.1.8" [ref=e823] [cursor=pointer]: Activar
+                      - listitem [ref=e824]:
+                        - link "Más información sobre Checkout Field Editor and Manager for WooCommerce 2.1.8" [ref=e825] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woo-checkout-field-editor-pro&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e826]:
+                      - paragraph [ref=e827]: Checkout Field Editor (Checkout Manager) para WooCommerce - El mejor plugin de WooCommerce para administrar los campos de pago de WooCommerce.
+                      - paragraph [ref=e828]:
+                        - generic [ref=e829]:
+                          - text: Por
+                          - link "ThemeHigh" [ref=e830] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/themehigh/
+                  - generic [ref=e831]:
+                    - generic [ref=e832]:
+                      - generic [ref=e834]: Valoración de 5,0 basada en 1.053 valoraciones
+                      - text: (1.053)
+                    - generic [ref=e840]:
+                      - strong [ref=e841]: "Última actualización:"
+                      - text: hace 3 meses
+                    - generic [ref=e842]: 400.000+ instalaciones activas
+                    - generic [ref=e843]: No probado con tu versión de WordPress
+                - generic [ref=e844]:
+                  - generic [ref=e845]:
+                    - heading "WooCommerce Tax (formerly WooCommerce Shipping & Tax)" [level=3] [ref=e847]:
+                      - link "WooCommerce Tax (formerly WooCommerce Shipping & Tax)" [ref=e848] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-services&TB_iframe=true&width=600&height=550
+                    - list [ref=e850]:
+                      - listitem [ref=e851]:
+                        - button "Instalar WooCommerce Tax (formerly WooCommerce Shipping & Tax) 3.6.4 ahora" [ref=e852] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e853]:
+                        - link "Más información sobre WooCommerce Tax (formerly WooCommerce Shipping & Tax) 3.6.4" [ref=e854] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-services&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e855]:
+                      - paragraph [ref=e856]: "We’re here to help with tax rates: collect accurate sales tax, automatically."
+                      - paragraph [ref=e857]:
+                        - generic [ref=e858]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e859] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e860]:
+                    - paragraph [ref=e861]:
+                      - strong [ref=e862]: Se necesitan plugins adicionales
+                    - generic [ref=e863]:
+                      - generic [ref=e864]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e865] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e866]:
+                    - generic [ref=e867]:
+                      - generic [ref=e869]: Valoración de 2,0 basada en 105 valoraciones
+                      - text: (105)
+                    - generic [ref=e875]:
+                      - strong [ref=e876]: "Última actualización:"
+                      - text: hace 2 días
+                    - generic [ref=e877]: 600.000+ instalaciones activas
+                    - generic [ref=e879]:
+                      - strong [ref=e880]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e881]:
+                  - generic [ref=e882]:
+                    - heading "Google Analytics for WooCommerce" [level=3] [ref=e884]:
+                      - link "Google Analytics for WooCommerce" [ref=e885] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-google-analytics-integration&TB_iframe=true&width=600&height=550
+                    - list [ref=e887]:
+                      - listitem [ref=e888]:
+                        - button "Instalar Google Analytics for WooCommerce 2.1.23 ahora" [ref=e889] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e890]:
+                        - link "Más información sobre Google Analytics for WooCommerce 2.1.23" [ref=e891] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-google-analytics-integration&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e892]:
+                      - paragraph [ref=e893]: Ofrece integración entre Google Analytics y WooCommerce.
+                      - paragraph [ref=e894]:
+                        - generic [ref=e895]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e896] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e897]:
+                    - paragraph [ref=e898]:
+                      - strong [ref=e899]: Se necesitan plugins adicionales
+                    - generic [ref=e900]:
+                      - generic [ref=e901]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e902] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e903]:
+                    - generic [ref=e904]:
+                      - generic [ref=e906]: Valoración de 3,0 basada en 119 valoraciones
+                      - text: (119)
+                    - generic [ref=e912]:
+                      - strong [ref=e913]: "Última actualización:"
+                      - text: hace 2 meses
+                    - generic [ref=e914]: 100.000+ instalaciones activas
+                    - generic [ref=e915]: No probado con tu versión de WordPress
+                - generic [ref=e916]:
+                  - generic [ref=e917]:
+                    - heading "Perfect Brands for WooCommerce" [level=3] [ref=e919]:
+                      - link "Perfect Brands for WooCommerce" [ref=e920] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=perfect-woocommerce-brands&TB_iframe=true&width=600&height=550
+                    - list [ref=e922]:
+                      - listitem [ref=e923]:
+                        - button "Instalar Perfect Brands for WooCommerce 3.6.13 ahora" [ref=e924] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e925]:
+                        - link "Más información sobre Perfect Brands for WooCommerce 3.6.13" [ref=e926] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=perfect-woocommerce-brands&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e927]:
+                      - paragraph [ref=e928]: Perfect Brands for WooCommerce te permite mostrar marcas de producto en tu tienda online basada en WooCommerce
+                      - paragraph [ref=e929]:
+                        - generic [ref=e930]:
+                          - text: Por
+                          - link "quadlayers" [ref=e931] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/quadlayers/
+                  - generic [ref=e932]:
+                    - generic [ref=e933]:
+                      - generic [ref=e935]: Valoración de 4,5 basada en 415 valoraciones
+                      - text: (415)
+                    - generic [ref=e941]:
+                      - strong [ref=e942]: "Última actualización:"
+                      - text: hace 2 semanas
+                    - generic [ref=e943]: 40.000+ instalaciones activas
+                    - generic [ref=e945]:
+                      - strong [ref=e946]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e947]:
+                  - generic [ref=e948]:
+                    - heading "Payment Plugins for PayPal WooCommerce" [level=3] [ref=e950]:
+                      - link "Payment Plugins for PayPal WooCommerce" [ref=e951] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=pymntpl-paypal-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e953]:
+                      - listitem [ref=e954]:
+                        - button "Instalar Payment Plugins for PayPal WooCommerce 2.0.17 ahora" [ref=e955] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e956]:
+                        - link "Más información sobre Payment Plugins for PayPal WooCommerce 2.0.17" [ref=e957] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=pymntpl-paypal-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e958]:
+                      - paragraph [ref=e959]: Developed exclusively between Payment Plugins and PayPal, PayPal for WooCommerce integrates with PayPal's newest API's.
+                      - paragraph [ref=e960]:
+                        - generic [ref=e961]:
+                          - text: Por
+                          - link "Payment Plugins" [ref=e962] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/paymentplugins/
+                  - generic [ref=e963]:
+                    - paragraph [ref=e964]:
+                      - strong [ref=e965]: Se necesitan plugins adicionales
+                    - generic [ref=e966]:
+                      - generic [ref=e967]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e968] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e969]:
+                    - generic [ref=e970]:
+                      - generic [ref=e972]: Valoración de 5,0 basada en 123 valoraciones
+                      - text: (123)
+                    - generic [ref=e978]:
+                      - strong [ref=e979]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e980]: 90.000+ instalaciones activas
+                    - generic [ref=e982]:
+                      - strong [ref=e983]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e984]:
+                  - generic [ref=e985]:
+                    - heading "WooCommerce Shipping" [level=3] [ref=e987]:
+                      - link "WooCommerce Shipping" [ref=e988] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-shipping&TB_iframe=true&width=600&height=550
+                    - list [ref=e990]:
+                      - listitem [ref=e991]:
+                        - button "Instalar WooCommerce Shipping 2.3.5 ahora" [ref=e992] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e993]:
+                        - link "Más información sobre WooCommerce Shipping 2.3.5" [ref=e994] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-shipping&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e995]:
+                      - paragraph [ref=e996]: A free shipping plugin for US merchants to print discounted shipping labels and compare live label rates directly from your WooCommerce dashboard.
+                      - paragraph [ref=e997]:
+                        - generic [ref=e998]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e999] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e1000]:
+                    - paragraph [ref=e1001]:
+                      - strong [ref=e1002]: Se necesitan plugins adicionales
+                    - generic [ref=e1003]:
+                      - generic [ref=e1004]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1005] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1006]:
+                    - generic [ref=e1007]:
+                      - generic [ref=e1009]: Valoración de 2,0 basada en 17 valoraciones
+                      - text: (17)
+                    - generic [ref=e1015]:
+                      - strong [ref=e1016]: "Última actualización:"
+                      - text: hace 1 semana
+                    - generic [ref=e1017]: 70.000+ instalaciones activas
+                    - generic [ref=e1019]:
+                      - strong [ref=e1020]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1021]:
+                  - generic [ref=e1022]:
+                    - heading "WPML Multilingual & Multicurrency for WooCommerce" [level=3] [ref=e1024]:
+                      - link "WPML Multilingual & Multicurrency for WooCommerce" [ref=e1025] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-multilingual&TB_iframe=true&width=600&height=550
+                    - list [ref=e1027]:
+                      - listitem [ref=e1028]:
+                        - button "Instalar WPML Multilingual & Multicurrency for WooCommerce 5.5.5 ahora" [ref=e1029] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1030]:
+                        - link "Más información sobre WPML Multilingual & Multicurrency for WooCommerce 5.5.5" [ref=e1031] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-multilingual&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1032]:
+                      - paragraph [ref=e1033]: Haz que tu tienda sea multilingüe y activa varias monedas.
+                      - paragraph [ref=e1034]:
+                        - generic [ref=e1035]:
+                          - text: Por
+                          - link "Amir Helzer" [ref=e1036] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/amirhelzer/
+                  - generic [ref=e1037]:
+                    - generic [ref=e1038]:
+                      - generic [ref=e1040]: Valoración de 4,0 basada en 444 valoraciones
+                      - text: (444)
+                    - generic [ref=e1046]:
+                      - strong [ref=e1047]: "Última actualización:"
+                      - text: hace 2 meses
+                    - generic [ref=e1048]: 100.000+ instalaciones activas
+                    - generic [ref=e1049]: No probado con tu versión de WordPress
+                - generic [ref=e1050]:
+                  - generic [ref=e1051]:
+                    - heading "Checkout Field Manager (Checkout Manager) for WooCommerce" [level=3] [ref=e1053]:
+                      - link "Checkout Field Manager (Checkout Manager) for WooCommerce" [ref=e1054] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-checkout-manager&TB_iframe=true&width=600&height=550
+                    - list [ref=e1056]:
+                      - listitem [ref=e1057]:
+                        - button "Instalar Checkout Field Manager (Checkout Manager) for WooCommerce 7.9.2 ahora" [ref=e1058] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1059]:
+                        - link "Más información sobre Checkout Field Manager (Checkout Manager) for WooCommerce 7.9.2" [ref=e1060] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-checkout-manager&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1061]:
+                      - paragraph [ref=e1062]: Checkout Field Manager (Checkout Manager) for WooCommerce is the most advanced plugin to customize checkout fields on your WooCommerce checkout page.
+                      - paragraph [ref=e1063]:
+                        - generic [ref=e1064]:
+                          - text: Por
+                          - link "quadlayers" [ref=e1065] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/quadlayers/
+                  - generic [ref=e1066]:
+                    - generic [ref=e1067]:
+                      - generic [ref=e1069]: Valoración de 4,5 basada en 782 valoraciones
+                      - text: (782)
+                    - generic [ref=e1075]:
+                      - strong [ref=e1076]: "Última actualización:"
+                      - text: hace 2 meses
+                    - generic [ref=e1077]: 90.000+ instalaciones activas
+                    - generic [ref=e1078]: No probado con tu versión de WordPress
+                - generic [ref=e1079]:
+                  - generic [ref=e1080]:
+                    - heading "Reddit for WooCommerce" [level=3] [ref=e1082]:
+                      - link "Reddit for WooCommerce" [ref=e1083] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=reddit-for-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e1085]:
+                      - listitem [ref=e1086]:
+                        - button "Instalar Reddit for WooCommerce 1.0.3 ahora" [ref=e1087] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1088]:
+                        - link "Más información sobre Reddit for WooCommerce 1.0.3" [ref=e1089] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=reddit-for-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1090]:
+                      - paragraph [ref=e1091]: Integrate your WooCommerce store with Reddit Ads to track conversions and export products for advertising.
+                      - paragraph [ref=e1092]:
+                        - generic [ref=e1093]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e1094] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e1095]:
+                    - paragraph [ref=e1096]:
+                      - strong [ref=e1097]: Se necesitan plugins adicionales
+                    - generic [ref=e1098]:
+                      - generic [ref=e1099]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1100] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1101]:
+                    - generic [ref=e1102]:
+                      - generic [ref=e1104]: Valoración de 5,0 basada en 1 valoración
+                      - text: (1)
+                    - generic [ref=e1110]:
+                      - strong [ref=e1111]: "Última actualización:"
+                      - text: hace 4 meses
+                    - generic [ref=e1112]: 60.000+ instalaciones activas
+                    - generic [ref=e1113]: No probado con tu versión de WordPress
+                - generic [ref=e1114]:
+                  - generic [ref=e1115]:
+                    - heading "YITH WooCommerce Wishlist" [level=3] [ref=e1117]:
+                      - link "YITH WooCommerce Wishlist" [ref=e1118] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=yith-woocommerce-wishlist&TB_iframe=true&width=600&height=550
+                    - list [ref=e1120]:
+                      - listitem [ref=e1121]:
+                        - button "Instalar YITH WooCommerce Wishlist 4.15.0 ahora" [ref=e1122] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1123]:
+                        - link "Más información sobre YITH WooCommerce Wishlist 4.15.0" [ref=e1124] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=yith-woocommerce-wishlist&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1125]:
+                      - paragraph [ref=e1126]: YITH WooCommerce Wishlist add all Wishlist features to your website. Needs WooCommerce to work. WooCommerce 10.8.x compatible.
+                      - paragraph [ref=e1127]:
+                        - generic [ref=e1128]:
+                          - text: Por
+                          - link "YITHEMES" [ref=e1129] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/yithemes/
+                  - generic [ref=e1130]:
+                    - paragraph [ref=e1131]:
+                      - strong [ref=e1132]: Se necesitan plugins adicionales
+                    - generic [ref=e1133]:
+                      - generic [ref=e1134]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1135] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1136]:
+                    - generic [ref=e1137]:
+                      - generic [ref=e1139]: Valoración de 4,0 basada en 262 valoraciones
+                      - text: (262)
+                    - generic [ref=e1145]:
+                      - strong [ref=e1146]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e1147]: 400.000+ instalaciones activas
+                    - generic [ref=e1149]:
+                      - strong [ref=e1150]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1151]:
+                  - generic [ref=e1152]:
+                    - heading "Print Invoice & Delivery Notes for WooCommerce" [level=3] [ref=e1154]:
+                      - link "Print Invoice & Delivery Notes for WooCommerce" [ref=e1155] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-delivery-notes&TB_iframe=true&width=600&height=550
+                    - list [ref=e1157]:
+                      - listitem [ref=e1158]:
+                        - button "Instalar Print Invoice & Delivery Notes for WooCommerce 7.1.2 ahora" [ref=e1159] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1160]:
+                        - link "Más información sobre Print Invoice & Delivery Notes for WooCommerce 7.1.2" [ref=e1161] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-delivery-notes&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1162]:
+                      - paragraph [ref=e1163]: Create and print PDF invoices, delivery notes, receipts, credit notes, and packing slips for your WooCommerce orders.
+                      - paragraph [ref=e1164]:
+                        - generic [ref=e1165]:
+                          - text: Por
+                          - link "tychesoftwares" [ref=e1166] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/tychesoftwares/
+                  - generic [ref=e1167]:
+                    - paragraph [ref=e1168]:
+                      - strong [ref=e1169]: Se necesitan plugins adicionales
+                    - generic [ref=e1170]:
+                      - generic [ref=e1171]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1172] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1173]:
+                    - generic [ref=e1174]:
+                      - generic [ref=e1176]: Valoración de 4,5 basada en 133 valoraciones
+                      - text: (133)
+                    - generic [ref=e1182]:
+                      - strong [ref=e1183]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e1184]: 30.000+ instalaciones activas
+                    - generic [ref=e1185]: No probado con tu versión de WordPress
+                - generic [ref=e1186]:
+                  - generic [ref=e1187]:
+                    - heading "Pasarela de pago para PayPal en WooCommerce" [level=3] [ref=e1189]:
+                      - link "Pasarela de pago para PayPal en WooCommerce" [ref=e1190] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woo-paypal-gateway&TB_iframe=true&width=600&height=550
+                    - list [ref=e1192]:
+                      - listitem [ref=e1193]:
+                        - button "Instalar Pasarela de pago para PayPal en WooCommerce 9.0.65 ahora" [ref=e1194] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1195]:
+                        - link "Más información sobre Pasarela de pago para PayPal en WooCommerce 9.0.65" [ref=e1196] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woo-paypal-gateway&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1197]:
+                      - paragraph [ref=e1198]: PayPal, tarjetas de crédito/débito, Google Pay, Apple Pay, Pay Later, Venmo, SEPA, iDEAL, Mercado Pago, Bancontact y más, a través de un socio oficial de PayPal.
+                      - paragraph [ref=e1199]:
+                        - generic [ref=e1200]:
+                          - text: Por
+                          - link "Easy Payment" [ref=e1201] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/easypayment/
+                  - generic [ref=e1202]:
+                    - paragraph [ref=e1203]:
+                      - strong [ref=e1204]: Se necesitan plugins adicionales
+                    - generic [ref=e1205]:
+                      - generic [ref=e1206]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1207] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1208]:
+                    - generic [ref=e1209]:
+                      - generic [ref=e1211]: Valoración de 4,5 basada en 72 valoraciones
+                      - text: (72)
+                    - generic [ref=e1217]:
+                      - strong [ref=e1218]: "Última actualización:"
+                      - text: hace 14 horas
+                    - generic [ref=e1219]: 10.000+ instalaciones activas
+                    - generic [ref=e1221]:
+                      - strong [ref=e1222]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1223]:
+                  - generic [ref=e1224]:
+                    - heading "HUSKY – Products Filter Professional for WooCommerce" [level=3] [ref=e1226]:
+                      - link "HUSKY – Products Filter Professional for WooCommerce" [ref=e1227] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-products-filter&TB_iframe=true&width=600&height=550
+                    - list [ref=e1229]:
+                      - listitem [ref=e1230]:
+                        - button "Instalar HUSKY – Products Filter Professional for WooCommerce 1.3.9 ahora" [ref=e1231] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1232]:
+                        - link "Más información sobre HUSKY – Products Filter Professional for WooCommerce 1.3.9" [ref=e1233] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-products-filter&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1234]:
+                      - paragraph [ref=e1235]: HUSKY - WooCommerce Products Filter Professional (former name is WOOF) – flexible, easy and robust professional filter for products for WooCommerce
+                      - paragraph [ref=e1236]:
+                        - generic [ref=e1237]:
+                          - text: Por
+                          - link "RealMag777" [ref=e1238] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/realmag777/
+                  - generic [ref=e1239]:
+                    - paragraph [ref=e1240]:
+                      - strong [ref=e1241]: Se necesitan plugins adicionales
+                    - generic [ref=e1242]:
+                      - generic [ref=e1243]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1244] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1245]:
+                    - generic [ref=e1246]:
+                      - generic [ref=e1248]: Valoración de 4,5 basada en 333 valoraciones
+                      - text: (333)
+                    - generic [ref=e1254]:
+                      - strong [ref=e1255]: "Última actualización:"
+                      - text: hace 2 días
+                    - generic [ref=e1256]: 90.000+ instalaciones activas
+                    - generic [ref=e1258]:
+                      - strong [ref=e1259]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1260]:
+                  - generic [ref=e1261]:
+                    - heading "Sliding Cart for WooCommerce by FunnelKit – Skip Cart & Reach WooCommerce Checkout Faster" [level=3] [ref=e1263]:
+                      - link "Sliding Cart for WooCommerce by FunnelKit – Skip Cart & Reach WooCommerce Checkout Faster" [ref=e1264] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=cart-for-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e1266]:
+                      - listitem [ref=e1267]:
+                        - button "Instalar Sliding Cart for WooCommerce by FunnelKit – Skip Cart & Reach WooCommerce Checkout Faster 1.9.1.1 ahora" [ref=e1268] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1269]:
+                        - link "Más información sobre Sliding Cart for WooCommerce by FunnelKit – Skip Cart & Reach WooCommerce Checkout Faster 1.9.1.1" [ref=e1270] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=cart-for-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1271]:
+                      - paragraph [ref=e1272]: FunnelKit Cart añade un bonito carrito deslizante a tu tienda WooCommerce. Permite a los compradores añadir artículos, editar la cantidad y añadir ventas dirigidas desde el carrito lateral.
+                      - paragraph [ref=e1273]:
+                        - generic [ref=e1274]:
+                          - text: Por
+                          - link "FunnelKit" [ref=e1275] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/teamfunnelkit/
+                  - generic [ref=e1276]:
+                    - generic [ref=e1277]:
+                      - generic [ref=e1279]: Valoración de 5,0 basada en 108 valoraciones
+                      - text: (108)
+                    - generic [ref=e1285]:
+                      - strong [ref=e1286]: "Última actualización:"
+                      - text: hace 1 semana
+                    - generic [ref=e1287]: 30.000+ instalaciones activas
+                    - generic [ref=e1289]:
+                      - strong [ref=e1290]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1291]:
+                  - generic [ref=e1292]:
+                    - heading "Advanced Product Fields (Product Addons) for WooCommerce" [level=3] [ref=e1294]:
+                      - link "Advanced Product Fields (Product Addons) for WooCommerce" [ref=e1295] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=advanced-product-fields-for-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e1297]:
+                      - listitem [ref=e1298]:
+                        - button "Instalar Advanced Product Fields (Product Addons) for WooCommerce 1.7 ahora" [ref=e1299] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1300]:
+                        - link "Más información sobre Advanced Product Fields (Product Addons) for WooCommerce 1.7" [ref=e1301] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=advanced-product-fields-for-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1302]:
+                      - paragraph [ref=e1303]: Add options (addons) to your WooCommerce products so your customers can personalize their products. Product forms for everyone!
+                      - paragraph [ref=e1304]:
+                        - generic [ref=e1305]:
+                          - text: Por
+                          - link "Wombat Plugins" [ref=e1306] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/maartenbelmans/
+                  - generic [ref=e1307]:
+                    - generic [ref=e1308]:
+                      - generic [ref=e1310]: Valoración de 5,0 basada en 280 valoraciones
+                      - text: (280)
+                    - generic [ref=e1316]:
+                      - strong [ref=e1317]: "Última actualización:"
+                      - text: hace 2 meses
+                    - generic [ref=e1318]: 50.000+ instalaciones activas
+                    - generic [ref=e1320]:
+                      - strong [ref=e1321]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1322]:
+                  - generic [ref=e1323]:
+                    - heading "TI WooCommerce Wishlist" [level=3] [ref=e1325]:
+                      - link "TI WooCommerce Wishlist" [ref=e1326] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=ti-woocommerce-wishlist&TB_iframe=true&width=600&height=550
+                    - list [ref=e1328]:
+                      - listitem [ref=e1329]:
+                        - button "Instalar TI WooCommerce Wishlist 2.11.1 ahora" [ref=e1330] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1331]:
+                        - link "Más información sobre TI WooCommerce Wishlist 2.11.1" [ref=e1332] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=ti-woocommerce-wishlist&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1333]:
+                      - paragraph [ref=e1334]: Boost your sales with a free WooCommerce Wishlist feature. Let your customers save and share their favorite products!
+                      - paragraph [ref=e1335]:
+                        - generic [ref=e1336]:
+                          - text: Por
+                          - link "templateinvaders" [ref=e1337] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/templateinvaders/
+                  - generic [ref=e1338]:
+                    - paragraph [ref=e1339]:
+                      - strong [ref=e1340]: Se necesitan plugins adicionales
+                    - generic [ref=e1341]:
+                      - generic [ref=e1342]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1343] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1344]:
+                    - generic [ref=e1345]:
+                      - generic [ref=e1347]: Valoración de 4,5 basada en 498 valoraciones
+                      - text: (498)
+                    - generic [ref=e1353]:
+                      - strong [ref=e1354]: "Última actualización:"
+                      - text: hace 7 meses
+                    - generic [ref=e1355]: 100.000+ instalaciones activas
+                    - generic [ref=e1356]: No probado con tu versión de WordPress
+                - generic [ref=e1357]:
+                  - generic [ref=e1358]:
+                    - heading "Price Based on Country for WooCommerce" [level=3] [ref=e1360]:
+                      - link "Price Based on Country for WooCommerce" [ref=e1361] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-product-price-based-on-countries&TB_iframe=true&width=600&height=550
+                    - list [ref=e1363]:
+                      - listitem [ref=e1364]:
+                        - button "Instalar Price Based on Country for WooCommerce 4.3.2 ahora" [ref=e1365] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1366]:
+                        - link "Más información sobre Price Based on Country for WooCommerce 4.3.2" [ref=e1367] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-product-price-based-on-countries&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1368]:
+                      - paragraph [ref=e1369]: Precios de productos y moneda basados en el país del comprador para WooCommerce con soporte multimoneda y geolocalización para impulsar las ventas internacionales.
+                      - paragraph [ref=e1370]:
+                        - generic [ref=e1371]:
+                          - text: Por
+                          - link "Oscar Gare" [ref=e1372] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/oscargare/
+                  - generic [ref=e1373]:
+                    - generic [ref=e1374]:
+                      - generic [ref=e1376]: Valoración de 5,0 basada en 262 valoraciones
+                      - text: (262)
+                    - generic [ref=e1382]:
+                      - strong [ref=e1383]: "Última actualización:"
+                      - text: hace 3 semanas
+                    - generic [ref=e1384]: 20.000+ instalaciones activas
+                    - generic [ref=e1386]:
+                      - strong [ref=e1387]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1388]:
+                  - generic [ref=e1389]:
+                    - heading "WooCommerce Analytics" [level=3] [ref=e1391]:
+                      - link "WooCommerce Analytics" [ref=e1392] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-analytics&TB_iframe=true&width=600&height=550
+                    - list [ref=e1394]:
+                      - listitem [ref=e1395]:
+                        - button "Instalar WooCommerce Analytics 0.9.15 ahora" [ref=e1396] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1397]:
+                        - link "Más información sobre WooCommerce Analytics 0.9.15" [ref=e1398] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-analytics&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1399]:
+                      - paragraph [ref=e1400]: Aumenta las ventas y maximiza el retorno de la inversión con WooCommerce Analytics. Accede a los datos de atribución de pedidos para optimizar el rendimiento e impulsar el crecimiento del negocio de forma eficaz.
+                      - paragraph [ref=e1401]:
+                        - generic [ref=e1402]:
+                          - text: Por
+                          - link "WooCommerce" [ref=e1403] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/woocommerce/
+                  - generic [ref=e1404]:
+                    - paragraph [ref=e1405]:
+                      - strong [ref=e1406]: Se necesitan plugins adicionales
+                    - generic [ref=e1407]:
+                      - generic [ref=e1408]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1409] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1410]:
+                    - generic [ref=e1411]:
+                      - generic [ref=e1413]: Valoración de 5,0 basada en 3 valoraciones
+                      - text: (3)
+                    - generic [ref=e1419]:
+                      - strong [ref=e1420]: "Última actualización:"
+                      - text: hace 1 semana
+                    - generic [ref=e1421]: 20.000+ instalaciones activas
+                    - generic [ref=e1423]:
+                      - strong [ref=e1424]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1425]:
+                  - generic [ref=e1426]:
+                    - heading "Mollie Payments for WooCommerce" [level=3] [ref=e1428]:
+                      - link "Mollie Payments for WooCommerce" [ref=e1429] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=mollie-payments-for-woocommerce&TB_iframe=true&width=600&height=550
+                    - list [ref=e1431]:
+                      - listitem [ref=e1432]:
+                        - button "Instalar Mollie Payments for WooCommerce 8.1.6 ahora" [ref=e1433] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1434]:
+                        - link "Más información sobre Mollie Payments for WooCommerce 8.1.6" [ref=e1435] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=mollie-payments-for-woocommerce&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1436]:
+                      - paragraph [ref=e1437]: Acepta los principales métodos de pago en WooCommerce actuales. Tarjetas de crédito, iDEAL ¡y más! Rápido, seguro e intuitivo.
+                      - paragraph [ref=e1438]:
+                        - generic [ref=e1439]:
+                          - text: Por
+                          - link "Mollie" [ref=e1440] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/mollieintegration/
+                  - generic [ref=e1441]:
+                    - paragraph [ref=e1442]:
+                      - strong [ref=e1443]: Se necesitan plugins adicionales
+                    - generic [ref=e1444]:
+                      - generic [ref=e1445]: WooCommerce
+                      - link "Más información sobre WooCommerce" [ref=e1446] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Más detalles
+                  - generic [ref=e1447]:
+                    - generic [ref=e1448]:
+                      - generic [ref=e1450]: Valoración de 3,5 basada en 69 valoraciones
+                      - text: (69)
+                    - generic [ref=e1456]:
+                      - strong [ref=e1457]: "Última actualización:"
+                      - text: hace 1 mes
+                    - generic [ref=e1458]: 100.000+ instalaciones activas
+                    - generic [ref=e1459]: No probado con tu versión de WordPress
+                - generic [ref=e1460]:
+                  - generic [ref=e1461]:
+                    - heading "Product Feed PRO for WooCommerce by AdTribes – Product Feeds for WooCommerce" [level=3] [ref=e1463]:
+                      - link "Product Feed PRO for WooCommerce by AdTribes – Product Feeds for WooCommerce" [ref=e1464] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woo-product-feed-pro&TB_iframe=true&width=600&height=550
+                    - list [ref=e1466]:
+                      - listitem [ref=e1467]:
+                        - button "Instalar Product Feed PRO for WooCommerce by AdTribes – Product Feeds for WooCommerce 13.5.4 ahora" [ref=e1468] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1469]:
+                        - link "Más información sobre Product Feed PRO for WooCommerce by AdTribes – Product Feeds for WooCommerce 13.5.4" [ref=e1470] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woo-product-feed-pro&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1471]:
+                      - paragraph [ref=e1472]: Most popular WooCommerce product feed plugin supporting Google shopping feed, meta/facebook feed, bing product feed & more.
+                      - paragraph [ref=e1473]:
+                        - generic [ref=e1474]:
+                          - text: Por
+                          - link "Josh Kohlbach" [ref=e1475] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/jkohlbach/
+                  - generic [ref=e1476]:
+                    - generic [ref=e1477]:
+                      - generic [ref=e1479]: Valoración de 4,5 basada en 1.057 valoraciones
+                      - text: (1.057)
+                    - generic [ref=e1485]:
+                      - strong [ref=e1486]: "Última actualización:"
+                      - text: hace 4 semanas
+                    - generic [ref=e1487]: 80.000+ instalaciones activas
+                    - generic [ref=e1489]:
+                      - strong [ref=e1490]: Compatible
+                      - text: con tu versión de WordPress
+                - generic [ref=e1491]:
+                  - generic [ref=e1492]:
+                    - heading "Direct Checkout para WooCommerce" [level=3] [ref=e1494]:
+                      - link "Direct Checkout para WooCommerce" [ref=e1495] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-direct-checkout&TB_iframe=true&width=600&height=550
+                    - list [ref=e1497]:
+                      - listitem [ref=e1498]:
+                        - button "Instalar Direct Checkout para WooCommerce 3.6.6 ahora" [ref=e1499] [cursor=pointer]: Instalar ahora
+                      - listitem [ref=e1500]:
+                        - link "Más información sobre Direct Checkout para WooCommerce 3.6.6" [ref=e1501] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce-direct-checkout&TB_iframe=true&width=600&height=550
+                          - text: Más detalles
+                    - generic [ref=e1502]:
+                      - paragraph [ref=e1503]: Anteriormente "WooCommerce Direct Checkout" Este plugin simplifica completamente el proceso de finalizacion de pago incrementando su tasa ventas
+                      - paragraph [ref=e1504]:
+                        - generic [ref=e1505]:
+                          - text: Por
+                          - link "quadlayers" [ref=e1506] [cursor=pointer]:
+                            - /url: https://profiles.wordpress.org/quadlayers/
+                  - generic [ref=e1507]:
+                    - generic [ref=e1508]:
+                      - generic [ref=e1510]: Valoración de 5,0 basada en 406 valoraciones
+                      - text: (406)
+                    - generic [ref=e1516]:
+                      - strong [ref=e1517]: "Última actualización:"
+                      - text: hace 2 meses
+                    - generic [ref=e1518]: 80.000+ instalaciones activas
+                    - generic [ref=e1519]: No probado con tu versión de WordPress
+            - generic [ref=e1521]:
+              - text: 10.000 elementos
+              - generic [ref=e1522]:
+                - generic [ref=e1523]: «
+                - generic [ref=e1524]: ‹
+                - generic [ref=e1525]: Página actual
+                - generic [ref=e1527]: 1 de 278
+                - link "Página siguiente" [ref=e1528] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?s=woocommerce&tab=search&type=term&paged=2
+                  - generic [ref=e1529]: Página siguiente
+                  - text: ›
+                - link "Última página" [ref=e1530] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?s=woocommerce&tab=search&type=term&paged=278
+                  - generic [ref=e1531]: Última página
+                  - text: »
+  - contentinfo [ref=e1532]:
+    - paragraph [ref=e1533]:
+      - generic [ref=e1535]:
+        - text: Gracias por crear con
+        - link "WordPress" [ref=e1536] [cursor=pointer]:
+          - /url: https://es.wordpress.org/
+        - text: .
+    - paragraph [ref=e1537]: Versión 7.0

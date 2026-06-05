@@ -26,22 +26,9 @@ import PageHeader from '@/components/common/PageHeader'
 import ProductForm from './ProductForm'
 import { useProducts } from '@/hooks/useProducts'
 import { useAuth } from '@/hooks/useAuth'
-import type { Product, ProductCategory, CreateProductRequest, UpdateProductRequest } from '@/types'
+import type { Product, ProductCategory2, CreateProductRequest } from '@/types'
 
 const { Text } = Typography
-
-const categoryLabels: Record<ProductCategory, string> = {
-  ALIMENTOS: 'Alimentos',
-  BEBIDAS: 'Bebidas',
-  LIMPIEZA: 'Limpieza',
-  HIGIENE: 'Higiene',
-  LACTEOS: 'Lácteos',
-  PANADERIA: 'Panadería',
-  FRUTAS_VERDURAS: 'Frutas/Verduras',
-  CARNES: 'Carnes',
-  CONGELADOS: 'Congelados',
-  OTROS: 'Otros',
-}
 
 const ProductsPage: React.FC = () => {
   const { token } = theme.useToken()
@@ -58,7 +45,7 @@ const ProductsPage: React.FC = () => {
   const { message } = App.useApp()
   const [searchName, setSearchName] = useState('')
   const [searchBarcode, setSearchBarcode] = useState('')
-  const [activeFilter, setActiveFilter] = useState<boolean | undefined>(undefined)
+  const [activeFilter, setActiveFilter] = useState<boolean | undefined>(true)
   const [formOpen, setFormOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -86,17 +73,17 @@ const ProductsPage: React.FC = () => {
   const handleReset = () => {
     setSearchName('')
     setSearchBarcode('')
-    setActiveFilter(undefined)
-    fetchProducts({ page: 1, size: pagination.pageSize })
+    setActiveFilter(true)
+    fetchProducts({ page: 1, size: pagination.pageSize, active: true })
   }
 
-  const handleFormSubmit = async (data: CreateProductRequest | UpdateProductRequest) => {
+  const handleFormSubmit = async (data: CreateProductRequest) => {
     setIsSubmitting(true)
     try {
       if (editingProduct) {
-        await updateProduct(editingProduct.id, data as UpdateProductRequest)
+        await updateProduct(editingProduct.id, data)
       } else {
-        await createProduct(data as CreateProductRequest)
+        await createProduct(data)
       }
       setFormOpen(false)
       setEditingProduct(null)
@@ -141,9 +128,9 @@ const ProductsPage: React.FC = () => {
       dataIndex: 'category',
       key: 'category',
       width: 130,
-      render: (v: ProductCategory) => (
+      render: (v: ProductCategory2) => (
         <Tag color="blue" style={{ fontSize: 11 }}>
-          {categoryLabels[v] ?? v}
+          {v?.name ?? '—'}
         </Tag>
       ),
     },
@@ -155,18 +142,18 @@ const ProductsPage: React.FC = () => {
       align: 'right',
       render: (v: number) => (
         <Text strong style={{ color: token.colorPrimary }}>
-          S/. {v.toFixed(2)}
+          ${Math.round(v).toLocaleString('es-CL')}
         </Text>
       ),
     },
     {
       title: 'Stock',
-      dataIndex: 'currentStock',
-      key: 'currentStock',
+      dataIndex: 'stockCurrent',
+      key: 'stockCurrent',
       width: 90,
       align: 'center',
       render: (v: number, record: Product) => {
-        const isLow = v <= record.minStock
+        const isLow = v <= record.stockMinimum
         const isCritical = v === 0
         return (
           <Text

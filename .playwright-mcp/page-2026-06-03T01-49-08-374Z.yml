@@ -1,0 +1,968 @@
+- generic [ref=e2]:
+  - navigation "Menú principal":
+    - link "Saltar al contenido principal" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Ir a la barra de herramientas" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Escritorio" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+          - generic [ref=e11]: Escritorio
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Inicio" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Actualizaciones" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+      - listitem [ref=e17]
+      - listitem [ref=e19]:
+        - link "Entradas" [ref=e20] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e21]: 
+          - generic [ref=e22]: Entradas
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Todas las entradas" [ref=e25] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e26]:
+            - link "Añadir entrada" [ref=e27] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e28]:
+            - link "Categorías" [ref=e29] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e30]:
+            - link "Etiquetas" [ref=e31] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e32]:
+        - link "Medios" [ref=e33] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e34]: 
+          - generic [ref=e35]: Medios
+        - list [ref=e36]:
+          - listitem [ref=e37]:
+            - link "Biblioteca" [ref=e38] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e39]:
+            - link "Añadir medios" [ref=e40] [cursor=pointer]:
+              - /url: media-new.php
+          - listitem [ref=e41]:
+            - link "Categories" [ref=e42] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=media-category&post_type=attachment
+          - listitem [ref=e43]:
+            - link "Tags" [ref=e44] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=media-tag&post_type=attachment
+      - listitem [ref=e45]:
+        - link "Páginas" [ref=e46] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e47]: 
+          - generic [ref=e48]: Páginas
+        - list [ref=e49]:
+          - listitem [ref=e50]:
+            - link "Todas las páginas" [ref=e51] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e52]:
+            - link "Añadir página" [ref=e53] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e54]:
+        - link "Comentarios" [ref=e55] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e56]: 
+          - generic [ref=e57]: Comentarios
+      - listitem [ref=e58]:
+        - link "Proyectos" [ref=e59] [cursor=pointer]:
+          - /url: edit.php?post_type=project
+          - generic [ref=e60]: 
+          - generic [ref=e61]: Proyectos
+        - list [ref=e62]:
+          - listitem [ref=e63]:
+            - link "Todos Los Proyectos" [ref=e64] [cursor=pointer]:
+              - /url: edit.php?post_type=project
+          - listitem [ref=e65]:
+            - link "Agregar Nuevo Proyecto" [ref=e66] [cursor=pointer]:
+              - /url: post-new.php?post_type=project
+          - listitem [ref=e67]:
+            - link "Categorías" [ref=e68] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=project_category&post_type=project
+          - listitem [ref=e69]:
+            - link "Etiquetas" [ref=e70] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=project_tag&post_type=project
+      - listitem [ref=e71]
+      - listitem [ref=e73]:
+        - link "Apariencia" [ref=e74] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e75]: 
+          - generic [ref=e76]: Apariencia
+        - list [ref=e77]:
+          - listitem [ref=e78]:
+            - link "Temas" [ref=e79] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=e80]:
+            - link "Patrones" [ref=e81] [cursor=pointer]:
+              - /url: site-editor.php?p=/pattern
+          - listitem [ref=e82]:
+            - link "Personalizar" [ref=e83] [cursor=pointer]:
+              - /url: customize.php?return=%2Fwp-admin%2Fplugins.php%3Fplugin_status%3Dall%26paged%3D1%26s
+          - listitem [ref=e84]:
+            - link "Widgets" [ref=e85] [cursor=pointer]:
+              - /url: widgets.php
+          - listitem [ref=e86]:
+            - link "Fuentes" [ref=e87] [cursor=pointer]:
+              - /url: font-library.php
+          - listitem [ref=e88]:
+            - link "Menús" [ref=e89] [cursor=pointer]:
+              - /url: nav-menus.php
+          - listitem [ref=e90]:
+            - link "Fondo" [ref=e91] [cursor=pointer]:
+              - /url: customize.php?return=%2Fwp-admin%2Fplugins.php%3Fplugin_status%3Dall%26paged%3D1%26s&autofocus%5Bcontrol%5D=background_image
+          - listitem
+          - listitem [ref=e92]:
+            - link "Editor de archivos de temas" [ref=e93] [cursor=pointer]:
+              - /url: theme-editor.php
+      - listitem [ref=e94]:
+        - link "Plugins" [ref=e95] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e96]: 
+          - generic [ref=e97]: Plugins
+        - list [ref=e98]:
+          - listitem [ref=e99]:
+            - link "Plugins instalados" [ref=e100] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e101]:
+            - link "Añadir plugin" [ref=e102] [cursor=pointer]:
+              - /url: plugin-install.php
+          - listitem [ref=e103]:
+            - link "Editor de archivos de plugins" [ref=e104] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e105]:
+        - link "Usuarios" [ref=e106] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e107]: 
+          - generic [ref=e108]: Usuarios
+        - list [ref=e109]:
+          - listitem [ref=e110]:
+            - link "Todos los usuarios" [ref=e111] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e112]:
+            - link "Añadir usuario" [ref=e113] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e114]:
+            - link "Perfil" [ref=e115] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e116]:
+        - link "Herramientas" [ref=e117] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e118]: 
+          - generic [ref=e119]: Herramientas
+        - list [ref=e120]:
+          - listitem [ref=e121]:
+            - link "Herramientas disponibles" [ref=e122] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e123]:
+            - link "Importar" [ref=e124] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e125]:
+            - link "Exportar" [ref=e126] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e127]:
+            - link "Salud del sitio" [ref=e128] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e129]:
+            - link "Exportar los datos personales" [ref=e130] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e131]:
+            - link "Borrar los datos personales" [ref=e132] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=e133]:
+            - link "WP Migrate" [ref=e134] [cursor=pointer]:
+              - /url: tools.php?page=wp-migrate-db
+      - listitem [ref=e135]:
+        - link "Ajustes" [ref=e136] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e137]: 
+          - generic [ref=e138]: Ajustes
+        - list [ref=e139]:
+          - listitem [ref=e140]:
+            - link "Generales" [ref=e141] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e142]:
+            - link "Conectores" [ref=e143] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=e144]:
+            - link "Escritura" [ref=e145] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e146]:
+            - link "Lectura" [ref=e147] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e148]:
+            - link "Comentarios" [ref=e149] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e150]:
+            - link "Medios" [ref=e151] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e152]:
+            - link "Enlaces permanentes" [ref=e153] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e154]:
+            - link "Privacidad" [ref=e155] [cursor=pointer]:
+              - /url: options-privacy.php
+          - listitem [ref=e156]:
+            - link "TranslatePress" [ref=e157] [cursor=pointer]:
+              - /url: options-general.php?page=translate-press
+          - listitem [ref=e158]:
+            - link "Font Awesome" [ref=e159] [cursor=pointer]:
+              - /url: options-general.php?page=font-awesome
+      - listitem [ref=e160]
+      - listitem [ref=e162]:
+        - link "Feed de YouTube 1" [ref=e163] [cursor=pointer]:
+          - /url: admin.php?page=sby-feed-builder
+          - generic [ref=e164]: 
+          - generic [ref=e165]:
+            - text: Feed de YouTube
+            - generic [ref=e166]: "1"
+        - list [ref=e167]:
+          - listitem [ref=e168]:
+            - link "Todos los feeds" [ref=e169] [cursor=pointer]:
+              - /url: admin.php?page=sby-feed-builder
+          - listitem [ref=e170]:
+            - link "Ajustes" [ref=e171] [cursor=pointer]:
+              - /url: admin.php?page=youtube-feed-settings
+          - listitem [ref=e172]:
+            - link "Vídeos individuales" [ref=e173] [cursor=pointer]:
+              - /url: admin.php?page=admin.php?page=sby-feed-builder&tab=more
+          - listitem [ref=e174]:
+            - link "Support" [ref=e175] [cursor=pointer]:
+              - /url: admin.php?page=youtube-feed-support
+          - listitem [ref=e176]:
+            - link "About Us" [ref=e177] [cursor=pointer]:
+              - /url: admin.php?page=youtube-feed-about
+          - listitem [ref=e178]:
+            - link "Prueba la demo de Pro" [ref=e179] [cursor=pointer]:
+              - /url: https://smashballoon.com/youtube-feed/demo/?utm_campaign=youtube-free&utm_source=menu-link&utm_medium=upgrade-link
+          - listitem [ref=e180]:
+            - link "Instagram Feed" [ref=e181] [cursor=pointer]:
+              - /url: admin.php?page=admin.php?page=sby-feed-builder&tab=more
+          - listitem [ref=e182]:
+            - link "Tiktok Feed" [ref=e183] [cursor=pointer]:
+              - /url: admin.php?page=admin.php?page=sby-feed-builder&tab=more
+      - listitem [ref=e184]:
+        - link "Facebook Feed 2" [ref=e185] [cursor=pointer]:
+          - /url: admin.php?page=cff-feed-builder
+          - generic [ref=e186]: 
+          - generic [ref=e187]:
+            - text: Facebook Feed
+            - generic [ref=e188]: "2"
+        - list [ref=e189]:
+          - listitem [ref=e190]:
+            - link "Todos los feeds" [ref=e191] [cursor=pointer]:
+              - /url: admin.php?page=cff-feed-builder
+          - listitem [ref=e192]:
+            - link "Ajustes" [ref=e193] [cursor=pointer]:
+              - /url: admin.php?page=cff-settings
+          - listitem [ref=e194]:
+            - link "oEmbeds" [ref=e195] [cursor=pointer]:
+              - /url: admin.php?page=cff-oembeds-manager
+          - listitem
+          - listitem
+          - listitem [ref=e196]:
+            - link "Sobre nosotros" [ref=e197] [cursor=pointer]:
+              - /url: admin.php?page=cff-about-us
+          - listitem [ref=e198]:
+            - link "Actualiza a Pro" [ref=e199] [cursor=pointer]:
+              - /url: https://smashballoon.com/custom-facebook-feed/facebook-lite-upgrade/?utm_campaign=facebook-free&utm_source=menu-link&utm_medium=upgrade-link&utm_content=UpgradeToPro
+          - listitem [ref=e200]:
+            - link "Feeds de TikTok New!" [ref=e201] [cursor=pointer]:
+              - /url: admin.php?page=sbtt
+              - text: Feeds de TikTok
+              - generic [ref=e202]: New!
+          - listitem [ref=e203]:
+            - link "Instagram Feed" [ref=e204] [cursor=pointer]:
+              - /url: admin.php?page=cff-top&tab=more
+      - listitem [ref=e205]:
+        - link "Twitter 2" [ref=e206] [cursor=pointer]:
+          - /url: admin.php?page=ctf-feed-builder
+          - generic [ref=e208]:
+            - text: Twitter
+            - generic [ref=e209]: "2"
+        - list [ref=e210]:
+          - listitem [ref=e211]:
+            - link "Todos los feeds" [ref=e212] [cursor=pointer]:
+              - /url: admin.php?page=ctf-feed-builder
+          - listitem [ref=e213]:
+            - link "Ajustes" [ref=e214] [cursor=pointer]:
+              - /url: admin.php?page=ctf-settings
+          - listitem
+          - listitem
+          - listitem [ref=e215]:
+            - link "Sobre nosotros" [ref=e216] [cursor=pointer]:
+              - /url: admin.php?page=ctf-about-us
+          - listitem [ref=e217]:
+            - link "Actualizar a Pro" [ref=e218] [cursor=pointer]:
+              - /url: https://smashballoon.com/custom-twitter-feeds/twitter-lite-upgrade/?utm_campaign=twitter-free&utm_source=menu-link&utm_medium=upgrade-link
+          - listitem [ref=e219]:
+            - link "Instagram Feed" [ref=e220] [cursor=pointer]:
+              - /url: admin.php?page=custom-twitter-feeds&tab=more
+      - listitem [ref=e221]:
+        - link "Feed de reseñas 2" [ref=e222] [cursor=pointer]:
+          - /url: admin.php?page=sbr
+          - generic [ref=e224]:
+            - text: Feed de reseñas
+            - generic [ref=e225]: "2"
+        - list [ref=e226]:
+          - listitem [ref=e227]:
+            - link "All Feeds" [ref=e228] [cursor=pointer]:
+              - /url: admin.php?page=sbr
+          - listitem [ref=e229]:
+            - link "Colecciones PRO" [ref=e230] [cursor=pointer]:
+              - /url: admin.php?page=sbr-collections
+              - text: Colecciones
+              - generic [ref=e231]: PRO
+          - listitem [ref=e232]:
+            - link "Review Alerts PRO" [ref=e233] [cursor=pointer]:
+              - /url: admin.php?page=sbr-review-alerts
+              - text: Review Alerts
+              - generic [ref=e234]: PRO
+          - listitem [ref=e235]:
+            - link "Settings" [ref=e236] [cursor=pointer]:
+              - /url: admin.php?page=sbr-settings
+          - listitem [ref=e237]:
+            - link "About us" [ref=e238] [cursor=pointer]:
+              - /url: admin.php?page=sbr-about
+          - listitem [ref=e239]:
+            - link "Support" [ref=e240] [cursor=pointer]:
+              - /url: admin.php?page=sbr-support
+          - listitem [ref=e241]:
+            - link "Actualiza a Pro" [ref=e242] [cursor=pointer]:
+              - /url: https://smashballoon.com/reviews-feed/reviews-lite-upgrade/?utm_campaign=reviews-free&utm_source=menu-link&utm_medium=upgrade-link&utm_content=UpgradeToPro
+              - strong [ref=e244]: Actualiza a Pro
+      - listitem [ref=e245]:
+        - link "The Grid" [ref=e246] [cursor=pointer]:
+          - /url: admin.php?page=the_grid
+          - generic [ref=e248]: The Grid
+        - list [ref=e249]:
+          - listitem [ref=e250]:
+            - link "The Grid" [ref=e251] [cursor=pointer]:
+              - /url: admin.php?page=the_grid
+          - listitem [ref=e252]:
+            - link "Skin Builder" [ref=e253] [cursor=pointer]:
+              - /url: admin.php?page=the_grid_skins_overview
+          - listitem [ref=e254]:
+            - link "Import/Export" [ref=e255] [cursor=pointer]:
+              - /url: admin.php?page=the_grid_import_export
+          - listitem [ref=e256]:
+            - link "Global Settings" [ref=e257] [cursor=pointer]:
+              - /url: admin.php?page=the_grid_global_settings
+      - listitem [ref=e258]:
+        - link "Divi" [ref=e259] [cursor=pointer]:
+          - /url: admin.php?page=et_divi_options
+          - generic [ref=e260]: 
+          - generic [ref=e261]: Divi
+        - list [ref=e262]:
+          - listitem [ref=e263]:
+            - link "Opciones del tema" [ref=e264] [cursor=pointer]:
+              - /url: admin.php?page=et_divi_options
+          - listitem [ref=e265]:
+            - link "Generador de temas" [ref=e266] [cursor=pointer]:
+              - /url: admin.php?page=et_theme_builder
+          - listitem [ref=e267]:
+            - link "Personalizador de temas" [ref=e268] [cursor=pointer]:
+              - /url: customize.php?et_customizer_option_set=theme
+          - listitem [ref=e269]:
+            - link "Editor de Rol" [ref=e270] [cursor=pointer]:
+              - /url: admin.php?page=et_divi_role_editor
+          - listitem [ref=e271]:
+            - link "Biblioteca de Divi" [ref=e272] [cursor=pointer]:
+              - /url: edit.php?post_type=et_pb_layout
+          - listitem [ref=e273]:
+            - link "Support Center" [ref=e274] [cursor=pointer]:
+              - /url: admin.php?page=et_support_center_divi
+      - listitem [ref=e275]:
+        - link "Click to Chat" [ref=e276] [cursor=pointer]:
+          - /url: admin.php?page=click-to-chat
+          - generic [ref=e278]: Click to Chat
+        - list [ref=e279]:
+          - listitem [ref=e280]:
+            - link "Click to Chat" [ref=e281] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat
+          - listitem [ref=e282]:
+            - link "Greetings" [ref=e283] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat-greetings
+          - listitem [ref=e284]:
+            - link "Customize" [ref=e285] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat-customize-styles
+          - listitem [ref=e286]:
+            - link "Other Settings" [ref=e287] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat-other-settings
+          - listitem [ref=e288]:
+            - link " Hazte Premium" [ref=e289] [cursor=pointer]:
+              - /url: https://holithemes.com/plugins/click-to-chat/pricing
+              - generic [ref=e290]: 
+              - generic [ref=e291]: Hazte Premium
+      - listitem [ref=e292]:
+        - button "Contraer el menú principal" [expanded] [ref=e293] [cursor=pointer]:
+          - generic [ref=e295]: Cerrar menú
+  - generic [ref=e296]:
+    - generic [ref=e297]:
+      - navigation "Barra de herramientas":
+        - menu:
+          - group [ref=e298]:
+            - menuitem "Acerca de WordPress" [ref=e299] [cursor=pointer]:
+              - generic [ref=e301]: Acerca de WordPress
+          - group [ref=e302]:
+            - menuitem "Le Coq Wines" [ref=e303] [cursor=pointer]
+          - group [ref=e304]:
+            - menuitem "Ctrl+K Abrir paleta de comandos" [ref=e305] [cursor=pointer]:
+              - generic [ref=e307]:
+                - text: Ctrl+K
+                - generic [ref=e308]: Abrir paleta de comandos
+          - group [ref=e309]:
+            - menuitem "0 comentarios en moderación" [ref=e310] [cursor=pointer]:
+              - generic [ref=e312]: "0"
+              - generic [ref=e313]: 0 comentarios en moderación
+          - group [ref=e314]:
+            - menuitem "Añadir" [ref=e315] [cursor=pointer]:
+              - generic [ref=e317]: Añadir
+          - group [ref=e318]:
+            - menuitem " Traducir el sitio 1" [ref=e319] [cursor=pointer]:
+              - generic [ref=e320]: 
+              - generic [ref=e321]:
+                - text: Traducir el sitio
+                - generic [ref=e322]: "1"
+        - menu [ref=e323]:
+          - group [ref=e324]:
+            - menuitem "Hola, Juan Pablo" [ref=e325] [cursor=pointer]
+    - main [ref=e326]:
+      - generic [ref=e327]:
+        - generic [ref=e328]:
+          - button "Opciones de pantalla" [ref=e330] [cursor=pointer]
+          - button "Ayuda" [ref=e332] [cursor=pointer]
+        - generic [ref=e333]:
+          - img "notice" [ref=e335]
+          - paragraph [ref=e337]: ¿Estás disfrutando con el plugin Custom Facebook Feed?
+          - generic [ref=e338]:
+            - button "Sí" [ref=e339] [cursor=pointer]
+            - link "No" [ref=e340] [cursor=pointer]:
+              - /url: https://smashballoon.com/feedback/?plugin=facebook-lite&utm_campaign=facebook-free&utm_source=notifications&utm_medium=feedback
+        - generic [ref=e341]:
+          - heading "Plugins" [level=1] [ref=e342]
+          - link "Añadir plugin" [ref=e343] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php
+          - generic [ref=e344]:
+            - paragraph [ref=e345]: Plugin desactivado.
+            - button "Descartar este aviso." [ref=e346] [cursor=pointer]:
+              - generic [ref=e347]: Descartar este aviso.
+          - heading "Filtrar lista de plugins" [level=2] [ref=e348]
+          - list [ref=e349]:
+            - listitem [ref=e350]:
+              - link "Todos (15)" [ref=e351] [cursor=pointer]:
+                - /url: plugins.php?plugin_status=all
+              - text: "|"
+            - listitem [ref=e352]:
+              - link "Activos (11)" [ref=e353] [cursor=pointer]:
+                - /url: plugins.php?plugin_status=active
+              - text: "|"
+            - listitem [ref=e354]:
+              - link "Inactivos (4)" [ref=e355] [cursor=pointer]:
+                - /url: plugins.php?plugin_status=inactive
+              - text: "|"
+            - listitem [ref=e356]:
+              - link "Activos recientemente (4)" [ref=e357] [cursor=pointer]:
+                - /url: plugins.php?plugin_status=recently_activated
+              - text: "|"
+            - listitem [ref=e358]:
+              - link "Dependientes (2)" [ref=e359] [cursor=pointer]:
+                - /url: plugins.php?plugin_status=dropins
+              - text: "|"
+            - listitem [ref=e360]:
+              - link "Actualizaciones automáticas activadas (11)" [ref=e361] [cursor=pointer]:
+                - /url: plugins.php?plugin_status=auto-update-enabled
+              - text: "|"
+            - listitem [ref=e362]:
+              - link "Actualizaciones automáticas desactivadas (4)" [ref=e363] [cursor=pointer]:
+                - /url: plugins.php?plugin_status=auto-update-disabled
+          - paragraph [ref=e364]:
+            - generic [ref=e365]: Buscar plugins instalados
+            - searchbox "Buscar plugins instalados" [ref=e366]
+          - generic [ref=e367]:
+            - generic [ref=e368]:
+              - generic [ref=e369]:
+                - generic [ref=e370]: Selecciona acción en lote
+                - combobox "Selecciona acción en lote" [ref=e371] [cursor=pointer]:
+                  - option "Acciones en lote" [selected]
+                  - option "Activar"
+                  - option "Desactivar"
+                  - option "Actualizar"
+                  - option "Borrar"
+                  - option "Activar las actualizaciones automáticas"
+                  - option "Desactivar las actualizaciones automáticas"
+                - button "Aplicar" [ref=e372] [cursor=pointer]
+              - generic [ref=e374]: 15 elementos
+            - heading "Lista de plugins" [level=2] [ref=e375]
+            - table [ref=e376]:
+              - rowgroup [ref=e377]:
+                - row "Seleccionar todo Plugin Descripción Actualizaciones automáticas" [ref=e378]:
+                  - cell "Seleccionar todo" [ref=e379]:
+                    - checkbox "Seleccionar todo" [ref=e380] [cursor=pointer]
+                    - generic [ref=e382]: Seleccionar todo
+                  - columnheader "Plugin" [ref=e383]
+                  - columnheader "Descripción" [ref=e384]
+                  - columnheader "Actualizaciones automáticas" [ref=e385]
+              - rowgroup [ref=e386]:
+                - row "Seleccionar Agy Agy Activar Agy | Borrar Agy A simple, responsive and clean solution for age verification with WooCommerce. Versión 4.2.2 | Por Patrick Posner | Visita el sitio del plugin Agy" [ref=e387]:
+                  - rowheader "Seleccionar Agy" [ref=e388]:
+                    - generic [ref=e390]: Seleccionar Agy
+                    - checkbox "Seleccionar Agy" [ref=e391] [cursor=pointer]
+                  - cell "Agy Activar Agy | Borrar Agy" [ref=e392]:
+                    - strong [ref=e393]: Agy
+                    - generic [ref=e394]:
+                      - generic [ref=e395]:
+                        - link "Activar Agy" [ref=e396] [cursor=pointer]:
+                          - /url: plugins.php?action=activate&plugin=content-warning-v2%2Fcontent-warning-v2.php&plugin_status=all&paged=1&s&_wpnonce=bb5a4ade3b
+                          - text: Activar
+                        - text: "|"
+                      - link "Borrar Agy" [ref=e398] [cursor=pointer]:
+                        - /url: plugins.php?action=delete-selected&checked%5B0%5D=content-warning-v2%2Fcontent-warning-v2.php&plugin_status=all&paged=1&s&_wpnonce=c8c01f0178
+                        - text: Borrar
+                  - cell "A simple, responsive and clean solution for age verification with WooCommerce. Versión 4.2.2 | Por Patrick Posner | Visita el sitio del plugin Agy" [ref=e399]:
+                    - paragraph [ref=e401]: A simple, responsive and clean solution for age verification with WooCommerce.
+                    - generic [ref=e402]:
+                      - text: Versión 4.2.2 | Por Patrick Posner |
+                      - link "Visita el sitio del plugin Agy" [ref=e403] [cursor=pointer]:
+                        - /url: https://patrickposner.dev
+                        - text: Visitar la web del plugin
+                  - cell [ref=e404]
+                - row "Seleccionar Checkout Field Editor for WooCommerce Checkout Field Editor for WooCommerce Activar Checkout Field Editor for WooCommerce | Borrar Checkout Field Editor for WooCommerce Personaliza los campos de pago de WooCommerce (añadir, editar, borrar y reorganizar los campos). Versión 2.1.8 | Por ThemeHigh | Más información sobre Checkout Field Editor for WooCommerce Desactivar las actualizaciones automáticas" [ref=e405]:
+                  - rowheader "Seleccionar Checkout Field Editor for WooCommerce" [ref=e406]:
+                    - generic [ref=e408]: Seleccionar Checkout Field Editor for WooCommerce
+                    - checkbox "Seleccionar Checkout Field Editor for WooCommerce" [ref=e409] [cursor=pointer]
+                  - cell "Checkout Field Editor for WooCommerce Activar Checkout Field Editor for WooCommerce | Borrar Checkout Field Editor for WooCommerce" [ref=e410]:
+                    - strong [ref=e411]: Checkout Field Editor for WooCommerce
+                    - generic [ref=e412]:
+                      - generic [ref=e413]:
+                        - link "Activar Checkout Field Editor for WooCommerce" [ref=e414] [cursor=pointer]:
+                          - /url: plugins.php?action=activate&plugin=woo-checkout-field-editor-pro%2Fcheckout-form-designer.php&plugin_status=all&paged=1&s&_wpnonce=32d7ae6ac4
+                          - text: Activar
+                        - text: "|"
+                      - link "Borrar Checkout Field Editor for WooCommerce" [ref=e416] [cursor=pointer]:
+                        - /url: plugins.php?action=delete-selected&checked%5B0%5D=woo-checkout-field-editor-pro%2Fcheckout-form-designer.php&plugin_status=all&paged=1&s&_wpnonce=c8c01f0178
+                        - text: Borrar
+                  - cell "Personaliza los campos de pago de WooCommerce (añadir, editar, borrar y reorganizar los campos). Versión 2.1.8 | Por ThemeHigh | Más información sobre Checkout Field Editor for WooCommerce" [ref=e417]:
+                    - paragraph [ref=e419]: Personaliza los campos de pago de WooCommerce (añadir, editar, borrar y reorganizar los campos).
+                    - generic [ref=e420]:
+                      - text: Versión 2.1.8 | Por
+                      - link "ThemeHigh" [ref=e421] [cursor=pointer]:
+                        - /url: https://www.themehigh.com
+                      - text: "|"
+                      - link "Más información sobre Checkout Field Editor for WooCommerce" [ref=e422] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woo-checkout-field-editor-pro&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e423]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e424] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Click to Chat Click to Chat Ajustes | Desactivar Click to Chat | Soporte | Versión PRO Vamos a hacer que los visitantes de tu web contacten contigo a través de WhatsApp con un solo clic/toque Versión 4.40 | Por HoliThemes | Más información sobre Click to Chat Desactivar las actualizaciones automáticas" [ref=e425]:
+                  - rowheader "Seleccionar Click to Chat" [ref=e426]:
+                    - generic [ref=e428]: Seleccionar Click to Chat
+                    - checkbox "Seleccionar Click to Chat" [ref=e429] [cursor=pointer]
+                  - cell "Click to Chat Ajustes | Desactivar Click to Chat | Soporte | Versión PRO" [ref=e430]:
+                    - strong [ref=e431]: Click to Chat
+                    - generic [ref=e432]:
+                      - generic [ref=e433]:
+                        - link "Ajustes" [ref=e434] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=click-to-chat
+                        - text: "|"
+                      - generic [ref=e435]:
+                        - link "Desactivar Click to Chat" [ref=e436] [cursor=pointer]:
+                          - /url: plugins.php?action=deactivate&plugin=click-to-chat-for-whatsapp%2Fclick-to-chat.php&plugin_status=all&paged=1&s&_wpnonce=550c23183b
+                          - text: Desactivar
+                        - text: "|"
+                      - generic [ref=e437]:
+                        - link "Soporte" [ref=e438] [cursor=pointer]:
+                          - /url: https://wordpress.org/support/plugin/click-to-chat-for-whatsapp/#new-topic-0
+                        - text: "|"
+                      - link "Versión PRO" [ref=e440] [cursor=pointer]:
+                        - /url: https://holithemes.com/plugins/click-to-chat/pricing/
+                        - strong [ref=e441]: Versión PRO
+                  - cell "Vamos a hacer que los visitantes de tu web contacten contigo a través de WhatsApp con un solo clic/toque Versión 4.40 | Por HoliThemes | Más información sobre Click to Chat" [ref=e442]:
+                    - paragraph [ref=e444]: Vamos a hacer que los visitantes de tu web contacten contigo a través de WhatsApp con un solo clic/toque
+                    - generic [ref=e445]:
+                      - text: Versión 4.40 | Por
+                      - link "HoliThemes" [ref=e446] [cursor=pointer]:
+                        - /url: https://holithemes.com/plugins/click-to-chat/
+                      - text: "|"
+                      - link "Más información sobre Click to Chat" [ref=e447] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=click-to-chat-for-whatsapp&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e448]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e449] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Custom Twitter Feeds Custom Twitter Feeds Prueba la demostración de la versión Pro | Ajustes | Desactivar Custom Twitter Feeds Feeds de X personalizables, antes conocidos como feeds de Twitter, para tu sitio web Versión 2.6.0 | Por Smash Balloon | Más información sobre Custom Twitter Feeds Desactivar las actualizaciones automáticas" [ref=e450]:
+                  - rowheader "Seleccionar Custom Twitter Feeds" [ref=e451]:
+                    - generic [ref=e453]: Seleccionar Custom Twitter Feeds
+                    - checkbox "Seleccionar Custom Twitter Feeds" [ref=e454] [cursor=pointer]
+                  - cell "Custom Twitter Feeds Prueba la demostración de la versión Pro | Ajustes | Desactivar Custom Twitter Feeds" [ref=e455]:
+                    - strong [ref=e456]: Custom Twitter Feeds
+                    - generic [ref=e457]:
+                      - generic [ref=e458]:
+                        - link "Prueba la demostración de la versión Pro" [ref=e459] [cursor=pointer]:
+                          - /url: https://smashballoon.com/custom-twitter-feeds/demo/?utm_campaign=twitter-free&utm_source=plugins-page&utm_medium=upgrade-link
+                        - text: "|"
+                      - generic [ref=e460]:
+                        - link "Ajustes" [ref=e461] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=ctf-feed-builder
+                        - text: "|"
+                      - link "Desactivar Custom Twitter Feeds" [ref=e463] [cursor=pointer]:
+                        - /url: plugins.php?action=deactivate&plugin=custom-twitter-feeds%2Fcustom-twitter-feed.php&plugin_status=all&paged=1&s&_wpnonce=e5d6f5034a
+                        - text: Desactivar
+                  - cell "Feeds de X personalizables, antes conocidos como feeds de Twitter, para tu sitio web Versión 2.6.0 | Por Smash Balloon | Más información sobre Custom Twitter Feeds" [ref=e464]:
+                    - paragraph [ref=e466]: Feeds de X personalizables, antes conocidos como feeds de Twitter, para tu sitio web
+                    - generic [ref=e467]:
+                      - text: Versión 2.6.0 | Por
+                      - link "Smash Balloon" [ref=e468] [cursor=pointer]:
+                        - /url: https://smashballoon.com/
+                      - text: "|"
+                      - link "Más información sobre Custom Twitter Feeds" [ref=e469] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=custom-twitter-feeds&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e470]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e471] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Editor clásico Editor clásico Desactivar Editor clásico | Ajustes Activa el editor clásico de WordPress y el estilo tradicional de la pantalla de edición de entradas con TinyMCE, cajas meta, etc. Es compatible con los plugins antigüos que amplían esta pantalla. Versión 1.7.0 | Por Colaboradores de WordPress | Más información sobre Editor clásico Desactivar las actualizaciones automáticas" [ref=e472]:
+                  - rowheader "Seleccionar Editor clásico" [ref=e473]:
+                    - generic [ref=e475]: Seleccionar Editor clásico
+                    - checkbox "Seleccionar Editor clásico" [ref=e476] [cursor=pointer]
+                  - cell "Editor clásico Desactivar Editor clásico | Ajustes" [ref=e477]:
+                    - strong [ref=e478]: Editor clásico
+                    - generic [ref=e479]:
+                      - generic [ref=e480]:
+                        - link "Desactivar Editor clásico" [ref=e481] [cursor=pointer]:
+                          - /url: plugins.php?action=deactivate&plugin=classic-editor%2Fclassic-editor.php&plugin_status=all&paged=1&s&_wpnonce=6310ff852b
+                          - text: Desactivar
+                        - text: "|"
+                      - link "Ajustes" [ref=e483] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/options-writing.php#classic-editor-options
+                  - cell "Activa el editor clásico de WordPress y el estilo tradicional de la pantalla de edición de entradas con TinyMCE, cajas meta, etc. Es compatible con los plugins antigüos que amplían esta pantalla. Versión 1.7.0 | Por Colaboradores de WordPress | Más información sobre Editor clásico" [ref=e484]:
+                    - paragraph [ref=e486]: Activa el editor clásico de WordPress y el estilo tradicional de la pantalla de edición de entradas con TinyMCE, cajas meta, etc. Es compatible con los plugins antigüos que amplían esta pantalla.
+                    - generic [ref=e487]:
+                      - text: Versión 1.7.0 | Por
+                      - link "Colaboradores de WordPress" [ref=e488] [cursor=pointer]:
+                        - /url: https://github.com/WordPress/classic-editor/
+                      - text: "|"
+                      - link "Más información sobre Editor clásico" [ref=e489] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=classic-editor&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e490]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e491] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Feed de reseñas Feed de reseñas Actualizar a Pro | Ajustes | Desactivar Feed de reseñas Reviews feed te permite mostrar feeds de reseñas completamente personalizables de muchos proveedores diferentes. Versión 2.6.0 | Por Smash Balloon | Más información sobre Feed de reseñas Desactivar las actualizaciones automáticas" [ref=e492]:
+                  - rowheader "Seleccionar Feed de reseñas" [ref=e493]:
+                    - generic [ref=e495]: Seleccionar Feed de reseñas
+                    - checkbox "Seleccionar Feed de reseñas" [ref=e496] [cursor=pointer]
+                  - cell "Feed de reseñas Actualizar a Pro | Ajustes | Desactivar Feed de reseñas" [ref=e497]:
+                    - strong [ref=e498]: Feed de reseñas
+                    - generic [ref=e499]:
+                      - generic [ref=e500]:
+                        - link "Actualizar a Pro" [ref=e501] [cursor=pointer]:
+                          - /url: https://smashballoon.com/reviews-feed/reviews-lite-upgrade/?utm_campaign=reviews-free&utm_source=plugins-page&utm_medium=upgrade-link&utm_content=UpgradeToPro
+                        - text: "|"
+                      - generic [ref=e502]:
+                        - link "Ajustes" [ref=e503] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=sbr
+                        - text: "|"
+                      - link "Desactivar Feed de reseñas" [ref=e505] [cursor=pointer]:
+                        - /url: plugins.php?action=deactivate&plugin=reviews-feed%2Fsb-reviews.php&plugin_status=all&paged=1&s&_wpnonce=b6e9084683
+                        - text: Desactivar
+                  - cell "Reviews feed te permite mostrar feeds de reseñas completamente personalizables de muchos proveedores diferentes. Versión 2.6.0 | Por Smash Balloon | Más información sobre Feed de reseñas" [ref=e506]:
+                    - paragraph [ref=e508]: Reviews feed te permite mostrar feeds de reseñas completamente personalizables de muchos proveedores diferentes.
+                    - generic [ref=e509]:
+                      - text: Versión 2.6.0 | Por
+                      - link "Smash Balloon" [ref=e510] [cursor=pointer]:
+                        - /url: https://smashballoon.com/
+                      - text: "|"
+                      - link "Más información sobre Feed de reseñas" [ref=e511] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=reviews-feed&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e512]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e513] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Feeds for YouTube Feeds for YouTube Prueba la demostración de la versión Pro | Ajustes | Desactivar Feeds for YouTube El plugin Feeds for YouTube te permite mostrar feeds personalizables de YouTube desde cualquier canal de YouTube. Versión 2.6.6 | Por Smash Balloon YouTube Team | Más información sobre Feeds for YouTube Desactivar las actualizaciones automáticas" [ref=e514]:
+                  - rowheader "Seleccionar Feeds for YouTube" [ref=e515]:
+                    - generic [ref=e517]: Seleccionar Feeds for YouTube
+                    - checkbox "Seleccionar Feeds for YouTube" [ref=e518] [cursor=pointer]
+                  - cell "Feeds for YouTube Prueba la demostración de la versión Pro | Ajustes | Desactivar Feeds for YouTube" [ref=e519]:
+                    - strong [ref=e520]: Feeds for YouTube
+                    - generic [ref=e521]:
+                      - generic [ref=e522]:
+                        - link "Prueba la demostración de la versión Pro" [ref=e523] [cursor=pointer]:
+                          - /url: https://smashballoon.com/youtube-feed/demo/?utm_campaign=youtube-free&utm_source=plugins-page&utm_medium=upgrade-link
+                        - text: "|"
+                      - generic [ref=e524]:
+                        - link "Ajustes" [ref=e525] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=sby-feed-builder
+                        - text: "|"
+                      - link "Desactivar Feeds for YouTube" [ref=e527] [cursor=pointer]:
+                        - /url: plugins.php?action=deactivate&plugin=feeds-for-youtube%2Fyoutube-feed.php&plugin_status=all&paged=1&s&_wpnonce=09b2404074
+                        - text: Desactivar
+                  - cell "El plugin Feeds for YouTube te permite mostrar feeds personalizables de YouTube desde cualquier canal de YouTube. Versión 2.6.6 | Por Smash Balloon YouTube Team | Más información sobre Feeds for YouTube" [ref=e528]:
+                    - paragraph [ref=e530]: El plugin Feeds for YouTube te permite mostrar feeds personalizables de YouTube desde cualquier canal de YouTube.
+                    - generic [ref=e531]:
+                      - text: Versión 2.6.6 | Por
+                      - link "Smash Balloon YouTube Team" [ref=e532] [cursor=pointer]:
+                        - /url: https://smashballoon.com/
+                      - text: "|"
+                      - link "Más información sobre Feeds for YouTube" [ref=e533] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=feeds-for-youtube&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e534]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e535] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Font Awesome Font Awesome Desactivar Font Awesome | Ajustes La forma oficial de usar en tu sitio los iconos de Font Awesome gratis o Pro que te ofrece el equipo de Font Awesome. Versión 5.1.5 | Por Font Awesome | Más información sobre Font Awesome Desactivar las actualizaciones automáticas" [ref=e536]:
+                  - rowheader "Seleccionar Font Awesome" [ref=e537]:
+                    - generic [ref=e539]: Seleccionar Font Awesome
+                    - checkbox "Seleccionar Font Awesome" [ref=e540] [cursor=pointer]
+                  - cell "Font Awesome Desactivar Font Awesome | Ajustes" [ref=e541]:
+                    - strong [ref=e542]: Font Awesome
+                    - generic [ref=e543]:
+                      - generic [ref=e544]:
+                        - link "Desactivar Font Awesome" [ref=e545] [cursor=pointer]:
+                          - /url: plugins.php?action=deactivate&plugin=font-awesome%2Findex.php&plugin_status=all&paged=1&s&_wpnonce=0cfcf00437
+                          - text: Desactivar
+                        - text: "|"
+                      - link "Ajustes" [ref=e547] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=font-awesome
+                  - cell "La forma oficial de usar en tu sitio los iconos de Font Awesome gratis o Pro que te ofrece el equipo de Font Awesome. Versión 5.1.5 | Por Font Awesome | Más información sobre Font Awesome" [ref=e548]:
+                    - paragraph [ref=e550]: La forma oficial de usar en tu sitio los iconos de Font Awesome gratis o Pro que te ofrece el equipo de Font Awesome.
+                    - generic [ref=e551]:
+                      - text: Versión 5.1.5 | Por
+                      - link "Font Awesome" [ref=e552] [cursor=pointer]:
+                        - /url: https://fontawesome.com/
+                      - text: "|"
+                      - link "Más información sobre Font Awesome" [ref=e553] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=font-awesome&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e554]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e555] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Image Carousel Divi Image Carousel Divi Desactivar Image Carousel Divi This plugin adds an image carousel module to the Divi theme. Versión 1.0.1 | Por learnhowwp.com | Más información sobre Image Carousel Divi | Rate Plugin | Getting Started Guide Desactivar las actualizaciones automáticas" [ref=e556]:
+                  - rowheader "Seleccionar Image Carousel Divi" [ref=e557]:
+                    - generic [ref=e559]: Seleccionar Image Carousel Divi
+                    - checkbox "Seleccionar Image Carousel Divi" [ref=e560] [cursor=pointer]
+                  - cell "Image Carousel Divi Desactivar Image Carousel Divi" [ref=e561]:
+                    - strong [ref=e562]: Image Carousel Divi
+                    - link "Desactivar Image Carousel Divi" [ref=e565] [cursor=pointer]:
+                      - /url: plugins.php?action=deactivate&plugin=image-carousel-divi%2Flwp-image-carousel.php&plugin_status=all&paged=1&s&_wpnonce=0e8773c989
+                      - text: Desactivar
+                  - cell "This plugin adds an image carousel module to the Divi theme. Versión 1.0.1 | Por learnhowwp.com | Más información sobre Image Carousel Divi | Rate Plugin | Getting Started Guide" [ref=e566]:
+                    - paragraph [ref=e568]: This plugin adds an image carousel module to the Divi theme.
+                    - generic [ref=e569]:
+                      - text: Versión 1.0.1 | Por
+                      - link "learnhowwp.com" [ref=e570] [cursor=pointer]:
+                        - /url: http://www.learnhowwp.com
+                      - text: "|"
+                      - link "Más información sobre Image Carousel Divi" [ref=e571] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=image-carousel-divi&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                      - text: "|"
+                      - link "Rate Plugin" [ref=e572] [cursor=pointer]:
+                        - /url: https://wordpress.org/support/plugin/image-carousel-divi/reviews/#new-post
+                      - text: "|"
+                      - link "Getting Started Guide" [ref=e573] [cursor=pointer]:
+                        - /url: https://www.learnhowwp.com/how-to-create-image-carousel-divi-free-plugin/
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e574]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e575] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar Smash Balloon Personalizar feed de Facebook Smash Balloon Personalizar feed de Facebook Prueba la demostración de la versión Pro | Settings | Desactivar Smash Balloon Personalizar feed de Facebook Añade feeds de Facebook completamente personalizables a tu sitio WordPress Versión 4.7.7 | Por Smash Balloon | Más información sobre Smash Balloon Personalizar feed de Facebook Activar las actualizaciones automáticas" [ref=e576]:
+                  - rowheader "Seleccionar Smash Balloon Personalizar feed de Facebook" [ref=e577]:
+                    - generic [ref=e579]: Seleccionar Smash Balloon Personalizar feed de Facebook
+                    - checkbox "Seleccionar Smash Balloon Personalizar feed de Facebook" [ref=e580] [cursor=pointer]
+                  - cell "Smash Balloon Personalizar feed de Facebook Prueba la demostración de la versión Pro | Settings | Desactivar Smash Balloon Personalizar feed de Facebook" [ref=e581]:
+                    - strong [ref=e582]: Smash Balloon Personalizar feed de Facebook
+                    - generic [ref=e583]:
+                      - generic [ref=e584]:
+                        - link "Prueba la demostración de la versión Pro" [ref=e585] [cursor=pointer]:
+                          - /url: https://smashballoondemo.com/?utm_campaign=facebook-free&utm_source=plugins-page&utm_medium=upgrade-link
+                        - text: "|"
+                      - generic [ref=e586]:
+                        - link "Settings" [ref=e587] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=cff-feed-builder
+                        - text: "|"
+                      - link "Desactivar Smash Balloon Personalizar feed de Facebook" [ref=e589] [cursor=pointer]:
+                        - /url: plugins.php?action=deactivate&plugin=custom-facebook-feed%2Fcustom-facebook-feed.php&plugin_status=all&paged=1&s&_wpnonce=f93d19ad14
+                        - text: Desactivar
+                  - cell "Añade feeds de Facebook completamente personalizables a tu sitio WordPress Versión 4.7.7 | Por Smash Balloon | Más información sobre Smash Balloon Personalizar feed de Facebook" [ref=e590]:
+                    - paragraph [ref=e592]: Añade feeds de Facebook completamente personalizables a tu sitio WordPress
+                    - generic [ref=e593]:
+                      - text: Versión 4.7.7 | Por
+                      - link "Smash Balloon" [ref=e594] [cursor=pointer]:
+                        - /url: http://smashballoon.com/
+                      - text: "|"
+                      - link "Más información sobre Smash Balloon Personalizar feed de Facebook" [ref=e595] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=custom-facebook-feed&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Activar las actualizaciones automáticas" [ref=e596]:
+                    - button "Activar las actualizaciones automáticas" [ref=e597] [cursor=pointer]:  Activar las actualizaciones automáticas
+                - row "Seleccionar The Grid The Grid Desactivar The Grid | Edit The Grid - Create advanced grids for any post type with endless possibilities (no programming knowledge required) Versión 2.7.6 | Por Themeone | Visita el sitio del plugin The Grid" [ref=e598]:
+                  - rowheader "Seleccionar The Grid" [ref=e599]:
+                    - generic [ref=e601]: Seleccionar The Grid
+                    - checkbox "Seleccionar The Grid" [ref=e602] [cursor=pointer]
+                  - cell "The Grid Desactivar The Grid | Edit" [ref=e603]:
+                    - strong [ref=e604]: The Grid
+                    - generic [ref=e605]:
+                      - generic [ref=e606]:
+                        - link "Desactivar The Grid" [ref=e607] [cursor=pointer]:
+                          - /url: plugins.php?action=deactivate&plugin=the-grid%2Fthe-grid.php&plugin_status=all&paged=1&s&_wpnonce=b045dc2a57
+                          - text: Desactivar
+                        - text: "|"
+                      - link "Edit" [ref=e609] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=the_grid
+                  - cell "The Grid - Create advanced grids for any post type with endless possibilities (no programming knowledge required) Versión 2.7.6 | Por Themeone | Visita el sitio del plugin The Grid" [ref=e610]:
+                    - paragraph [ref=e612]: The Grid - Create advanced grids for any post type with endless possibilities (no programming knowledge required)
+                    - generic [ref=e613]:
+                      - text: Versión 2.7.6 | Por
+                      - link "Themeone" [ref=e614] [cursor=pointer]:
+                        - /url: http://www.theme-one.com/
+                      - text: "|"
+                      - link "Visita el sitio del plugin The Grid" [ref=e615] [cursor=pointer]:
+                        - /url: http://www.theme-one.com/the-grid/
+                        - text: Visitar la web del plugin
+                  - cell [ref=e616]
+                - row "Seleccionar TranslatePress - Multilingual TranslatePress - Multilingual Ajustes | Desactivar TranslatePress - Multilingual | Funcionalidades PRO Experience a better way of translating your WordPress site using a visual front-end translation editor, with full support for WooCommerce and site builders. Versión 3.2.1 | Por Cozmoslabs, Razvan Mocanu, Madalin Ungureanu, Cristophor Hurduban | Más información sobre TranslatePress - Multilingual Desactivar las actualizaciones automáticas" [ref=e617]:
+                  - rowheader "Seleccionar TranslatePress - Multilingual" [ref=e618]:
+                    - generic [ref=e620]: Seleccionar TranslatePress - Multilingual
+                    - checkbox "Seleccionar TranslatePress - Multilingual" [ref=e621] [cursor=pointer]
+                  - cell "TranslatePress - Multilingual Ajustes | Desactivar TranslatePress - Multilingual | Funcionalidades PRO" [ref=e622]:
+                    - strong [ref=e623]: TranslatePress - Multilingual
+                    - generic [ref=e624]:
+                      - generic [ref=e625]:
+                        - link "Ajustes" [ref=e626] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/options-general.php?page=translate-press
+                        - text: "|"
+                      - generic [ref=e627]:
+                        - link "Desactivar TranslatePress - Multilingual" [ref=e628] [cursor=pointer]:
+                          - /url: plugins.php?action=deactivate&plugin=translatepress-multilingual%2Findex.php&plugin_status=all&paged=1&s&_wpnonce=f38a8230aa
+                          - text: Desactivar
+                        - text: "|"
+                      - link "Funcionalidades PRO" [ref=e630] [cursor=pointer]:
+                        - /url: https://translatepress.com/pricing/?utm_source=wp-plugins-page&utm_medium=client-site&utm_campaign=plugins-upsell
+                  - cell "Experience a better way of translating your WordPress site using a visual front-end translation editor, with full support for WooCommerce and site builders. Versión 3.2.1 | Por Cozmoslabs, Razvan Mocanu, Madalin Ungureanu, Cristophor Hurduban | Más información sobre TranslatePress - Multilingual" [ref=e631]:
+                    - paragraph [ref=e633]: Experience a better way of translating your WordPress site using a visual front-end translation editor, with full support for WooCommerce and site builders.
+                    - generic [ref=e634]:
+                      - text: Versión 3.2.1 | Por
+                      - link "Cozmoslabs, Razvan Mocanu, Madalin Ungureanu, Cristophor Hurduban" [ref=e635] [cursor=pointer]:
+                        - /url: https://cozmoslabs.com/
+                      - text: "|"
+                      - link "Más información sobre TranslatePress - Multilingual" [ref=e636] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=translatepress-multilingual&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e637]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e638] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar WooCommerce WooCommerce Activar WooCommerce | Borrar WooCommerce Una herramienta de comercio electrónico que te ayuda a vender cualquier cosa. Con elegancia. Versión 10.8.1 | Por Automattic | Más información sobre WooCommerce Activar las actualizaciones automáticas" [ref=e639]:
+                  - rowheader "Seleccionar WooCommerce" [ref=e640]:
+                    - generic [ref=e642]: Seleccionar WooCommerce
+                    - checkbox "Seleccionar WooCommerce" [ref=e643] [cursor=pointer]
+                  - cell "WooCommerce Activar WooCommerce | Borrar WooCommerce" [ref=e644]:
+                    - strong [ref=e645]: WooCommerce
+                    - generic [ref=e646]:
+                      - generic [ref=e647]:
+                        - link "Activar WooCommerce" [ref=e648] [cursor=pointer]:
+                          - /url: plugins.php?action=activate&plugin=woocommerce%2Fwoocommerce.php&plugin_status=all&paged=1&s&_wpnonce=d9a7bbf4ad
+                          - text: Activar
+                        - text: "|"
+                      - link "Borrar WooCommerce" [ref=e650] [cursor=pointer]:
+                        - /url: plugins.php?action=delete-selected&checked%5B0%5D=woocommerce%2Fwoocommerce.php&plugin_status=all&paged=1&s&_wpnonce=c8c01f0178
+                        - text: Borrar
+                  - cell "Una herramienta de comercio electrónico que te ayuda a vender cualquier cosa. Con elegancia. Versión 10.8.1 | Por Automattic | Más información sobre WooCommerce" [ref=e651]:
+                    - paragraph [ref=e653]: Una herramienta de comercio electrónico que te ayuda a vender cualquier cosa. Con elegancia.
+                    - generic [ref=e654]:
+                      - text: Versión 10.8.1 | Por
+                      - link "Automattic" [ref=e655] [cursor=pointer]:
+                        - /url: https://woocommerce.com
+                      - text: "|"
+                      - link "Más información sobre WooCommerce" [ref=e656] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Activar las actualizaciones automáticas" [ref=e657]:
+                    - button "Activar las actualizaciones automáticas" [ref=e658] [cursor=pointer]:  Activar las actualizaciones automáticas
+                - row "Seleccionar WP Migrate Lite WP Migrate Lite Migrar | Ajustes | Desactivar WP Migrate Lite | Actualizar Migrate your database. Export full sites including media, themes, and plugins. Find and replace content with support for serialized data. Versión 2.7.9 | Por WP Engine | Más información sobre WP Migrate Lite Desactivar las actualizaciones automáticas" [ref=e659]:
+                  - rowheader "Seleccionar WP Migrate Lite" [ref=e660]:
+                    - generic [ref=e662]: Seleccionar WP Migrate Lite
+                    - checkbox "Seleccionar WP Migrate Lite" [ref=e663] [cursor=pointer]
+                  - cell "WP Migrate Lite Migrar | Ajustes | Desactivar WP Migrate Lite | Actualizar" [ref=e664]:
+                    - strong [ref=e665]: WP Migrate Lite
+                    - generic [ref=e666]:
+                      - generic [ref=e667]:
+                        - link "Migrar" [ref=e668] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/tools.php?page=wp-migrate-db
+                        - text: "|"
+                      - generic [ref=e669]:
+                        - link "Ajustes" [ref=e670] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/tools.php?page=wp-migrate-db#settings
+                        - text: "|"
+                      - generic [ref=e671]:
+                        - link "Desactivar WP Migrate Lite" [ref=e672] [cursor=pointer]:
+                          - /url: plugins.php?action=deactivate&plugin=wp-migrate-db%2Fwp-migrate-db.php&plugin_status=all&paged=1&s&_wpnonce=a890e513bb
+                          - text: Desactivar
+                        - text: "|"
+                      - link "Actualizar" [ref=e674] [cursor=pointer]:
+                        - /url: https://deliciousbrains.com/wp-migrate-db-pro/?utm_source=MDB%2BFree&utm_medium=plugins%2Blist&utm_campaign=WP%2BMigrate%2BDB%2BPro%2BUpgrade
+                  - cell "Migrate your database. Export full sites including media, themes, and plugins. Find and replace content with support for serialized data. Versión 2.7.9 | Por WP Engine | Más información sobre WP Migrate Lite" [ref=e675]:
+                    - paragraph [ref=e677]: Migrate your database. Export full sites including media, themes, and plugins. Find and replace content with support for serialized data.
+                    - generic [ref=e678]:
+                      - text: Versión 2.7.9 | Por
+                      - link "WP Engine" [ref=e679] [cursor=pointer]:
+                        - /url: https://deliciousbrains.com/wp-migrate-db-pro/?utm_source=plugin-header&utm_medium=plugin&utm_campaign=plugin-author&utm_content=wp-migrate-author
+                      - text: "|"
+                      - link "Más información sobre WP Migrate Lite" [ref=e680] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=wp-migrate-db&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e681]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e682] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+                - row "Seleccionar WPB Product Slider for WooCommerce WPB Product Slider for WooCommerce Activar WPB Product Slider for WooCommerce | Borrar WPB Product Slider for WooCommerce WPB product slider for WooCommerce comes with different styles for product slider. It can show slider of latest, featured, category, tags and selected products. Versión 2.3 | Por WPBean | Más información sobre WPB Product Slider for WooCommerce Desactivar las actualizaciones automáticas" [ref=e683]:
+                  - rowheader "Seleccionar WPB Product Slider for WooCommerce" [ref=e684]:
+                    - generic [ref=e686]: Seleccionar WPB Product Slider for WooCommerce
+                    - checkbox "Seleccionar WPB Product Slider for WooCommerce" [ref=e687] [cursor=pointer]
+                  - cell "WPB Product Slider for WooCommerce Activar WPB Product Slider for WooCommerce | Borrar WPB Product Slider for WooCommerce" [ref=e688]:
+                    - strong [ref=e689]: WPB Product Slider for WooCommerce
+                    - generic [ref=e690]:
+                      - generic [ref=e691]:
+                        - link "Activar WPB Product Slider for WooCommerce" [ref=e692] [cursor=pointer]:
+                          - /url: plugins.php?action=activate&plugin=wpb-woocommerce-product-slider%2Fmain.php&plugin_status=all&paged=1&s&_wpnonce=64b9491857
+                          - text: Activar
+                        - text: "|"
+                      - link "Borrar WPB Product Slider for WooCommerce" [ref=e694] [cursor=pointer]:
+                        - /url: plugins.php?action=delete-selected&checked%5B0%5D=wpb-woocommerce-product-slider%2Fmain.php&plugin_status=all&paged=1&s&_wpnonce=c8c01f0178
+                        - text: Borrar
+                  - cell "WPB product slider for WooCommerce comes with different styles for product slider. It can show slider of latest, featured, category, tags and selected products. Versión 2.3 | Por WPBean | Más información sobre WPB Product Slider for WooCommerce" [ref=e695]:
+                    - paragraph [ref=e697]: WPB product slider for WooCommerce comes with different styles for product slider. It can show slider of latest, featured, category, tags and selected products.
+                    - generic [ref=e698]:
+                      - text: Versión 2.3 | Por
+                      - link "WPBean" [ref=e699] [cursor=pointer]:
+                        - /url: https://wpbean.com
+                      - text: "|"
+                      - link "Más información sobre WPB Product Slider for WooCommerce" [ref=e700] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/plugin-install.php?tab=plugin-information&plugin=wpb-woocommerce-product-slider&TB_iframe=true&width=600&height=550
+                        - text: Ver detalles
+                  - cell "Desactivar las actualizaciones automáticas" [ref=e701]:
+                    - button "Desactivar las actualizaciones automáticas" [ref=e702] [cursor=pointer]:  Desactivar las actualizaciones automáticas
+              - rowgroup [ref=e703]:
+                - row "Seleccionar todo Plugin Descripción Actualizaciones automáticas" [ref=e704]:
+                  - cell "Seleccionar todo" [ref=e705]:
+                    - checkbox "Seleccionar todo" [ref=e706] [cursor=pointer]
+                    - generic [ref=e708]: Seleccionar todo
+                  - columnheader "Plugin" [ref=e709]
+                  - columnheader "Descripción" [ref=e710]
+                  - columnheader "Actualizaciones automáticas" [ref=e711]
+            - generic [ref=e712]:
+              - generic [ref=e713]:
+                - generic [ref=e714]: Selecciona acción en lote
+                - combobox "Selecciona acción en lote" [ref=e715] [cursor=pointer]:
+                  - option "Acciones en lote" [selected]
+                  - option "Activar"
+                  - option "Desactivar"
+                  - option "Actualizar"
+                  - option "Borrar"
+                  - option "Activar las actualizaciones automáticas"
+                  - option "Desactivar las actualizaciones automáticas"
+                - button "Aplicar" [ref=e716] [cursor=pointer]
+              - generic [ref=e718]: 15 elementos
+  - contentinfo [ref=e719]:
+    - paragraph [ref=e720]:
+      - generic [ref=e721]:
+        - text: Gracias por crear con
+        - link "WordPress" [ref=e722] [cursor=pointer]:
+          - /url: https://es.wordpress.org/
+        - text: .
+    - paragraph [ref=e723]: Versión 7.0

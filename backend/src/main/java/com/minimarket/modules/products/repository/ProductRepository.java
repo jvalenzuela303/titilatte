@@ -27,6 +27,11 @@ public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpec
            "JOIN FETCH p.unit " +
            "WHERE p.deletedAt IS NULL " +
            "AND p.active = true " +
+           "AND p.trackStock = true " +
            "AND p.stockCurrent <= p.stockMinimum")
     Page<Product> findLowStock(Pageable pageable);
+
+    boolean existsByCategoryIdAndDeletedAtIsNull(UUID categoryId);
+
+    long countByCategoryIdAndDeletedAtIsNull(UUID categoryId);
 }

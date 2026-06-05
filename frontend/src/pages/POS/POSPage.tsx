@@ -28,12 +28,15 @@ import {
   CheckCircleOutlined,
   PrinterOutlined,
   PlusOutlined,
+  LockOutlined,
+  WalletOutlined,
 } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 import apiClient from '@/config/axios'
 import { useCartStore } from '@/store/cartStore'
-import { useAuthStore } from '@/store/authStore'
 import promotionService from '@/services/promotionService'
+import { cashService } from '@/services/cashService'
 import type { Product, Sale, SaleType, PaymentMethod, CreateSaleRequest, Promotion } from '@/types'
 import '@/styles/print.css'
 import ThermalReceipt from '@/components/ThermalReceipt'
@@ -69,8 +72,10 @@ const roundChilean = (amount: number): number => Math.round(amount / 10) * 10
 const POSPage: React.FC = () => {
   const { token } = theme.useToken()
   const { message } = App.useApp()
+  const navigate = useNavigate()
   const { items, addItem, removeItem, updateQuantity, clearCart, getTotal } = useCartStore()
-  const activeBranchId = useAuthStore((s) => s.activeBranchId)
+
+  const [cashReady, setCashReady] = useState<boolean | null>(null)
   const total = getTotal()
   const roundedTotal = roundChilean(total)
   const rounding = roundedTotal - total   // negativo → baja, positivo → sube
@@ -103,6 +108,10 @@ const POSPage: React.FC = () => {
 
   // Focus search input on page mount and load active promotions
   useEffect(() => {
+    cashService.getCurrent()
+      .then((res) => setCashReady(res.status === 200 && res.data != null))
+      .catch(() => setCashReady(false))
+
     searchInputRef.current?.focus()
     promotionService.getActive().then((r) => setActivePromotions(r.data)).catch(() => {})
     return () => {
@@ -247,7 +256,6 @@ const POSPage: React.FC = () => {
       paymentMethod,
       paymentAmount: paidAmount,
       changeAmount: paymentMethod === 'EFECTIVO' ? Math.max(0, paidAmount - roundedTotal) : 0,
-      ...(activeBranchId ? { branchId: activeBranchId } : {}),
     }
 
     setIsProcessing(true)
@@ -389,6 +397,40 @@ const POSPage: React.FC = () => {
           </div>
         </div>
       </Modal>
+    )
+  }
+
+  // ─── Bloqueo si no hay caja abierta ───────────────────────────────────────
+
+  if (cashReady === null) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '70vh' }}>
+        <Spin size="large" />
+      </div>
+    )
+  }
+
+  if (cashReady === false) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '70vh' }}>
+        <Card style={{ maxWidth: 420, width: '100%', textAlign: 'center', borderRadius: token.borderRadiusLG }}>
+          <LockOutlined style={{ fontSize: 56, color: token.colorError, marginBottom: 16 }} />
+          <Title level={4} style={{ marginBottom: 8 }}>Caja no abierta</Title>
+          <Text type="secondary">
+            Para operar el POS debes abrir una caja primero. Dirígete a Caja, ingresa el monto inicial y comienza el turno.
+          </Text>
+          <Divider />
+          <Button
+            type="primary"
+            size="large"
+            icon={<WalletOutlined />}
+            block
+            onClick={() => navigate('/cash')}
+          >
+            Ir a Caja
+          </Button>
+        </Card>
+      </div>
     )
   }
 

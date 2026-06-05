@@ -22,14 +22,17 @@ import {
   ShopOutlined,
   ShoppingOutlined,
   WalletOutlined,
-  TeamOutlined,
   BarChartOutlined,
   AuditOutlined,
-  ApartmentOutlined,
+  UnorderedListOutlined,
+  TagOutlined,
+  TagsOutlined,
+  BellOutlined,
+  CalendarOutlined,
+  SettingOutlined,
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
-import BranchSelector from '@/components/layout/BranchSelector'
 import type { MenuProps } from 'antd'
 
 const { Header, Sider, Content } = Layout
@@ -39,64 +42,39 @@ const { useBreakpoint } = Grid
 const SIDER_WIDTH = 200
 const SIDER_COLLAPSED_WIDTH = 80
 
-const baseMenuItems: MenuProps['items'] = [
-  {
-    key: '/dashboard',
-    icon: <DashboardOutlined />,
-    label: 'Dashboard',
-  },
-  {
-    key: '/pos',
-    icon: <ShoppingCartOutlined />,
-    label: 'POS - Ventas',
-  },
-  {
-    key: '/products',
-    icon: <AppstoreOutlined />,
-    label: 'Productos',
-  },
-  {
-    key: '/stock',
-    icon: <InboxOutlined />,
-    label: 'Stock',
-  },
-  {
-    key: '/purchases',
-    icon: <ShoppingOutlined />,
-    label: 'Compras',
-  },
-  {
-    key: '/cash',
-    icon: <WalletOutlined />,
-    label: 'Caja',
-  },
-  {
-    key: '/customers',
-    icon: <TeamOutlined />,
-    label: 'Clientes',
-  },
-  {
-    key: '/reports',
-    icon: <BarChartOutlined />,
-    label: 'Reportes',
-  },
+const operacionItems: MenuProps['items'] = [
+  { type: 'group', label: 'Operación', children: [
+    { key: '/dashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
+    { key: '/pos',       icon: <ShoppingCartOutlined />, label: 'POS - Ventas' },
+    { key: '/sales',     icon: <UnorderedListOutlined />, label: 'Ventas' },
+    { key: '/cash',      icon: <WalletOutlined />, label: 'Caja' },
+  ]},
+]
+
+const inventarioItems: MenuProps['items'] = [
+  { type: 'group', label: 'Inventario', children: [
+    { key: '/products',  icon: <AppstoreOutlined />, label: 'Productos' },
+    { key: '/stock',     icon: <InboxOutlined />, label: 'Stock' },
+    { key: '/purchases', icon: <ShoppingOutlined />, label: 'Compras' },
+  ]},
 ]
 
 // Items visible only to ADMIN and SUPERVISOR
-const adminSupervisorMenuItems: MenuProps['items'] = [
-  {
-    key: '/branches',
-    icon: <ApartmentOutlined />,
-    label: 'Sucursales',
-  },
+const gestionItems: MenuProps['items'] = [
+  { type: 'group', label: 'Gestión', children: [
+    { key: '/reports',      icon: <BarChartOutlined />, label: 'Reportes' },
+    { key: '/categories',   icon: <TagsOutlined />, label: 'Categorías' },
+    { key: '/promotions',   icon: <TagOutlined />, label: 'Promociones' },
+    { key: '/alerts',       icon: <BellOutlined />, label: 'Alertas' },
+    { key: '/period-close', icon: <CalendarOutlined />, label: 'Cierre Período' },
+  ]},
 ]
 
-const adminMenuItems: MenuProps['items'] = [
-  {
-    key: '/audit',
-    icon: <AuditOutlined />,
-    label: 'Auditoria',
-  },
+const adminItems: MenuProps['items'] = [
+  { type: 'group', label: 'Administración', children: [
+    { key: '/audit',        icon: <AuditOutlined />, label: 'Auditoría' },
+    { key: '/store-config', icon: <SettingOutlined />, label: 'Configuración' },
+  ]},
 ]
 
 const roleLabel: Record<string, string> = {
@@ -118,14 +96,10 @@ const AppLayout: React.FC = () => {
   const isMobile = !screens.md
 
   const menuItems: MenuProps['items'] = isAdmin
-    ? [
-        ...(baseMenuItems ?? []),
-        ...(adminSupervisorMenuItems ?? []),
-        ...(adminMenuItems ?? []),
-      ]
+    ? [...operacionItems, ...inventarioItems, ...gestionItems, ...adminItems]
     : isSupervisor
-      ? [...(baseMenuItems ?? []), ...(adminSupervisorMenuItems ?? [])]
-      : baseMenuItems
+      ? [...operacionItems, ...inventarioItems, ...gestionItems]
+      : [...operacionItems, ...inventarioItems]
 
   const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
     navigate(key)
@@ -285,7 +259,6 @@ const AppLayout: React.FC = () => {
           />
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            {!isMobile && <BranchSelector />}
             {!isMobile && userRoleLabel && (
               <Text type="secondary" style={{ fontSize: 13 }}>
                 {userRoleLabel}

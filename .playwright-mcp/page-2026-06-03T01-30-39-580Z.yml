@@ -1,0 +1,749 @@
+- generic [ref=e2]:
+  - navigation "Menú principal":
+    - link "Saltar al contenido principal" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Ir a la barra de herramientas" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Escritorio" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+          - generic [ref=e11]: Escritorio
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Inicio" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Actualizaciones" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+      - listitem [ref=e17]
+      - listitem [ref=e19]:
+        - link "Entradas" [ref=e20] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e21]: 
+          - generic [ref=e22]: Entradas
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Todas las entradas" [ref=e25] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e26]:
+            - link "Añadir entrada" [ref=e27] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e28]:
+            - link "Categorías" [ref=e29] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e30]:
+            - link "Etiquetas" [ref=e31] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e32]:
+        - link "Medios" [ref=e33] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e34]: 
+          - generic [ref=e35]: Medios
+        - list [ref=e36]:
+          - listitem [ref=e37]:
+            - link "Biblioteca" [ref=e38] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e39]:
+            - link "Añadir medios" [ref=e40] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=e41]:
+        - link "Páginas" [ref=e42] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e43]: 
+          - generic [ref=e44]: Páginas
+        - list [ref=e45]:
+          - listitem [ref=e46]:
+            - link "Todas las páginas" [ref=e47] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e48]:
+            - link "Añadir página" [ref=e49] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e50]:
+        - link "Comentarios" [ref=e51] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e52]: 
+          - generic [ref=e53]: Comentarios
+      - listitem [ref=e54]
+      - listitem [ref=e56]:
+        - link "WooCommerce" [ref=e57] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+          - generic [ref=e59]: WooCommerce
+        - list [ref=e60]:
+          - listitem [ref=e61]:
+            - link "Inicio 2" [ref=e62] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Inicio
+              - generic [ref=e63]: "2"
+          - listitem [ref=e64]:
+            - link "Pedidos 6" [ref=e65] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_order
+              - text: Pedidos
+              - generic [ref=e66]: "6"
+          - listitem [ref=e67]:
+            - link "Clientes" [ref=e68] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=e69]:
+            - link "Cupones" [ref=e70] [cursor=pointer]:
+              - /url: admin.php?page=coupons-moved
+          - listitem [ref=e71]:
+            - link "Informes" [ref=e72] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=e73]:
+            - link "Ajustes" [ref=e74] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=e75]:
+            - link "Estado" [ref=e76] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=e77]:
+            - link "Extensiones" [ref=e78] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=e79]:
+        - link "Productos" [ref=e80] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=e81]: 
+          - generic [ref=e82]: Productos
+        - list [ref=e83]:
+          - listitem [ref=e84]:
+            - link "Todos los productos" [ref=e85] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=e86]:
+            - link "Añadir un nuevo producto" [ref=e87] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=e88]:
+            - link "Marcas" [ref=e89] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_brand&post_type=product
+          - listitem [ref=e90]:
+            - link "Categorías" [ref=e91] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=e92]:
+            - link "Etiquetas" [ref=e93] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=e94]:
+            - link "Atributos" [ref=e95] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=e96]:
+            - link "Valoraciones" [ref=e97] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=e98]:
+        - link "Pagos" [ref=e99] [cursor=pointer]:
+          - /url: admin.php?page=wc-settings&tab=checkout&from=PAYMENTS_MENU_ITEM
+          - generic [ref=e101]: Pagos
+      - listitem [ref=e102]:
+        - link "Análisis" [ref=e103] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=e104]: 
+          - generic [ref=e105]: Análisis
+        - list [ref=e106]:
+          - listitem [ref=e107]:
+            - link "Resumen" [ref=e108] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=e109]:
+            - link "Productos" [ref=e110] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=e111]:
+            - link "Ingresos" [ref=e112] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=e113]:
+            - link "Pedidos" [ref=e114] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=e115]:
+            - link "Variaciones" [ref=e116] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=e117]:
+            - link "Categorías" [ref=e118] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=e119]:
+            - link "Cupones" [ref=e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=e121]:
+            - link "Impuestos" [ref=e122] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=e123]:
+            - link "Descargas" [ref=e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=e125]:
+            - link "Inventario" [ref=e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=e127]:
+            - link "Ajustes" [ref=e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=e129]:
+        - link "Marketing" [ref=e130] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=e131]: 
+          - generic [ref=e132]: Marketing
+        - list [ref=e133]:
+          - listitem [ref=e134]:
+            - link "Resumen" [ref=e135] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=e136]:
+            - link "Cupones" [ref=e137] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=e138]
+      - listitem [ref=e140]:
+        - link "Apariencia" [ref=e141] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e142]: 
+          - generic [ref=e143]: Apariencia
+        - list [ref=e144]:
+          - listitem [ref=e145]:
+            - link "Temas" [ref=e146] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=e147]:
+            - link "Editor" [ref=e148] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=e149]:
+            - link "Fuentes" [ref=e150] [cursor=pointer]:
+              - /url: font-library.php
+      - listitem [ref=e151]:
+        - link "Plugins" [ref=e152] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e153]: 
+          - generic [ref=e154]: Plugins
+        - list [ref=e155]:
+          - listitem [ref=e156]:
+            - link "Plugins instalados" [ref=e157] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e158]:
+            - link "Añadir plugin" [ref=e159] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=e160]:
+        - link "Usuarios" [ref=e161] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e162]: 
+          - generic [ref=e163]: Usuarios
+        - list [ref=e164]:
+          - listitem [ref=e165]:
+            - link "Todos los usuarios" [ref=e166] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e167]:
+            - link "Añadir usuario" [ref=e168] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e169]:
+            - link "Perfil" [ref=e170] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e171]:
+        - link "Herramientas" [ref=e172] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e173]: 
+          - generic [ref=e174]: Herramientas
+        - list [ref=e175]:
+          - listitem [ref=e176]:
+            - link "Herramientas disponibles" [ref=e177] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e178]:
+            - link "Importar" [ref=e179] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e180]:
+            - link "Exportar" [ref=e181] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e182]:
+            - link "Salud del sitio" [ref=e183] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e184]:
+            - link "Exportar los datos personales" [ref=e185] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e186]:
+            - link "Borrar los datos personales" [ref=e187] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=e188]:
+            - link "Acciones programadas" [ref=e189] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+          - listitem [ref=e190]:
+            - link "Editor de archivos de temas" [ref=e191] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=e192]:
+            - link "Editor de archivos de plugins" [ref=e193] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e194]:
+        - link "Ajustes" [ref=e195] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e196]: 
+          - generic [ref=e197]: Ajustes
+        - list [ref=e198]:
+          - listitem [ref=e199]:
+            - link "Generales" [ref=e200] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e201]:
+            - link "Conectores" [ref=e202] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=e203]:
+            - link "Escritura" [ref=e204] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e205]:
+            - link "Lectura" [ref=e206] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e207]:
+            - link "Comentarios" [ref=e208] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e209]:
+            - link "Medios" [ref=e210] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e211]:
+            - link "Enlaces permanentes" [ref=e212] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e213]:
+            - link "Privacidad" [ref=e214] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=e215]:
+        - button "Contraer el menú principal" [expanded] [ref=e216] [cursor=pointer]:
+          - generic [ref=e218]: Cerrar menú
+  - generic [ref=e219]:
+    - generic [ref=e220]:
+      - navigation "Barra de herramientas":
+        - menu:
+          - group [ref=e221]:
+            - menuitem "Acerca de WordPress" [ref=e222] [cursor=pointer]:
+              - generic [ref=e224]: Acerca de WordPress
+          - group [ref=e225]:
+            - menuitem "Le Coq Wines" [ref=e226] [cursor=pointer]
+          - group [ref=e227]:
+            - menuitem "Visible" [ref=e228] [cursor=pointer]
+          - group [ref=e229]:
+            - menuitem "Ctrl+K Abrir paleta de comandos" [ref=e230] [cursor=pointer]:
+              - generic [ref=e232]:
+                - text: Ctrl+K
+                - generic [ref=e233]: Abrir paleta de comandos
+          - group [ref=e234]:
+            - menuitem "0 comentarios en moderación" [ref=e235] [cursor=pointer]:
+              - generic [ref=e237]: "0"
+              - generic [ref=e238]: 0 comentarios en moderación
+          - group [ref=e239]:
+            - menuitem "Añadir" [ref=e240] [cursor=pointer]:
+              - generic [ref=e242]: Añadir
+        - menu [ref=e243]:
+          - group [ref=e244]:
+            - menuitem "Hola, Juan Pablo" [ref=e245] [cursor=pointer]
+    - main [ref=e246]:
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - button "Opciones de pantalla" [ref=e250] [cursor=pointer]
+          - button "Ayuda" [ref=e252] [cursor=pointer]
+        - generic [ref=e253]:
+          - heading "Páginas" [level=1] [ref=e254]
+          - link "Añadir página" [ref=e255] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/post-new.php?post_type=page
+          - heading "Lista de páginas filtradas" [level=2] [ref=e256]
+          - list [ref=e257]:
+            - listitem [ref=e258]:
+              - link "Todo (9)" [ref=e259] [cursor=pointer]:
+                - /url: edit.php?post_type=page
+              - text: "|"
+            - listitem [ref=e260]:
+              - link "Publicados (6)" [ref=e261] [cursor=pointer]:
+                - /url: edit.php?post_status=publish&post_type=page
+              - text: "|"
+            - listitem [ref=e262]:
+              - link "Borradores (3)" [ref=e263] [cursor=pointer]:
+                - /url: edit.php?post_status=draft&post_type=page
+          - generic [ref=e264]:
+            - paragraph [ref=e265]:
+              - generic [ref=e266]: "Buscar páginas:"
+              - searchbox "Buscar páginas:" [ref=e267]
+              - button "Buscar páginas" [ref=e268] [cursor=pointer]
+            - generic [ref=e269]:
+              - generic [ref=e270]:
+                - generic [ref=e271]: Selecciona acción en lote
+                - combobox "Selecciona acción en lote" [ref=e272] [cursor=pointer]:
+                  - option "Acciones en lote" [selected]
+                  - option "Editar en lote"
+                  - option "Mover a la papelera"
+                - button "Aplicar" [ref=e273] [cursor=pointer]
+              - generic [ref=e274]:
+                - generic [ref=e275]: Filtrar por fecha
+                - combobox "Filtrar por fecha" [ref=e276] [cursor=pointer]:
+                  - option "Todas las fechas" [selected]
+                  - option "junio 2026"
+                  - option "mayo 2026"
+                  - option "octubre 2023"
+                  - option "julio 2023"
+                  - option "junio 2023"
+                  - option "junio 2020"
+                - button "Filtrar" [ref=e277] [cursor=pointer]
+              - generic [ref=e279]: 9 elementos
+            - heading "Lista de páginas" [level=2] [ref=e280]
+            - table "Tabla ordenada jerárquicamente por orden y y título del menú. Ascendente." [ref=e281]:
+              - caption [ref=e282]: Tabla ordenada jerárquicamente por orden y y título del menú. Ascendente.
+              - rowgroup [ref=e283]:
+                - row "Seleccionar todo Título Autor Comentarios Orden ascendente. Fecha Orden descendente." [ref=e284]:
+                  - cell "Seleccionar todo" [ref=e285]:
+                    - checkbox "Seleccionar todo" [ref=e286] [cursor=pointer]
+                    - generic [ref=e288]: Seleccionar todo
+                  - columnheader "Título" [ref=e289]:
+                    - link "Título" [ref=e290] [cursor=pointer]:
+                      - /url: https://www.lecoqwines.cl/wp-admin/edit.php?post_type=page&orderby=title&order=desc
+                      - generic [ref=e291]: Título
+                  - columnheader "Autor" [ref=e295]
+                  - columnheader "Comentarios Orden ascendente." [ref=e296]:
+                    - link "Comentarios Orden ascendente." [ref=e297] [cursor=pointer]:
+                      - /url: https://www.lecoqwines.cl/wp-admin/edit.php?post_type=page&orderby=comment_count&order=asc
+                      - generic [ref=e300]: Comentarios
+                      - generic [ref=e304]: Orden ascendente.
+                  - columnheader "Fecha Orden descendente." [ref=e305]:
+                    - link "Fecha Orden descendente." [ref=e306] [cursor=pointer]:
+                      - /url: https://www.lecoqwines.cl/wp-admin/edit.php?post_type=page&orderby=date&order=desc
+                      - generic [ref=e307]: Fecha
+                      - generic [ref=e311]: Orden descendente.
+              - rowgroup [ref=e312]:
+                - row "Seleccionar Carrito Carrito — Página del carrito Editar «Carrito» | Edición rápida «Carrito» integrada | Mover «Carrito» a la papelera | Ver «Carrito» Juan Pablo Ningún comentario. Publicada 22/06/2020 a las 14:44" [ref=e313]:
+                  - rowheader "Seleccionar Carrito" [ref=e314]:
+                    - checkbox "Seleccionar Carrito" [ref=e315] [cursor=pointer]
+                    - generic [ref=e317]: Seleccionar Carrito
+                  - cell "Carrito — Página del carrito Editar «Carrito» | Edición rápida «Carrito» integrada | Mover «Carrito» a la papelera | Ver «Carrito»" [ref=e318]:
+                    - strong [ref=e319]:
+                      - link "Carrito" [ref=e320] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=42&action=edit
+                      - text: — Página del carrito
+                    - generic [ref=e321]:
+                      - generic [ref=e322]:
+                        - link "Editar «Carrito»" [ref=e323] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=42&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e324]:
+                        - button "Edición rápida «Carrito» integrada" [ref=e325] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e326]:
+                        - link "Mover «Carrito» a la papelera" [ref=e327] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=42&action=trash&_wpnonce=0670b9b296
+                          - text: Papelera
+                        - text: "|"
+                      - link "Ver «Carrito»" [ref=e329] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/carrito/
+                        - text: Ver
+                  - cell "Juan Pablo" [ref=e330]:
+                    - link "Juan Pablo" [ref=e331] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e332]:
+                    - generic [ref=e333]:
+                      - text: —
+                      - generic [ref=e334]: Ningún comentario.
+                  - cell "Publicada 22/06/2020 a las 14:44" [ref=e335]:
+                    - text: Publicada
+                    - text: 22/06/2020 a las 14:44
+                - row "Seleccionar Comming Soon Comming Soon Editar «Comming Soon» | Edición rápida «Comming Soon» integrada | Mover «Comming Soon» a la papelera | Ver «Comming Soon» Juan Pablo Ningún comentario. Publicada 17/06/2020 a las 00:33" [ref=e336]:
+                  - rowheader "Seleccionar Comming Soon" [ref=e337]:
+                    - checkbox "Seleccionar Comming Soon" [ref=e338] [cursor=pointer]
+                    - generic [ref=e340]: Seleccionar Comming Soon
+                  - cell "Comming Soon Editar «Comming Soon» | Edición rápida «Comming Soon» integrada | Mover «Comming Soon» a la papelera | Ver «Comming Soon»" [ref=e341]:
+                    - strong [ref=e342]:
+                      - link "Comming Soon" [ref=e343] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=8&action=edit
+                    - generic [ref=e344]:
+                      - generic [ref=e345]:
+                        - link "Editar «Comming Soon»" [ref=e346] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=8&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e347]:
+                        - button "Edición rápida «Comming Soon» integrada" [ref=e348] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e349]:
+                        - link "Mover «Comming Soon» a la papelera" [ref=e350] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=8&action=trash&_wpnonce=c795ad999f
+                          - text: Papelera
+                        - text: "|"
+                      - link "Ver «Comming Soon»" [ref=e352] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/comming-soon/
+                        - text: Ver
+                  - cell "Juan Pablo" [ref=e353]:
+                    - link "Juan Pablo" [ref=e354] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e355]:
+                    - generic [ref=e356]:
+                      - text: —
+                      - generic [ref=e357]: Ningún comentario.
+                  - cell "Publicada 17/06/2020 a las 00:33" [ref=e358]:
+                    - text: Publicada
+                    - text: 17/06/2020 a las 00:33
+                - row "Seleccionar Finalizar compra Finalizar compra — Página de finalizar compra Editar «Finalizar compra» | Edición rápida «Finalizar compra» integrada | Mover «Finalizar compra» a la papelera | Ver «Finalizar compra» Juan Pablo Ningún comentario. Publicada 22/06/2020 a las 14:44" [ref=e359]:
+                  - rowheader "Seleccionar Finalizar compra" [ref=e360]:
+                    - checkbox "Seleccionar Finalizar compra" [ref=e361] [cursor=pointer]
+                    - generic [ref=e363]: Seleccionar Finalizar compra
+                  - cell "Finalizar compra — Página de finalizar compra Editar «Finalizar compra» | Edición rápida «Finalizar compra» integrada | Mover «Finalizar compra» a la papelera | Ver «Finalizar compra»" [ref=e364]:
+                    - strong [ref=e365]:
+                      - link "Finalizar compra" [ref=e366] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=43&action=edit
+                      - text: — Página de finalizar compra
+                    - generic [ref=e367]:
+                      - generic [ref=e368]:
+                        - link "Editar «Finalizar compra»" [ref=e369] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=43&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e370]:
+                        - button "Edición rápida «Finalizar compra» integrada" [ref=e371] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e372]:
+                        - link "Mover «Finalizar compra» a la papelera" [ref=e373] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=43&action=trash&_wpnonce=bba2a8b829
+                          - text: Papelera
+                        - text: "|"
+                      - link "Ver «Finalizar compra»" [ref=e375] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/finalizar-compra/
+                        - text: Ver
+                  - cell "Juan Pablo" [ref=e376]:
+                    - link "Juan Pablo" [ref=e377] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e378]:
+                    - generic [ref=e379]:
+                      - text: —
+                      - generic [ref=e380]: Ningún comentario.
+                  - cell "Publicada 22/06/2020 a las 14:44" [ref=e381]:
+                    - text: Publicada
+                    - text: 22/06/2020 a las 14:44
+                - row "Seleccionar Inicio Inicio — Página de inicio Editar «Inicio» | Edición rápida «Inicio» integrada | Mover «Inicio» a la papelera | Ver «Inicio» Juan Pablo Ningún comentario. Publicada 21/07/2023 a las 23:37" [ref=e382]:
+                  - rowheader "Seleccionar Inicio" [ref=e383]:
+                    - checkbox "Seleccionar Inicio" [ref=e384] [cursor=pointer]
+                    - generic [ref=e386]: Seleccionar Inicio
+                  - cell "Inicio — Página de inicio Editar «Inicio» | Edición rápida «Inicio» integrada | Mover «Inicio» a la papelera | Ver «Inicio»" [ref=e387]:
+                    - strong [ref=e388]:
+                      - link "Inicio" [ref=e389] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1145&action=edit
+                      - text: — Página de inicio
+                    - generic [ref=e390]:
+                      - generic [ref=e391]:
+                        - link "Editar «Inicio»" [ref=e392] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1145&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e393]:
+                        - button "Edición rápida «Inicio» integrada" [ref=e394] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e395]:
+                        - link "Mover «Inicio» a la papelera" [ref=e396] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1145&action=trash&_wpnonce=bd341c0848
+                          - text: Papelera
+                        - text: "|"
+                      - link "Ver «Inicio»" [ref=e398] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/
+                        - text: Ver
+                  - cell "Juan Pablo" [ref=e399]:
+                    - link "Juan Pablo" [ref=e400] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e401]:
+                    - generic [ref=e402]:
+                      - text: —
+                      - generic [ref=e403]: Ningún comentario.
+                  - cell "Publicada 21/07/2023 a las 23:37" [ref=e404]:
+                    - text: Publicada
+                    - text: 21/07/2023 a las 23:37
+                - row "Seleccionar Mi cuenta Mi cuenta — Página de mi cuenta Editar «Mi cuenta» | Edición rápida «Mi cuenta» integrada | Mover «Mi cuenta» a la papelera | Ver «Mi cuenta» Juan Pablo Ningún comentario. Publicada 22/06/2020 a las 14:44" [ref=e405]:
+                  - rowheader "Seleccionar Mi cuenta" [ref=e406]:
+                    - checkbox "Seleccionar Mi cuenta" [ref=e407] [cursor=pointer]
+                    - generic [ref=e409]: Seleccionar Mi cuenta
+                  - cell "Mi cuenta — Página de mi cuenta Editar «Mi cuenta» | Edición rápida «Mi cuenta» integrada | Mover «Mi cuenta» a la papelera | Ver «Mi cuenta»" [ref=e410]:
+                    - strong [ref=e411]:
+                      - link "Mi cuenta" [ref=e412] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=44&action=edit
+                      - text: — Página de mi cuenta
+                    - generic [ref=e413]:
+                      - generic [ref=e414]:
+                        - link "Editar «Mi cuenta»" [ref=e415] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=44&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e416]:
+                        - button "Edición rápida «Mi cuenta» integrada" [ref=e417] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e418]:
+                        - link "Mover «Mi cuenta» a la papelera" [ref=e419] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=44&action=trash&_wpnonce=b656bd9dba
+                          - text: Papelera
+                        - text: "|"
+                      - link "Ver «Mi cuenta»" [ref=e421] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/mi-cuenta/
+                        - text: Ver
+                  - cell "Juan Pablo" [ref=e422]:
+                    - link "Juan Pablo" [ref=e423] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e424]:
+                    - generic [ref=e425]:
+                      - text: —
+                      - generic [ref=e426]: Ningún comentario.
+                  - cell "Publicada 22/06/2020 a las 14:44" [ref=e427]:
+                    - text: Publicada
+                    - text: 22/06/2020 a las 14:44
+                - row "Seleccionar Old_Home Old_Home — Borrador Editar «Old_Home» | Edición rápida «Old_Home» integrada | Mover «Old_Home» a la papelera | Vista previa «Old_Home» Juan Pablo Ningún comentario. Última modificación 14/06/2023 a las 09:25" [ref=e428]:
+                  - rowheader "Seleccionar Old_Home" [ref=e429]:
+                    - checkbox "Seleccionar Old_Home" [ref=e430] [cursor=pointer]
+                    - generic [ref=e432]: Seleccionar Old_Home
+                  - cell "Old_Home — Borrador Editar «Old_Home» | Edición rápida «Old_Home» integrada | Mover «Old_Home» a la papelera | Vista previa «Old_Home»" [ref=e433]:
+                    - strong [ref=e434]:
+                      - link "Old_Home" [ref=e435] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=992&action=edit
+                      - text: — Borrador
+                    - generic [ref=e436]:
+                      - generic [ref=e437]:
+                        - link "Editar «Old_Home»" [ref=e438] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=992&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e439]:
+                        - button "Edición rápida «Old_Home» integrada" [ref=e440] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e441]:
+                        - link "Mover «Old_Home» a la papelera" [ref=e442] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=992&action=trash&_wpnonce=b21a080f5c
+                          - text: Papelera
+                        - text: "|"
+                      - link "Vista previa «Old_Home»" [ref=e444] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/?page_id=992&preview=true
+                        - text: Previsualizar
+                  - cell "Juan Pablo" [ref=e445]:
+                    - link "Juan Pablo" [ref=e446] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e447]:
+                    - generic [ref=e448]:
+                      - text: —
+                      - generic [ref=e449]: Ningún comentario.
+                  - cell "Última modificación 14/06/2023 a las 09:25" [ref=e450]:
+                    - text: Última modificación
+                    - text: 14/06/2023 a las 09:25
+                - row "Seleccionar Política de devoluciones y reembolsos Política de devoluciones y reembolsos — Borrador Editar «Política de devoluciones y reembolsos» | Edición rápida «Política de devoluciones y reembolsos» integrada | Mover «Política de devoluciones y reembolsos» a la papelera | Vista previa «Política de devoluciones y reembolsos» Juan Pablo Ningún comentario. Última modificación 31/05/2026 a las 23:02" [ref=e451]:
+                  - rowheader "Seleccionar Política de devoluciones y reembolsos" [ref=e452]:
+                    - checkbox "Seleccionar Política de devoluciones y reembolsos" [ref=e453] [cursor=pointer]
+                    - generic [ref=e455]: Seleccionar Política de devoluciones y reembolsos
+                  - cell "Política de devoluciones y reembolsos — Borrador Editar «Política de devoluciones y reembolsos» | Edición rápida «Política de devoluciones y reembolsos» integrada | Mover «Política de devoluciones y reembolsos» a la papelera | Vista previa «Política de devoluciones y reembolsos»" [ref=e456]:
+                    - strong [ref=e457]:
+                      - link "Política de devoluciones y reembolsos" [ref=e458] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1373&action=edit
+                      - text: — Borrador
+                    - generic [ref=e459]:
+                      - generic [ref=e460]:
+                        - link "Editar «Política de devoluciones y reembolsos»" [ref=e461] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1373&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e462]:
+                        - button "Edición rápida «Política de devoluciones y reembolsos» integrada" [ref=e463] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e464]:
+                        - link "Mover «Política de devoluciones y reembolsos» a la papelera" [ref=e465] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1373&action=trash&_wpnonce=b66265d70f
+                          - text: Papelera
+                        - text: "|"
+                      - link "Vista previa «Política de devoluciones y reembolsos»" [ref=e467] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/?page_id=1373&preview=true
+                        - text: Previsualizar
+                  - cell "Juan Pablo" [ref=e468]:
+                    - link "Juan Pablo" [ref=e469] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e470]:
+                    - generic [ref=e471]:
+                      - text: —
+                      - generic [ref=e472]: Ningún comentario.
+                  - cell "Última modificación 31/05/2026 a las 23:02" [ref=e473]:
+                    - text: Última modificación
+                    - text: 31/05/2026 a las 23:02
+                - row "Seleccionar Promociones Promociones — Borrador Editar «Promociones» | Edición rápida «Promociones» integrada | Mover «Promociones» a la papelera | Vista previa «Promociones» Juan Pablo Ningún comentario. Última modificación 14/10/2023 a las 16:33" [ref=e474]:
+                  - rowheader "Seleccionar Promociones" [ref=e475]:
+                    - checkbox "Seleccionar Promociones" [ref=e476] [cursor=pointer]
+                    - generic [ref=e478]: Seleccionar Promociones
+                  - cell "Promociones — Borrador Editar «Promociones» | Edición rápida «Promociones» integrada | Mover «Promociones» a la papelera | Vista previa «Promociones»" [ref=e479]:
+                    - strong [ref=e480]:
+                      - link "Promociones" [ref=e481] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1261&action=edit
+                      - text: — Borrador
+                    - generic [ref=e482]:
+                      - generic [ref=e483]:
+                        - link "Editar «Promociones»" [ref=e484] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1261&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e485]:
+                        - button "Edición rápida «Promociones» integrada" [ref=e486] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e487]:
+                        - link "Mover «Promociones» a la papelera" [ref=e488] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1261&action=trash&_wpnonce=bb1b40ae34
+                          - text: Papelera
+                        - text: "|"
+                      - link "Vista previa «Promociones»" [ref=e490] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/?page_id=1261&preview=true
+                        - text: Previsualizar
+                  - cell "Juan Pablo" [ref=e491]:
+                    - link "Juan Pablo" [ref=e492] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e493]:
+                    - generic [ref=e494]:
+                      - text: —
+                      - generic [ref=e495]: Ningún comentario.
+                  - cell "Última modificación 14/10/2023 a las 16:33" [ref=e496]:
+                    - text: Última modificación
+                    - text: 14/10/2023 a las 16:33
+                - row "Seleccionar Tienda Tienda — Página de la tienda Editar «Tienda» | Edición rápida «Tienda» integrada | Mover «Tienda» a la papelera | Ver «Tienda» Juan Pablo Ningún comentario. Publicada 02/06/2026 a las 21:29" [ref=e497]:
+                  - rowheader "Seleccionar Tienda" [ref=e498]:
+                    - checkbox "Seleccionar Tienda" [ref=e499] [cursor=pointer]
+                    - generic [ref=e501]: Seleccionar Tienda
+                  - cell "Tienda — Página de la tienda Editar «Tienda» | Edición rápida «Tienda» integrada | Mover «Tienda» a la papelera | Ver «Tienda»" [ref=e502]:
+                    - strong [ref=e503]:
+                      - link "Tienda" [ref=e504] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1379&action=edit
+                      - text: — Página de la tienda
+                    - generic [ref=e505]:
+                      - generic [ref=e506]:
+                        - link "Editar «Tienda»" [ref=e507] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1379&action=edit
+                          - text: Editar
+                        - text: "|"
+                      - generic [ref=e508]:
+                        - button "Edición rápida «Tienda» integrada" [ref=e509] [cursor=pointer]: Edición rápida
+                        - text: "|"
+                      - generic [ref=e510]:
+                        - link "Mover «Tienda» a la papelera" [ref=e511] [cursor=pointer]:
+                          - /url: https://www.lecoqwines.cl/wp-admin/post.php?post=1379&action=trash&_wpnonce=b5797828e2
+                          - text: Papelera
+                        - text: "|"
+                      - link "Ver «Tienda»" [ref=e513] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/tienda/
+                        - text: Ver
+                  - cell "Juan Pablo" [ref=e514]:
+                    - link "Juan Pablo" [ref=e515] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "Ningún comentario." [ref=e516]:
+                    - generic [ref=e517]:
+                      - text: —
+                      - generic [ref=e518]: Ningún comentario.
+                  - cell "Publicada 02/06/2026 a las 21:29" [ref=e519]:
+                    - text: Publicada
+                    - text: 02/06/2026 a las 21:29
+              - rowgroup [ref=e520]:
+                - row "Seleccionar todo Título Autor Comentarios Orden ascendente. Fecha Orden descendente." [ref=e521]:
+                  - cell "Seleccionar todo" [ref=e522]:
+                    - checkbox "Seleccionar todo" [ref=e523] [cursor=pointer]
+                    - generic [ref=e525]: Seleccionar todo
+                  - columnheader "Título" [ref=e526]:
+                    - link "Título" [ref=e527] [cursor=pointer]:
+                      - /url: https://www.lecoqwines.cl/wp-admin/edit.php?post_type=page&orderby=title&order=desc
+                      - generic [ref=e528]: Título
+                  - columnheader "Autor" [ref=e532]
+                  - columnheader "Comentarios Orden ascendente." [ref=e533]:
+                    - link "Comentarios Orden ascendente." [ref=e534] [cursor=pointer]:
+                      - /url: https://www.lecoqwines.cl/wp-admin/edit.php?post_type=page&orderby=comment_count&order=asc
+                      - generic [ref=e537]: Comentarios
+                      - generic [ref=e541]: Orden ascendente.
+                  - columnheader "Fecha Orden descendente." [ref=e542]:
+                    - link "Fecha Orden descendente." [ref=e543] [cursor=pointer]:
+                      - /url: https://www.lecoqwines.cl/wp-admin/edit.php?post_type=page&orderby=date&order=desc
+                      - generic [ref=e544]: Fecha
+                      - generic [ref=e548]: Orden descendente.
+            - generic [ref=e549]:
+              - generic [ref=e550]:
+                - generic [ref=e551]: Selecciona acción en lote
+                - combobox "Selecciona acción en lote" [ref=e552] [cursor=pointer]:
+                  - option "Acciones en lote" [selected]
+                  - option "Editar en lote"
+                  - option "Mover a la papelera"
+                - button "Aplicar" [ref=e553] [cursor=pointer]
+              - generic [ref=e555]: 9 elementos
+  - contentinfo [ref=e556]:
+    - paragraph [ref=e557]:
+      - generic [ref=e559]:
+        - text: Gracias por crear con
+        - link "WordPress" [ref=e560] [cursor=pointer]:
+          - /url: https://es.wordpress.org/
+        - text: .
+    - paragraph [ref=e561]: Versión 7.0

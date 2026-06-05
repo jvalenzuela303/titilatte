@@ -15,6 +15,7 @@ public record ProductResponse(
         BigDecimal stockMinimum,
         BigDecimal stockMaximum,
         boolean active,
+        boolean trackStock,
         CategoryDto category,
         TaxDto tax,
         UnitDto unit,

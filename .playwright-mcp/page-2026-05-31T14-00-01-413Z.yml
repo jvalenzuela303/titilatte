@@ -1,0 +1,38 @@
+- generic [ref=e7]:
+  - generic [ref=e9]:
+    - img "shop" [ref=e12]:
+      - img [ref=e13]
+    - heading "Minimarket" [level=3] [ref=e16]
+    - generic [ref=e17]: Sistema de punto de venta
+  - alert [ref=e67]:
+    - img "close-circle" [ref=e68]:
+      - img [ref=e69]
+    - generic [ref=e72]: Bad credentials
+    - button "close" [ref=e73] [cursor=pointer]:
+      - img "close" [ref=e74]:
+        - img [ref=e75]
+  - generic [ref=e19]:
+    - generic [ref=e21]:
+      - generic "Correo electrónico" [ref=e23]
+      - generic [ref=e27]:
+        - img "user" [ref=e29]:
+          - img [ref=e30]
+        - textbox "usuario@minimarket.com" [ref=e32]: admin@minimarket.local
+    - generic [ref=e34]:
+      - generic "Contraseña" [ref=e36]
+      - generic [ref=e40]:
+        - img "lock" [ref=e42]:
+          - img [ref=e43]
+        - textbox "••••••••" [ref=e45]: Admin1234!Admin1234!
+        - img "eye-invisible" [ref=e47] [cursor=pointer]:
+          - img [ref=e48]
+    - button "Iniciar Sesión" [ref=e56] [cursor=pointer]:
+      - generic [ref=e57]: Iniciar Sesión
+    - alert [ref=e58]:
+      - img "info-circle" [ref=e59]:
+        - img [ref=e60]
+      - generic [ref=e62]:
+        - generic [ref=e63]: Credenciales de demo
+        - generic [ref=e65]:
+          - text: "Email: admin@minimarket.local"
+          - text: "Contraseña: Admin1234!"

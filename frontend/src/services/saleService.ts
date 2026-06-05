@@ -25,8 +25,8 @@ const saleService = {
   createSale: (data: CreateSaleRequest) =>
     apiClient.post<Sale>('/sales', data),
 
-  cancelSale: (id: string) =>
-    apiClient.post<Sale>(`/sales/${id}/cancel`),
+  cancelSale: (id: string, reason: string) =>
+    apiClient.post<Sale>(`/sales/${id}/cancel`, { reason }),
 }
 
 export default saleService

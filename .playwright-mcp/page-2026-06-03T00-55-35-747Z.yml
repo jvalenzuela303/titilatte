@@ -1,0 +1,824 @@
+- generic [ref=e2]:
+  - navigation "Menú principal":
+    - link "Saltar al contenido principal" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Ir a la barra de herramientas" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Escritorio" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+          - generic [ref=e11]: Escritorio
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Inicio" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Actualizaciones" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+      - listitem [ref=e17]
+      - listitem [ref=e19]:
+        - link "Entradas" [ref=e20] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e21]: 
+          - generic [ref=e22]: Entradas
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Todas las entradas" [ref=e25] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e26]:
+            - link "Añadir entrada" [ref=e27] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e28]:
+            - link "Categorías" [ref=e29] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e30]:
+            - link "Etiquetas" [ref=e31] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e32]:
+        - link "Medios" [ref=e33] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e34]: 
+          - generic [ref=e35]: Medios
+        - list [ref=e36]:
+          - listitem [ref=e37]:
+            - link "Biblioteca" [ref=e38] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e39]:
+            - link "Añadir medios" [ref=e40] [cursor=pointer]:
+              - /url: media-new.php
+          - listitem [ref=e41]:
+            - link "Categories" [ref=e42] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=media-category&post_type=attachment
+          - listitem [ref=e43]:
+            - link "Tags" [ref=e44] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=media-tag&post_type=attachment
+      - listitem [ref=e45]:
+        - link "Páginas" [ref=e46] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e47]: 
+          - generic [ref=e48]: Páginas
+        - list [ref=e49]:
+          - listitem [ref=e50]:
+            - link "Todas las páginas" [ref=e51] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e52]:
+            - link "Añadir página" [ref=e53] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e54]:
+        - link "Comentarios" [ref=e55] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e56]: 
+          - generic [ref=e57]: Comentarios
+      - listitem [ref=e58]:
+        - link "Proyectos" [ref=e59] [cursor=pointer]:
+          - /url: edit.php?post_type=project
+          - generic [ref=e60]: 
+          - generic [ref=e61]: Proyectos
+        - list [ref=e62]:
+          - listitem [ref=e63]:
+            - link "Todos Los Proyectos" [ref=e64] [cursor=pointer]:
+              - /url: edit.php?post_type=project
+          - listitem [ref=e65]:
+            - link "Agregar Nuevo Proyecto" [ref=e66] [cursor=pointer]:
+              - /url: post-new.php?post_type=project
+          - listitem [ref=e67]:
+            - link "Categorías" [ref=e68] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=project_category&post_type=project
+          - listitem [ref=e69]:
+            - link "Etiquetas" [ref=e70] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=project_tag&post_type=project
+      - listitem [ref=e71]
+      - listitem [ref=e73]:
+        - link "Apariencia" [ref=e74] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e75]: 
+          - generic [ref=e76]: Apariencia
+        - list [ref=e77]:
+          - listitem [ref=e78]:
+            - link "Temas" [ref=e79] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=e80]:
+            - link "Patrones" [ref=e81] [cursor=pointer]:
+              - /url: site-editor.php?p=/pattern
+          - listitem [ref=e82]:
+            - link "Personalizar" [ref=e83] [cursor=pointer]:
+              - /url: customize.php?return=%2Fwp-admin%2F
+          - listitem [ref=e84]:
+            - link "Widgets" [ref=e85] [cursor=pointer]:
+              - /url: widgets.php
+          - listitem [ref=e86]:
+            - link "Fuentes" [ref=e87] [cursor=pointer]:
+              - /url: font-library.php
+          - listitem [ref=e88]:
+            - link "Menús" [ref=e89] [cursor=pointer]:
+              - /url: nav-menus.php
+          - listitem [ref=e90]:
+            - link "Fondo" [ref=e91] [cursor=pointer]:
+              - /url: customize.php?return=%2Fwp-admin%2F&autofocus%5Bcontrol%5D=background_image
+          - listitem
+          - listitem [ref=e92]:
+            - link "Editor de archivos de temas" [ref=e93] [cursor=pointer]:
+              - /url: theme-editor.php
+      - listitem [ref=e94]:
+        - link "Plugins" [ref=e95] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e96]: 
+          - generic [ref=e97]: Plugins
+        - list [ref=e98]:
+          - listitem [ref=e99]:
+            - link "Plugins instalados" [ref=e100] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e101]:
+            - link "Añadir plugin" [ref=e102] [cursor=pointer]:
+              - /url: plugin-install.php
+          - listitem [ref=e103]:
+            - link "Editor de archivos de plugins" [ref=e104] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e105]:
+        - link "Usuarios" [ref=e106] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e107]: 
+          - generic [ref=e108]: Usuarios
+        - list [ref=e109]:
+          - listitem [ref=e110]:
+            - link "Todos los usuarios" [ref=e111] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e112]:
+            - link "Añadir usuario" [ref=e113] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e114]:
+            - link "Perfil" [ref=e115] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e116]:
+        - link "Herramientas" [ref=e117] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e118]: 
+          - generic [ref=e119]: Herramientas
+        - list [ref=e120]:
+          - listitem [ref=e121]:
+            - link "Herramientas disponibles" [ref=e122] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e123]:
+            - link "Importar" [ref=e124] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e125]:
+            - link "Exportar" [ref=e126] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e127]:
+            - link "Salud del sitio" [ref=e128] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e129]:
+            - link "Exportar los datos personales" [ref=e130] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e131]:
+            - link "Borrar los datos personales" [ref=e132] [cursor=pointer]:
+              - /url: erase-personal-data.php
+      - listitem [ref=e133]:
+        - link "Ajustes" [ref=e134] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e135]: 
+          - generic [ref=e136]: Ajustes
+        - list [ref=e137]:
+          - listitem [ref=e138]:
+            - link "Generales" [ref=e139] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e140]:
+            - link "Conectores" [ref=e141] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=e142]:
+            - link "Escritura" [ref=e143] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e144]:
+            - link "Lectura" [ref=e145] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e146]:
+            - link "Comentarios" [ref=e147] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e148]:
+            - link "Medios" [ref=e149] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e150]:
+            - link "Enlaces permanentes" [ref=e151] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e152]:
+            - link "Privacidad" [ref=e153] [cursor=pointer]:
+              - /url: options-privacy.php
+          - listitem [ref=e154]:
+            - link "TranslatePress" [ref=e155] [cursor=pointer]:
+              - /url: options-general.php?page=translate-press
+          - listitem [ref=e156]:
+            - link "Agy" [ref=e157] [cursor=pointer]:
+              - /url: options-general.php?page=agy_settings
+          - listitem [ref=e158]:
+            - link "↳Actualizar ➤" [ref=e159] [cursor=pointer]:
+              - /url: options-general.php?page=agy_settings-pricing
+          - listitem [ref=e160]:
+            - link "Font Awesome" [ref=e161] [cursor=pointer]:
+              - /url: options-general.php?page=font-awesome
+      - listitem [ref=e162]
+      - listitem [ref=e164]:
+        - link "Feed de YouTube 1" [ref=e165] [cursor=pointer]:
+          - /url: admin.php?page=sby-feed-builder
+          - generic [ref=e166]: 
+          - generic [ref=e167]:
+            - text: Feed de YouTube
+            - generic [ref=e168]: "1"
+        - list [ref=e169]:
+          - listitem [ref=e170]:
+            - link "Todos los feeds" [ref=e171] [cursor=pointer]:
+              - /url: admin.php?page=sby-feed-builder
+          - listitem [ref=e172]:
+            - link "Ajustes" [ref=e173] [cursor=pointer]:
+              - /url: admin.php?page=youtube-feed-settings
+          - listitem [ref=e174]:
+            - link "Vídeos individuales" [ref=e175] [cursor=pointer]:
+              - /url: admin.php?page=admin.php?page=sby-feed-builder&tab=more
+          - listitem [ref=e176]:
+            - link "Support" [ref=e177] [cursor=pointer]:
+              - /url: admin.php?page=youtube-feed-support
+          - listitem [ref=e178]:
+            - link "About Us" [ref=e179] [cursor=pointer]:
+              - /url: admin.php?page=youtube-feed-about
+          - listitem [ref=e180]:
+            - link "Prueba la demo de Pro" [ref=e181] [cursor=pointer]:
+              - /url: https://smashballoon.com/youtube-feed/demo/?utm_campaign=youtube-free&utm_source=menu-link&utm_medium=upgrade-link
+          - listitem [ref=e182]:
+            - link "Instagram Feed" [ref=e183] [cursor=pointer]:
+              - /url: admin.php?page=admin.php?page=sby-feed-builder&tab=more
+          - listitem [ref=e184]:
+            - link "Tiktok Feed" [ref=e185] [cursor=pointer]:
+              - /url: admin.php?page=admin.php?page=sby-feed-builder&tab=more
+      - listitem [ref=e186]:
+        - link "Facebook Feed 2" [ref=e187] [cursor=pointer]:
+          - /url: admin.php?page=cff-feed-builder
+          - generic [ref=e188]: 
+          - generic [ref=e189]:
+            - text: Facebook Feed
+            - generic [ref=e190]: "2"
+        - list [ref=e191]:
+          - listitem [ref=e192]:
+            - link "Todos los feeds" [ref=e193] [cursor=pointer]:
+              - /url: admin.php?page=cff-feed-builder
+          - listitem [ref=e194]:
+            - link "Ajustes" [ref=e195] [cursor=pointer]:
+              - /url: admin.php?page=cff-settings
+          - listitem [ref=e196]:
+            - link "oEmbeds" [ref=e197] [cursor=pointer]:
+              - /url: admin.php?page=cff-oembeds-manager
+          - listitem
+          - listitem
+          - listitem [ref=e198]:
+            - link "Sobre nosotros" [ref=e199] [cursor=pointer]:
+              - /url: admin.php?page=cff-about-us
+          - listitem [ref=e200]:
+            - link "Actualiza a Pro" [ref=e201] [cursor=pointer]:
+              - /url: https://smashballoon.com/custom-facebook-feed/facebook-lite-upgrade/?utm_campaign=facebook-free&utm_source=menu-link&utm_medium=upgrade-link&utm_content=UpgradeToPro
+          - listitem [ref=e202]:
+            - link "Feeds de TikTok New!" [ref=e203] [cursor=pointer]:
+              - /url: admin.php?page=sbtt
+              - text: Feeds de TikTok
+              - generic [ref=e204]: New!
+          - listitem [ref=e205]:
+            - link "Instagram Feed" [ref=e206] [cursor=pointer]:
+              - /url: admin.php?page=cff-top&tab=more
+      - listitem [ref=e207]:
+        - link "Twitter 2" [ref=e208] [cursor=pointer]:
+          - /url: admin.php?page=ctf-feed-builder
+          - generic [ref=e210]:
+            - text: Twitter
+            - generic [ref=e211]: "2"
+        - list [ref=e212]:
+          - listitem [ref=e213]:
+            - link "Todos los feeds" [ref=e214] [cursor=pointer]:
+              - /url: admin.php?page=ctf-feed-builder
+          - listitem [ref=e215]:
+            - link "Ajustes" [ref=e216] [cursor=pointer]:
+              - /url: admin.php?page=ctf-settings
+          - listitem
+          - listitem
+          - listitem [ref=e217]:
+            - link "Sobre nosotros" [ref=e218] [cursor=pointer]:
+              - /url: admin.php?page=ctf-about-us
+          - listitem [ref=e219]:
+            - link "Actualizar a Pro" [ref=e220] [cursor=pointer]:
+              - /url: https://smashballoon.com/custom-twitter-feeds/twitter-lite-upgrade/?utm_campaign=twitter-free&utm_source=menu-link&utm_medium=upgrade-link
+          - listitem [ref=e221]:
+            - link "Instagram Feed" [ref=e222] [cursor=pointer]:
+              - /url: admin.php?page=custom-twitter-feeds&tab=more
+      - listitem [ref=e223]:
+        - link "Feed de reseñas 2" [ref=e224] [cursor=pointer]:
+          - /url: admin.php?page=sbr
+          - generic [ref=e226]:
+            - text: Feed de reseñas
+            - generic [ref=e227]: "2"
+        - list [ref=e228]:
+          - listitem [ref=e229]:
+            - link "All Feeds" [ref=e230] [cursor=pointer]:
+              - /url: admin.php?page=sbr
+          - listitem [ref=e231]:
+            - link "Colecciones PRO" [ref=e232] [cursor=pointer]:
+              - /url: admin.php?page=sbr-collections
+              - text: Colecciones
+              - generic [ref=e233]: PRO
+          - listitem [ref=e234]:
+            - link "Review Alerts PRO" [ref=e235] [cursor=pointer]:
+              - /url: admin.php?page=sbr-review-alerts
+              - text: Review Alerts
+              - generic [ref=e236]: PRO
+          - listitem [ref=e237]:
+            - link "Settings" [ref=e238] [cursor=pointer]:
+              - /url: admin.php?page=sbr-settings
+          - listitem [ref=e239]:
+            - link "About us" [ref=e240] [cursor=pointer]:
+              - /url: admin.php?page=sbr-about
+          - listitem [ref=e241]:
+            - link "Support" [ref=e242] [cursor=pointer]:
+              - /url: admin.php?page=sbr-support
+          - listitem [ref=e243]:
+            - link "Actualiza a Pro" [ref=e244] [cursor=pointer]:
+              - /url: https://smashballoon.com/reviews-feed/reviews-lite-upgrade/?utm_campaign=reviews-free&utm_source=menu-link&utm_medium=upgrade-link&utm_content=UpgradeToPro
+              - strong [ref=e246]: Actualiza a Pro
+      - listitem [ref=e247]:
+        - link "The Grid" [ref=e248] [cursor=pointer]:
+          - /url: admin.php?page=the_grid
+          - generic [ref=e250]: The Grid
+        - list [ref=e251]:
+          - listitem [ref=e252]:
+            - link "The Grid" [ref=e253] [cursor=pointer]:
+              - /url: admin.php?page=the_grid
+          - listitem [ref=e254]:
+            - link "Skin Builder" [ref=e255] [cursor=pointer]:
+              - /url: admin.php?page=the_grid_skins_overview
+          - listitem [ref=e256]:
+            - link "Import/Export" [ref=e257] [cursor=pointer]:
+              - /url: admin.php?page=the_grid_import_export
+          - listitem [ref=e258]:
+            - link "Global Settings" [ref=e259] [cursor=pointer]:
+              - /url: admin.php?page=the_grid_global_settings
+      - listitem [ref=e260]:
+        - link "Divi" [ref=e261] [cursor=pointer]:
+          - /url: admin.php?page=et_divi_options
+          - generic [ref=e262]: 
+          - generic [ref=e263]: Divi
+        - list [ref=e264]:
+          - listitem [ref=e265]:
+            - link "Opciones del tema" [ref=e266] [cursor=pointer]:
+              - /url: admin.php?page=et_divi_options
+          - listitem [ref=e267]:
+            - link "Generador de temas" [ref=e268] [cursor=pointer]:
+              - /url: admin.php?page=et_theme_builder
+          - listitem [ref=e269]:
+            - link "Personalizador de temas" [ref=e270] [cursor=pointer]:
+              - /url: customize.php?et_customizer_option_set=theme
+          - listitem [ref=e271]:
+            - link "Editor de Rol" [ref=e272] [cursor=pointer]:
+              - /url: admin.php?page=et_divi_role_editor
+          - listitem [ref=e273]:
+            - link "Biblioteca de Divi" [ref=e274] [cursor=pointer]:
+              - /url: edit.php?post_type=et_pb_layout
+          - listitem [ref=e275]:
+            - link "Support Center" [ref=e276] [cursor=pointer]:
+              - /url: admin.php?page=et_support_center_divi
+      - listitem [ref=e277]:
+        - link "Click to Chat" [ref=e278] [cursor=pointer]:
+          - /url: admin.php?page=click-to-chat
+          - generic [ref=e280]: Click to Chat
+        - list [ref=e281]:
+          - listitem [ref=e282]:
+            - link "Click to Chat" [ref=e283] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat
+          - listitem [ref=e284]:
+            - link "Greetings" [ref=e285] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat-greetings
+          - listitem [ref=e286]:
+            - link "Customize" [ref=e287] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat-customize-styles
+          - listitem [ref=e288]:
+            - link "Other Settings" [ref=e289] [cursor=pointer]:
+              - /url: admin.php?page=click-to-chat-other-settings
+          - listitem [ref=e290]:
+            - link " Hazte Premium" [ref=e291] [cursor=pointer]:
+              - /url: https://holithemes.com/plugins/click-to-chat/pricing
+              - generic [ref=e292]: 
+              - generic [ref=e293]: Hazte Premium
+      - listitem [ref=e294]:
+        - button "Contraer el menú principal" [expanded] [ref=e295] [cursor=pointer]:
+          - generic [ref=e297]: Cerrar menú
+  - generic [ref=e298]:
+    - generic [ref=e299]:
+      - navigation "Barra de herramientas":
+        - menu:
+          - group [ref=e300]:
+            - menuitem "Acerca de WordPress" [ref=e301] [cursor=pointer]:
+              - generic [ref=e303]: Acerca de WordPress
+          - group [ref=e304]:
+            - menuitem "Le Coq Wines" [ref=e305] [cursor=pointer]
+          - group [ref=e306]:
+            - menuitem "Ctrl+K Abrir paleta de comandos" [ref=e307] [cursor=pointer]:
+              - generic [ref=e309]:
+                - text: Ctrl+K
+                - generic [ref=e310]: Abrir paleta de comandos
+          - group [ref=e311]:
+            - menuitem "0 comentarios en moderación" [ref=e312] [cursor=pointer]:
+              - generic [ref=e314]: "0"
+              - generic [ref=e315]: 0 comentarios en moderación
+          - group [ref=e316]:
+            - menuitem "Añadir" [ref=e317] [cursor=pointer]:
+              - generic [ref=e319]: Añadir
+          - group [ref=e320]:
+            - menuitem " Traducir el sitio 1" [ref=e321] [cursor=pointer]:
+              - generic [ref=e322]: 
+              - generic [ref=e323]:
+                - text: Traducir el sitio
+                - generic [ref=e324]: "1"
+        - menu [ref=e325]:
+          - group [ref=e326]:
+            - menuitem "Hola, Juan Pablo" [ref=e327] [cursor=pointer]
+    - main [ref=e328]:
+      - generic [ref=e329]:
+        - generic [ref=e330]:
+          - button "Opciones de pantalla" [ref=e332] [cursor=pointer]
+          - button "Ayuda" [ref=e334] [cursor=pointer]
+        - generic [ref=e335]:
+          - img "notice" [ref=e337]
+          - paragraph [ref=e339]: ¿Estás disfrutando con el plugin Custom Facebook Feed?
+          - generic [ref=e340]:
+            - button "Sí" [ref=e341] [cursor=pointer]
+            - link "No" [ref=e342] [cursor=pointer]:
+              - /url: https://smashballoon.com/feedback/?plugin=facebook-lite&utm_campaign=facebook-free&utm_source=notifications&utm_medium=feedback
+        - generic [ref=e343]:
+          - heading "Escritorio" [level=1] [ref=e344]
+          - text: 
+          - generic [ref=e346]:
+            - generic [ref=e348]:
+              - generic [ref=e349]:
+                - generic [ref=e350]:
+                  - heading "Estado de salud del sitio" [level=2] [ref=e351]
+                  - generic [ref=e352]:
+                    - button "Subir" [disabled] [ref=e353]:
+                      - generic [ref=e354]: Subir
+                    - button "Bajar" [ref=e356] [cursor=pointer]:
+                      - generic [ref=e357]: Bajar
+                    - 'button "Alternar panel: Estado de salud del sitio" [expanded] [ref=e359] [cursor=pointer]':
+                      - generic [ref=e360]: "Alternar panel: Estado de salud del sitio"
+                - generic [ref=e363]:
+                  - generic [ref=e364]:
+                    - img [ref=e366]
+                    - generic [ref=e369]: Bueno
+                  - generic [ref=e370]:
+                    - paragraph [ref=e371]: La salud de tu sitio está bien, pero aún hay algunas cosas que puedes hacer para mejorar su rendimiento y seguridad.
+                    - paragraph [ref=e372]:
+                      - text: Echa un vistazo a
+                      - strong [ref=e373]: 4 elementos
+                      - text: en la
+                      - link "pantalla de salud del sitio" [ref=e374] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/site-health.php
+                      - text: .
+              - generic [ref=e375]:
+                - generic [ref=e376]:
+                  - heading "De un vistazo" [level=2] [ref=e377]
+                  - generic [ref=e378]:
+                    - button "Subir" [ref=e379] [cursor=pointer]:
+                      - generic [ref=e380]: Subir
+                    - button "Bajar" [ref=e382] [cursor=pointer]:
+                      - generic [ref=e383]: Bajar
+                    - 'button "Alternar panel: De un vistazo" [expanded] [ref=e385] [cursor=pointer]':
+                      - generic [ref=e386]: "Alternar panel: De un vistazo"
+                - generic [ref=e389]:
+                  - list [ref=e390]:
+                    - listitem [ref=e391]:
+                      - link "5 páginas publicadas" [ref=e392] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/edit.php?post_status=publish&post_type=page
+                    - listitem [ref=e393]:
+                      - link "433 comentarios" [ref=e394] [cursor=pointer]:
+                        - /url: edit-comments.php
+                  - paragraph [ref=e395]:
+                    - generic [ref=e396]:
+                      - text: WordPress 7.0 está funcionando con el tema
+                      - link "Divi Child Theme" [ref=e397] [cursor=pointer]:
+                        - /url: themes.php
+                      - text: .
+              - generic [ref=e398]:
+                - generic [ref=e399]:
+                  - heading "Actividad" [level=2] [ref=e400]
+                  - generic [ref=e401]:
+                    - button "Subir" [ref=e402] [cursor=pointer]:
+                      - generic [ref=e403]: Subir
+                    - button "Bajar" [ref=e405] [cursor=pointer]:
+                      - generic [ref=e406]: Bajar
+                    - 'button "Alternar panel: Actividad" [expanded] [ref=e408] [cursor=pointer]':
+                      - generic [ref=e409]: "Alternar panel: Actividad"
+                - generic [ref=e413]:
+                  - heading "Comentarios recientes" [level=3] [ref=e414]
+                  - list [ref=e415]:
+                    - listitem [ref=e416]:
+                      - generic [ref=e417]:
+                        - paragraph [ref=e418]:
+                          - strong [ref=e419]: Order_note
+                          - text: el
+                          - link "Order – junio 14, 2023 @ 11:10 PM" [ref=e420] [cursor=pointer]:
+                            - /url: https://www.lecoqwines.cl/?p=1037
+                        - paragraph [ref=e421]: WooCommerce
+                        - blockquote [ref=e422]:
+                          - paragraph [ref=e423]: Protegido con contraseña
+                        - paragraph [ref=e424]:
+                          - button "Rechazar este comentario" [ref=e426] [cursor=pointer]: Rechazar
+                          - generic [ref=e427]:
+                            - text: "|"
+                            - button "Responder a este comentario" [ref=e428] [cursor=pointer]: Responder
+                          - generic [ref=e429]:
+                            - text: "|"
+                            - link "Editar este comentario" [ref=e430] [cursor=pointer]:
+                              - /url: comment.php?action=editcomment&c=434
+                              - text: Editar
+                          - generic [ref=e431]:
+                            - text: "|"
+                            - button "Marcar este comentario como spam" [ref=e432] [cursor=pointer]: Spam
+                          - generic [ref=e433]:
+                            - text: "|"
+                            - button "Mover este comentario a la papelera" [ref=e434] [cursor=pointer]: Papelera
+                          - generic [ref=e435]:
+                            - text: "|"
+                            - link "Ver este comentario" [ref=e436] [cursor=pointer]:
+                              - /url: https://www.lecoqwines.cl/?p=1037/#comment-434
+                              - text: Ver
+                    - listitem [ref=e437]:
+                      - generic [ref=e438]:
+                        - paragraph [ref=e439]:
+                          - strong [ref=e440]: Order_note
+                          - text: el
+                          - link "Order – junio 14, 2023 @ 02:21 PM" [ref=e441] [cursor=pointer]:
+                            - /url: https://www.lecoqwines.cl/?p=1029
+                        - paragraph [ref=e442]: WooCommerce
+                        - blockquote [ref=e443]:
+                          - paragraph [ref=e444]: Protegido con contraseña
+                        - paragraph [ref=e445]:
+                          - button "Rechazar este comentario" [ref=e447] [cursor=pointer]: Rechazar
+                          - generic [ref=e448]:
+                            - text: "|"
+                            - button "Responder a este comentario" [ref=e449] [cursor=pointer]: Responder
+                          - generic [ref=e450]:
+                            - text: "|"
+                            - link "Editar este comentario" [ref=e451] [cursor=pointer]:
+                              - /url: comment.php?action=editcomment&c=433
+                              - text: Editar
+                          - generic [ref=e452]:
+                            - text: "|"
+                            - button "Marcar este comentario como spam" [ref=e453] [cursor=pointer]: Spam
+                          - generic [ref=e454]:
+                            - text: "|"
+                            - button "Mover este comentario a la papelera" [ref=e455] [cursor=pointer]: Papelera
+                          - generic [ref=e456]:
+                            - text: "|"
+                            - link "Ver este comentario" [ref=e457] [cursor=pointer]:
+                              - /url: https://www.lecoqwines.cl/?p=1029/#comment-433
+                              - text: Ver
+                    - listitem [ref=e458]:
+                      - generic [ref=e459]:
+                        - paragraph [ref=e460]:
+                          - strong [ref=e461]: Order_note
+                          - text: el
+                          - link "Order – enero 25, 2024 @ 10:36 AM" [ref=e462] [cursor=pointer]:
+                            - /url: https://www.lecoqwines.cl/?p=1310
+                        - paragraph [ref=e463]: WooCommerce
+                        - blockquote [ref=e464]:
+                          - paragraph [ref=e465]: Protegido con contraseña
+                        - paragraph [ref=e466]:
+                          - button "Rechazar este comentario" [ref=e468] [cursor=pointer]: Rechazar
+                          - generic [ref=e469]:
+                            - text: "|"
+                            - button "Responder a este comentario" [ref=e470] [cursor=pointer]: Responder
+                          - generic [ref=e471]:
+                            - text: "|"
+                            - link "Editar este comentario" [ref=e472] [cursor=pointer]:
+                              - /url: comment.php?action=editcomment&c=432
+                              - text: Editar
+                          - generic [ref=e473]:
+                            - text: "|"
+                            - button "Marcar este comentario como spam" [ref=e474] [cursor=pointer]: Spam
+                          - generic [ref=e475]:
+                            - text: "|"
+                            - button "Mover este comentario a la papelera" [ref=e476] [cursor=pointer]: Papelera
+                          - generic [ref=e477]:
+                            - text: "|"
+                            - link "Ver este comentario" [ref=e478] [cursor=pointer]:
+                              - /url: https://www.lecoqwines.cl/?p=1310/#comment-432
+                              - text: Ver
+                    - listitem [ref=e479]:
+                      - generic [ref=e480]:
+                        - paragraph [ref=e481]:
+                          - strong [ref=e482]: Order_note
+                          - text: el
+                          - link "Order – noviembre 21, 2025 @ 12:48 PM" [ref=e483] [cursor=pointer]:
+                            - /url: https://www.lecoqwines.cl/?p=1362
+                        - paragraph [ref=e484]: WooCommerce
+                        - blockquote [ref=e485]:
+                          - paragraph [ref=e486]: Protegido con contraseña
+                        - paragraph [ref=e487]:
+                          - button "Rechazar este comentario" [ref=e489] [cursor=pointer]: Rechazar
+                          - generic [ref=e490]:
+                            - text: "|"
+                            - button "Responder a este comentario" [ref=e491] [cursor=pointer]: Responder
+                          - generic [ref=e492]:
+                            - text: "|"
+                            - link "Editar este comentario" [ref=e493] [cursor=pointer]:
+                              - /url: comment.php?action=editcomment&c=431
+                              - text: Editar
+                          - generic [ref=e494]:
+                            - text: "|"
+                            - button "Marcar este comentario como spam" [ref=e495] [cursor=pointer]: Spam
+                          - generic [ref=e496]:
+                            - text: "|"
+                            - button "Mover este comentario a la papelera" [ref=e497] [cursor=pointer]: Papelera
+                          - generic [ref=e498]:
+                            - text: "|"
+                            - link "Ver este comentario" [ref=e499] [cursor=pointer]:
+                              - /url: https://www.lecoqwines.cl/?p=1362/#comment-431
+                              - text: Ver
+                    - listitem [ref=e500]:
+                      - generic [ref=e501]:
+                        - paragraph [ref=e502]:
+                          - strong [ref=e503]: Order_note
+                          - text: el
+                          - link "Order – noviembre 29, 2025 @ 01:13 PM" [ref=e504] [cursor=pointer]:
+                            - /url: https://www.lecoqwines.cl/?p=1363
+                        - paragraph [ref=e505]: WooCommerce
+                        - blockquote [ref=e506]:
+                          - paragraph [ref=e507]: Protegido con contraseña
+                        - paragraph [ref=e508]:
+                          - button "Rechazar este comentario" [ref=e510] [cursor=pointer]: Rechazar
+                          - generic [ref=e511]:
+                            - text: "|"
+                            - button "Responder a este comentario" [ref=e512] [cursor=pointer]: Responder
+                          - generic [ref=e513]:
+                            - text: "|"
+                            - link "Editar este comentario" [ref=e514] [cursor=pointer]:
+                              - /url: comment.php?action=editcomment&c=430
+                              - text: Editar
+                          - generic [ref=e515]:
+                            - text: "|"
+                            - button "Marcar este comentario como spam" [ref=e516] [cursor=pointer]: Spam
+                          - generic [ref=e517]:
+                            - text: "|"
+                            - button "Mover este comentario a la papelera" [ref=e518] [cursor=pointer]: Papelera
+                          - generic [ref=e519]:
+                            - text: "|"
+                            - link "Ver este comentario" [ref=e520] [cursor=pointer]:
+                              - /url: https://www.lecoqwines.cl/?p=1363/#comment-430
+                              - text: Ver
+                  - heading "Ver más comentarios" [level=3] [ref=e521]
+                  - list [ref=e522]:
+                    - listitem [ref=e523]:
+                      - link "Todos (433)" [ref=e524] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/edit-comments.php?comment_status=all
+                        - text: Todos
+                        - generic [ref=e525]: (433)
+                      - text: "|"
+                    - listitem [ref=e526]:
+                      - link "Míos (0)" [ref=e527] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/edit-comments.php?comment_status=mine&user_id=1
+                        - text: Míos
+                        - generic [ref=e528]: (0)
+                      - text: "|"
+                    - listitem [ref=e529]:
+                      - link "Pendientes (0)" [ref=e530] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/edit-comments.php?comment_status=moderated
+                        - text: Pendientes
+                        - generic [ref=e531]: (0)
+                      - text: "|"
+                    - listitem [ref=e532]:
+                      - link "Aprobados (433)" [ref=e533] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/edit-comments.php?comment_status=approved
+                        - text: Aprobados
+                        - generic [ref=e534]: (433)
+                      - text: "|"
+                    - listitem [ref=e535]:
+                      - link "Spam (0)" [ref=e536] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/edit-comments.php?comment_status=spam
+                        - text: Spam
+                        - generic [ref=e537]: (0)
+                      - text: "|"
+                    - listitem [ref=e538]:
+                      - link "Papelera (0)" [ref=e539] [cursor=pointer]:
+                        - /url: https://www.lecoqwines.cl/wp-admin/edit-comments.php?comment_status=trash
+                        - text: Papelera
+                        - generic [ref=e540]: (0)
+              - generic [ref=e541]:
+                - generic [ref=e542]:
+                  - heading "Smash Balloon Feeds" [level=2] [ref=e543]
+                  - generic [ref=e544]:
+                    - button "Subir" [ref=e545] [cursor=pointer]:
+                      - generic [ref=e546]: Subir
+                    - button "Bajar" [ref=e548] [cursor=pointer]:
+                      - generic [ref=e549]: Bajar
+                    - 'button "Alternar panel: Smash Balloon Feeds" [expanded] [ref=e551] [cursor=pointer]':
+                      - generic [ref=e552]: "Alternar panel: Smash Balloon Feeds"
+                - generic [ref=e555]:
+                  - generic [ref=e556]:
+                    - generic [ref=e557]:
+                      - generic [ref=e558]: 0%
+                      - img [ref=e559]
+                    - generic [ref=e562]:
+                      - strong [ref=e563]: Setup is almost complete
+                      - generic [ref=e564]: Complete your Smash Balloon feed setup and increase engagment
+                  - generic [ref=e565]:
+                    - generic [ref=e568]: Create an Facebook Feed
+                    - generic [ref=e571]: Create a Twitter Feed
+                    - generic [ref=e574]: Create a Youtube Feed
+                    - generic [ref=e577]: Create a Reviews Feed
+                    - generic [ref=e578]:
+                      - generic [ref=e579] [cursor=pointer]: Go to Facebook Plugin
+                      - generic [ref=e580] [cursor=pointer]: Skip this step
+            - generic [ref=e582]:
+              - generic [ref=e583]:
+                - generic [ref=e584]:
+                  - heading "Borrador rápido" [level=2] [ref=e585]:
+                    - generic [ref=e586]: Borrador rápido
+                  - generic [ref=e587]:
+                    - button "Subir" [ref=e588] [cursor=pointer]:
+                      - generic [ref=e589]: Subir
+                    - button "Bajar" [ref=e591] [cursor=pointer]:
+                      - generic [ref=e592]: Bajar
+                    - 'button "Alternar panel: Borrador rápido" [expanded] [ref=e594] [cursor=pointer]':
+                      - generic [ref=e595]:
+                        - text: "Alternar panel:"
+                        - generic [ref=e596]: Borrador rápido
+                - generic [ref=e599]:
+                  - generic [ref=e600]:
+                    - generic [ref=e601]: Título
+                    - textbox "Título" [ref=e602]
+                  - generic [ref=e603]:
+                    - generic [ref=e604]: Contenido
+                    - textbox "Contenido" [ref=e605]:
+                      - /placeholder: ¿En qué estás pensando?
+                  - paragraph [ref=e606]:
+                    - button "Guardar borrador" [ref=e607] [cursor=pointer]
+              - generic [ref=e608]:
+                - generic [ref=e609]:
+                  - heading "Eventos y noticias de WordPress" [level=2] [ref=e610]
+                  - generic [ref=e611]:
+                    - button "Subir" [ref=e612] [cursor=pointer]:
+                      - generic [ref=e613]: Subir
+                    - button "Bajar" [disabled] [ref=e615]:
+                      - generic [ref=e616]: Bajar
+                    - 'button "Alternar panel: Eventos y noticias de WordPress" [expanded] [ref=e618] [cursor=pointer]':
+                      - generic [ref=e619]: "Alternar panel: Eventos y noticias de WordPress"
+                - generic [ref=e621]:
+                  - generic [ref=e622]:
+                    - paragraph [ref=e624]:
+                      - text: Asiste a un próximo evento cerca de ti.
+                      - button "Seleccionar la ubicación" [ref=e625] [cursor=pointer]:
+                        - generic [ref=e626]: 
+                        - text: Seleccionar la ubicación
+                    - list [ref=e627]:
+                      - listitem [ref=e628]:
+                        - text: En este momento no hay ningún evento programado cerca de ti. ¿Te gustaría
+                        - link "organizar un evento WordPress" [ref=e629] [cursor=pointer]:
+                          - /url: https://make.wordpress.org/community/handbook/meetup-organizer/welcome/
+                        - text: "?"
+                  - generic [ref=e630]:
+                    - list [ref=e632]:
+                      - listitem [ref=e633]:
+                        - link "Feliz cumpleaños, WordPress" [ref=e634] [cursor=pointer]:
+                          - /url: https://es.wordpress.org/2026/06/01/feliz-cumpleanos-wordpress/
+                      - listitem [ref=e635]:
+                        - link "Meetup y WordCamp en España – Junio 2026" [ref=e636] [cursor=pointer]:
+                          - /url: https://es.wordpress.org/2026/06/01/meetup-y-wordcamp-en-espana-junio-2026/
+                    - list [ref=e638]:
+                      - listitem [ref=e639]:
+                        - 'link "Open Channels FM: How to Make Your Case Studies Stand Out: The Power of Storytelling" [ref=e640] [cursor=pointer]':
+                          - /url: https://openchannels.fm/how-to-make-your-case-studies-stand-out-the-power-of-storytelling/
+                      - listitem [ref=e641]:
+                        - 'link "Matt: Bee Champion" [ref=e642] [cursor=pointer]':
+                          - /url: https://ma.tt/2026/06/bee-champion/
+                      - listitem [ref=e643]:
+                        - 'link "Akismet: Introducing the official Akismet Drupal module" [ref=e644] [cursor=pointer]':
+                          - /url: https://akismet.com/blog/introducing-the-official-akismet-drupal-module/
+                  - paragraph [ref=e645]:
+                    - link "Meetups (abre en una nueva pestaña)" [ref=e646] [cursor=pointer]:
+                      - /url: https://make.wordpress.org/community/meetups-landing-page
+                      - text: Meetups
+                      - generic [ref=e647]: (abre en una nueva pestaña)
+                      - generic [ref=e648]: 
+                    - text: "|"
+                    - link "WordCamps (abre en una nueva pestaña)" [ref=e649] [cursor=pointer]:
+                      - /url: https://central.wordcamp.org/schedule/
+                      - text: WordCamps
+                      - generic [ref=e650]: (abre en una nueva pestaña)
+                      - generic [ref=e651]: 
+                    - text: "|"
+                    - link "Noticias (abre en una nueva pestaña)" [ref=e652] [cursor=pointer]:
+                      - /url: https://es.wordpress.org/news/
+                      - text: Noticias
+                      - generic [ref=e653]: (abre en una nueva pestaña)
+                      - generic [ref=e654]: 
+  - contentinfo [ref=e655]:
+    - paragraph [ref=e656]:
+      - generic [ref=e657]:
+        - text: Gracias por crear con
+        - link "WordPress" [ref=e658] [cursor=pointer]:
+          - /url: https://es.wordpress.org/
+        - text: .
+    - paragraph [ref=e659]: Versión 7.0

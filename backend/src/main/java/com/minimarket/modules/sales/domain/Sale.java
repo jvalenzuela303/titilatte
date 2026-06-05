@@ -4,8 +4,10 @@ import com.minimarket.modules.users.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.generator.EventType;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
@@ -28,6 +30,7 @@ public class Sale {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Generated(event = EventType.INSERT)
     @Column(name = "sale_number", nullable = false, unique = true, updatable = false,
             insertable = false)
     private Long saleNumber;
@@ -57,6 +60,9 @@ public class Sale {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", nullable = false)
     private User seller;
+
+    @Column(name = "branch_id", nullable = false)
+    private UUID branchId;
 
     @Column(name = "customer_id")
     private UUID customerId;

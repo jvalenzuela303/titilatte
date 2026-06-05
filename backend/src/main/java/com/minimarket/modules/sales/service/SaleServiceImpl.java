@@ -12,6 +12,7 @@ import com.minimarket.modules.sales.dto.SaleItemRequest;
 import com.minimarket.modules.sales.dto.SaleResponse;
 import com.minimarket.modules.sales.mapper.SaleMapper;
 import com.minimarket.modules.sales.repository.SaleRepository;
+import com.minimarket.modules.sales.repository.SaleSpecification;
 import com.minimarket.modules.users.domain.User;
 import com.minimarket.modules.users.repository.UserRepository;
 import com.minimarket.sse.SseEmitterRegistry;
@@ -65,7 +66,7 @@ public class SaleServiceImpl implements SaleService {
                 throw new BusinessException("Product '" + product.getName() + "' is not active.");
             }
 
-            if (product.getStockCurrent().compareTo(item.quantity()) < 0) {
+            if (product.isTrackStock() && product.getStockCurrent().compareTo(item.quantity()) < 0) {
                 throw new InsufficientStockException(
                         product.getName(),
                         product.getStockCurrent().doubleValue(),
@@ -107,6 +108,8 @@ public class SaleServiceImpl implements SaleService {
 
         // Build and persist the sale in CONFIRMED state directly
         // (PENDING -> CONFIRMED triggers stock deduction in DB)
+        UUID branchId = UUID.fromString("00000000-0000-0000-0000-000000000001");
+
         Sale sale = Sale.builder()
                 .type(request.type())
                 .status(SaleStatus.PENDING)
@@ -115,6 +118,7 @@ public class SaleServiceImpl implements SaleService {
                 .taxAmount(totalTax)
                 .netAmount(netAmount)
                 .seller(seller)
+                .branchId(branchId)
                 .customerId(request.customerId())
                 .notes(request.notes())
                 .details(new ArrayList<>())
@@ -151,21 +155,22 @@ public class SaleServiceImpl implements SaleService {
         savedSale.setStatus(SaleStatus.CONFIRMED);
         Sale confirmedSale = saleRepository.save(savedSale);
 
-        log.info("Sale created and confirmed: #{} by seller: {}", confirmedSale.getSaleNumber(), sellerEmail);
+        log.info("Sale created and confirmed: #{} by seller: {}", savedSale.getId(), sellerEmail);
 
-        // Reload with all associations for response
+        // Reload with all associations for response (split into two queries to avoid MultipleBagFetchException)
         Sale fullSale = saleRepository.findWithDetailsById(confirmedSale.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Sale", confirmedSale.getId()));
+        saleRepository.findWithPaymentsById(confirmedSale.getId()); // merges payments into 1st-level cache
 
-        // Broadcast SSE event to ADMIN and SUPERVISOR
+        // Broadcast SSE event to ADMIN and SUPERVISOR (use fullSale — saleNumber is DB-generated)
         sseRegistry.broadcastToRoles(
                 Set.of("ADMIN", "SUPERVISOR"),
                 new SseEvent(
                         SseEventType.VENTA_CONFIRMADA,
                         Map.of(
-                                "saleNumber", confirmedSale.getSaleNumber(),
-                                "total", confirmedSale.getTotalAmount(),
-                                "sellerId", confirmedSale.getSeller().getId()
+                                "saleNumber", String.valueOf(fullSale.getSaleNumber()),
+                                "total", fullSale.getTotalAmount(),
+                                "sellerId", fullSale.getSeller().getId()
                         ),
                         LocalDateTime.now()
                 )
@@ -179,6 +184,7 @@ public class SaleServiceImpl implements SaleService {
     public SaleResponse findById(UUID id) {
         Sale sale = saleRepository.findWithDetailsById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sale", id));
+        saleRepository.findWithPaymentsById(id);
         return saleMapper.toResponse(sale);
     }
 
@@ -186,7 +192,9 @@ public class SaleServiceImpl implements SaleService {
     @Transactional(readOnly = true)
     public Page<SaleResponse> findAll(OffsetDateTime startDate, OffsetDateTime endDate,
                                       UUID sellerId, SaleStatus status, Pageable pageable) {
-        return saleRepository.search(startDate, endDate, sellerId, status, pageable)
+        return saleRepository.findAll(
+                        SaleSpecification.withFilters(startDate, endDate, sellerId, status),
+                        pageable)
                 .map(saleMapper::toResponse);
     }
 
@@ -196,6 +204,7 @@ public class SaleServiceImpl implements SaleService {
     public SaleResponse cancel(UUID id, String reason, String cancellerEmail) {
         Sale sale = saleRepository.findWithDetailsById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sale", id));
+        saleRepository.findWithPaymentsById(id);
 
         if (sale.getStatus() == SaleStatus.CANCELLED) {
             throw new BusinessException("Sale #" + sale.getSaleNumber() + " is already cancelled.");

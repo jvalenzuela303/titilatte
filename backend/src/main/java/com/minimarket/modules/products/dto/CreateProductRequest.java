@@ -33,5 +33,7 @@ public record CreateProductRequest(
         UUID taxId,
 
         @NotNull(message = "Unit ID is required")
-        UUID unitId
+        UUID unitId,
+
+        Boolean trackStock
 ) {}

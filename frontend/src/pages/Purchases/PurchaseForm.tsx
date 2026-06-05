@@ -250,7 +250,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ open, onClose, onSuccess })
       cancelText="Cancelar"
       confirmLoading={submitting}
       width={860}
-      destroyOnHidden
+      forceRender
     >
       <Form form={form} layout="vertical" initialValues={{ purchaseDate: dayjs() }}>
         <Row gutter={16}>

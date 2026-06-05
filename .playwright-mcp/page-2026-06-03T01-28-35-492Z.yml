@@ -1,0 +1,792 @@
+- generic [ref=e2]:
+  - navigation "Menú principal":
+    - link "Saltar al contenido principal" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Ir a la barra de herramientas" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Escritorio" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+          - generic [ref=e11]: Escritorio
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Inicio" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Actualizaciones" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+      - listitem [ref=e17]
+      - listitem [ref=e19]:
+        - link "Entradas" [ref=e20] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e21]: 
+          - generic [ref=e22]: Entradas
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "Todas las entradas" [ref=e25] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e26]:
+            - link "Añadir entrada" [ref=e27] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e28]:
+            - link "Categorías" [ref=e29] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e30]:
+            - link "Etiquetas" [ref=e31] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e32]:
+        - link "Medios" [ref=e33] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e34]: 
+          - generic [ref=e35]: Medios
+        - list [ref=e36]:
+          - listitem [ref=e37]:
+            - link "Biblioteca" [ref=e38] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e39]:
+            - link "Añadir medios" [ref=e40] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=e41]:
+        - link "Páginas" [ref=e42] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e43]: 
+          - generic [ref=e44]: Páginas
+        - list [ref=e45]:
+          - listitem [ref=e46]:
+            - link "Todas las páginas" [ref=e47] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e48]:
+            - link "Añadir página" [ref=e49] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e50]:
+        - link "Comentarios" [ref=e51] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e52]: 
+          - generic [ref=e53]: Comentarios
+      - listitem [ref=e54]
+      - listitem [ref=e56]:
+        - link "WooCommerce" [ref=e57] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+          - generic [ref=e59]: WooCommerce
+        - list [ref=e60]:
+          - listitem [ref=e61]:
+            - link "Inicio 2" [ref=e62] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Inicio
+              - generic [ref=e63]: "2"
+          - listitem [ref=e64]:
+            - link "Pedidos 6" [ref=e65] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_order
+              - text: Pedidos
+              - generic [ref=e66]: "6"
+          - listitem [ref=e67]:
+            - link "Clientes" [ref=e68] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=e69]:
+            - link "Cupones" [ref=e70] [cursor=pointer]:
+              - /url: admin.php?page=coupons-moved
+          - listitem [ref=e71]:
+            - link "Informes" [ref=e72] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=e73]:
+            - link "Ajustes" [ref=e74] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=e75]:
+            - link "Estado" [ref=e76] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=e77]:
+            - link "Extensiones" [ref=e78] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=e79]:
+        - link "Productos" [ref=e80] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=e81]: 
+          - generic [ref=e82]: Productos
+        - list [ref=e83]:
+          - listitem [ref=e84]:
+            - link "Todos los productos" [ref=e85] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=e86]:
+            - link "Añadir un nuevo producto" [ref=e87] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=e88]:
+            - link "Marcas" [ref=e89] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_brand&post_type=product
+          - listitem [ref=e90]:
+            - link "Categorías" [ref=e91] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=e92]:
+            - link "Etiquetas" [ref=e93] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=e94]:
+            - link "Atributos" [ref=e95] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=e96]:
+            - link "Valoraciones" [ref=e97] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=e98]:
+        - link "Pagos" [ref=e99] [cursor=pointer]:
+          - /url: admin.php?page=wc-settings&tab=checkout&from=PAYMENTS_MENU_ITEM
+          - generic [ref=e101]: Pagos
+      - listitem [ref=e102]:
+        - link "Análisis" [ref=e103] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=e104]: 
+          - generic [ref=e105]: Análisis
+        - list [ref=e106]:
+          - listitem [ref=e107]:
+            - link "Resumen" [ref=e108] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=e109]:
+            - link "Productos" [ref=e110] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=e111]:
+            - link "Ingresos" [ref=e112] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=e113]:
+            - link "Pedidos" [ref=e114] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=e115]:
+            - link "Variaciones" [ref=e116] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=e117]:
+            - link "Categorías" [ref=e118] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=e119]:
+            - link "Cupones" [ref=e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=e121]:
+            - link "Impuestos" [ref=e122] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=e123]:
+            - link "Descargas" [ref=e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=e125]:
+            - link "Inventario" [ref=e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=e127]:
+            - link "Ajustes" [ref=e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=e129]:
+        - link "Marketing" [ref=e130] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=e131]: 
+          - generic [ref=e132]: Marketing
+        - list [ref=e133]:
+          - listitem [ref=e134]:
+            - link "Resumen" [ref=e135] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=e136]:
+            - link "Cupones" [ref=e137] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=e138]
+      - listitem [ref=e140]:
+        - link "Apariencia" [ref=e141] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e142]: 
+          - generic [ref=e143]: Apariencia
+        - list [ref=e144]:
+          - listitem [ref=e145]:
+            - link "Temas" [ref=e146] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=e147]:
+            - link "Editor" [ref=e148] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=e149]:
+            - link "Fuentes" [ref=e150] [cursor=pointer]:
+              - /url: font-library.php
+      - listitem [ref=e151]:
+        - link "Plugins" [ref=e152] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e153]: 
+          - generic [ref=e154]: Plugins
+        - list [ref=e155]:
+          - listitem [ref=e156]:
+            - link "Plugins instalados" [ref=e157] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e158]:
+            - link "Añadir plugin" [ref=e159] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=e160]:
+        - link "Usuarios" [ref=e161] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e162]: 
+          - generic [ref=e163]: Usuarios
+        - list [ref=e164]:
+          - listitem [ref=e165]:
+            - link "Todos los usuarios" [ref=e166] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e167]:
+            - link "Añadir usuario" [ref=e168] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e169]:
+            - link "Perfil" [ref=e170] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e171]:
+        - link "Herramientas" [ref=e172] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e173]: 
+          - generic [ref=e174]: Herramientas
+        - list [ref=e175]:
+          - listitem [ref=e176]:
+            - link "Herramientas disponibles" [ref=e177] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e178]:
+            - link "Importar" [ref=e179] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e180]:
+            - link "Exportar" [ref=e181] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e182]:
+            - link "Salud del sitio" [ref=e183] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e184]:
+            - link "Exportar los datos personales" [ref=e185] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e186]:
+            - link "Borrar los datos personales" [ref=e187] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=e188]:
+            - link "Acciones programadas" [ref=e189] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+          - listitem [ref=e190]:
+            - link "Editor de archivos de temas" [ref=e191] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=e192]:
+            - link "Editor de archivos de plugins" [ref=e193] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e194]:
+        - link "Ajustes" [ref=e195] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e196]: 
+          - generic [ref=e197]: Ajustes
+        - list [ref=e198]:
+          - listitem [ref=e199]:
+            - link "Generales" [ref=e200] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e201]:
+            - link "Conectores" [ref=e202] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=e203]:
+            - link "Escritura" [ref=e204] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e205]:
+            - link "Lectura" [ref=e206] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e207]:
+            - link "Comentarios" [ref=e208] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e209]:
+            - link "Medios" [ref=e210] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e211]:
+            - link "Enlaces permanentes" [ref=e212] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e213]:
+            - link "Privacidad" [ref=e214] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=e215]:
+        - button "Contraer el menú principal" [expanded] [ref=e216] [cursor=pointer]:
+          - generic [ref=e218]: Cerrar menú
+  - generic [ref=e219]:
+    - generic [ref=e220]:
+      - navigation "Barra de herramientas":
+        - menu:
+          - group [ref=e221]:
+            - menuitem "Acerca de WordPress" [ref=e222] [cursor=pointer]:
+              - generic [ref=e224]: Acerca de WordPress
+          - group [ref=e225]:
+            - menuitem "Le Coq Wines" [ref=e226] [cursor=pointer]
+          - group [ref=e227]:
+            - menuitem "Visible" [ref=e228] [cursor=pointer]
+          - group [ref=e229]:
+            - menuitem "Ctrl+K Abrir paleta de comandos" [ref=e230] [cursor=pointer]:
+              - generic [ref=e232]:
+                - text: Ctrl+K
+                - generic [ref=e233]: Abrir paleta de comandos
+          - group [ref=e234]:
+            - menuitem "0 comentarios en moderación" [ref=e235] [cursor=pointer]:
+              - generic [ref=e237]: "0"
+              - generic [ref=e238]: 0 comentarios en moderación
+          - group [ref=e239]:
+            - menuitem "Añadir" [ref=e240] [cursor=pointer]:
+              - generic [ref=e242]: Añadir
+        - menu [ref=e243]:
+          - group [ref=e244]:
+            - menuitem "Hola, Juan Pablo" [ref=e245] [cursor=pointer]
+    - heading "Ajustes" [level=1] [ref=e248]
+    - main [ref=e250]:
+      - generic [ref=e253]:
+        - navigation [ref=e254]:
+          - link "General" [ref=e255] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=general
+          - link "Productos" [ref=e256] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=products
+          - link "Impuesto" [ref=e257] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=tax
+          - link "Envío" [ref=e258] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=shipping
+          - link "Pagos" [ref=e259] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=checkout
+          - link "Cuentas y privacidad" [ref=e260] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=account
+          - link "Correos electrónicos" [ref=e261] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=email
+          - link "Integración" [ref=e262] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=integration
+          - link "Visibilidad del sitio" [ref=e263] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=site-visibility
+          - link "Punto de venta" [ref=e264] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=point-of-sale
+          - link "Avanzado" [ref=e265] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-settings&tab=advanced
+        - heading "General" [level=1] [ref=e266]
+        - heading "Dirección de la tienda" [level=2] [ref=e267]
+        - paragraph [ref=e269]: Aquí es donde está situado tu negocio. Las tasas de impuestos y tasas de envío usarán esta dirección.
+        - table [ref=e270]:
+          - rowgroup [ref=e271]:
+            - row "Dirección, línea 1 La dirección de la calle de la ubicación de tu negocio. El Cerezo 1258. La Serena." [ref=e272]:
+              - rowheader "Dirección, línea 1 La dirección de la calle de la ubicación de tu negocio." [ref=e273]:
+                - generic [ref=e274]:
+                  - text: Dirección, línea 1
+                  - generic "La dirección de la calle de la ubicación de tu negocio." [ref=e275]: 
+              - cell "El Cerezo 1258. La Serena." [ref=e276]:
+                - textbox "Dirección, línea 1 La dirección de la calle de la ubicación de tu negocio." [ref=e277]:
+                  - /placeholder: ""
+                  - text: El Cerezo 1258. La Serena.
+            - row "Dirección, línea 2 Una línea de dirección adicional, opcional, para la ubicación de tu negocio." [ref=e278]:
+              - rowheader "Dirección, línea 2 Una línea de dirección adicional, opcional, para la ubicación de tu negocio." [ref=e279]:
+                - generic [ref=e280]:
+                  - text: Dirección, línea 2
+                  - generic "Una línea de dirección adicional, opcional, para la ubicación de tu negocio." [ref=e281]: 
+              - cell [ref=e282]:
+                - textbox "Dirección, línea 2 Una línea de dirección adicional, opcional, para la ubicación de tu negocio." [ref=e283]:
+                  - /placeholder: ""
+            - row "Ciudad La ciudad en la que está situado tu negocio. La Serena" [ref=e284]:
+              - rowheader "Ciudad La ciudad en la que está situado tu negocio." [ref=e285]:
+                - generic [ref=e286]:
+                  - text: Ciudad
+                  - generic "La ciudad en la que está situado tu negocio." [ref=e287]: 
+              - cell "La Serena" [ref=e288]:
+                - textbox "Ciudad La ciudad en la que está situado tu negocio." [ref=e289]:
+                  - /placeholder: ""
+                  - text: La Serena
+            - row "País / Provincia El país, región o provincia, si lo hubiera, en el que está situado tu negocio. Afganistán" [ref=e290]:
+              - rowheader "País / Provincia El país, región o provincia, si lo hubiera, en el que está situado tu negocio." [ref=e291]:
+                - generic [ref=e292]:
+                  - text: País / Provincia
+                  - generic "El país, región o provincia, si lo hubiera, en el que está situado tu negocio." [ref=e293]: 
+              - cell "Afganistán" [ref=e294]:
+                - combobox [ref=e295] [cursor=pointer]
+                - combobox "Afganistán" [ref=e298] [cursor=pointer]:
+                  - textbox "Afganistán" [ref=e299]
+            - row "Código postal / ZIP El código postal, si lo hubiera, en el que está situado tu negocio. 1700000" [ref=e300]:
+              - rowheader "Código postal / ZIP El código postal, si lo hubiera, en el que está situado tu negocio." [ref=e301]:
+                - generic [ref=e302]:
+                  - text: Código postal / ZIP
+                  - generic "El código postal, si lo hubiera, en el que está situado tu negocio." [ref=e303]: 
+              - cell "1700000" [ref=e304]:
+                - textbox "Código postal / ZIP El código postal, si lo hubiera, en el que está situado tu negocio." [ref=e305]:
+                  - /placeholder: ""
+                  - text: "1700000"
+        - heading "Opciones generales" [level=2] [ref=e306]
+        - table [ref=e307]:
+          - rowgroup [ref=e308]:
+            - row "Ubicación(es) de venta Con esta opción puedes elegir a qué países quieres vender. Vender a países específicos" [ref=e309]:
+              - rowheader "Ubicación(es) de venta Con esta opción puedes elegir a qué países quieres vender." [ref=e310]:
+                - generic [ref=e311]:
+                  - text: Ubicación(es) de venta
+                  - generic "Con esta opción puedes elegir a qué países quieres vender." [ref=e312]: 
+              - cell "Vender a países específicos" [ref=e313]:
+                - combobox [ref=e314] [cursor=pointer]
+                - combobox "Vender a países específicos" [ref=e317] [cursor=pointer]:
+                  - textbox "Vender a países específicos" [ref=e318]
+            - row "Vender a países específicos Chile Seleccionar todos Borrar selección" [ref=e319]:
+              - rowheader "Vender a países específicos" [ref=e320]:
+                - generic [ref=e321]: Vender a países específicos
+              - cell "Chile Seleccionar todos Borrar selección" [ref=e322]:
+                - listbox [ref=e323] [cursor=pointer]:
+                  - option [ref=e324]: Afganistán
+                  - option [ref=e325]: Albania
+                  - option [ref=e326]: Alemania
+                  - option [ref=e327]: Andorra
+                  - option [ref=e328]: Angola
+                  - option [ref=e329]: Anguila
+                  - option [ref=e330]: Antigua y Barbuda
+                  - option [ref=e331]: Antártida
+                  - option [ref=e332]: Arabia Saudita
+                  - option [ref=e333]: Argelia
+                  - option [ref=e334]: Argentina
+                  - option [ref=e335]: Armenia
+                  - option [ref=e336]: Aruba
+                  - option [ref=e337]: Australia
+                  - option [ref=e338]: Austria
+                  - option [ref=e339]: Azerbaijan
+                  - option [ref=e340]: Bahamas
+                  - option [ref=e341]: Bahrain
+                  - option [ref=e342]: Bangladesh
+                  - option [ref=e343]: Barbados
+                  - option [ref=e344]: Belau
+                  - option [ref=e345]: Belize
+                  - option [ref=e346]: Benin
+                  - option [ref=e347]: Bermuda
+                  - option [ref=e348]: Bhutan
+                  - option [ref=e349]: Bielorrusia
+                  - option [ref=e350]: Birmania
+                  - option [ref=e351]: Bolivia
+                  - option [ref=e352]: Bonaire, San Eustaquio y Saba
+                  - option [ref=e353]: Bosnia y Herzegovina
+                  - option [ref=e354]: Botswana
+                  - option [ref=e355]: Brasil
+                  - option [ref=e356]: Brunéi
+                  - option [ref=e357]: Bulgaria
+                  - option [ref=e358]: Burkina Faso
+                  - option [ref=e359]: Burundi
+                  - option [ref=e360]: Bélgica
+                  - option [ref=e361]: Cabo Verde
+                  - option [ref=e362]: Camboya
+                  - option [ref=e363]: Camerún
+                  - option [ref=e364]: Canadá
+                  - option [ref=e365]: Chad
+                  - option [selected] [ref=e366]: Chile
+                  - option [ref=e367]: China
+                  - option [ref=e368]: Chipre
+                  - option [ref=e369]: Ciudad del Vaticano
+                  - option [ref=e370]: Colombia
+                  - option [ref=e371]: Comoras
+                  - option [ref=e372]: Congo (Brazzaville)
+                  - option [ref=e373]: Congo (Kinshasa)
+                  - option [ref=e374]: Corea del Norte
+                  - option [ref=e375]: Corea del Sur
+                  - option [ref=e376]: Costa Rica
+                  - option [ref=e377]: Costa de Marfil
+                  - option [ref=e378]: Croacia
+                  - option [ref=e379]: Cuba
+                  - option [ref=e380]: Curaçao
+                  - option [ref=e381]: Dinamarca
+                  - option [ref=e382]: Djibouti
+                  - option [ref=e383]: Dominica
+                  - option [ref=e384]: Ecuador
+                  - option [ref=e385]: Egipto
+                  - option [ref=e386]: El Salvador
+                  - option [ref=e387]: Emiratos Árabes Unidos
+                  - option [ref=e388]: Eritrea
+                  - option [ref=e389]: Eslovaquia
+                  - option [ref=e390]: Eslovenia
+                  - option [ref=e391]: España
+                  - option [ref=e392]: Estados Unidos (EEUU)
+                  - option [ref=e393]: Estonia
+                  - option [ref=e394]: Esuatini
+                  - option [ref=e395]: Etiopía
+                  - option [ref=e396]: Filipinas
+                  - option [ref=e397]: Finlandia
+                  - option [ref=e398]: Fiyi
+                  - option [ref=e399]: Francia
+                  - option [ref=e400]: Gabón
+                  - option [ref=e401]: Gambia
+                  - option [ref=e402]: Georgia
+                  - option [ref=e403]: Ghana
+                  - option [ref=e404]: Gibraltar
+                  - option [ref=e405]: Granada
+                  - option [ref=e406]: Grecia
+                  - option [ref=e407]: Groenlandia
+                  - option [ref=e408]: Guadalupe
+                  - option [ref=e409]: Guam
+                  - option [ref=e410]: Guatemala
+                  - option [ref=e411]: Guayana Francesa
+                  - option [ref=e412]: Guernsey
+                  - option [ref=e413]: Guinea
+                  - option [ref=e414]: Guinea Ecuatorial
+                  - option [ref=e415]: Guinea-Bisáu
+                  - option [ref=e416]: Guyana
+                  - option [ref=e417]: Haití
+                  - option [ref=e418]: Honduras
+                  - option [ref=e419]: Hong Kong
+                  - option [ref=e420]: Hungría
+                  - option [ref=e421]: India
+                  - option [ref=e422]: Indonesia
+                  - option [ref=e423]: Irak
+                  - option [ref=e424]: Irlanda
+                  - option [ref=e425]: Irán
+                  - option [ref=e426]: Isla Bouvet
+                  - option [ref=e427]: Isla Norfolk
+                  - option [ref=e428]: Isla Santa Elena
+                  - option [ref=e429]: Isla de Man
+                  - option [ref=e430]: Isla de Navidad
+                  - option [ref=e431]: Islandia
+                  - option [ref=e432]: Islas Caimán
+                  - option [ref=e433]: Islas Cocos
+                  - option [ref=e434]: Islas Cook
+                  - option [ref=e435]: Islas Feroe
+                  - option [ref=e436]: Islas Georgias y Sandwich del Sur
+                  - option [ref=e437]: Islas Heard y McDonald
+                  - option [ref=e438]: Islas Malvinas
+                  - option [ref=e439]: Islas Marianas del Norte
+                  - option [ref=e440]: Islas Marshall
+                  - option [ref=e441]: Islas Salomón
+                  - option [ref=e442]: Islas Turcas y Caicos
+                  - option [ref=e443]: Islas Vírgenes (Británicas)
+                  - option [ref=e444]: Islas Vírgenes (EEUU)
+                  - option [ref=e445]: Islas de ultramar menores de Estados Unidos (EEUU)
+                  - option [ref=e446]: Islas Åland
+                  - option [ref=e447]: Israel
+                  - option [ref=e448]: Italia
+                  - option [ref=e449]: Jamaica
+                  - option [ref=e450]: Japón
+                  - option [ref=e451]: Jersey
+                  - option [ref=e452]: Jordania
+                  - option [ref=e453]: Kazajistán
+                  - option [ref=e454]: Kenia
+                  - option [ref=e455]: Kirguistán
+                  - option [ref=e456]: Kiribati
+                  - option [ref=e457]: Kosovo
+                  - option [ref=e458]: Kuwait
+                  - option [ref=e459]: Laos
+                  - option [ref=e460]: Lesoto
+                  - option [ref=e461]: Letonia
+                  - option [ref=e462]: Liberia
+                  - option [ref=e463]: Libia
+                  - option [ref=e464]: Liechtenstein
+                  - option [ref=e465]: Lituania
+                  - option [ref=e466]: Luxemburgo
+                  - option [ref=e467]: Líbano
+                  - option [ref=e468]: Macao
+                  - option [ref=e469]: Macedonia del Norte
+                  - option [ref=e470]: Madagascar
+                  - option [ref=e471]: Malasia
+                  - option [ref=e472]: Malaui
+                  - option [ref=e473]: Maldivas
+                  - option [ref=e474]: Malta
+                  - option [ref=e475]: Malí
+                  - option [ref=e476]: Marruecos
+                  - option [ref=e477]: Martinica
+                  - option [ref=e478]: Mauricio
+                  - option [ref=e479]: Mauritania
+                  - option [ref=e480]: Mayotte
+                  - option [ref=e481]: Micronesia
+                  - option [ref=e482]: Moldavia
+                  - option [ref=e483]: Mongolia
+                  - option [ref=e484]: Montenegro
+                  - option [ref=e485]: Montserrat
+                  - option [ref=e486]: Mozambique
+                  - option [ref=e487]: México
+                  - option [ref=e488]: Mónaco
+                  - option [ref=e489]: Namibia
+                  - option [ref=e490]: Nauru
+                  - option [ref=e491]: Nepal
+                  - option [ref=e492]: Nicaragua
+                  - option [ref=e493]: Nigeria
+                  - option [ref=e494]: Niue
+                  - option [ref=e495]: Noruega
+                  - option [ref=e496]: Nueva Caledonia
+                  - option [ref=e497]: Nueva Zelanda
+                  - option [ref=e498]: Níger
+                  - option [ref=e499]: Omán
+                  - option [ref=e500]: Pakistán
+                  - option [ref=e501]: Panamá
+                  - option [ref=e502]: Papúa Nueva Guinea
+                  - option [ref=e503]: Paraguay
+                  - option [ref=e504]: Países Bajos
+                  - option [ref=e505]: Perú
+                  - option [ref=e506]: Pitcairn
+                  - option [ref=e507]: Polinesia Francesa
+                  - option [ref=e508]: Polonia
+                  - option [ref=e509]: Portugal
+                  - option [ref=e510]: Puerto Rico
+                  - option [ref=e511]: Qatar
+                  - option [ref=e512]: Reino Unido (UK)
+                  - option [ref=e513]: República Centroafricana
+                  - option [ref=e514]: República Checa
+                  - option [ref=e515]: República Dominicana
+                  - option [ref=e516]: Reunión
+                  - option [ref=e517]: Ruanda
+                  - option [ref=e518]: Rumania
+                  - option [ref=e519]: Rusia
+                  - option [ref=e520]: Sahara Occidental
+                  - option [ref=e521]: Samoa
+                  - option [ref=e522]: Samoa Americana
+                  - option [ref=e523]: San Bartolomé
+                  - option [ref=e524]: San Cristóbal y Nieves
+                  - option [ref=e525]: San Marino
+                  - option [ref=e526]: San Martín (Países Bajos)
+                  - option [ref=e527]: San Martín (parte de Francia)
+                  - option [ref=e528]: San Pedro y Miquelón
+                  - option [ref=e529]: San Vicente y las Granadinas
+                  - option [ref=e530]: Santa Lucía
+                  - option [ref=e531]: Santo Tomé y Príncipe
+                  - option [ref=e532]: Senegal
+                  - option [ref=e533]: Serbia
+                  - option [ref=e534]: Seychelles
+                  - option [ref=e535]: Sierra Leona
+                  - option [ref=e536]: Singapur
+                  - option [ref=e537]: Siria
+                  - option [ref=e538]: Somalia
+                  - option [ref=e539]: Sri Lanka
+                  - option [ref=e540]: Sudáfrica
+                  - option [ref=e541]: Sudán
+                  - option [ref=e542]: Sudán del Sur
+                  - option [ref=e543]: Suecia
+                  - option [ref=e544]: Suiza
+                  - option [ref=e545]: Surinam
+                  - option [ref=e546]: Svalbard y Jan Mayen
+                  - option [ref=e547]: Tailandia
+                  - option [ref=e548]: Taiwán
+                  - option [ref=e549]: Tanzania
+                  - option [ref=e550]: Tayikistán
+                  - option [ref=e551]: Territorio Británico del Océano Índico
+                  - option [ref=e552]: Territorios Palestinos
+                  - option [ref=e553]: Territorios australes franceses
+                  - option [ref=e554]: Timor Oriental
+                  - option [ref=e555]: Togo
+                  - option [ref=e556]: Tokelau
+                  - option [ref=e557]: Tonga
+                  - option [ref=e558]: Trinidad y Tobago
+                  - option [ref=e559]: Turkmenistán
+                  - option [ref=e560]: Turquía
+                  - option [ref=e561]: Tuvalu
+                  - option [ref=e562]: Túnez
+                  - option [ref=e563]: Ucrania
+                  - option [ref=e564]: Uganda
+                  - option [ref=e565]: Uruguay
+                  - option [ref=e566]: Uzbekistán
+                  - option [ref=e567]: Vanuatu
+                  - option [ref=e568]: Venezuela
+                  - option [ref=e569]: Vietnam
+                  - option [ref=e570]: Wallis y Futuna
+                  - option [ref=e571]: Yemen
+                  - option [ref=e572]: Zambia
+                  - option [ref=e573]: Zimbabue
+                - list [ref=e577]:
+                  - listitem "Chile" [ref=e578]:
+                    - generic [ref=e579] [cursor=pointer]: ×
+                    - text: Chile
+                  - listitem [ref=e580]:
+                    - textbox [ref=e581]
+                - link "Seleccionar todos" [ref=e582] [cursor=pointer]:
+                  - /url: "#"
+                - link "Borrar selección" [ref=e583] [cursor=pointer]:
+                  - /url: "#"
+            - row "Ubicación(es) de envío Elige a qué países quieres enviar, o elige enviar a todos los lugares que vendes. Enviar a todos los países a los que vendes" [ref=e584]:
+              - rowheader "Ubicación(es) de envío Elige a qué países quieres enviar, o elige enviar a todos los lugares que vendes." [ref=e585]:
+                - generic [ref=e586]:
+                  - text: Ubicación(es) de envío
+                  - generic "Elige a qué países quieres enviar, o elige enviar a todos los lugares que vendes." [ref=e587]: 
+              - cell "Enviar a todos los países a los que vendes" [ref=e588]:
+                - combobox [ref=e589] [cursor=pointer]
+                - combobox "Enviar a todos los países a los que vendes" [ref=e592] [cursor=pointer]:
+                  - textbox "Enviar a todos los países a los que vendes" [ref=e593]
+            - row "Ubicación del cliente por defecto Esta opción determina la ubicación del cliente por defecto. Si usas la geolocalización se descargará periódicamente la base de datos GeoLite de MaxMind a tu directorio wp-content. País/región de la tienda" [ref=e594]:
+              - rowheader "Ubicación del cliente por defecto Esta opción determina la ubicación del cliente por defecto. Si usas la geolocalización se descargará periódicamente la base de datos GeoLite de MaxMind a tu directorio wp-content." [ref=e595]:
+                - generic [ref=e596]:
+                  - text: Ubicación del cliente por defecto
+                  - generic "Esta opción determina la ubicación del cliente por defecto. Si usas la geolocalización se descargará periódicamente la base de datos GeoLite de MaxMind a tu directorio wp-content." [ref=e597]: 
+              - cell "País/región de la tienda" [ref=e598]:
+                - combobox [ref=e599] [cursor=pointer]
+                - combobox "País/región de la tienda" [ref=e602] [cursor=pointer]:
+                  - textbox "País/región de la tienda" [ref=e603]
+            - row "Autocompletado de direcciones Autocompletado de direcciones" [ref=e604]:
+              - rowheader "Autocompletado de direcciones" [ref=e605]
+              - cell "Autocompletado de direcciones" [ref=e606]:
+                - group "Autocompletado de direcciones" [ref=e607]:
+                  - generic [ref=e609]: Autocompletado de direcciones
+                  - generic [ref=e610]:
+                    - checkbox "Activar la búsqueda predictiva de direcciones" [disabled]
+                    - text: Activar la búsqueda predictiva de direcciones
+                  - paragraph [ref=e611]:
+                    - text: "Sugiere direcciones completas a los clientes mientras escriben. Requiere un plugin compatible con la búsqueda predictiva de direcciones (p.ej.:"
+                    - link "WooPayments" [ref=e612] [cursor=pointer]:
+                      - /url: https://woocommerce.com/products/woocommerce-payments/
+                    - text: ).
+        - heading "Impuestos y cupones" [level=2] [ref=e613]
+        - paragraph [ref=e615]: Activa los impuestos y cupones y configura cómo se calculan.
+        - table [ref=e616]:
+          - rowgroup [ref=e617]:
+            - row "Activar impuestos Activar impuestos" [ref=e618]:
+              - rowheader "Activar impuestos" [ref=e619]
+              - cell "Activar impuestos" [ref=e620]:
+                - group "Activar impuestos" [ref=e621]:
+                  - generic [ref=e623]: Activar impuestos
+                  - generic [ref=e624]:
+                    - checkbox "Activar tasas de impuestos y sus cálculos" [checked] [ref=e625] [cursor=pointer]
+                    - text: Activar tasas de impuestos y sus cálculos
+                  - paragraph [ref=e626]: Las tasas ser podrán configurar, y los impuestos se calcularán durante el pago.
+            - row "Activar cupones Activar cupones" [ref=e627]:
+              - rowheader "Activar cupones" [ref=e628]
+              - cell "Activar cupones" [ref=e629]:
+                - group "Activar cupones" [ref=e630]:
+                  - generic [ref=e632]: Activar cupones
+                  - generic [ref=e633]:
+                    - checkbox "Activar el uso de códigos de cupones" [checked] [ref=e634] [cursor=pointer]
+                    - text: Activar el uso de códigos de cupones
+                  - paragraph [ref=e635]: Pueden aplicarse cupones desde las páginas de carrito y de finalizar compra.
+                - group [ref=e636]:
+                  - generic [ref=e637]:
+                    - checkbox "Calcular descuentos de cupones secuencialmente" [ref=e638] [cursor=pointer]
+                    - text: Calcular descuentos de cupones secuencialmente
+                  - paragraph [ref=e639]: Al aplicar múltiples cupones, se aplica el primer cupón al precio completo y el segundo cupón para el precio ya rebajado y así sucesivamente.
+        - heading "Opciones de moneda" [level=2] [ref=e640]
+        - paragraph [ref=e642]: Las siguientes opciones afectan a cómo se muestran los precios en la tienda.
+        - table [ref=e643]:
+          - rowgroup [ref=e644]:
+            - row "Moneda Esto controla en qué moneda se listan los precios en el catálogo y en qué moneda se realizarán los pagos a través de las opciones de pago. Peso chileno ($) — CLP" [ref=e645]:
+              - rowheader "Moneda Esto controla en qué moneda se listan los precios en el catálogo y en qué moneda se realizarán los pagos a través de las opciones de pago." [ref=e646]:
+                - generic [ref=e647]:
+                  - text: Moneda
+                  - generic "Esto controla en qué moneda se listan los precios en el catálogo y en qué moneda se realizarán los pagos a través de las opciones de pago." [ref=e648]: 
+              - cell "Peso chileno ($) — CLP" [ref=e649]:
+                - combobox [ref=e650] [cursor=pointer]
+                - combobox "Peso chileno ($) — CLP" [ref=e653] [cursor=pointer]:
+                  - textbox "Peso chileno ($) — CLP" [ref=e654]
+            - row "Ubicación de la moneda Esto controla la posición del símbolo de moneda. Izquierda" [ref=e655]:
+              - rowheader "Ubicación de la moneda Esto controla la posición del símbolo de moneda." [ref=e656]:
+                - generic [ref=e657]:
+                  - text: Ubicación de la moneda
+                  - generic "Esto controla la posición del símbolo de moneda." [ref=e658]: 
+              - cell "Izquierda" [ref=e659]:
+                - combobox [ref=e660] [cursor=pointer]
+                - combobox "Izquierda" [ref=e663] [cursor=pointer]:
+                  - textbox "Izquierda" [ref=e664]
+            - row "Separador de miles Esto establece el separador de miles de los precios mostrados. ." [ref=e665]:
+              - rowheader "Separador de miles Esto establece el separador de miles de los precios mostrados." [ref=e666]:
+                - generic [ref=e667]:
+                  - text: Separador de miles
+                  - generic "Esto establece el separador de miles de los precios mostrados." [ref=e668]: 
+              - cell "." [ref=e669]:
+                - textbox "Separador de miles Esto establece el separador de miles de los precios mostrados." [ref=e670]:
+                  - /placeholder: ""
+                  - text: .
+            - row "Separador decimal Esto establece el separador decimal de los precios mostrados. ," [ref=e671]:
+              - rowheader "Separador decimal Esto establece el separador decimal de los precios mostrados." [ref=e672]:
+                - generic [ref=e673]:
+                  - text: Separador decimal
+                  - generic "Esto establece el separador decimal de los precios mostrados." [ref=e674]: 
+              - cell "," [ref=e675]:
+                - textbox "Separador decimal Esto establece el separador decimal de los precios mostrados." [ref=e676]:
+                  - /placeholder: ""
+                  - text: ","
+            - row "Número de decimales Esto establece el número de decimales que se muestran en los precios mostrados. 0" [ref=e677]:
+              - rowheader "Número de decimales Esto establece el número de decimales que se muestran en los precios mostrados." [ref=e678]:
+                - generic [ref=e679]:
+                  - text: Número de decimales
+                  - generic "Esto establece el número de decimales que se muestran en los precios mostrados." [ref=e680]: 
+              - cell "0" [ref=e681]:
+                - spinbutton "Número de decimales Esto establece el número de decimales que se muestran en los precios mostrados." [ref=e682]: "0"
+        - paragraph [ref=e683]:
+          - button "Guardar cambios" [disabled] [ref=e684]
+        - paragraph [ref=e685]:
+          - link "Descubre soluciones adicionales" [ref=e686] [cursor=pointer]:
+            - /url: https://www.lecoqwines.cl/wp-admin/admin.php?page=wc-admin&path=%2Fextensions
+          - text: para impulsar tu negocio y expandir lo que tu tienda puede hacer.
+  - contentinfo [ref=e687]:
+    - paragraph [ref=e688]:
+      - generic [ref=e689]:
+        - text: Si te gusta
+        - strong [ref=e690]: WooCommerce
+        - text: ", por favor, déjanos una puntuación de"
+        - link "cinco estrellas" [ref=e691] [cursor=pointer]:
+          - /url: https://wordpress.org/support/plugin/woocommerce/reviews?rate=5#new-post
+          - text: ★★★★★
+        - text: . ¡Gracias anticipadas!
+    - paragraph [ref=e692]: Versión 10.8.1

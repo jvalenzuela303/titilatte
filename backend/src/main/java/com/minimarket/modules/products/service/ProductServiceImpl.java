@@ -114,6 +114,7 @@ public class ProductServiceImpl implements ProductService {
                 .stockMinimum(request.stockMinimum() != null ? request.stockMinimum() : BigDecimal.ZERO)
                 .stockMaximum(request.stockMaximum())
                 .active(true)
+                .trackStock(request.trackStock() == null || request.trackStock())
                 .category(category)
                 .tax(tax)
                 .unit(unit)
@@ -148,6 +149,7 @@ public class ProductServiceImpl implements ProductService {
         if (request.stockMinimum() != null) product.setStockMinimum(request.stockMinimum());
         if (request.stockMaximum() != null) product.setStockMaximum(request.stockMaximum());
         if (request.active() != null) product.setActive(request.active());
+        if (request.trackStock() != null) product.setTrackStock(request.trackStock());
 
         BigDecimal finalSalePrice = product.getSalePrice();
         BigDecimal finalPurchasePrice = product.getPurchasePrice();

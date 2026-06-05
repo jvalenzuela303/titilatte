@@ -3,6 +3,8 @@ package com.minimarket.modules.sales.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -27,6 +29,7 @@ public class Payment {
     private Sale sale;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "method", nullable = false, columnDefinition = "payment_method")
     private PaymentMethod method;
 

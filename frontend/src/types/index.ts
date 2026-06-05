@@ -19,10 +19,41 @@ export interface User {
 
 // ─── Product Category ─────────────────────────────────────────────────────────
 
+export interface ProductFamily {
+  id: string
+  code: string
+  name: string
+  description: string | null
+  active: boolean
+}
+
 export interface ProductCategory {
   id: string
+  familyId: string
+  familyName: string
+  code: string
   name: string
+  description: string | null
+  active: boolean
+  productCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CreateCategoryRequest {
+  code: string
+  name: string
+  description?: string
+  familyId: string
+  active: boolean
+}
+
+export interface UpdateCategoryRequest {
+  code?: string
+  name?: string
+  description?: string
   familyId?: string
+  active?: boolean
 }
 
 // ─── Product ──────────────────────────────────────────────────────────────────
@@ -58,6 +89,7 @@ export interface Product {
   stockMinimum: number
   stockMaximum: number | null
   active: boolean
+  trackStock: boolean
   category: ProductCategory2
   tax: ProductTax
   unit: ProductUnit
@@ -65,7 +97,7 @@ export interface Product {
   updatedAt: string
 }
 
-export type StockStatus = 'OK' | 'LOW' | 'CRITICAL' | 'OVERSTOCK'
+export type StockStatus = 'OK' | 'LOW' | 'CRITICAL' | 'OVERSTOCK' | 'NO_TRACK'
 
 export interface StockEntry extends Product {
   status: StockStatus
@@ -81,7 +113,8 @@ export interface CreateProductRequest {
   stockMaximum: number
   categoryId: string
   taxId: string
-  unitId?: string
+  unitId: string
+  trackStock: boolean
 }
 
 export interface UpdateProductRequest {
@@ -96,6 +129,7 @@ export interface UpdateProductRequest {
   taxId?: string
   unitId?: string
   isActive?: boolean
+  trackStock?: boolean
 }
 
 // ─── Sale ─────────────────────────────────────────────────────────────────────
@@ -108,10 +142,13 @@ export interface SaleDetail {
   id: string
   productId: string
   productName: string
+  productBarcode: string
   quantity: number
   unitPrice: number
   discount: number
   subtotal: number
+  taxRate: number
+  taxAmount: number
 }
 
 export interface Payment {
@@ -119,57 +156,87 @@ export interface Payment {
   method: PaymentMethod
   amount: number
   changeAmount: number
+  reference: string | null
+}
+
+export interface SaleSeller {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
 }
 
 export interface Sale {
   id: string
-  saleNumber: string
+  saleNumber: number
   type: SaleType
+  status: SaleStatus
   totalAmount: number
   discountAmount: number
   taxAmount: number
-  status: SaleStatus
-  sellerId: string
-  sellerName: string
-  createdAt: string
+  netAmount: number
+  seller: SaleSeller
+  customerId: string | null
+  notes: string | null
+  cancellationReason: string | null
+  cancelledAt: string | null
   details: SaleDetail[]
   payments: Payment[]
+  createdAt: string
+  updatedAt: string
 }
 
 export interface SaleItemRequest {
   productId: string
   quantity: number
-}
-
-export interface PaymentRequest {
-  method: PaymentMethod
-  amount: number
+  discount?: number
 }
 
 export interface CreateSaleRequest {
   type: SaleType
   items: SaleItemRequest[]
-  payments: PaymentRequest[]
+  paymentMethod: PaymentMethod
+  paymentAmount: number
+  changeAmount?: number
+  paymentReference?: string
+  customerId?: string
+  notes?: string
 }
 
 // ─── Stock ────────────────────────────────────────────────────────────────────
 
-export type StockMovementType = 'ENTRADA' | 'SALIDA' | 'AJUSTE' | 'VENTA' | 'DEVOLUCION'
+export type StockMovementType = 'ENTRADA' | 'SALIDA' | 'AJUSTE' | 'VENTA' | 'DEVOLUCION' | string
+
+export interface StockMovementUser {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+}
+
+export interface StockMovementProduct {
+  id: string
+  barcode: string
+  name: string
+  stockCurrent: number
+}
 
 export interface StockMovement {
   id: string
-  productId: string
-  productName: string
+  product: StockMovementProduct
   movementType: StockMovementType
   quantity: number
   quantityBefore: number
   quantityAfter: number
-  createdAt: string
   notes: string | null
+  createdBy: StockMovementUser
+  authorizedBy: StockMovementUser | null
+  createdAt: string
 }
 
 export interface StockAdjustmentRequest {
   productId: string
+  movementType: 'AJUSTE' | 'COMPRA' | 'MERMA'
   quantity: number
   notes: string
 }
@@ -207,7 +274,14 @@ export interface LoginRequest {
 export interface LoginResponse {
   accessToken: string
   refreshToken: string
-  user: User
+  tokenType: string
+  expiresIn: number
+  userId: string
+  email: string
+  firstName: string
+  lastName: string
+  roles: RoleName[]
+  branchId: string | null
 }
 
 // ─── Cart (frontend only) ─────────────────────────────────────────────────────
@@ -427,4 +501,146 @@ export interface AuditLog {
   performedByEmail: string
   ipAddress: string | null
   createdAt: string
+}
+
+// ─── Promotions ───────────────────────────────────────────────────────────────
+export type PromotionType = 'PERCENTAGE' | 'FIXED_PRICE' | 'TWO_FOR_ONE' | 'QUANTITY_DISCOUNT'
+export type PromotionAppliesTo = 'SPECIFIC_PRODUCTS' | 'ALL_PRODUCTS' | 'CATEGORY'
+
+export interface Promotion {
+  id: string
+  name: string
+  description: string | null
+  type: PromotionType
+  value: number | null
+  minQuantity: number
+  bonusQuantity: number | null
+  appliesTo: PromotionAppliesTo
+  categoryId: string | null
+  categoryName: string | null
+  startsAt: string
+  endsAt: string
+  active: boolean
+  branchId: string | null
+  productIds: string[]
+  createdAt: string
+}
+
+export interface AppliedPromotion {
+  promotionId: string
+  promotionName: string
+  type: PromotionType
+  originalPrice: number
+  finalPrice: number
+  discountAmount: number
+  discountPercent: number
+  effectiveQuantity: number
+  bonusQuantity: number
+  description: string
+}
+
+export interface CreatePromotionRequest {
+  name: string
+  description?: string
+  type: PromotionType
+  value?: number
+  minQuantity: number
+  bonusQuantity?: number
+  appliesTo: PromotionAppliesTo
+  categoryId?: string
+  startsAt: string
+  endsAt: string
+  active: boolean
+  branchId?: string
+  productIds?: string[]
+}
+
+// ─── Alerts ───────────────────────────────────────────────────────────────────
+export type AlertType = 'SALES_BELOW_THRESHOLD' | 'CASH_OPEN_TOO_LONG' | 'LOW_STOCK_COUNT' | 'HIGH_DEBT_TOTAL'
+export type AlertSeverity = 'INFO' | 'WARNING' | 'CRITICAL'
+
+export interface AlertRule {
+  id: string
+  name: string
+  description: string | null
+  type: AlertType
+  thresholdValue: number | null
+  thresholdMinutes: number | null
+  checkIntervalMinutes: number
+  recipientRole: string
+  active: boolean
+  lastCheckedAt: string | null
+  lastTriggeredAt: string | null
+  createdAt: string
+}
+
+export interface AlertHistory {
+  id: string
+  ruleId: string | null
+  ruleName: string
+  type: AlertType
+  severity: AlertSeverity
+  message: string
+  triggeredAt: string
+  acknowledged: boolean
+  acknowledgedBy: string | null
+  acknowledgedAt: string | null
+}
+
+export interface CreateAlertRuleRequest {
+  name: string
+  description?: string
+  type: AlertType
+  thresholdValue?: number
+  thresholdMinutes?: number
+  checkIntervalMinutes: number
+  recipientRole: string
+  active: boolean
+}
+
+// ─── Period Closes ────────────────────────────────────────────────────────────
+export type PeriodCloseStatus = 'DRAFT' | 'CLOSED'
+
+export interface PeriodClose {
+  id: string
+  periodYear: number
+  periodMonth: number
+  status: PeriodCloseStatus
+  branchId: string | null
+  totalRevenue: number
+  totalCost: number
+  totalProfit: number
+  profitMarginPct: number
+  totalDiscountGiven: number
+  saleCount: number
+  totalCreditSales: number
+  totalPaymentsReceived: number
+  outstandingReceivables: number
+  totalCashOpenings: number
+  totalPurchaseAmount: number
+  prevRevenue: number | null
+  prevProfit: number | null
+  revenueChangePct: number | null
+  notes: string | null
+  closedAt: string | null
+  closedByEmail: string | null
+  createdAt: string
+}
+
+export interface MonthlyComparison {
+  year: number
+  month: number
+  periodLabel: string
+  totalRevenue: number
+  totalProfit: number
+  profitMarginPct: number
+  saleCount: number
+  isClosed: boolean
+}
+
+export interface CreatePeriodCloseRequest {
+  year: number
+  month: number
+  branchId?: string
+  notes?: string
 }

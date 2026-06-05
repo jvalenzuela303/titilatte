@@ -27,20 +27,20 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 # ── Flags ────────────────────────────────────────────────────────────────────
-DETACH=false
+FOLLOW=false
 BUILD=false
 CLEAN=false
 
 for arg in "$@"; do
     case "$arg" in
-        -d|--detach) DETACH=true ;;
+        -f|--follow) FOLLOW=true ;;
         --build)     BUILD=true  ;;
         --clean)     CLEAN=true  ;;
         --help|-h)
             echo "Uso: bash start.sh [opciones]"
             echo ""
             echo "Opciones:"
-            echo "  -d, --detach   Levanta en background (sin logs en pantalla)"
+            echo "  -f, --follow   Muestra logs en pantalla tras levantar (Ctrl+C para salir)"
             echo "  --build        Reconstruye las imágenes Docker"
             echo "  --clean        Elimina contenedores y volúmenes (reset de BD)"
             echo "  -h, --help     Muestra esta ayuda"
@@ -137,14 +137,16 @@ COMPOSE_ARGS=(
     -f "${INFRA_DIR}/docker-compose.override.yml"
     --env-file "${ENV_FILE}"
     up
+    -d
+    --wait
+    --remove-orphans
 )
 
-[[ "$BUILD"  == "true" ]] && COMPOSE_ARGS+=(--build)
-[[ "$DETACH" == "true" ]] && COMPOSE_ARGS+=(-d) || COMPOSE_ARGS+=(--remove-orphans)
+[[ "$BUILD" == "true" ]] && COMPOSE_ARGS+=(--build)
 
 echo -e "${GREEN}[OK]${NC}   Servicios: postgres, backend, frontend, nginx"
 [[ "$BUILD"  == "true" ]] && echo -e "${YELLOW}[INFO]${NC} Rebuild de imágenes activado"
-[[ "$DETACH" == "true" ]] && echo -e "${YELLOW}[INFO]${NC} Modo background (detached)"
+[[ "$FOLLOW" == "true" ]] && echo -e "${YELLOW}[INFO]${NC} Se mostrarán logs tras el arranque (Ctrl+C para salir)"
 
 # ── Paso 5: Levantar ─────────────────────────────────────────────────────────
 echo -e "${BLUE}[5/5]${NC} Levantando el sistema..."
@@ -153,26 +155,40 @@ echo ""
 cd "${INFRA_DIR}"
 "${COMPOSE_ARGS[@]}"
 
-# ── Info post-arranque (solo en modo detached) ───────────────────────────────
-if [[ "$DETACH" == "true" ]]; then
+# ── Leer puerto de nginx desde .env ──────────────────────────────────────────
+HTTP_PORT=$(grep -E '^NGINX_HTTP_PORT=' "${ENV_FILE}" | cut -d= -f2 | tr -d '[:space:]')
+HTTP_PORT=${HTTP_PORT:-80}
+[[ "$HTTP_PORT" == "80" ]] && BASE_URL="http://localhost" || BASE_URL="http://localhost:${HTTP_PORT}"
+
+# ── Info post-arranque ────────────────────────────────────────────────────────
+echo ""
+echo -e "${BOLD}${GREEN}Sistema levantado correctamente.${NC}"
+echo ""
+echo -e "${BOLD}Accesos:${NC}"
+echo -e "  Frontend      →  ${BLUE}${BASE_URL}${NC}"
+echo -e "  API REST      →  ${BLUE}${BASE_URL}/api/v1${NC}"
+echo -e "  Swagger UI    →  ${BLUE}${BASE_URL}/api/v1/swagger-ui.html${NC}"
+echo -e "  Health check  →  ${BLUE}${BASE_URL}/actuator/health${NC}"
+echo -e "  Dev server    →  ${BLUE}http://localhost:5173${NC}"
+echo ""
+echo -e "${BOLD}Credenciales por defecto:${NC}"
+echo -e "  Usuario: admin@minimarket.local"
+echo -e "  Clave:   Admin1234!"
+echo ""
+echo -e "${BOLD}Comandos útiles:${NC}"
+echo -e "  Logs en tiempo real:  docker compose -f infra/docker-compose.yml logs -f"
+echo -e "  Logs del backend:     docker compose -f infra/docker-compose.yml logs -f backend"
+echo -e "  Estado de servicios:  docker compose -f infra/docker-compose.yml ps"
+echo -e "  Detener todo:         bash stop.sh"
+echo ""
+
+# ── Seguir logs si se pidió ───────────────────────────────────────────────────
+if [[ "$FOLLOW" == "true" ]]; then
+    echo -e "${YELLOW}Mostrando logs (Ctrl+C para salir — los contenedores seguirán corriendo):${NC}"
     echo ""
-    echo -e "${BOLD}${GREEN}Sistema levantado correctamente.${NC}"
-    echo ""
-    echo -e "${BOLD}Accesos:${NC}"
-    echo -e "  Frontend      →  ${BLUE}http://localhost${NC}"
-    echo -e "  API REST      →  ${BLUE}http://localhost/api/v1${NC}"
-    echo -e "  Swagger UI    →  ${BLUE}http://localhost/api/v1/swagger-ui.html${NC}"
-    echo -e "  Health check  →  ${BLUE}http://localhost/actuator/health${NC}"
-    echo -e "  Dev server    →  ${BLUE}http://localhost:5173${NC}"
-    echo ""
-    echo -e "${BOLD}Credenciales por defecto:${NC}"
-    echo -e "  Usuario: admin@minimarket.local"
-    echo -e "  Clave:   Admin1234!"
-    echo ""
-    echo -e "${BOLD}Comandos útiles:${NC}"
-    echo -e "  Logs en tiempo real:  docker compose -f infra/docker-compose.yml logs -f"
-    echo -e "  Logs del backend:     docker compose -f infra/docker-compose.yml logs -f backend"
-    echo -e "  Estado de servicios:  docker compose -f infra/docker-compose.yml ps"
-    echo -e "  Detener todo:         bash stop.sh"
-    echo ""
+    docker compose \
+        -f "${INFRA_DIR}/docker-compose.yml" \
+        -f "${INFRA_DIR}/docker-compose.override.yml" \
+        --env-file "${ENV_FILE}" \
+        logs -f
 fi

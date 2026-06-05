@@ -102,13 +102,18 @@ services:
       start_period: 30s
 
   # ---------------------------------------------------------------------------
-  # Nginx — en desarrollo apunta el upstream de frontend al dev server de Vite
-  # La variable FRONTEND_UPSTREAM se inyecta en nginx.conf via envsubst.
-  # En producción el upstream sería el contenedor nginx del frontend (puerto 80).
+  # Nginx — en desarrollo apunta el upstream de frontend al dev server de Vite.
+  # Las variables CSP_SCRIPT_SRC y CSP_CONNECT_EXTRA relajan el CSP para permitir
+  # los scripts inline y websocket que Vite HMR requiere en desarrollo.
   # ---------------------------------------------------------------------------
   nginx:
     environment:
       FRONTEND_UPSTREAM: "frontend:5173"
+      # Vite HMR inyecta scripts inline → necesita 'unsafe-inline'.
+      CSP_SCRIPT_SRC: "'self' 'unsafe-inline'"
+      # Vite HMR usa websocket y HTTP fetch hacia el dev server.
+      # http://localhost:5173 permite el fetch de actualizaciones del cliente HMR.
+      CSP_CONNECT_EXTRA: "ws://localhost:* wss://localhost:* http://localhost:5173"
 
 # =============================================================================
 # Volúmenes adicionales para desarrollo

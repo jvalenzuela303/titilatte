@@ -31,5 +31,7 @@ public record UpdateProductRequest(
 
         UUID taxId,
 
-        UUID unitId
+        UUID unitId,
+
+        Boolean trackStock
 ) {}

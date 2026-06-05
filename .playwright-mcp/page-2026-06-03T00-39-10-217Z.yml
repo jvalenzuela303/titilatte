@@ -1,0 +1,104 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Le Coq Wines" [ref=e7] [cursor=pointer]:
+          - /url: https://www.lecoqwines.cl/
+          - img "Le Coq Wines" [ref=e8]
+        - generic [ref=e9]:
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - link "Inicio" [ref=e13] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/
+              - listitem [ref=e14]:
+                - link "Tienda" [ref=e15] [cursor=pointer]:
+                  - /url: /#tienda
+              - listitem [ref=e16]:
+                - link "Quienes Somos" [ref=e17] [cursor=pointer]:
+                  - /url: "#quienessomos"
+              - listitem [ref=e18]:
+                - link "Contacto" [ref=e19] [cursor=pointer]:
+                  - /url: "#contacto"
+              - listitem [ref=e20]:
+                - link "Redes Sociales" [ref=e21] [cursor=pointer]:
+                  - /url: /#redessociales
+              - listitem [ref=e22]:
+                - link "Mi cuenta" [ref=e23] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/mi-cuenta/
+          - text: a
+      - generic [ref=e25]:
+        - search [ref=e26]:
+          - searchbox "Buscar:" [ref=e27]
+        - generic [ref=e28] [cursor=pointer]: M
+    - generic [ref=e29]:
+      - article [ref=e31]:
+        - generic [ref=e34]:
+          - generic [ref=e38]:
+            - generic:
+              - application "Reproductor de vídeo"
+          - generic [ref=e43]:
+            - generic [ref=e49]:
+              - heading "Nuestra Historia" [level=3] [ref=e50]
+              - blockquote [ref=e52]:
+                - heading "Proyecto de un enólogo que se convirtió en una aventura familiar de elaborar vinos con las mejores uvas de los valles del Norte de Chile." [level=3] [ref=e53]
+                - paragraph [ref=e54]
+                - heading "Una familia que decidió dejar atrás la capital para seguir una idea visionaria que dejaría raíces en la ciudad de La Serena, junto a sus hijos, quienes han crecido entre toneles y vendimias, ayudando desde pequeños a dar forma a este sueño." [level=3] [ref=e55]
+                - paragraph [ref=e56]
+                - heading "Los cielos infinitos, las planicies costeras y los verdes valles del Norte de Chile, se ven reflejados en cada una de nuestras botellas, donde texturas, aromas y colores únicos, son el espíritu de cada uno de nuestros vinos." [level=3] [ref=e57]
+            - generic:
+              - link "4" [ref=e58] [cursor=pointer]:
+                - /url: "#"
+              - link "5" [ref=e59] [cursor=pointer]:
+                - /url: "#"
+            - generic [ref=e60]:
+              - link "1" [ref=e61] [cursor=pointer]:
+                - /url: "#"
+              - link "2" [ref=e62] [cursor=pointer]:
+                - /url: "#"
+          - generic [ref=e68]:
+            - heading "TIENDA ONLINE PARA LOS AMANTES DEL VINO" [level=3] [ref=e69]
+            - heading [level=2] [ref=e70]
+            - paragraph [ref=e71]: Descubre la EXPERIENCIA LE COQ, Vinos de excelencia obtenidos por la atención, pasión y cuidado por los detalles”
+          - generic [ref=e75]: "[wpb-product-slider product_type=\"id\" id=\"568\",\"45\",\"162\",\"717\",\"721\",\"737\",\"746\",\"691\",\"588\",\"281\",\"283\",\"285\",\"725\",\"619\",\"625\",\"727\",\"633\"]"
+          - generic [ref=e78]: "[instagram-feed feed=1]"
+      - contentinfo [ref=e79]:
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - generic [ref=e88]:
+              - paragraph [ref=e89]:
+                - textbox "Nombre Completo" [ref=e90]
+              - paragraph [ref=e91]:
+                - textbox "Número de Teléfono" [ref=e92]
+              - paragraph [ref=e93]:
+                - textbox "Correo Electrónico" [ref=e94]
+              - paragraph [ref=e95]:
+                - textbox "Mensaje" [ref=e96]
+              - button "Enviar 5" [ref=e98] [cursor=pointer]
+            - paragraph [ref=e101]:
+              - link [ref=e102] [cursor=pointer]:
+                - /url: https://www.facebook.com/profile.php?id=100028262516139
+                - img [ref=e103]
+              - link [ref=e104] [cursor=pointer]:
+                - /url: https://www.instagram.com/lecoqwines/
+                - img [ref=e105]
+              - link [ref=e106] [cursor=pointer]:
+                - /url: http://twitter.com/coqwines
+          - generic [ref=e111]:
+            - paragraph [ref=e112]: LE COQ WINES
+            - paragraph [ref=e113]:
+              - strong [ref=e114]:
+                - text: +569 92990305 /
+                - link "contacto@lecoqwines.cl" [ref=e115] [cursor=pointer]:
+                  - /url: mailto:contacto@qwines.cl
+            - paragraph [ref=e116]: La Serena, Valle del Elqui, Región de Coquimbo. CHILE.
+            - paragraph:
+              - link:
+                - /url: mailto:contacto@qwines.cl
+  - generic [ref=e118]:
+    - link "es_ES ES_ES":
+      - /url: "#"
+      - img "es_ES"
+      - text: ES_ES
+  - generic [ref=e121] [cursor=pointer]:
+    - img

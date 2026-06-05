@@ -1,0 +1,227 @@
+- generic [ref=e1]:
+  - generic [ref=e12]:
+    - complementary [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15] [cursor=pointer]:
+          - img "shop" [ref=e16]:
+            - img [ref=e17]
+          - strong [ref=e20]: Minimarket
+        - menu [ref=e21]:
+          - menuitem "dashboard Dashboard" [ref=e22] [cursor=pointer]:
+            - img "dashboard" [ref=e23]:
+              - img [ref=e24]
+            - generic [ref=e26]: Dashboard
+          - menuitem "shopping-cart POS - Ventas" [ref=e27] [cursor=pointer]:
+            - img "shopping-cart" [ref=e28]:
+              - img [ref=e29]
+            - generic [ref=e31]: POS - Ventas
+          - menuitem "unordered-list Ventas" [ref=e32] [cursor=pointer]:
+            - img "unordered-list" [ref=e33]:
+              - img [ref=e34]
+            - generic [ref=e36]: Ventas
+          - menuitem "appstore Productos" [ref=e37] [cursor=pointer]:
+            - img "appstore" [ref=e38]:
+              - img [ref=e39]
+            - generic [ref=e41]: Productos
+          - menuitem "inbox Stock" [ref=e42] [cursor=pointer]:
+            - img "inbox" [ref=e43]:
+              - img [ref=e44]
+            - generic [ref=e46]: Stock
+          - menuitem "shopping Compras" [ref=e47] [cursor=pointer]:
+            - img "shopping" [ref=e48]:
+              - img [ref=e49]
+            - generic [ref=e51]: Compras
+          - menuitem "wallet Caja" [ref=e52] [cursor=pointer]:
+            - img "wallet" [ref=e53]:
+              - img [ref=e54]
+            - generic [ref=e56]: Caja
+          - menuitem "team Clientes" [ref=e57] [cursor=pointer]:
+            - img "team" [ref=e58]:
+              - img [ref=e59]
+            - generic [ref=e61]: Clientes
+          - menuitem "bar-chart Reportes" [ref=e62] [cursor=pointer]:
+            - img "bar-chart" [ref=e63]:
+              - img [ref=e64]
+            - generic [ref=e66]: Reportes
+          - menuitem "apartment Sucursales" [ref=e67] [cursor=pointer]:
+            - img "apartment" [ref=e68]:
+              - img [ref=e69]
+            - generic [ref=e71]: Sucursales
+          - menuitem "tags Categorías" [ref=e72] [cursor=pointer]:
+            - img "tags" [ref=e73]:
+              - img [ref=e74]
+            - generic [ref=e76]: Categorías
+          - menuitem "tag Promociones" [ref=e77] [cursor=pointer]:
+            - img "tag" [ref=e78]:
+              - img [ref=e79]
+            - generic [ref=e81]: Promociones
+          - menuitem "bell Alertas" [ref=e82] [cursor=pointer]:
+            - img "bell" [ref=e83]:
+              - img [ref=e84]
+            - generic [ref=e86]: Alertas
+          - menuitem "calendar Cierre Período" [ref=e87] [cursor=pointer]:
+            - img "calendar" [ref=e88]:
+              - img [ref=e89]
+            - generic [ref=e91]: Cierre Período
+          - menuitem "audit Auditoria" [ref=e92] [cursor=pointer]:
+            - img "audit" [ref=e93]:
+              - img [ref=e94]
+            - generic [ref=e96]: Auditoria
+    - generic [ref=e97]:
+      - banner [ref=e98]:
+        - button "Toggle menu" [ref=e99] [cursor=pointer]:
+          - img "menu-fold" [ref=e101]:
+            - img [ref=e102]
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - img "apartment" [ref=e106]:
+              - img [ref=e107]
+            - generic [ref=e109]: "Sucursal:"
+            - generic "Seleccionar sucursal activa" [ref=e110] [cursor=pointer]:
+              - generic [ref=e112]:
+                - combobox "Seleccionar sucursal activa" [ref=e114]
+                - generic: Todas
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e115]: Administrador
+          - button "user Administrador" [ref=e116] [cursor=pointer]:
+            - img "user" [ref=e118]:
+              - img [ref=e119]
+            - generic [ref=e121]: Administrador
+      - main [ref=e122]:
+        - generic [ref=e123]:
+          - generic [ref=e124]:
+            - heading "Punto de Venta" [level=3] [ref=e125]
+            - text: Registra ventas y gestiona el carrito
+          - generic [ref=e126]:
+            - generic [ref=e127]:
+              - generic [ref=e129]:
+                - generic [ref=e130]:
+                  - img "search" [ref=e132]:
+                    - img [ref=e133]
+                  - textbox "Escanear código de barras o buscar por nombre..." [ref=e135]
+                - generic [ref=e141]: Presiona Enter para buscar. Los lectores USB de código de barras son detectados automáticamente.
+                - alert [ref=e142]:
+                  - img "check-circle" [ref=e143]:
+                    - img [ref=e144]
+                  - generic [ref=e147]: 1 promoción(es) activa(s)
+              - generic [ref=e256]:
+                - img "No hay datos" [ref=e258]
+                - generic [ref=e264]: Busca o escanea un producto para agregarlo al carrito
+            - generic [ref=e187]:
+              - generic [ref=e188]:
+                - generic [ref=e192]:
+                  - img "shopping-cart" [ref=e194]:
+                    - img [ref=e195]
+                  - generic [ref=e198]: Carrito (0 items)
+                - generic [ref=e323]:
+                  - img "No hay datos" [ref=e325]
+                  - generic [ref=e331]: El carrito está vacío
+              - generic [ref=e211]:
+                - generic [ref=e213]:
+                  - generic [ref=e214]: "Total a pagar:"
+                  - heading "$0" [level=3] [ref=e332]
+                - separator [ref=e217]
+                - generic [ref=e219]:
+                  - generic [ref=e220]: Tipo de venta
+                  - generic [ref=e221] [cursor=pointer]:
+                    - generic [ref=e223]:
+                      - combobox [ref=e225]
+                      - generic "Contado" [ref=e226]
+                    - generic:
+                      - img:
+                        - img
+                - generic [ref=e228]:
+                  - generic [ref=e229]: Método de pago
+                  - generic [ref=e230] [cursor=pointer]:
+                    - generic [ref=e232]:
+                      - combobox [ref=e234]
+                      - generic "Efectivo" [ref=e235]
+                    - generic:
+                      - img:
+                        - img
+                - generic [ref=e237]:
+                  - generic [ref=e238]: Monto recibido ($)
+                  - generic [ref=e239]:
+                    - generic:
+                      - button "Increase Value" [ref=e240] [cursor=pointer]:
+                        - img "up" [ref=e241]:
+                          - img [ref=e242]
+                      - button "Decrease Value" [ref=e244] [cursor=pointer]:
+                        - img "down" [ref=e245]:
+                          - img [ref=e246]
+                    - spinbutton "0" [ref=e249]
+                - separator [ref=e251]
+                - button "check-circle Confirmar Venta" [disabled] [ref=e253]:
+                  - generic:
+                    - img "check-circle":
+                      - img
+                  - generic: Confirmar Venta
+                - button "clear Cancelar" [disabled] [ref=e255]:
+                  - generic:
+                    - img "clear":
+                      - img
+                  - generic: Cancelar
+  - generic [ref=e333]:
+    - 'dialog "check-circle Venta confirmada — Ticket #00null"':
+      - generic [ref=e334]:
+        - button "Close" [ref=e335] [cursor=pointer]:
+          - generic "Cerrar" [ref=e336]:
+            - img "close" [ref=e337]:
+              - img [ref=e338]
+        - generic [ref=e342]:
+          - img "check-circle" [ref=e344]:
+            - img [ref=e345]
+          - generic [ref=e349]: "Venta confirmada — Ticket #00null"
+        - generic [ref=e351]:
+          - generic [ref=e352]:
+            - heading "Minimarket" [level=4] [ref=e353]
+            - heading "#00null" [level=2] [ref=e354]
+            - text: 31/05/2026 19:24:27
+          - separator [ref=e355]
+          - generic [ref=e356]:
+            - generic [ref=e357]:
+              - text: Marraqueta
+              - generic [ref=e358]: 1 x $100
+            - strong [ref=e361]: $100
+          - separator [ref=e362]
+          - table [ref=e365]:
+            - rowgroup [ref=e366]:
+              - 'row "Neto : $100" [ref=e367]':
+                - 'cell "Neto : $100" [ref=e368]':
+                  - generic [ref=e369]:
+                    - generic [ref=e370]: "Neto :"
+                    - generic [ref=e371]: $100
+              - 'row "IVA : $0" [ref=e372]':
+                - 'cell "IVA : $0" [ref=e373]':
+                  - generic [ref=e374]:
+                    - generic [ref=e375]: "IVA :"
+                    - generic [ref=e376]: $0
+              - 'row "Total : $100" [ref=e377]':
+                - 'cell "Total : $100" [ref=e378]':
+                  - generic [ref=e379]:
+                    - generic [ref=e380]:
+                      - strong [ref=e382]: Total
+                      - text: ":"
+                    - strong [ref=e385]: $100
+              - 'row "EFECTIVO : $100" [ref=e386]':
+                - 'cell "EFECTIVO : $100" [ref=e387]':
+                  - generic [ref=e388]:
+                    - generic [ref=e389]: "EFECTIVO :"
+                    - generic [ref=e390]: $100
+          - separator [ref=e391]
+          - generic [ref=e392]:
+            - generic [ref=e393]: "Cajero: Administrador Sistema"
+            - text: admin@minimarket.local
+        - generic [ref=e394]:
+          - button "printer Imprimir" [ref=e395] [cursor=pointer]:
+            - img "printer" [ref=e397]:
+              - img [ref=e398]
+            - generic [ref=e400]: Imprimir
+          - button "Nueva venta" [ref=e401] [cursor=pointer]:
+            - generic [ref=e402]: Nueva venta
+  - generic [ref=e404]:
+    - img "check-circle" [ref=e405]:
+      - img [ref=e406]
+    - generic [ref=e408]: "Ticket #null registrado exitosamente"

@@ -1,0 +1,124 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Le Coq Wines" [ref=e7] [cursor=pointer]:
+          - /url: https://www.lecoqwines.cl/
+          - img "Le Coq Wines" [ref=e8]
+        - generic [ref=e9]:
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - link "Inicio" [ref=e13] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/
+              - listitem [ref=e14]:
+                - link "Carrito" [ref=e15] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/carrito/
+              - listitem [ref=e16]:
+                - link "Comming Soon" [ref=e17] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/comming-soon/
+              - listitem [ref=e18]:
+                - link "Finalizar compra" [ref=e19] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/finalizar-compra/
+              - listitem [ref=e20]:
+                - link "Inicio" [ref=e21] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/
+              - listitem [ref=e22]:
+                - link "Mi cuenta" [ref=e23] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/mi-cuenta/
+              - listitem [ref=e24]:
+                - link "Tienda" [ref=e25] [cursor=pointer]:
+                  - /url: https://www.lecoqwines.cl/tienda/
+          - text: a
+      - generic [ref=e27]:
+        - search [ref=e28]:
+          - searchbox "Buscar:" [ref=e29]
+        - generic [ref=e30] [cursor=pointer]: M
+    - generic [ref=e31]:
+      - article [ref=e33]:
+        - paragraph [ref=e42]: "[woocommerce_checkout]"
+      - contentinfo [ref=e43]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e52]:
+              - paragraph [ref=e53]:
+                - textbox "Nombre Completo" [ref=e54]
+              - paragraph [ref=e55]:
+                - textbox "Número de Teléfono" [ref=e56]
+              - paragraph [ref=e57]:
+                - textbox "Correo Electrónico" [ref=e58]
+              - paragraph [ref=e59]:
+                - textbox "Mensaje" [ref=e60]
+              - button "Enviar 5" [ref=e62] [cursor=pointer]
+            - paragraph [ref=e65]:
+              - link [ref=e66] [cursor=pointer]:
+                - /url: https://www.facebook.com/profile.php?id=100028262516139
+                - img [ref=e67]
+              - link [ref=e68] [cursor=pointer]:
+                - /url: https://www.instagram.com/lecoqwines/
+                - img [ref=e69]
+              - link [ref=e70] [cursor=pointer]:
+                - /url: http://twitter.com/coqwines
+          - generic [ref=e75]:
+            - paragraph [ref=e76]: LE COQ WINES
+            - paragraph [ref=e77]:
+              - strong [ref=e78]:
+                - text: +569 92990305 /
+                - link "contacto@lecoqwines.cl" [ref=e79] [cursor=pointer]:
+                  - /url: mailto:contacto@qwines.cl
+            - paragraph [ref=e80]: La Serena, Valle del Elqui, Región de Coquimbo. CHILE.
+            - paragraph:
+              - link:
+                - /url: mailto:contacto@qwines.cl
+  - generic [ref=e82]:
+    - link "es_ES ES_ES":
+      - /url: "#"
+      - img "es_ES"
+      - text: ES_ES
+  - generic [ref=e84]:
+    - img [ref=e85]
+    - paragraph [ref=e86]: ¿ERES MAYOR DE EDAD PARA CONSUMIR ALCOHOL?
+    - generic [ref=e87]:
+      - link "SI" [ref=e88] [cursor=pointer]:
+        - /url: "#"
+      - link "NO" [ref=e89] [cursor=pointer]:
+        - /url: "#"
+  - generic:
+    - generic:
+      - generic:
+        - img
+  - generic [ref=e91]:
+    - link "Ir a la barra de herramientas" [ref=e92] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - navigation "Barra de herramientas":
+      - menu:
+        - group [ref=e93]:
+          - menuitem "Acerca de WordPress" [ref=e94] [cursor=pointer]:
+            - generic [ref=e96]: Acerca de WordPress
+        - group [ref=e97]:
+          - menuitem "Le Coq Wines" [ref=e98] [cursor=pointer]
+        - group [ref=e99]:
+          - menuitem "0 comentarios en moderación" [ref=e100] [cursor=pointer]:
+            - generic [ref=e102]: "0"
+            - generic [ref=e103]: 0 comentarios en moderación
+        - group [ref=e104]:
+          - menuitem "Añadir" [ref=e105] [cursor=pointer]:
+            - generic [ref=e107]: Añadir
+        - group [ref=e108]:
+          - menuitem "Editar la página" [ref=e109] [cursor=pointer]
+        - group [ref=e110]:
+          - menuitem " Traduce la página 1" [ref=e111] [cursor=pointer]:
+            - generic [ref=e112]: 
+            - generic [ref=e113]:
+              - text: Traduce la página
+              - generic [ref=e114]: "1"
+        - group [ref=e115]:
+          - menuitem " Habilitar el Constructor visual" [ref=e116] [cursor=pointer]
+      - menu [ref=e117]:
+        - group [ref=e118]:
+          - menuitem "Hola, Juan Pablo" [ref=e119] [cursor=pointer]
+        - group [ref=e120]:
+          - menuitem "Buscar" [ref=e121]:
+            - generic [ref=e122]:
+              - textbox "Buscar" [ref=e123] [cursor=pointer]
+              - generic [ref=e124]: Buscar

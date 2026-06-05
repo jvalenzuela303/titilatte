@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
-import { message   App,
-} from 'antd'
+import { App } from 'antd'
 import apiClient from '@/config/axios'
 import type { Product, PageResponse, CreateProductRequest, UpdateProductRequest } from '@/types'
 

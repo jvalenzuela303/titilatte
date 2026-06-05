@@ -17,10 +17,14 @@ const ProductsPage = lazy(() => import('@/pages/Products/ProductsPage'))
 const StockPage = lazy(() => import('@/pages/Stock/StockPage'))
 const PurchasesPage = lazy(() => import('@/pages/Purchases/PurchasesPage'))
 const CashPage = lazy(() => import('@/pages/Cash/CashPage'))
-const CustomersPage = lazy(() => import('@/pages/Customers/CustomersPage'))
 const ReportsPage = lazy(() => import('@/pages/Reports/ReportsPage'))
 const AuditPage = lazy(() => import('@/pages/Audit/AuditPage'))
-const BranchesPage = lazy(() => import('@/pages/Branches/BranchesPage'))
+const CategoriesPage = lazy(() => import('@/pages/Categories/CategoriesPage'))
+const PromotionsPage = lazy(() => import('@/pages/Promotions/PromotionsPage'))
+const AlertsPage = lazy(() => import('@/pages/Alerts/AlertsPage'))
+const PeriodClosePage = lazy(() => import('@/pages/PeriodClose/PeriodClosePage'))
+const SalesPage = lazy(() => import('@/pages/Sales/SalesPage'))
+const StoreConfigPage = lazy(() => import('@/pages/StoreConfig/StoreConfigPage'))
 
 const PageFallback: React.FC = () => (
   <div
@@ -92,11 +96,11 @@ export default function App() {
           >
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/pos" element={<POSPage />} />
+            <Route path="/sales" element={<SalesPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/stock" element={<StockPage />} />
             <Route path="/purchases" element={<PurchasesPage />} />
             <Route path="/cash" element={<CashPage />} />
-            <Route path="/customers" element={<CustomersPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route
               path="/audit"
@@ -106,12 +110,22 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            {/* Fase 4 routes */}
             <Route
-              path="/branches"
+              path="/categories"
               element={
                 <ProtectedRoute requiredRoles={['ADMIN', 'SUPERVISOR']}>
-                  <BranchesPage />
+                  <CategoriesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/promotions" element={<PromotionsPage />} />
+            <Route path="/alerts" element={<AlertsPage />} />
+            <Route path="/period-close" element={<PeriodClosePage />} />
+            <Route
+              path="/store-config"
+              element={
+                <ProtectedRoute requiredRole="ADMIN">
+                  <StoreConfigPage />
                 </ProtectedRoute>
               }
             />

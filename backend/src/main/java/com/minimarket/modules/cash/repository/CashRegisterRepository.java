@@ -16,6 +16,8 @@ public interface CashRegisterRepository extends JpaRepository<CashRegister, UUID
 
     Optional<CashRegister> findByCashierIdAndStatus(UUID cashierId, CashStatus status);
 
+    Optional<CashRegister> findByBranchIdAndStatus(UUID branchId, CashStatus status);
+
     Page<CashRegister> findAllByCashierId(UUID cashierId, Pageable pageable);
 
     List<CashRegister> findAllByStatus(CashStatus status);

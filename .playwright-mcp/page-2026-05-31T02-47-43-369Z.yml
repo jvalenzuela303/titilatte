@@ -1,0 +1,400 @@
+- generic [ref=e1]:
+  - generic [ref=e66]:
+    - complementary [ref=e67]:
+      - generic [ref=e68]:
+        - generic [ref=e69] [cursor=pointer]:
+          - img "shop" [ref=e70]:
+            - img [ref=e71]
+          - strong [ref=e74]: Minimarket
+        - menu [ref=e75]:
+          - menuitem "dashboard Dashboard" [ref=e76] [cursor=pointer]:
+            - img "dashboard" [ref=e77]:
+              - img [ref=e78]
+            - generic [ref=e80]: Dashboard
+          - menuitem "shopping-cart POS - Ventas" [ref=e81] [cursor=pointer]:
+            - img "shopping-cart" [ref=e82]:
+              - img [ref=e83]
+            - generic [ref=e85]: POS - Ventas
+          - menuitem "appstore Productos" [ref=e86] [cursor=pointer]:
+            - img "appstore" [ref=e87]:
+              - img [ref=e88]
+            - generic [ref=e90]: Productos
+          - menuitem "inbox Stock" [ref=e91] [cursor=pointer]:
+            - img "inbox" [ref=e92]:
+              - img [ref=e93]
+            - generic [ref=e95]: Stock
+          - menuitem "shopping Compras" [ref=e96] [cursor=pointer]:
+            - img "shopping" [ref=e97]:
+              - img [ref=e98]
+            - generic [ref=e100]: Compras
+          - menuitem "wallet Caja" [ref=e101] [cursor=pointer]:
+            - img "wallet" [ref=e102]:
+              - img [ref=e103]
+            - generic [ref=e105]: Caja
+          - menuitem "team Clientes" [ref=e106] [cursor=pointer]:
+            - img "team" [ref=e107]:
+              - img [ref=e108]
+            - generic [ref=e110]: Clientes
+          - menuitem "bar-chart Reportes" [ref=e111] [cursor=pointer]:
+            - img "bar-chart" [ref=e112]:
+              - img [ref=e113]
+            - generic [ref=e115]: Reportes
+          - menuitem "apartment Sucursales" [ref=e116] [cursor=pointer]:
+            - img "apartment" [ref=e117]:
+              - img [ref=e118]
+            - generic [ref=e120]: Sucursales
+          - menuitem "audit Auditoria" [ref=e121] [cursor=pointer]:
+            - img "audit" [ref=e122]:
+              - img [ref=e123]
+            - generic [ref=e125]: Auditoria
+    - generic [ref=e126]:
+      - banner [ref=e127]:
+        - button "Toggle menu" [ref=e128] [cursor=pointer]:
+          - img "menu-fold" [ref=e130]:
+            - img [ref=e131]
+        - generic [ref=e133]:
+          - generic [ref=e134]:
+            - img "apartment" [ref=e135]:
+              - img [ref=e136]
+            - generic [ref=e138]: "Sucursal:"
+            - generic "Seleccionar sucursal activa" [ref=e139] [cursor=pointer]:
+              - generic [ref=e141]:
+                - combobox "Seleccionar sucursal activa" [ref=e143]
+                - generic: Todas
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e144]: Administrador
+          - button "user Administrador" [ref=e145] [cursor=pointer]:
+            - img "user" [ref=e147]:
+              - img [ref=e148]
+            - generic [ref=e150]: Administrador
+      - main [ref=e151]:
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - navigation [ref=e154]:
+              - list [ref=e155]:
+                - listitem [ref=e156]: Inicio
+                - listitem [ref=e157]: /
+                - listitem [ref=e158]: Stock
+            - generic [ref=e159]:
+              - generic [ref=e160]:
+                - heading "Control de Stock" [level=3] [ref=e162]
+                - generic [ref=e163]: Monitorea inventario y registra ajustes
+              - button "plus Ajuste de Stock" [ref=e165] [cursor=pointer]:
+                - img "plus" [ref=e167]:
+                  - img [ref=e168]
+                - generic [ref=e171]: Ajuste de Stock
+          - generic [ref=e172]:
+            - generic [ref=e176]:
+              - generic [ref=e177]: Stock OK
+              - generic [ref=e179]: "36"
+            - generic [ref=e183]:
+              - generic [ref=e184]: Stock Bajo
+              - generic [ref=e186]: "0"
+            - generic [ref=e190]:
+              - generic [ref=e191]: Stock Crítico (agotado)
+              - generic [ref=e193]: "0"
+          - generic [ref=e196]:
+            - tablist [ref=e197]:
+              - generic [ref=e199]:
+                - tab "Inventario actual" [selected] [ref=e201] [cursor=pointer]
+                - tab "Historial de movimientos" [ref=e203] [cursor=pointer]
+            - tabpanel "Inventario actual" [ref=e206]:
+              - generic [ref=e208]:
+                - button "reload Actualizar" [ref=e210] [cursor=pointer]:
+                  - img "reload" [ref=e212]:
+                    - img [ref=e213]
+                  - generic [ref=e215]: Actualizar
+                - generic [ref=e218]:
+                  - table [ref=e222]:
+                    - rowgroup [ref=e230]:
+                      - row "Código Producto Stock Actual Mín Máx Estado" [ref=e231]:
+                        - columnheader "Código" [ref=e232]
+                        - columnheader "Producto" [ref=e233]
+                        - columnheader "Stock Actual" [ref=e234]
+                        - columnheader "Mín" [ref=e235]
+                        - columnheader "Máx" [ref=e236]
+                        - columnheader "Estado" [ref=e237]
+                    - rowgroup [ref=e238]:
+                      - row "7801000005001 Aceite Vegetal Chef 1 Lt 25 5 100 OK" [ref=e575]:
+                        - cell "7801000005001" [ref=e576]:
+                          - code [ref=e578]: "7801000005001"
+                        - cell "Aceite Vegetal Chef 1 Lt" [ref=e579]:
+                          - strong [ref=e581]: Aceite Vegetal Chef 1 Lt
+                        - cell "25" [ref=e582]:
+                          - strong [ref=e584]: "25"
+                        - cell "5" [ref=e585]
+                        - cell "100" [ref=e586]
+                        - cell "OK" [ref=e587]:
+                          - generic [ref=e588]: OK
+                      - row "7801000007001 Agua Mineral Cachantun 1.5 Lt 52 12 300 OK" [ref=e589]:
+                        - cell "7801000007001" [ref=e590]:
+                          - code [ref=e592]: "7801000007001"
+                        - cell "Agua Mineral Cachantun 1.5 Lt" [ref=e593]:
+                          - strong [ref=e595]: Agua Mineral Cachantun 1.5 Lt
+                        - cell "52" [ref=e596]:
+                          - strong [ref=e598]: "52"
+                        - cell "12" [ref=e599]
+                        - cell "300" [ref=e600]
+                        - cell "OK" [ref=e601]:
+                          - generic [ref=e602]: OK
+                      - row "7801000002001 Arroz Grado 1 El Rancho 1 kg 44 10 300 OK" [ref=e603]:
+                        - cell "7801000002001" [ref=e604]:
+                          - code [ref=e606]: "7801000002001"
+                        - cell "Arroz Grado 1 El Rancho 1 kg" [ref=e607]:
+                          - strong [ref=e609]: Arroz Grado 1 El Rancho 1 kg
+                        - cell "44" [ref=e610]:
+                          - strong [ref=e612]: "44"
+                        - cell "10" [ref=e613]
+                        - cell "300" [ref=e614]
+                        - cell "OK" [ref=e615]:
+                          - generic [ref=e616]: OK
+                      - row "7801000003001 Atún Claro en Agua Coa 190 g 36 10 200 OK" [ref=e617]:
+                        - cell "7801000003001" [ref=e618]:
+                          - code [ref=e620]: "7801000003001"
+                        - cell "Atún Claro en Agua Coa 190 g" [ref=e621]:
+                          - strong [ref=e623]: Atún Claro en Agua Coa 190 g
+                        - cell "36" [ref=e624]:
+                          - strong [ref=e626]: "36"
+                        - cell "10" [ref=e627]
+                        - cell "200" [ref=e628]
+                        - cell "OK" [ref=e629]:
+                          - generic [ref=e630]: OK
+                      - row "7801000002003 Avena Quaker Tradicional 200 g 38 5 150 OK" [ref=e631]:
+                        - cell "7801000002003" [ref=e632]:
+                          - code [ref=e634]: "7801000002003"
+                        - cell "Avena Quaker Tradicional 200 g" [ref=e635]:
+                          - strong [ref=e637]: Avena Quaker Tradicional 200 g
+                        - cell "38" [ref=e638]:
+                          - strong [ref=e640]: "38"
+                        - cell "5" [ref=e641]
+                        - cell "150" [ref=e642]
+                        - cell "OK" [ref=e643]:
+                          - generic [ref=e644]: OK
+                      - row "7801000006003 Bebida Fanta Naranja 1.5 Lt 28 5 150 OK" [ref=e645]:
+                        - cell "7801000006003" [ref=e646]:
+                          - code [ref=e648]: "7801000006003"
+                        - cell "Bebida Fanta Naranja 1.5 Lt" [ref=e649]:
+                          - strong [ref=e651]: Bebida Fanta Naranja 1.5 Lt
+                        - cell "28" [ref=e652]:
+                          - strong [ref=e654]: "28"
+                        - cell "5" [ref=e655]
+                        - cell "150" [ref=e656]
+                        - cell "OK" [ref=e657]:
+                          - generic [ref=e658]: OK
+                      - row "7801000015001 Café Instantáneo Nescafé Gold 200 g 14 3 48 OK" [ref=e659]:
+                        - cell "7801000015001" [ref=e660]:
+                          - code [ref=e662]: "7801000015001"
+                        - cell "Café Instantáneo Nescafé Gold 200 g" [ref=e663]:
+                          - strong [ref=e665]: Café Instantáneo Nescafé Gold 200 g
+                        - cell "14" [ref=e666]:
+                          - strong [ref=e668]: "14"
+                        - cell "3" [ref=e669]
+                        - cell "48" [ref=e670]
+                        - cell "OK" [ref=e671]:
+                          - generic [ref=e672]: OK
+                      - row "7801000008002 Cerveza Cristal 500 ml 32 12 240 OK" [ref=e673]:
+                        - cell "7801000008002" [ref=e674]:
+                          - code [ref=e676]: "7801000008002"
+                        - cell "Cerveza Cristal 500 ml" [ref=e677]:
+                          - strong [ref=e679]: Cerveza Cristal 500 ml
+                        - cell "32" [ref=e680]:
+                          - strong [ref=e682]: "32"
+                        - cell "12" [ref=e683]
+                        - cell "240" [ref=e684]
+                        - cell "OK" [ref=e685]:
+                          - generic [ref=e686]: OK
+                      - row "7801000008001 Cerveza Escudo 330 ml 38 12 300 OK" [ref=e687]:
+                        - cell "7801000008001" [ref=e688]:
+                          - code [ref=e690]: "7801000008001"
+                        - cell "Cerveza Escudo 330 ml" [ref=e691]:
+                          - strong [ref=e693]: Cerveza Escudo 330 ml
+                        - cell "38" [ref=e694]:
+                          - strong [ref=e696]: "38"
+                        - cell "12" [ref=e697]
+                        - cell "300" [ref=e698]
+                        - cell "OK" [ref=e699]:
+                          - generic [ref=e700]: OK
+                      - row "7801000013001 Chocolate Sahne Nuss Nestlé 100 g 46 10 200 OK" [ref=e701]:
+                        - cell "7801000013001" [ref=e702]:
+                          - code [ref=e704]: "7801000013001"
+                        - cell "Chocolate Sahne Nuss Nestlé 100 g" [ref=e705]:
+                          - strong [ref=e707]: Chocolate Sahne Nuss Nestlé 100 g
+                        - cell "46" [ref=e708]:
+                          - strong [ref=e710]: "46"
+                        - cell "10" [ref=e711]
+                        - cell "200" [ref=e712]
+                        - cell "OK" [ref=e713]:
+                          - generic [ref=e714]: OK
+                      - row "7801000010002 Cloro Clorox Multiusos 900 ml 28 5 120 OK" [ref=e715]:
+                        - cell "7801000010002" [ref=e716]:
+                          - code [ref=e718]: "7801000010002"
+                        - cell "Cloro Clorox Multiusos 900 ml" [ref=e719]:
+                          - strong [ref=e721]: Cloro Clorox Multiusos 900 ml
+                        - cell "28" [ref=e722]:
+                          - strong [ref=e724]: "28"
+                        - cell "5" [ref=e725]
+                        - cell "120" [ref=e726]
+                        - cell "OK" [ref=e727]:
+                          - generic [ref=e728]: OK
+                      - row "7801000006001 Coca-Cola 1.5 Lt 36 10 200 OK" [ref=e729]:
+                        - cell "7801000006001" [ref=e730]:
+                          - code [ref=e732]: "7801000006001"
+                        - cell "Coca-Cola 1.5 Lt" [ref=e733]:
+                          - strong [ref=e735]: Coca-Cola 1.5 Lt
+                        - cell "36" [ref=e736]:
+                          - strong [ref=e738]: "36"
+                        - cell "10" [ref=e739]
+                        - cell "200" [ref=e740]
+                        - cell "OK" [ref=e741]:
+                          - generic [ref=e742]: OK
+                      - row "7801000011004 Desodorante Rexona Men 150 ml 18 3 72 OK" [ref=e743]:
+                        - cell "7801000011004" [ref=e744]:
+                          - code [ref=e746]: "7801000011004"
+                        - cell "Desodorante Rexona Men 150 ml" [ref=e747]:
+                          - strong [ref=e749]: Desodorante Rexona Men 150 ml
+                        - cell "18" [ref=e750]:
+                          - strong [ref=e752]: "18"
+                        - cell "3" [ref=e753]
+                        - cell "72" [ref=e754]
+                        - cell "OK" [ref=e755]:
+                          - generic [ref=e756]: OK
+                      - row "7801000010001 Detergente Omo Matic 1 kg 19 5 80 OK" [ref=e757]:
+                        - cell "7801000010001" [ref=e758]:
+                          - code [ref=e760]: "7801000010001"
+                        - cell "Detergente Omo Matic 1 kg" [ref=e761]:
+                          - strong [ref=e763]: Detergente Omo Matic 1 kg
+                        - cell "19" [ref=e764]:
+                          - strong [ref=e766]: "19"
+                        - cell "5" [ref=e767]
+                        - cell "80" [ref=e768]
+                        - cell "OK" [ref=e769]:
+                          - generic [ref=e770]: OK
+                      - row "7801000002002 Fideos Espagueti Carozzi 400 g 46 10 300 OK" [ref=e771]:
+                        - cell "7801000002002" [ref=e772]:
+                          - code [ref=e774]: "7801000002002"
+                        - cell "Fideos Espagueti Carozzi 400 g" [ref=e775]:
+                          - strong [ref=e777]: Fideos Espagueti Carozzi 400 g
+                        - cell "46" [ref=e778]:
+                          - strong [ref=e780]: "46"
+                        - cell "10" [ref=e781]
+                        - cell "300" [ref=e782]
+                        - cell "OK" [ref=e783]:
+                          - generic [ref=e784]: OK
+                      - row "7801000004003 Galletas Oreo 119 g 44 10 200 OK" [ref=e785]:
+                        - cell "7801000004003" [ref=e786]:
+                          - code [ref=e788]: "7801000004003"
+                        - cell "Galletas Oreo 119 g" [ref=e789]:
+                          - strong [ref=e791]: Galletas Oreo 119 g
+                        - cell "44" [ref=e792]:
+                          - strong [ref=e794]: "44"
+                        - cell "10" [ref=e795]
+                        - cell "200" [ref=e796]
+                        - cell "OK" [ref=e797]:
+                          - generic [ref=e798]: OK
+                      - row "7801000002004 Harina Sin Polvos de Hornear 1 kg 32 5 200 OK" [ref=e799]:
+                        - cell "7801000002004" [ref=e800]:
+                          - code [ref=e802]: "7801000002004"
+                        - cell "Harina Sin Polvos de Hornear 1 kg" [ref=e803]:
+                          - strong [ref=e805]: Harina Sin Polvos de Hornear 1 kg
+                        - cell "32" [ref=e806]:
+                          - strong [ref=e808]: "32"
+                        - cell "5" [ref=e809]
+                        - cell "200" [ref=e810]
+                        - cell "OK" [ref=e811]:
+                          - generic [ref=e812]: OK
+                      - row "7801000011002 Jabón en Barra Dove 90 g 35 10 150 OK" [ref=e813]:
+                        - cell "7801000011002" [ref=e814]:
+                          - code [ref=e816]: "7801000011002"
+                        - cell "Jabón en Barra Dove 90 g" [ref=e817]:
+                          - strong [ref=e819]: Jabón en Barra Dove 90 g
+                        - cell "35" [ref=e820]:
+                          - strong [ref=e822]: "35"
+                        - cell "10" [ref=e823]
+                        - cell "150" [ref=e824]
+                        - cell "OK" [ref=e825]:
+                          - generic [ref=e826]: OK
+                      - row "7801000007002 Jugo Natural Valle Naranja 1 Lt 30 5 120 OK" [ref=e827]:
+                        - cell "7801000007002" [ref=e828]:
+                          - code [ref=e830]: "7801000007002"
+                        - cell "Jugo Natural Valle Naranja 1 Lt" [ref=e831]:
+                          - strong [ref=e833]: Jugo Natural Valle Naranja 1 Lt
+                        - cell "30" [ref=e834]:
+                          - strong [ref=e836]: "30"
+                        - cell "5" [ref=e837]
+                        - cell "120" [ref=e838]
+                        - cell "OK" [ref=e839]:
+                          - generic [ref=e840]: OK
+                      - row "7801000001001 Leche Entera Soprole 1 Lt 35 10 200 OK" [ref=e841]:
+                        - cell "7801000001001" [ref=e842]:
+                          - code [ref=e844]: "7801000001001"
+                        - cell "Leche Entera Soprole 1 Lt" [ref=e845]:
+                          - strong [ref=e847]: Leche Entera Soprole 1 Lt
+                        - cell "35" [ref=e848]:
+                          - strong [ref=e850]: "35"
+                        - cell "10" [ref=e851]
+                        - cell "200" [ref=e852]
+                        - cell "OK" [ref=e853]:
+                          - generic [ref=e854]: OK
+                  - list [ref=e519]:
+                    - listitem [ref=e520]: 36 productos
+                    - listitem "Página anterior" [ref=e521]:
+                      - button "left" [disabled] [ref=e522]:
+                        - img "left" [ref=e523]:
+                          - img [ref=e524]
+                    - listitem "1" [ref=e526] [cursor=pointer]:
+                      - generic [ref=e527]: "1"
+                    - listitem "2" [ref=e528] [cursor=pointer]:
+                      - generic [ref=e529]: "2"
+                    - listitem "Página siguiente" [ref=e530] [cursor=pointer]:
+                      - button "right" [ref=e531]:
+                        - img "right" [ref=e532]:
+                          - img [ref=e533]
+  - generic [ref=e855]:
+    - dialog "Ajuste de Stock":
+      - generic [ref=e856]:
+        - button "Close" [ref=e857] [cursor=pointer]:
+          - generic "Cerrar" [ref=e858]:
+            - img "close" [ref=e859]:
+              - img [ref=e860]
+        - generic [ref=e863]: Ajuste de Stock
+        - generic [ref=e865]:
+          - generic [ref=e867]:
+            - generic "Producto" [ref=e869]: "* Producto"
+            - generic [ref=e873] [cursor=pointer]:
+              - generic [ref=e875]:
+                - combobox "* Producto" [ref=e877]
+                - generic: Buscar producto...
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e879]:
+            - generic "Tipo de movimiento" [ref=e881]: "* Tipo de movimiento"
+            - generic [ref=e885] [cursor=pointer]:
+              - generic [ref=e887]:
+                - combobox "* Tipo de movimiento" [ref=e889]
+                - generic: Seleccionar tipo...
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e891]:
+            - generic "Cantidad a ajustar (positivo = entrada, negativo = salida)" [ref=e893]: "* Cantidad a ajustar (positivo = entrada, negativo = salida)"
+            - generic [ref=e897]:
+              - generic:
+                - button "Increase Value" [ref=e898] [cursor=pointer]:
+                  - img "up" [ref=e899]:
+                    - img [ref=e900]
+                - button "Decrease Value" [ref=e902] [cursor=pointer]:
+                  - img "down" [ref=e903]:
+                    - img [ref=e904]
+              - spinbutton "* Cantidad a ajustar (positivo = entrada, negativo = salida)" [ref=e907]
+          - generic [ref=e909]:
+            - generic "Notas / Motivo" [ref=e911]: "* Notas / Motivo"
+            - textbox "* Notas / Motivo" [ref=e915]:
+              - /placeholder: "Ej: Inventario físico 2024, merma, devolución a proveedor..."
+        - generic [ref=e916]:
+          - button "Cancelar" [ref=e917] [cursor=pointer]:
+            - generic [ref=e918]: Cancelar
+          - button "Registrar ajuste" [ref=e919] [cursor=pointer]:
+            - generic [ref=e920]: Registrar ajuste

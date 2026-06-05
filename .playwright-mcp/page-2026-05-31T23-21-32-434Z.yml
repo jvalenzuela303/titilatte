@@ -1,0 +1,167 @@
+- generic [ref=e12]:
+  - complementary [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15] [cursor=pointer]:
+        - img "shop" [ref=e16]:
+          - img [ref=e17]
+        - strong [ref=e20]: Minimarket
+      - menu [ref=e21]:
+        - menuitem "dashboard Dashboard" [ref=e22] [cursor=pointer]:
+          - img "dashboard" [ref=e23]:
+            - img [ref=e24]
+          - generic [ref=e26]: Dashboard
+        - menuitem "shopping-cart POS - Ventas" [ref=e27] [cursor=pointer]:
+          - img "shopping-cart" [ref=e28]:
+            - img [ref=e29]
+          - generic [ref=e31]: POS - Ventas
+        - menuitem "unordered-list Ventas" [ref=e32] [cursor=pointer]:
+          - img "unordered-list" [ref=e33]:
+            - img [ref=e34]
+          - generic [ref=e36]: Ventas
+        - menuitem "appstore Productos" [ref=e37] [cursor=pointer]:
+          - img "appstore" [ref=e38]:
+            - img [ref=e39]
+          - generic [ref=e41]: Productos
+        - menuitem "inbox Stock" [ref=e42] [cursor=pointer]:
+          - img "inbox" [ref=e43]:
+            - img [ref=e44]
+          - generic [ref=e46]: Stock
+        - menuitem "shopping Compras" [ref=e47] [cursor=pointer]:
+          - img "shopping" [ref=e48]:
+            - img [ref=e49]
+          - generic [ref=e51]: Compras
+        - menuitem "wallet Caja" [ref=e52] [cursor=pointer]:
+          - img "wallet" [ref=e53]:
+            - img [ref=e54]
+          - generic [ref=e56]: Caja
+        - menuitem "team Clientes" [ref=e57] [cursor=pointer]:
+          - img "team" [ref=e58]:
+            - img [ref=e59]
+          - generic [ref=e61]: Clientes
+        - menuitem "bar-chart Reportes" [ref=e62] [cursor=pointer]:
+          - img "bar-chart" [ref=e63]:
+            - img [ref=e64]
+          - generic [ref=e66]: Reportes
+        - menuitem "apartment Sucursales" [ref=e67] [cursor=pointer]:
+          - img "apartment" [ref=e68]:
+            - img [ref=e69]
+          - generic [ref=e71]: Sucursales
+        - menuitem "tags Categorías" [ref=e72] [cursor=pointer]:
+          - img "tags" [ref=e73]:
+            - img [ref=e74]
+          - generic [ref=e76]: Categorías
+        - menuitem "tag Promociones" [ref=e77] [cursor=pointer]:
+          - img "tag" [ref=e78]:
+            - img [ref=e79]
+          - generic [ref=e81]: Promociones
+        - menuitem "bell Alertas" [ref=e82] [cursor=pointer]:
+          - img "bell" [ref=e83]:
+            - img [ref=e84]
+          - generic [ref=e86]: Alertas
+        - menuitem "calendar Cierre Período" [ref=e87] [cursor=pointer]:
+          - img "calendar" [ref=e88]:
+            - img [ref=e89]
+          - generic [ref=e91]: Cierre Período
+        - menuitem "audit Auditoria" [ref=e92] [cursor=pointer]:
+          - img "audit" [ref=e93]:
+            - img [ref=e94]
+          - generic [ref=e96]: Auditoria
+  - generic [ref=e97]:
+    - banner [ref=e98]:
+      - button "Toggle menu" [ref=e99] [cursor=pointer]:
+        - img "menu-fold" [ref=e101]:
+          - img [ref=e102]
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - img "apartment" [ref=e106]:
+            - img [ref=e107]
+          - generic [ref=e109]: "Sucursal:"
+          - generic "Seleccionar sucursal activa" [ref=e110] [cursor=pointer]:
+            - generic [ref=e112]:
+              - combobox "Seleccionar sucursal activa" [ref=e114]
+              - generic: Todas
+            - generic:
+              - img:
+                - img
+        - generic [ref=e115]: Administrador
+        - button "user Administrador" [ref=e116] [cursor=pointer]:
+          - img "user" [ref=e118]:
+            - img [ref=e119]
+          - generic [ref=e121]: Administrador
+    - main [ref=e122]:
+      - generic [ref=e123]:
+        - generic [ref=e124]:
+          - heading "Punto de Venta" [level=3] [ref=e125]
+          - text: Registra ventas y gestiona el carrito
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - img "search" [ref=e132]:
+                  - img [ref=e133]
+                - textbox "Escanear código de barras o buscar por nombre..." [active] [ref=e135]: marraqueta
+                - button "close-circle" [ref=e224] [cursor=pointer]:
+                  - img "close-circle" [ref=e225]:
+                    - img [ref=e226]
+              - generic [ref=e137]: Presiona Enter para buscar. Los lectores USB de código de barras son detectados automáticamente.
+              - alert [ref=e138]:
+                - img "check-circle" [ref=e139]:
+                  - img [ref=e140]
+                - generic [ref=e143]: 1 promoción(es) activa(s)
+            - generic [ref=e228]:
+              - img "No hay datos" [ref=e230]
+              - generic [ref=e236]: No se encontraron productos
+          - generic [ref=e155]:
+            - generic [ref=e156]:
+              - generic [ref=e160]:
+                - img "shopping-cart" [ref=e162]:
+                  - img [ref=e163]
+                - generic [ref=e166]: Carrito (0 items)
+              - generic [ref=e168]:
+                - img "No hay datos" [ref=e170]
+                - generic [ref=e176]: El carrito está vacío
+            - generic [ref=e179]:
+              - generic [ref=e181]:
+                - generic [ref=e182]: "Total a pagar:"
+                - heading "$0" [level=3] [ref=e183]
+              - separator [ref=e185]
+              - generic [ref=e187]:
+                - generic [ref=e188]: Tipo de venta
+                - generic [ref=e189] [cursor=pointer]:
+                  - generic [ref=e191]:
+                    - combobox [ref=e193]
+                    - generic "Contado" [ref=e194]
+                  - generic:
+                    - img:
+                      - img
+              - generic [ref=e196]:
+                - generic [ref=e197]: Método de pago
+                - generic [ref=e198] [cursor=pointer]:
+                  - generic [ref=e200]:
+                    - combobox [ref=e202]
+                    - generic "Efectivo" [ref=e203]
+                  - generic:
+                    - img:
+                      - img
+              - generic [ref=e205]:
+                - generic [ref=e206]: Monto recibido ($)
+                - generic [ref=e207]:
+                  - generic:
+                    - button "Increase Value" [ref=e208] [cursor=pointer]:
+                      - img "up" [ref=e209]:
+                        - img [ref=e210]
+                    - button "Decrease Value" [ref=e212] [cursor=pointer]:
+                      - img "down" [ref=e213]:
+                        - img [ref=e214]
+                  - spinbutton "0" [ref=e217]
+              - separator [ref=e219]
+              - button "check-circle Confirmar Venta" [disabled] [ref=e221]:
+                - generic:
+                  - img "check-circle":
+                    - img
+                - generic: Confirmar Venta
+              - button "clear Cancelar" [disabled] [ref=e223]:
+                - generic:
+                  - img "clear":
+                    - img
+                - generic: Cancelar

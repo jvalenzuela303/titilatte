@@ -1,0 +1,9 @@
+- generic [ref=e2]:
+  - paragraph [ref=e3]:
+    - text: Se ha producido un error crítico en este sitio web. Por favor, comprueba la bandeja de entrada del correo electrónico del administrador del sitio para recibir instrucciones. Si sigues teniendo problemas, prueba en los
+    - link "foros de soporte" [ref=e4] [cursor=pointer]:
+      - /url: https://es.wordpress.org/support/
+    - text: .
+  - paragraph [ref=e5]:
+    - link "Aprende más sobre el diagnóstico de WordPress." [ref=e6] [cursor=pointer]:
+      - /url: https://wordpress.org/documentation/article/faq-troubleshooting/
