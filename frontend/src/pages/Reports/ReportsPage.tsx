@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   Tabs,
   Card,
@@ -16,11 +16,13 @@ import {
   Spin,
   Alert,
   App,
+  Tooltip,
 } from 'antd'
 import {
   BarChartOutlined,
   DownloadOutlined,
   SearchOutlined,
+  SyncOutlined,
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import {
@@ -34,6 +36,7 @@ import {
 } from 'recharts'
 import dayjs from 'dayjs'
 import { reportService } from '@/services/reportService'
+import { useSse } from '@/hooks/useSse'
 import type {
   SalesReport,
   ProfitReport,
@@ -54,22 +57,30 @@ const defaultRange: [dayjs.Dayjs, dayjs.Dayjs] = [
   dayjs(),
 ]
 
+function LastUpdated({ at }: { at: Date | null }) {
+  if (!at) return null
+  return (
+    <Tooltip title={dayjs(at).format('DD/MM/YYYY HH:mm:ss')}>
+      <Tag icon={<SyncOutlined />} color="processing" style={{ fontSize: 11 }}>
+        Actualizado {dayjs(at).format('HH:mm:ss')}
+      </Tag>
+    </Tooltip>
+  )
+}
+
 // ── Tab: Ventas ────────────────────────────────────────────────────────────
 
-const SalesTab: React.FC = () => {
+const SalesTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
   const { message } = App.useApp()
   const [range, setRange] = useState<[dayjs.Dayjs, dayjs.Dayjs]>(defaultRange)
   const [loading, setLoading] = useState(false)
   const [report, setReport] = useState<SalesReport | null>(null)
   const [sellers, setSellers] = useState<SellerReport[]>([])
   const [exporting, setExporting] = useState(false)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  const generate = async () => {
-    if (!range) {
-      message.warning('Selecciona un rango de fechas')
-      return
-    }
-    setLoading(true)
+  const generate = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true)
     try {
       const start = range[0].format('YYYY-MM-DD')
       const end = range[1].format('YYYY-MM-DD')
@@ -79,12 +90,21 @@ const SalesTab: React.FC = () => {
       ])
       setReport(salesRes.data)
       setSellers(sellerRes.data)
+      setLastUpdated(new Date())
     } catch {
-      message.error('Error al generar el reporte de ventas')
+      if (!silent) message.error('Error al generar el reporte de ventas')
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
-  }
+  }, [range, message])
+
+  // Auto-refresh cuando llega una venta nueva (solo si ya se generó el reporte)
+  useEffect(() => {
+    if (refreshTrigger > 0 && report !== null) {
+      void generate(true)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshTrigger])
 
   const handleExport = async () => {
     if (!range) return
@@ -93,8 +113,6 @@ const SalesTab: React.FC = () => {
       const start = range[0].format('YYYY-MM-DD')
       const end = range[1].format('YYYY-MM-DD')
       const res = await reportService.exportExcel('sales', start, end)
-      // SECURITY: explicit MIME type prevents the browser from sniffing the blob as
-      // text/html, which would allow a malicious server response to execute as a page.
       const url = window.URL.createObjectURL(
         new Blob([res.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -145,7 +163,7 @@ const SalesTab: React.FC = () => {
             type="primary"
             icon={<SearchOutlined />}
             loading={loading}
-            onClick={generate}
+            onClick={() => generate(false)}
           >
             Generar Reporte
           </Button>
@@ -158,6 +176,7 @@ const SalesTab: React.FC = () => {
               Exportar Excel
             </Button>
           )}
+          <LastUpdated at={lastUpdated} />
         </Space>
       </Card>
 
@@ -247,26 +266,35 @@ const SalesTab: React.FC = () => {
 
 // ── Tab: Utilidades ────────────────────────────────────────────────────────
 
-const ProfitTab: React.FC = () => {
+const ProfitTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
   const { message } = App.useApp()
   const [range, setRange] = useState<[dayjs.Dayjs, dayjs.Dayjs]>(defaultRange)
   const [loading, setLoading] = useState(false)
   const [report, setReport] = useState<ProfitReport | null>(null)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  const generate = async () => {
-    setLoading(true)
+  const generate = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true)
     try {
       const res = await reportService.getProfit(
         range[0].format('YYYY-MM-DD'),
         range[1].format('YYYY-MM-DD'),
       )
       setReport(res.data)
+      setLastUpdated(new Date())
     } catch {
-      message.error('Error al generar el reporte de utilidades')
+      if (!silent) message.error('Error al generar el reporte de utilidades')
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
-  }
+  }, [range, message])
+
+  useEffect(() => {
+    if (refreshTrigger > 0 && report !== null) {
+      void generate(true)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshTrigger])
 
   const marginColor = (pct: number) => {
     if (pct > 20) return '#52c41a'
@@ -289,10 +317,11 @@ const ProfitTab: React.FC = () => {
             type="primary"
             icon={<SearchOutlined />}
             loading={loading}
-            onClick={generate}
+            onClick={() => generate(false)}
           >
             Generar Reporte
           </Button>
+          <LastUpdated at={lastUpdated} />
         </Space>
       </Card>
 
@@ -359,15 +388,16 @@ const ProfitTab: React.FC = () => {
 
 // ── Tab: Top Productos ─────────────────────────────────────────────────────
 
-const TopProductsTab: React.FC = () => {
+const TopProductsTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
   const { message } = App.useApp()
   const [range, setRange] = useState<[dayjs.Dayjs, dayjs.Dayjs]>(defaultRange)
   const [limit, setLimit] = useState(10)
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<TopProduct[]>([])
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  const generate = async () => {
-    setLoading(true)
+  const generate = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true)
     try {
       const res = await reportService.getTopProducts(
         range[0].format('YYYY-MM-DD'),
@@ -375,12 +405,20 @@ const TopProductsTab: React.FC = () => {
         limit,
       )
       setProducts(res.data)
+      setLastUpdated(new Date())
     } catch {
-      message.error('Error al generar el ranking de productos')
+      if (!silent) message.error('Error al generar el ranking de productos')
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
-  }
+  }, [range, limit, message])
+
+  useEffect(() => {
+    if (refreshTrigger > 0 && products.length > 0) {
+      void generate(true)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshTrigger])
 
   const maxAmount = products.length > 0 ? Math.max(...products.map((p) => p.totalAmount)) : 1
 
@@ -447,10 +485,11 @@ const TopProductsTab: React.FC = () => {
             type="primary"
             icon={<SearchOutlined />}
             loading={loading}
-            onClick={generate}
+            onClick={() => generate(false)}
           >
             Generar
           </Button>
+          <LastUpdated at={lastUpdated} />
         </Space>
       </Card>
 
@@ -470,32 +509,40 @@ const TopProductsTab: React.FC = () => {
 
 // ── Tab: Deudores ──────────────────────────────────────────────────────────
 
-const DebtorsTab: React.FC = () => {
+const DebtorsTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
   const { message } = App.useApp()
   const [loading, setLoading] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [debtors, setDebtors] = useState<CustomerDebt[]>([])
   const [exporting, setExporting] = useState(false)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  const load = async () => {
-    setLoading(true)
+  const load = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true)
     try {
       const res = await reportService.getDebtors()
       setDebtors(res.data as CustomerDebt[])
       setLoaded(true)
+      setLastUpdated(new Date())
     } catch {
-      message.error('Error al cargar deudores')
+      if (!silent) message.error('Error al cargar deudores')
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
-  }
+  }, [message])
+
+  useEffect(() => {
+    if (refreshTrigger > 0 && loaded) {
+      void load(true)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshTrigger])
 
   const handleExport = async () => {
     setExporting(true)
     try {
       const today = dayjs().format('YYYY-MM-DD')
       const res = await reportService.exportExcel('debtors', today, today)
-      // SECURITY: explicit MIME type — same reasoning as the sales export above.
       const url = window.URL.createObjectURL(
         new Blob([res.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -574,7 +621,7 @@ const DebtorsTab: React.FC = () => {
             type="primary"
             icon={<SearchOutlined />}
             loading={loading}
-            onClick={load}
+            onClick={() => load(false)}
           >
             Cargar Deudores
           </Button>
@@ -587,6 +634,7 @@ const DebtorsTab: React.FC = () => {
               Exportar Excel
             </Button>
           )}
+          <LastUpdated at={lastUpdated} />
         </Space>
       </Card>
       <Card>
@@ -614,22 +662,31 @@ interface StockCriticalItem {
   difference: number
 }
 
-const StockCriticalTab: React.FC = () => {
+const StockCriticalTab: React.FC<{ stockTrigger: number }> = ({ stockTrigger }) => {
   const { message } = App.useApp()
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<StockCriticalItem[]>([])
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
 
-  const load = async () => {
-    setLoading(true)
+  const load = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true)
     try {
       const res = await reportService.getStockCritical()
       setItems(res.data as StockCriticalItem[])
+      setLastUpdated(new Date())
     } catch {
-      message.error('Error al cargar stock crítico')
+      if (!silent) message.error('Error al cargar stock crítico')
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
-  }
+  }, [message])
+
+  useEffect(() => {
+    if (stockTrigger > 0 && items.length > 0) {
+      void load(true)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stockTrigger])
 
   const rowStyle = (record: StockCriticalItem): React.CSSProperties => {
     if (record.stockCurrent === 0) return { background: '#fff1f0' }
@@ -683,14 +740,17 @@ const StockCriticalTab: React.FC = () => {
   return (
     <div>
       <Card style={{ marginBottom: 16 }}>
-        <Button
-          type="primary"
-          icon={<SearchOutlined />}
-          loading={loading}
-          onClick={load}
-        >
-          Cargar Stock Crítico
-        </Button>
+        <Space>
+          <Button
+            type="primary"
+            icon={<SearchOutlined />}
+            loading={loading}
+            onClick={() => load(false)}
+          >
+            Cargar Stock Crítico
+          </Button>
+          <LastUpdated at={lastUpdated} />
+        </Space>
       </Card>
 
       {items.length > 0 && (
@@ -720,6 +780,23 @@ const StockCriticalTab: React.FC = () => {
 // ── Main ReportsPage ───────────────────────────────────────────────────────
 
 const ReportsPage: React.FC = () => {
+  // Trigger para tabs que dependen de ventas (Ventas, Utilidades, Top Productos, Deudores)
+  const [salesTrigger, setSalesTrigger] = useState(0)
+  // Trigger para Stock Crítico (se actualiza también con STOCK_CRITICO)
+  const [stockTrigger, setStockTrigger] = useState(0)
+
+  useSse({
+    onEvent: (event) => {
+      if (event.type === 'VENTA_CONFIRMADA') {
+        setSalesTrigger((n) => n + 1)
+        setStockTrigger((n) => n + 1)
+      }
+      if (event.type === 'STOCK_CRITICO') {
+        setStockTrigger((n) => n + 1)
+      }
+    },
+  })
+
   return (
     <div>
       <Title level={3} style={{ marginBottom: 20 }}>
@@ -730,10 +807,31 @@ const ReportsPage: React.FC = () => {
       <Tabs
         defaultActiveKey="sales"
         items={[
-          { key: 'sales', label: 'Ventas', children: <SalesTab /> },
-          { key: 'profit', label: 'Utilidades', children: <ProfitTab /> },
-          { key: 'topProducts', label: 'Top Productos', children: <TopProductsTab /> },
-          { key: 'stockCritical', label: 'Stock Crítico', children: <StockCriticalTab /> },
+          {
+            key: 'sales',
+            label: 'Ventas',
+            children: <SalesTab refreshTrigger={salesTrigger} />,
+          },
+          {
+            key: 'profit',
+            label: 'Utilidades',
+            children: <ProfitTab refreshTrigger={salesTrigger} />,
+          },
+          {
+            key: 'topProducts',
+            label: 'Top Productos',
+            children: <TopProductsTab refreshTrigger={salesTrigger} />,
+          },
+          {
+            key: 'debtors',
+            label: 'Deudores',
+            children: <DebtorsTab refreshTrigger={salesTrigger} />,
+          },
+          {
+            key: 'stockCritical',
+            label: 'Stock Crítico',
+            children: <StockCriticalTab stockTrigger={stockTrigger} />,
+          },
         ]}
       />
     </div>

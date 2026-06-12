@@ -18,7 +18,6 @@ const StockPage = lazy(() => import('@/pages/Stock/StockPage'))
 const PurchasesPage = lazy(() => import('@/pages/Purchases/PurchasesPage'))
 const CashPage = lazy(() => import('@/pages/Cash/CashPage'))
 const ReportsPage = lazy(() => import('@/pages/Reports/ReportsPage'))
-const AuditPage = lazy(() => import('@/pages/Audit/AuditPage'))
 const CategoriesPage = lazy(() => import('@/pages/Categories/CategoriesPage'))
 const PromotionsPage = lazy(() => import('@/pages/Promotions/PromotionsPage'))
 const AlertsPage = lazy(() => import('@/pages/Alerts/AlertsPage'))
@@ -102,14 +101,6 @@ export default function App() {
             <Route path="/purchases" element={<PurchasesPage />} />
             <Route path="/cash" element={<CashPage />} />
             <Route path="/reports" element={<ReportsPage />} />
-            <Route
-              path="/audit"
-              element={
-                <ProtectedRoute requiredRole="ADMIN">
-                  <AuditPage />
-                </ProtectedRoute>
-              }
-            />
             <Route
               path="/categories"
               element={

@@ -23,7 +23,6 @@ import {
   ShoppingOutlined,
   WalletOutlined,
   BarChartOutlined,
-  AuditOutlined,
   UnorderedListOutlined,
   TagOutlined,
   TagsOutlined,
@@ -72,7 +71,6 @@ const gestionItems: MenuProps['items'] = [
 
 const adminItems: MenuProps['items'] = [
   { type: 'group', label: 'Administración', children: [
-    { key: '/audit',        icon: <AuditOutlined />, label: 'Auditoría' },
     { key: '/store-config', icon: <SettingOutlined />, label: 'Configuración' },
   ]},
 ]
