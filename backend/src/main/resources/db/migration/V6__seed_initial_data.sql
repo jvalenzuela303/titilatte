@@ -13,7 +13,7 @@
 --   - Familias y categorías de productos de ejemplo
 --
 -- IMPORTANTE: Cambiar la contraseña del admin en el primer despliegue.
--- El hash corresponde a: Admin1234! (BCrypt $2a$12$)
+-- El hash corresponde a: Admin1234! (BCrypt $2b$12$)
 -- =============================================================================
 
 BEGIN;
@@ -130,7 +130,7 @@ INSERT INTO public.users (
     'a0000000-0000-0000-0000-000000000001',
     'admin@minimarket.local',
     -- BCrypt hash de 'Admin1234!' — REEMPLAZAR antes de producción
-    '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewKyNiLXCJAFRbTK',
+    '$2b$12$FiABsMIzcG87I991Yq9ln.Z2GUJLINsDfWOGhIR875pkseOK2d4ES',
     'Administrador',
     'Sistema',
     TRUE
