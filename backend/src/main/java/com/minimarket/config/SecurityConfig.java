@@ -59,7 +59,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/login",
                                 "/auth/refresh",
-                                "/actuator/health"
+                                "/actuator/health",
+                                "/actuator/health/liveness",
+                                "/actuator/health/readiness"
                         ).permitAll()
                         // Swagger/OpenAPI only permitted in non-production profiles.
                         // In production, these endpoints are blocked here and additionally
