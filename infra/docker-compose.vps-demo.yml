@@ -42,6 +42,7 @@ services:
       JAVA_OPTS: ${JAVA_OPTS:--Xms128m -Xmx400m -XX:+UseG1GC -XX:MaxGCPauseMillis=200}
       LOG_LEVEL: ${LOG_LEVEL:-WARN}
     networks:
+      - demo-net
       - s3suite-db-net
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/api/v1/actuator/health || exit 1"]
@@ -74,6 +75,8 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:3002:80"
+    networks:
+      - demo-net
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:80/health || exit 1"]
       interval: 30s
@@ -91,8 +94,11 @@ services:
 
 # =============================================================================
 # Redes
+# demo-net: red interna del stack demo (habilita port bindings al host)
 # s3suite-db-net: red externa del stack de s3suite — contiene s3suite-postgres
 # =============================================================================
 networks:
+  demo-net:
+    driver: bridge
   s3suite-db-net:
     external: true

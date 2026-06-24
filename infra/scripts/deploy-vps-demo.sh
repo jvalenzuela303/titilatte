@@ -83,13 +83,19 @@ else
     echo "Base de datos $POSTGRES_DB ya existe."
 fi
 
-# ---- Obtener SSL si no existe (config HTTP-only temporaria) ----
+# ---- Configurar nginx y SSL ----
 NGINX_CONF="/etc/nginx/sites-enabled/${DOMAIN}.conf"
 FINAL_CONF="$VPS_DIR/infra/nginx/${DOMAIN}.conf"
 
 if [[ ! -d "/etc/letsencrypt/live/$DOMAIN" ]]; then
-    echo "Certificado SSL no existe. Instalando config HTTP-only temporal..."
-    cat > "$NGINX_CONF" << HTTPONLYCONF
+    # Sin certificado: verificar si DNS ya apunta al VPS
+    DNS_RESOLVED=$(dig +short "$DOMAIN" A 2>/dev/null | head -1 || true)
+    if [[ -z "$DNS_RESOLVED" ]]; then
+        echo ""
+        echo "AVISO: No existe registro DNS para $DOMAIN."
+        echo "Agrega un registro A: $DOMAIN → $(curl -s ifconfig.me 2>/dev/null || echo 'IP_DEL_VPS')"
+        echo "Instalando config nginx HTTP-only temporal (sin SSL)..."
+        cat > "$NGINX_CONF" << HTTPONLYCONF
 server {
     listen 80;
     server_name $DOMAIN;
@@ -97,24 +103,50 @@ server {
         root /var/www/certbot;
         allow all;
     }
+    location /api/ {
+        proxy_pass http://127.0.0.1:8081;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
     location / {
-        return 503 "Demo en mantenimiento - configurando SSL";
+        proxy_pass http://127.0.0.1:3002;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
     }
 }
 HTTPONLYCONF
-    nginx -t && systemctl reload nginx
-    echo "Obteniendo certificado SSL para $DOMAIN..."
-    certbot certonly --nginx -d "$DOMAIN" --non-interactive --agree-tos \
-        --email jvalenzuela303@gmail.com
-    echo "SSL obtenido. Instalando config completa..."
+        nginx -t && systemctl reload nginx
+        echo "Nginx configurado en HTTP. Ejecuta 'ssl-demo' después de agregar DNS."
+    else
+        echo "DNS resuelto a $DNS_RESOLVED. Obteniendo certificado SSL..."
+        cat > "$NGINX_CONF" << HTTPONLYCONF
+server {
+    listen 80;
+    server_name $DOMAIN;
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+        allow all;
+    }
+    location / { return 503; }
+}
+HTTPONLYCONF
+        nginx -t && systemctl reload nginx
+        certbot certonly --nginx -d "$DOMAIN" --non-interactive --agree-tos \
+            --email jvalenzuela303@gmail.com
+        cp "$FINAL_CONF" "$NGINX_CONF"
+        nginx -t && systemctl reload nginx
+        echo "SSL configurado para $DOMAIN."
+    fi
+else
+    # Certificado ya existe: instalar config completa
+    echo "Instalando configuración nginx con SSL..."
+    cp "$FINAL_CONF" "$NGINX_CONF"
+    nginx -t || { echo "ERROR: nginx config inválida"; exit 1; }
+    systemctl reload nginx
+    echo "Nginx recargado con config SSL."
 fi
-
-# ---- Instalar config nginx definitiva y recargar ----
-echo "Instalando configuración nginx definitiva..."
-cp "$FINAL_CONF" "$NGINX_CONF"
-nginx -t || { echo "ERROR: nginx config inválida"; exit 1; }
-systemctl reload nginx
-echo "Nginx recargado con config SSL."
 
 # ---- Buildear y levantar contenedores ----
 echo "Construyendo y levantando contenedores..."
