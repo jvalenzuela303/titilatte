@@ -15,13 +15,14 @@ function makeProduct(overrides: Partial<Product> = {}): Product {
     stockCurrent: 50,
     stockMinimum: 0,
     stockMaximum: 200,
-    isActive: true,
-    categoryId: 'cat-1',
-    categoryName: 'Bebidas',
-    taxId: 'tax-1',
-    taxRate: 0.19,
-    unitId: 'unit-1',
-    unitName: 'Unidad',
+    active: true,
+    trackStock: true,
+    allowCustomPrice: false,
+    category: { id: 'cat-1', code: 'BEB', name: 'Bebidas' },
+    tax: { id: 'tax-1', code: 'IVA', name: 'IVA 19%', rate: 0.19 },
+    unit: { id: 'unit-1', code: 'UN', name: 'Unidad', abbreviation: 'UN' },
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
     ...overrides,
   }
 }
@@ -112,9 +113,10 @@ describe('cartStore', () => {
       // Arrange
       useCartStore.getState().addItem(productA)
       useCartStore.getState().addItem(productB)
+      const itemAId = useCartStore.getState().items.find((i) => i.product.id === 'prod-a')!.id
 
       // Act
-      useCartStore.getState().removeItem('prod-a')
+      useCartStore.getState().removeItem(itemAId)
 
       // Assert
       const { items } = useCartStore.getState()
@@ -122,7 +124,7 @@ describe('cartStore', () => {
       expect(items[0].product.id).toBe('prod-b')
     })
 
-    it('should leave cart unchanged when removing a non-existent product', () => {
+    it('should leave cart unchanged when removing a non-existent item id', () => {
       // Arrange
       useCartStore.getState().addItem(productA)
 
@@ -136,9 +138,10 @@ describe('cartStore', () => {
     it('should result in an empty cart when the only item is removed', () => {
       // Arrange
       useCartStore.getState().addItem(productA)
+      const itemId = useCartStore.getState().items[0].id
 
       // Act
-      useCartStore.getState().removeItem('prod-a')
+      useCartStore.getState().removeItem(itemId)
 
       // Assert
       expect(useCartStore.getState().items).toHaveLength(0)
@@ -151,9 +154,10 @@ describe('cartStore', () => {
     it('should update the quantity and recalculate subtotal', () => {
       // Arrange
       useCartStore.getState().addItem(productA, 1) // 800
+      const itemId = useCartStore.getState().items[0].id
 
       // Act
-      useCartStore.getState().updateQuantity('prod-a', 4)
+      useCartStore.getState().updateQuantity(itemId, 4)
 
       // Assert
       const { items } = useCartStore.getState()
@@ -164,9 +168,10 @@ describe('cartStore', () => {
     it('should remove the item when quantity is set to 0', () => {
       // Arrange
       useCartStore.getState().addItem(productA, 2)
+      const itemId = useCartStore.getState().items[0].id
 
       // Act
-      useCartStore.getState().updateQuantity('prod-a', 0)
+      useCartStore.getState().updateQuantity(itemId, 0)
 
       // Assert
       expect(useCartStore.getState().items).toHaveLength(0)
@@ -175,9 +180,10 @@ describe('cartStore', () => {
     it('should remove the item when quantity is set to a negative value', () => {
       // Arrange
       useCartStore.getState().addItem(productA, 2)
+      const itemId = useCartStore.getState().items[0].id
 
       // Act
-      useCartStore.getState().updateQuantity('prod-a', -1)
+      useCartStore.getState().updateQuantity(itemId, -1)
 
       // Assert
       expect(useCartStore.getState().items).toHaveLength(0)
@@ -187,9 +193,10 @@ describe('cartStore', () => {
       // Arrange
       useCartStore.getState().addItem(productA, 2)
       useCartStore.getState().addItem(productB, 1)
+      const itemAId = useCartStore.getState().items.find((i) => i.product.id === 'prod-a')!.id
 
       // Act
-      useCartStore.getState().updateQuantity('prod-a', 5)
+      useCartStore.getState().updateQuantity(itemAId, 5)
 
       // Assert
       const { items } = useCartStore.getState()

@@ -90,6 +90,7 @@ export interface Product {
   stockMaximum: number | null
   active: boolean
   trackStock: boolean
+  allowCustomPrice: boolean
   category: ProductCategory2
   tax: ProductTax
   unit: ProductUnit
@@ -190,6 +191,7 @@ export interface SaleItemRequest {
   productId: string
   quantity: number
   discount?: number
+  customUnitPrice?: number
 }
 
 export interface CreateSaleRequest {
@@ -287,10 +289,12 @@ export interface LoginResponse {
 // ─── Cart (frontend only) ─────────────────────────────────────────────────────
 
 export interface CartItem {
+  id: string           // unique per line (uuid v4 assigned by cartStore)
   product: Product
   quantity: number
   unitPrice: number
   subtotal: number
+  customUnitPrice?: number
 }
 
 // ─── Fase 2: Purchases ────────────────────────────────────────────

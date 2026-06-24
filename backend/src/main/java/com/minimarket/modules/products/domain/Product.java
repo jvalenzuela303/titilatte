@@ -56,6 +56,9 @@ public class Product {
     @Column(name = "track_stock", nullable = false)
     private boolean trackStock = true;
 
+    @Column(name = "allow_custom_price", nullable = false)
+    private boolean allowCustomPrice = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private ProductCategory category;

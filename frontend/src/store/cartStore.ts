@@ -3,12 +3,17 @@ import type { CartItem, Product } from '@/types'
 
 interface CartState {
   items: CartItem[]
-  addItem: (product: Product, quantity?: number) => void
-  removeItem: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
+  addItem: (product: Product, quantity?: number, customUnitPrice?: number) => void
+  removeItem: (itemId: string) => void
+  updateQuantity: (itemId: string, quantity: number) => void
   clearCart: () => void
   getTotal: () => number
   getItemCount: () => number
+}
+
+let _nextId = 1
+function nextId(): string {
+  return String(_nextId++)
 }
 
 function computeTotal(items: CartItem[]): number {
@@ -20,15 +25,31 @@ function computeTotal(items: CartItem[]): number {
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
 
-  addItem: (product: Product, quantity = 1) => {
+  addItem: (product: Product, quantity = 1, customUnitPrice?: number) => {
     const { items } = get()
-    const existing = items.find((i) => i.product.id === product.id)
+
+    // Custom-price products always enter as a new line (never merged) so the
+    // cashier can add multiple different amounts for the same product.
+    if (customUnitPrice !== undefined) {
+      const newItem: CartItem = {
+        id: nextId(),
+        product,
+        quantity: 1,
+        unitPrice: customUnitPrice,
+        subtotal: parseFloat(customUnitPrice.toFixed(2)),
+        customUnitPrice,
+      }
+      set({ items: [...items, newItem] })
+      return
+    }
+
+    const existing = items.find((i) => i.product.id === product.id && !i.customUnitPrice)
 
     let updated: CartItem[]
     if (existing) {
       const newQty = existing.quantity + quantity
       updated = items.map((i) =>
-        i.product.id === product.id
+        i.id === existing.id
           ? {
               ...i,
               quantity: newQty,
@@ -38,6 +59,7 @@ export const useCartStore = create<CartState>((set, get) => ({
       )
     } else {
       const newItem: CartItem = {
+        id: nextId(),
         product,
         quantity,
         unitPrice: product.salePrice,
@@ -49,20 +71,20 @@ export const useCartStore = create<CartState>((set, get) => ({
     set({ items: updated })
   },
 
-  removeItem: (productId: string) => {
+  removeItem: (itemId: string) => {
     set((state) => ({
-      items: state.items.filter((i) => i.product.id !== productId),
+      items: state.items.filter((i) => i.id !== itemId),
     }))
   },
 
-  updateQuantity: (productId: string, quantity: number) => {
+  updateQuantity: (itemId: string, quantity: number) => {
     if (quantity <= 0) {
-      get().removeItem(productId)
+      get().removeItem(itemId)
       return
     }
     set((state) => ({
       items: state.items.map((i) =>
-        i.product.id === productId
+        i.id === itemId
           ? {
               ...i,
               quantity,

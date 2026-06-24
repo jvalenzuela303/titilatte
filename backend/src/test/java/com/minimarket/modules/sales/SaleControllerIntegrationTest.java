@@ -164,7 +164,7 @@ class SaleControllerIntegrationTest {
     private CreateSaleRequest buildSaleRequest(UUID productId, BigDecimal quantity) {
         return new CreateSaleRequest(
                 SaleType.CONTADO,
-                List.of(new SaleItemRequest(productId, quantity, BigDecimal.ZERO)),
+                List.of(new SaleItemRequest(productId, quantity, BigDecimal.ZERO, null)),
                 PaymentMethod.EFECTIVO,
                 new BigDecimal("1000.00"),
                 new BigDecimal("200.00"),

@@ -58,6 +58,11 @@ const WEIGHT_UNIT_CODES = new Set(['KG', 'GR'])
 const isByWeight = (product: Product) =>
   WEIGHT_UNIT_CODES.has(product.unit.code.toUpperCase())
 
+// ─── Custom-price products ────────────────────────────────────────────────────
+// Products with allowCustomPrice=true: the cashier enters the total amount
+// to charge (not a weight or quantity). The price varies per transaction.
+const isCustomPrice = (product: Product) => product.allowCustomPrice
+
 /** Format a quantity for display: integers show without decimals, others trim trailing zeros */
 const formatQty = (qty: number): string =>
   Number.isInteger(qty) ? String(qty) : parseFloat(qty.toFixed(3)).toString()
@@ -95,6 +100,10 @@ const POSPage: React.FC = () => {
   const [weightModalProduct, setWeightModalProduct] = useState<Product | null>(null)
   const [weightInput, setWeightInput] = useState<number | null>(null)
 
+  // Custom price modal state
+  const [customPriceModalProduct, setCustomPriceModalProduct] = useState<Product | null>(null)
+  const [customPriceInput, setCustomPriceInput] = useState<number | null>(null)
+
   // Barcode scanner timing state
   const lastKeyTimeRef = useRef<number>(0)
   const barcodeBufferRef = useRef<string>('')
@@ -128,7 +137,11 @@ const POSPage: React.FC = () => {
         const res = await apiClient.get<Product>(
           `/products/barcode/${encodeURIComponent(code.trim())}`
         )
-        if (isByWeight(res.data)) {
+        if (isCustomPrice(res.data)) {
+          // Custom-price product — ask cashier for the amount to charge
+          setCustomPriceModalProduct(res.data)
+          setCustomPriceInput(null)
+        } else if (isByWeight(res.data)) {
           // Weight product — ask cashier for weight before adding
           setWeightModalProduct(res.data)
           setWeightInput(null)
@@ -234,6 +247,21 @@ const POSPage: React.FC = () => {
     searchInputRef.current?.focus()
   }
 
+  // ─── Custom price modal confirm ───────────────────────────────────────────
+
+  const handleAddCustomPriceProduct = () => {
+    if (!customPriceModalProduct || !customPriceInput || customPriceInput <= 0) return
+    addItem(customPriceModalProduct, 1, customPriceInput)
+    message.success(
+      `"${customPriceModalProduct.name}" agregado — $${Math.round(customPriceInput).toLocaleString('es-CL')}`
+    )
+    setCustomPriceModalProduct(null)
+    setCustomPriceInput(null)
+    setSearchResults([])
+    setSearchQuery('')
+    searchInputRef.current?.focus()
+  }
+
   // ─── Confirm sale ──────────────────────────────────────────────────────────
 
   const handleConfirmSale = async () => {
@@ -252,6 +280,7 @@ const POSPage: React.FC = () => {
       items: items.map((i) => ({
         productId: i.product.id,
         quantity: i.quantity,
+        ...(i.customUnitPrice !== undefined ? { customUnitPrice: i.customUnitPrice } : {}),
       })),
       paymentMethod,
       paymentAmount: paidAmount,
@@ -521,7 +550,10 @@ const POSPage: React.FC = () => {
                         size="small"
                         icon={<PlusOutlined />}
                         onClick={() => {
-                          if (isByWeight(product)) {
+                          if (isCustomPrice(product)) {
+                            setCustomPriceModalProduct(product)
+                            setCustomPriceInput(null)
+                          } else if (isByWeight(product)) {
                             setWeightModalProduct(product)
                             setWeightInput(null)
                           } else {
@@ -534,7 +566,7 @@ const POSPage: React.FC = () => {
                         }}
                         disabled={!product.active || (product.trackStock && product.stockCurrent <= 0)}
                       >
-                        {isByWeight(product) ? 'Pesar' : 'Agregar'}
+                        {isCustomPrice(product) ? 'Ingresar monto' : isByWeight(product) ? 'Pesar' : 'Agregar'}
                       </Button>,
                     ]}
                     style={{ opacity: !product.active ? 0.5 : 1 }}
@@ -612,7 +644,7 @@ const POSPage: React.FC = () => {
                 dataSource={items}
                 renderItem={(item) => (
                   <List.Item
-                    key={item.product.id}
+                    key={item.id}
                     style={{ padding: '8px 0' }}
                     actions={[
                       <Button
@@ -620,7 +652,7 @@ const POSPage: React.FC = () => {
                         danger
                         size="small"
                         icon={<DeleteOutlined />}
-                        onClick={() => removeItem(item.product.id)}
+                        onClick={() => removeItem(item.id)}
                         aria-label={`Eliminar ${item.product.name}`}
                       />,
                     ]}
@@ -630,25 +662,36 @@ const POSPage: React.FC = () => {
                         {item.product.name}
                       </Text>
                       <Text type="secondary" style={{ fontSize: 12 }}>
-                        ${Math.round(item.unitPrice).toLocaleString('es-CL')} / {item.product.unit.abbreviation}
+                        {item.customUnitPrice !== undefined
+                          ? 'Precio libre'
+                          : `$${Math.round(item.unitPrice).toLocaleString('es-CL')} / ${item.product.unit.abbreviation}`}
                       </Text>
                       <Space size={8} style={{ display: 'flex', marginTop: 4 }}>
-                        <InputNumber
-                          min={isByWeight(item.product) ? 0.001 : 1}
-                          step={isByWeight(item.product) ? 0.1 : 1}
-                          precision={isByWeight(item.product) ? 3 : 0}
-                          max={item.product.stockCurrent || undefined}
-                          value={item.quantity}
-                          size="small"
-                          onChange={(val) => {
-                            if (val !== null) updateQuantity(item.product.id, val)
-                          }}
-                          style={{ width: isByWeight(item.product) ? 85 : 70 }}
-                        />
-                        {isByWeight(item.product) && (
-                          <Text type="secondary" style={{ fontSize: 11 }}>
-                            {item.product.unit.abbreviation}
-                          </Text>
+                        {item.customUnitPrice !== undefined ? (
+                          // Custom-price items are always qty=1; show amount as read-only
+                          <Tag color="purple">
+                            ${Math.round(item.customUnitPrice).toLocaleString('es-CL')}
+                          </Tag>
+                        ) : (
+                          <>
+                            <InputNumber
+                              min={isByWeight(item.product) ? 0.001 : 1}
+                              step={isByWeight(item.product) ? 0.1 : 1}
+                              precision={isByWeight(item.product) ? 3 : 0}
+                              max={item.product.stockCurrent || undefined}
+                              value={item.quantity}
+                              size="small"
+                              onChange={(val) => {
+                                if (val !== null) updateQuantity(item.id, val)
+                              }}
+                              style={{ width: isByWeight(item.product) ? 85 : 70 }}
+                            />
+                            {isByWeight(item.product) && (
+                              <Text type="secondary" style={{ fontSize: 11 }}>
+                                {item.product.unit.abbreviation}
+                              </Text>
+                            )}
+                          </>
                         )}
                         <Text strong style={{ color: token.colorPrimary }}>
                           ${Math.round(item.subtotal).toLocaleString('es-CL')}
@@ -837,6 +880,44 @@ const POSPage: React.FC = () => {
                 Total: ${Math.round(weightModalProduct.salePrice * weightInput).toLocaleString('es-CL')}
               </Text>
             )}
+          </Space>
+        )}
+      </Modal>
+
+      {/* ── Custom price input modal ── */}
+      <Modal
+        title={
+          <Space>
+            <span>Ingresar monto —</span>
+            <Text strong>{customPriceModalProduct?.name}</Text>
+          </Space>
+        }
+        open={customPriceModalProduct !== null}
+        onCancel={() => { setCustomPriceModalProduct(null); setCustomPriceInput(null) }}
+        onOk={handleAddCustomPriceProduct}
+        okText="Agregar al carrito"
+        cancelText="Cancelar"
+        okButtonProps={{ disabled: !customPriceInput || customPriceInput <= 0 }}
+        width={320}
+      >
+        {customPriceModalProduct && (
+          <Space direction="vertical" style={{ width: '100%', paddingTop: 8 }} size="middle">
+            <Text type="secondary">
+              {customPriceModalProduct.description ?? 'Ingrese el monto total a cobrar al cliente.'}
+            </Text>
+            <InputNumber
+              autoFocus
+              min={1}
+              step={100}
+              precision={0}
+              addonBefore="$"
+              style={{ width: '100%' }}
+              size="large"
+              placeholder="0"
+              value={customPriceInput}
+              onChange={(val) => setCustomPriceInput(val)}
+              onPressEnter={handleAddCustomPriceProduct}
+            />
           </Space>
         )}
       </Modal>

@@ -120,6 +120,7 @@ class ProductServiceTest {
                 null,
                 true,
                 true,
+                false,
                 new ProductResponse.CategoryDto(categoryId, "BEBIDAS", "Bebidas"),
                 new ProductResponse.TaxDto(taxId, "IVA19", "IVA 19%", new BigDecimal("0.1900")),
                 new ProductResponse.UnitDto(unitId, "UND", "Unidad", "und"),

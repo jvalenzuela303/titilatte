@@ -66,17 +66,32 @@ public class SaleServiceImpl implements SaleService {
                 throw new BusinessException("Product '" + product.getName() + "' is not active.");
             }
 
-            if (product.isTrackStock() && product.getStockCurrent().compareTo(item.quantity()) < 0) {
+            // For custom-price products the cashier enters the total amount directly.
+            // quantity is forced to 1 and unitPrice comes from the request.
+            final BigDecimal unitPrice;
+            final BigDecimal quantity;
+            if (product.isAllowCustomPrice() && item.customUnitPrice() != null) {
+                if (item.customUnitPrice().compareTo(BigDecimal.ZERO) <= 0) {
+                    throw new BusinessException("Custom price for '" + product.getName() + "' must be > 0.");
+                }
+                unitPrice = item.customUnitPrice();
+                quantity  = BigDecimal.ONE;
+            } else {
+                unitPrice = product.getSalePrice();
+                quantity  = item.quantity();
+            }
+
+            if (product.isTrackStock() && product.getStockCurrent().compareTo(quantity) < 0) {
                 throw new InsufficientStockException(
                         product.getName(),
                         product.getStockCurrent().doubleValue(),
-                        item.quantity().doubleValue()
+                        quantity.doubleValue()
                 );
             }
 
             BigDecimal discount = item.discount() != null ? item.discount() : BigDecimal.ZERO;
-            BigDecimal subtotal = product.getSalePrice()
-                    .multiply(item.quantity())
+            BigDecimal subtotal = unitPrice
+                    .multiply(quantity)
                     .subtract(discount)
                     .setScale(4, RoundingMode.HALF_UP);
 
@@ -87,8 +102,8 @@ public class SaleServiceImpl implements SaleService {
 
             SaleDetail detail = SaleDetail.builder()
                     .product(product)
-                    .quantity(item.quantity())
-                    .unitPrice(product.getSalePrice())
+                    .quantity(quantity)
+                    .unitPrice(unitPrice)
                     .discount(discount)
                     .subtotal(subtotal)
                     .taxRate(taxRate)

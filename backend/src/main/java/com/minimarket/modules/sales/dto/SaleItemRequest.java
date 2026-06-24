@@ -14,5 +14,8 @@ public record SaleItemRequest(
         BigDecimal quantity,
 
         @DecimalMin(value = "0.0", message = "Discount must be >= 0")
-        BigDecimal discount
+        BigDecimal discount,
+
+        @DecimalMin(value = "0.01", message = "Custom price must be > 0")
+        BigDecimal customUnitPrice
 ) {}
