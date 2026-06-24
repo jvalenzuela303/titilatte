@@ -1,0 +1,14 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+springdoc:
+  swagger-ui:
+    enabled: false
+
+logging:
+  level:
+    com.minimarket: WARN
+    org.springframework: WARN

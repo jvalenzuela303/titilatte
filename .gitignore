@@ -7,6 +7,7 @@
 .env.local
 .env.*.local
 infra/.env
+infra/.env.vps-demo
 
 # ---- Java / Maven ----
 target/

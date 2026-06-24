@@ -1,0 +1,97 @@
+# =============================================================================
+# Minimarket Platform — Docker Compose VPS Demo (demo.s3suite.cl)
+#
+# Uso (desde el directorio infra/ en el VPS):
+#   docker compose -f docker-compose.vps-demo.yml --env-file .env.vps-demo up -d
+#
+# Diferencias clave respecto a docker-compose.yml:
+#   - Sin postgres propio: usa s3suite-postgres (red externa s3suite-db-net)
+#   - Sin nginx interno: el nginx del host enruta demo.s3suite.cl a los puertos locales
+#   - Backend expuesto en 127.0.0.1:8081 (aislado al host)
+#   - Frontend expuesto en 127.0.0.1:3002 (aislado al host)
+#   - Recursos limitados: 400MB RAM / 0.5 CPU por servicio
+# =============================================================================
+
+name: minimarket-demo
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # Backend — Java 21 + Spring Boot 3
+  # Se conecta a minimarket_db dentro de s3suite-postgres via s3suite-db-net.
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+      target: runtime
+    image: minimarket-demo-backend:latest
+    container_name: minimarket-demo-backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://s3suite-postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-demo}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-3600000}
+      JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-86400000}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://demo.s3suite.cl}
+      JAVA_OPTS: ${JAVA_OPTS:--Xms128m -Xmx400m -XX:+UseG1GC -XX:MaxGCPauseMillis=200}
+      LOG_LEVEL: ${LOG_LEVEL:-WARN}
+    networks:
+      - s3suite-db-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/v1/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 128M
+
+  # ---------------------------------------------------------------------------
+  # Frontend — React 18 + Vite build estático servido por nginx interno
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: runtime
+      args:
+        VITE_API_URL: /api/v1
+    image: minimarket-demo-frontend:latest
+    container_name: minimarket-demo-frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3002:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:80/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 32M
+
+# =============================================================================
+# Redes
+# s3suite-db-net: red externa del stack de s3suite — contiene s3suite-postgres
+# =============================================================================
+networks:
+  s3suite-db-net:
+    external: true
