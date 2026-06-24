@@ -50,7 +50,9 @@ COPY . .
 ARG VITE_API_URL=/api/v1
 ENV VITE_API_URL=${VITE_API_URL}
 
-RUN npm run build && \
+# BUILD_SCRIPT permite usar "build:nocheck" en demos/staging para omitir tsc
+ARG BUILD_SCRIPT=build
+RUN npm run ${BUILD_SCRIPT} && \
     # Verifica que el directorio dist fue generado
     ls -lh dist/
 

@@ -61,46 +61,60 @@ DOMAIN="demo.s3suite.cl"
 COMPOSE_FILE="$VPS_DIR/infra/docker-compose.vps-demo.yml"
 ENV_FILE="$VPS_DIR/infra/.env.vps-demo"
 
-# ---- Cargar variables de entorno ----
-set -a
-source "$ENV_FILE"
-set +a
+# ---- Cargar solo las variables de DB del env file ----
+POSTGRES_DB=$(grep '^POSTGRES_DB=' "$ENV_FILE" | cut -d= -f2)
+POSTGRES_USER=$(grep '^POSTGRES_USER=' "$ENV_FILE" | cut -d= -f2)
+POSTGRES_PASSWORD=$(grep '^POSTGRES_PASSWORD=' "$ENV_FILE" | cut -d= -f2)
 
 # ---- Crear DB en s3suite-postgres si no existe ----
 echo "Verificando base de datos $POSTGRES_DB en s3suite-postgres..."
-DB_EXISTS=$(docker exec s3suite-postgres psql -U bariatric_user -tAc \
+DB_EXISTS=$(docker exec s3suite-postgres psql -U bariatric_user -d bariatric_db -tAc \
     "SELECT 1 FROM pg_database WHERE datname='$POSTGRES_DB'" 2>/dev/null || echo "")
 
 if [[ "$DB_EXISTS" != "1" ]]; then
     echo "Creando usuario y base de datos $POSTGRES_DB..."
-    docker exec s3suite-postgres psql -U bariatric_user << SQL
-CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';
-CREATE DATABASE $POSTGRES_DB OWNER $POSTGRES_USER;
-GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO $POSTGRES_USER;
-\c $POSTGRES_DB
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
-SQL
+    # Todos los comandos en una sola sesión psql como superuser postgres
+    docker exec s3suite-postgres psql -U bariatric_user -d bariatric_db -c "CREATE USER ${POSTGRES_USER} WITH PASSWORD '${POSTGRES_PASSWORD}';" 2>/dev/null || true
+    docker exec s3suite-postgres psql -U bariatric_user -d bariatric_db -c "CREATE DATABASE ${POSTGRES_DB} OWNER ${POSTGRES_USER};"
+    docker exec s3suite-postgres psql -U bariatric_user -d "${POSTGRES_DB}" -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+    docker exec s3suite-postgres psql -U bariatric_user -d "${POSTGRES_DB}" -c "CREATE EXTENSION IF NOT EXISTS pg_trgm;"
     echo "Base de datos creada correctamente."
 else
     echo "Base de datos $POSTGRES_DB ya existe."
 fi
 
-# ---- Validar nginx config y recargar ----
-echo "Validando configuración nginx..."
+# ---- Obtener SSL si no existe (config HTTP-only temporaria) ----
+NGINX_CONF="/etc/nginx/sites-enabled/${DOMAIN}.conf"
+FINAL_CONF="$VPS_DIR/infra/nginx/${DOMAIN}.conf"
+
+if [[ ! -d "/etc/letsencrypt/live/$DOMAIN" ]]; then
+    echo "Certificado SSL no existe. Instalando config HTTP-only temporal..."
+    cat > "$NGINX_CONF" << HTTPONLYCONF
+server {
+    listen 80;
+    server_name $DOMAIN;
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+        allow all;
+    }
+    location / {
+        return 503 "Demo en mantenimiento - configurando SSL";
+    }
+}
+HTTPONLYCONF
+    nginx -t && systemctl reload nginx
+    echo "Obteniendo certificado SSL para $DOMAIN..."
+    certbot certonly --nginx -d "$DOMAIN" --non-interactive --agree-tos \
+        --email jvalenzuela303@gmail.com
+    echo "SSL obtenido. Instalando config completa..."
+fi
+
+# ---- Instalar config nginx definitiva y recargar ----
+echo "Instalando configuración nginx definitiva..."
+cp "$FINAL_CONF" "$NGINX_CONF"
 nginx -t || { echo "ERROR: nginx config inválida"; exit 1; }
 systemctl reload nginx
-echo "Nginx recargado."
-
-# ---- Obtener SSL si no existe ----
-if [[ ! -d "/etc/letsencrypt/live/$DOMAIN" ]]; then
-    echo "Obteniendo certificado SSL para $DOMAIN..."
-    certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos \
-        --email jvalenzuela303@gmail.com --redirect
-    echo "SSL configurado correctamente."
-else
-    echo "Certificado SSL ya existe para $DOMAIN."
-fi
+echo "Nginx recargado con config SSL."
 
 # ---- Buildear y levantar contenedores ----
 echo "Construyendo y levantando contenedores..."

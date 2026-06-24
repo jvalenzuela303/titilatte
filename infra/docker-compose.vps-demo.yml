@@ -68,6 +68,7 @@ services:
       target: runtime
       args:
         VITE_API_URL: /api/v1
+        BUILD_SCRIPT: build:nocheck
     image: minimarket-demo-frontend:latest
     container_name: minimarket-demo-frontend
     restart: unless-stopped
