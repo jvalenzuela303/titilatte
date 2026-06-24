@@ -45,9 +45,9 @@ services:
       - demo-net
       - s3suite-db-net
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/v1/actuator/health || exit 1"]
-      interval: 30s
-      timeout: 10s
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8080/api/v1/actuator/health/liveness || exit 1"]
+      interval: 20s
+      timeout: 5s
       retries: 5
       start_period: 90s
     deploy:
@@ -78,7 +78,7 @@ services:
     networks:
       - demo-net
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:80/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:80/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

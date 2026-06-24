@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -204,6 +204,24 @@ const LoginPage: React.FC = () => {
               }
             />
           </Form>
+
+          <Text
+            style={{
+              display: 'block',
+              textAlign: 'center',
+              fontSize: 13,
+              marginTop: 8,
+              color: token.colorTextTertiary,
+            }}
+          >
+            ¿Primera vez en el sistema?{' '}
+            <Link
+              to="/tutorial"
+              style={{ color: token.colorPrimary, fontWeight: 500 }}
+            >
+              Ver guía de roles
+            </Link>
+          </Text>
         </Space>
       </Card>
     </div>

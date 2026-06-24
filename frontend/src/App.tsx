@@ -11,6 +11,7 @@ dayjs.locale('es')
 
 // Lazy-loaded page components for code splitting
 const LoginPage = lazy(() => import('@/pages/Login/LoginPage'))
+const TutorialPage = lazy(() => import('@/pages/Tutorial/TutorialPage'))
 const DashboardPage = lazy(() => import('@/pages/Dashboard/DashboardPage'))
 const POSPage = lazy(() => import('@/pages/POS/POSPage'))
 const ProductsPage = lazy(() => import('@/pages/Products/ProductsPage'))
@@ -81,6 +82,7 @@ export default function App() {
         <Routes>
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/tutorial" element={<TutorialPage />} />
 
           {/* Root redirect */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

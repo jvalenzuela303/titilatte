@@ -3,6 +3,29 @@ management:
     web:
       exposure:
         include: health
+  endpoint:
+    health:
+      show-details: never
+      # Liveness: la JVM está viva (no consulta DB) — usado por Docker healthcheck
+      # Readiness: la DB responde — usado por monitoreo externo
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+    db:
+      enabled: true
+
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 5000      # max 5s para obtener conexión del pool
+      validation-timeout: 3000      # max 3s para validar que la conexión está viva
+      idle-timeout: 300000          # libera conexiones idle tras 5 min
+      max-lifetime: 600000          # recicla conexiones cada 10 min
+      maximum-pool-size: 10
 
 springdoc:
   swagger-ui:
