@@ -17,12 +17,15 @@ import {
   Alert,
   App,
   Tooltip,
+  Select,
 } from 'antd'
 import {
   BarChartOutlined,
   DownloadOutlined,
   SearchOutlined,
   SyncOutlined,
+  ShoppingOutlined,
+  CreditCardOutlined,
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import {
@@ -36,6 +39,7 @@ import {
 } from 'recharts'
 import dayjs from 'dayjs'
 import { reportService } from '@/services/reportService'
+import { orderService } from '@/services/orderService'
 import { useSse } from '@/hooks/useSse'
 import type {
   SalesReport,
@@ -44,6 +48,7 @@ import type {
   SellerReport,
   CustomerDebt,
   DailySales,
+  Order,
 } from '@/types'
 
 const { Title, Text } = Typography
@@ -507,7 +512,219 @@ const TopProductsTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }
   )
 }
 
-// ── Tab: Deudores ──────────────────────────────────────────────────────────
+// ── Tab: Pedidos ───────────────────────────────────────────────────────────
+
+const STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  PENDING:     { label: 'Pendiente',    color: 'blue' },
+  IN_PROGRESS: { label: 'En preparación', color: 'processing' },
+  READY:       { label: 'Listo',        color: 'cyan' },
+  DELIVERED:   { label: 'Entregado',    color: 'success' },
+  CANCELLED:   { label: 'Cancelado',    color: 'default' },
+}
+
+const PAY_LABELS: Record<string, { label: string; color: string }> = {
+  UNPAID:  { label: 'Sin abonar', color: 'error' },
+  PARTIAL: { label: 'Parcial',    color: 'warning' },
+  PAID:    { label: 'Pagado',     color: 'success' },
+}
+
+const OrdersReportTab: React.FC = () => {
+  const { message } = App.useApp()
+  const [statusFilter, setStatusFilter] = useState<string | undefined>(undefined)
+  const [loading, setLoading] = useState(false)
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loaded, setLoaded] = useState(false)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
+
+  const load = useCallback(async () => {
+    setLoading(true)
+    try {
+      const res = await orderService.getAll({
+        page: 0,
+        size: 200,
+        ...(statusFilter ? { status: statusFilter } : {}),
+      })
+      setOrders(res.data.content)
+      setLoaded(true)
+      setLastUpdated(new Date())
+    } catch {
+      message.error('Error al cargar pedidos')
+    } finally {
+      setLoading(false)
+    }
+  }, [statusFilter, message])
+
+  const totalAmount   = orders.reduce((s, o) => s + o.totalAmount, 0)
+  const totalPaid     = orders.reduce((s, o) => s + (o.amountPaid ?? 0), 0)
+  const totalPending  = orders.reduce((s, o) => s + (o.pendingAmount ?? 0), 0)
+
+  const countByStatus = Object.keys(STATUS_LABELS).reduce<Record<string, number>>((acc, k) => {
+    acc[k] = orders.filter((o) => o.status === k).length
+    return acc
+  }, {})
+
+  const columns: ColumnsType<Order> = [
+    {
+      title: 'N°',
+      dataIndex: 'orderNumber',
+      key: 'orderNumber',
+      width: 60,
+      render: (v: number) => <Text strong>#{v}</Text>,
+    },
+    {
+      title: 'Cliente',
+      dataIndex: 'customerName',
+      key: 'customerName',
+      ellipsis: true,
+    },
+    {
+      title: 'Productos',
+      key: 'items',
+      render: (_: unknown, r: Order) => {
+        const items = r.items ?? []
+        return (
+          <Text type="secondary" style={{ fontSize: 12 }}>
+            {items.length === 0 ? '—' : items.slice(0, 2).map((i) => i.productName).join(', ') + (items.length > 2 ? ` +${items.length - 2}` : '')}
+          </Text>
+        )
+      },
+    },
+    {
+      title: 'Entrega',
+      dataIndex: 'deliveryDate',
+      key: 'deliveryDate',
+      width: 120,
+      render: (v: string) => {
+        const d = dayjs(v)
+        const overdue = d.isBefore(dayjs())
+        return (
+          <Text style={{ color: overdue ? '#cf1322' : undefined, fontSize: 12 }}>
+            {d.format('DD/MM/YYYY')}<br />
+            <Text type="secondary" style={{ fontSize: 11 }}>{d.format('HH:mm')} hrs</Text>
+          </Text>
+        )
+      },
+    },
+    {
+      title: 'Total',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
+      align: 'right',
+      width: 110,
+      render: fmt,
+    },
+    {
+      title: 'Abonado',
+      dataIndex: 'amountPaid',
+      key: 'amountPaid',
+      align: 'right',
+      width: 110,
+      render: (v: number) => <Text style={{ color: '#52c41a' }}>{fmt(v ?? 0)}</Text>,
+    },
+    {
+      title: 'Pendiente',
+      dataIndex: 'pendingAmount',
+      key: 'pendingAmount',
+      align: 'right',
+      width: 110,
+      render: (v: number) => (
+        <Text style={{ color: v > 0 ? '#cf1322' : '#52c41a' }}>{fmt(v ?? 0)}</Text>
+      ),
+    },
+    {
+      title: 'Estado',
+      key: 'status',
+      width: 130,
+      render: (_: unknown, r: Order) => (
+        <Space direction="vertical" size={2}>
+          <Tag color={STATUS_LABELS[r.status]?.color ?? 'default'} style={{ fontSize: 11 }}>
+            {STATUS_LABELS[r.status]?.label ?? r.status}
+          </Tag>
+          <Tag color={PAY_LABELS[r.paymentStatus]?.color ?? 'default'} style={{ fontSize: 11 }}>
+            {PAY_LABELS[r.paymentStatus]?.label ?? r.paymentStatus}
+          </Tag>
+        </Space>
+      ),
+    },
+  ]
+
+  return (
+    <div>
+      <Card style={{ marginBottom: 16 }}>
+        <Space wrap>
+          <Select
+            placeholder="Todos los estados"
+            allowClear
+            style={{ width: 180 }}
+            value={statusFilter}
+            onChange={setStatusFilter}
+            options={Object.entries(STATUS_LABELS).map(([k, v]) => ({ value: k, label: v.label }))}
+          />
+          <Button type="primary" icon={<SearchOutlined />} loading={loading} onClick={load}>
+            Cargar Pedidos
+          </Button>
+          <LastUpdated at={lastUpdated} />
+        </Space>
+      </Card>
+
+      {loaded && (
+        <>
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={12} sm={6}>
+              <Card size="small">
+                <Statistic title="Total Pedidos" value={orders.length} prefix={<ShoppingOutlined />} />
+              </Card>
+            </Col>
+            <Col xs={12} sm={6}>
+              <Card size="small">
+                <Statistic title="Monto Total" value={totalAmount} formatter={(v) => fmt(Number(v))} valueStyle={{ color: '#1677ff' }} />
+              </Card>
+            </Col>
+            <Col xs={12} sm={6}>
+              <Card size="small">
+                <Statistic title="Total Abonado" value={totalPaid} formatter={(v) => fmt(Number(v))} valueStyle={{ color: '#52c41a' }} />
+              </Card>
+            </Col>
+            <Col xs={12} sm={6}>
+              <Card size="small">
+                <Statistic title="Pendiente Cobro" value={totalPending} formatter={(v) => fmt(Number(v))} valueStyle={{ color: totalPending > 0 ? '#cf1322' : '#52c41a' }} />
+              </Card>
+            </Col>
+          </Row>
+
+          <Row gutter={[8, 8]} style={{ marginBottom: 16 }}>
+            {Object.entries(STATUS_LABELS).map(([k, v]) => (
+              countByStatus[k] > 0 && (
+                <Col key={k}>
+                  <Tag color={v.color} style={{ padding: '4px 10px', fontSize: 13 }}>
+                    {v.label}: <strong>{countByStatus[k]}</strong>
+                  </Tag>
+                </Col>
+              )
+            ))}
+          </Row>
+        </>
+      )}
+
+      {loading && <div style={{ textAlign: 'center', padding: 40 }}><Spin size="large" /></div>}
+
+      {!loading && loaded && (
+        <Card>
+          <Table
+            rowKey="id"
+            dataSource={orders}
+            columns={columns}
+            size="small"
+            pagination={{ pageSize: 15, showSizeChanger: false }}
+            locale={{ emptyText: 'Sin pedidos' }}
+          />
+        </Card>
+      )}
+    </div>
+  )
+}
+
+// ── Tab: Créditos (Deudores) ───────────────────────────────────────────────
 
 const DebtorsTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
   const { message } = App.useApp()
@@ -823,8 +1040,17 @@ const ReportsPage: React.FC = () => {
             children: <TopProductsTab refreshTrigger={salesTrigger} />,
           },
           {
+            key: 'orders',
+            label: (
+              <span><ShoppingOutlined style={{ marginRight: 4 }} />Pedidos</span>
+            ),
+            children: <OrdersReportTab />,
+          },
+          {
             key: 'debtors',
-            label: 'Deudores',
+            label: (
+              <span><CreditCardOutlined style={{ marginRight: 4 }} />Créditos</span>
+            ),
             children: <DebtorsTab refreshTrigger={salesTrigger} />,
           },
           {
