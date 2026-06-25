@@ -29,7 +29,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   ResponsiveContainer,
   LineChart,
   Line,
@@ -236,7 +236,7 @@ function AdminDashboardView({ data }: { data: AdminDashboard }) {
                   tick={{ fontSize: 11 }}
                 />
                 <YAxis tickFormatter={(v: number) => `$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip
+                <RechartsTooltip
                   formatter={(v: number) => [formatCurrency(v), 'Ventas']}
                   labelFormatter={(d: string) => dayjs(d).format('DD MMM YYYY')}
                 />
@@ -257,7 +257,7 @@ function AdminDashboardView({ data }: { data: AdminDashboard }) {
                   tick={{ fontSize: 12 }}
                 />
                 <YAxis tickFormatter={(v: number) => `$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip
+                <RechartsTooltip
                   formatter={(v: number) => [formatCurrency(v), 'Ventas']}
                   labelFormatter={(d: string) => dayjs(d).format('dddd DD MMM')}
                 />
