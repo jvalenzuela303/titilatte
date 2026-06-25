@@ -21,11 +21,12 @@ management:
 spring:
   datasource:
     hikari:
-      connection-timeout: 5000      # max 5s para obtener conexión del pool
+      connection-timeout: 20000     # max 20s para obtener conexión del pool
       validation-timeout: 3000      # max 3s para validar que la conexión está viva
       idle-timeout: 300000          # libera conexiones idle tras 5 min
       max-lifetime: 600000          # recicla conexiones cada 10 min
-      maximum-pool-size: 10
+      maximum-pool-size: 20         # schedulers + HTTP requests compiten; 10 era insuficiente
+      minimum-idle: 5
 
 springdoc:
   swagger-ui:
