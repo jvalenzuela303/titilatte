@@ -830,7 +830,7 @@ const POSPage: React.FC = () => {
                   style={{ width: '100%' }}
                   options={[
                     { value: 'CONTADO', label: 'Contado' },
-                    { value: 'CREDITO', label: '🤝 Crédito (Fiado)' },
+                    { value: 'CREDITO', label: '🤝 Crédito' },
                     { value: 'MIXTO', label: 'Mixto' },
                   ]}
                 />

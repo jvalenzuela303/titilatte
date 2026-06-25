@@ -315,9 +315,9 @@ const FiadosPage: React.FC = () => {
   return (
     <div>
       <PageHeader
-        title="Fiados"
+        title="Créditos"
         subtitle="Gestión de créditos por cliente — deudas y abonos"
-        breadcrumbs={[{ title: 'Inicio' }, { title: 'Fiados' }]}
+        breadcrumbs={[{ title: 'Inicio' }, { title: 'Créditos' }]}
         extra={
           <Button
             type={showOnlyDebt ? 'primary' : 'default'}

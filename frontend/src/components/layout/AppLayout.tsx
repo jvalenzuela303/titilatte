@@ -51,7 +51,7 @@ const operacionItems: MenuProps['items'] = [
     { key: '/pos',       icon: <ShoppingCartOutlined />, label: 'POS - Ventas' },
     { key: '/sales',     icon: <UnorderedListOutlined />, label: 'Ventas' },
     { key: '/customers', icon: <IdcardOutlined />, label: 'Clientes' },
-    { key: '/fiados',    icon: <CreditCardOutlined />, label: 'Fiados' },
+    { key: '/fiados',    icon: <CreditCardOutlined />, label: 'Créditos' },
     { key: '/orders',    icon: <FileTextOutlined />, label: 'Pedidos' },
     { key: '/cash',      icon: <WalletOutlined />, label: 'Caja' },
   ]},
