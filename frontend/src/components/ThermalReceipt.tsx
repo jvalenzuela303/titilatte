@@ -2,8 +2,8 @@ import React from 'react'
 import dayjs from 'dayjs'
 import type { Sale } from '@/types'
 
-const DASH_LINE = '----------------------------------------'
-const CENTER_WIDTH = 40
+const DASH_LINE = '--------------------------------'
+const CENTER_WIDTH = 32
 
 export function clp(amount: number): string {
   return `$${Math.round(amount).toLocaleString('es-CL')}`
@@ -86,7 +86,7 @@ const ThermalReceipt: React.FC<{ sale: Sale }> = ({ sale }) => {
     <pre
       style={{
         fontFamily: "'Courier New', Courier, monospace",
-        fontSize: '11px',
+        fontSize: '9px',
         lineHeight: '1.4',
         margin: 0,
         padding: 0,

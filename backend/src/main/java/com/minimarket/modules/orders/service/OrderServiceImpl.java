@@ -3,12 +3,15 @@ package com.minimarket.modules.orders.service;
 import com.minimarket.exception.BusinessException;
 import com.minimarket.exception.EntityNotFoundException;
 import com.minimarket.modules.orders.domain.Order;
+import com.minimarket.modules.orders.domain.OrderItem;
 import com.minimarket.modules.orders.domain.OrderPayment;
 import com.minimarket.modules.orders.dto.CreateOrderRequest;
+import com.minimarket.modules.orders.dto.OrderItemRequest;
 import com.minimarket.modules.orders.dto.OrderPaymentRequest;
 import com.minimarket.modules.orders.dto.OrderPaymentResponse;
 import com.minimarket.modules.orders.dto.OrderResponse;
 import com.minimarket.modules.orders.mapper.OrderMapper;
+import com.minimarket.modules.orders.repository.OrderItemRepository;
 import com.minimarket.modules.orders.repository.OrderPaymentRepository;
 import com.minimarket.modules.orders.repository.OrderRepository;
 import com.minimarket.modules.users.domain.User;
@@ -36,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
     );
 
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
     private final OrderPaymentRepository orderPaymentRepository;
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
@@ -46,12 +50,15 @@ public class OrderServiceImpl implements OrderService {
         User creator = userRepository.findByEmailAndDeletedAtIsNull(creatorEmail)
                 .orElseThrow(() -> new EntityNotFoundException("User not found: " + creatorEmail));
 
+        BigDecimal total = request.items().stream()
+                .map(i -> i.quantity().multiply(i.unitCost()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         Order order = Order.builder()
                 .customerId(request.customerId())
                 .customerName(request.customerName())
                 .customerPhone(request.customerPhone())
-                .description(request.description())
-                .totalAmount(request.totalAmount())
+                .totalAmount(total)
                 .amountPaid(BigDecimal.ZERO)
                 .status("PENDING")
                 .paymentStatus("UNPAID")
@@ -61,9 +68,21 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         Order saved = orderRepository.save(order);
-        log.info("Order created: #{} by {}", saved.getId(), creatorEmail);
 
-        return orderMapper.toResponse(saved, creator.getEmail());
+        List<OrderItem> items = request.items().stream()
+                .map(i -> OrderItem.builder()
+                        .orderId(saved.getId())
+                        .productName(i.productName())
+                        .quantity(i.quantity())
+                        .unitCost(i.unitCost())
+                        .build())
+                .toList();
+        orderItemRepository.saveAll(items);
+
+        log.info("Order created: #{} by {} with {} items", saved.getId(), creatorEmail, items.size());
+
+        List<OrderItem> savedItems = orderItemRepository.findByOrderIdOrderByCreatedAtAsc(saved.getId());
+        return orderMapper.toResponse(saved, creator.getEmail(), savedItems);
     }
 
     @Override
@@ -81,7 +100,8 @@ public class OrderServiceImpl implements OrderService {
             User creator = userRepository.findByIdAndDeletedAtIsNull(order.getCreatedBy())
                     .orElse(null);
             String email = creator != null ? creator.getEmail() : null;
-            return orderMapper.toResponse(order, email);
+            List<OrderItem> items = orderItemRepository.findByOrderIdOrderByCreatedAtAsc(order.getId());
+            return orderMapper.toResponse(order, email, items);
         });
     }
 
@@ -94,8 +114,9 @@ public class OrderServiceImpl implements OrderService {
         User creator = userRepository.findByIdAndDeletedAtIsNull(order.getCreatedBy())
                 .orElse(null);
         String email = creator != null ? creator.getEmail() : null;
+        List<OrderItem> items = orderItemRepository.findByOrderIdOrderByCreatedAtAsc(id);
 
-        return orderMapper.toResponse(order, email);
+        return orderMapper.toResponse(order, email, items);
     }
 
     @Override
@@ -116,8 +137,9 @@ public class OrderServiceImpl implements OrderService {
         User creator = userRepository.findByIdAndDeletedAtIsNull(saved.getCreatedBy())
                 .orElse(null);
         String email = creator != null ? creator.getEmail() : null;
+        List<OrderItem> items = orderItemRepository.findByOrderIdOrderByCreatedAtAsc(id);
 
-        return orderMapper.toResponse(saved, email);
+        return orderMapper.toResponse(saved, email, items);
     }
 
     @Override

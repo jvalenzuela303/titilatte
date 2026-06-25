@@ -1,5 +1,7 @@
 import api from '../config/axios'
-import type { Order, OrderPayment, CreateOrderRequest, PageResponse } from '../types'
+import type { Order, OrderItem, OrderPayment, CreateOrderRequest, PageResponse } from '../types'
+
+export type { OrderItem }
 
 export const orderService = {
   getAll: (params?: Record<string, unknown>) =>

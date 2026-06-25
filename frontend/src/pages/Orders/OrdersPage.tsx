@@ -6,17 +6,17 @@ import {
 } from 'antd'
 import {
   PlusOutlined, DollarOutlined, HistoryOutlined, EditOutlined,
-  SearchOutlined, ReloadOutlined,
+  ReloadOutlined, DeleteOutlined, PrinterOutlined,
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import { orderService } from '@/services/orderService'
 import { customerService } from '@/services/customerService'
-import type { Order, OrderPayment, Customer } from '@/types'
+import type { Order, OrderPayment, Customer, CreateOrderItemRequest } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import PageHeader from '@/components/common/PageHeader'
 
-const { Text, Title } = Typography
+const { Text } = Typography
 const { TextArea } = Input
 
 const fmt = (v: number) => `$${Math.round(v).toLocaleString('es-CL')}`
@@ -129,15 +129,23 @@ const OrdersPage: React.FC = () => {
   const handleCreateSubmit = async () => {
     let values: Record<string, unknown>
     try { values = await createForm.validateFields() } catch { return }
+    const items = (values.items as CreateOrderItemRequest[] | undefined) ?? []
+    if (items.length === 0) {
+      message.error('Agrega al menos un producto al pedido')
+      return
+    }
     setCreateSubmitting(true)
     try {
       await orderService.create({
         customerName: values.customerName as string,
         customerPhone: (values.customerPhone as string) || undefined,
         customerId: (values.customerId as string) || undefined,
-        description: values.description as string,
-        totalAmount: values.totalAmount as number,
-        deliveryDate: (values.deliveryDate as dayjs.Dayjs).format('YYYY-MM-DD'),
+        items: items.map((i) => ({
+          productName: i.productName,
+          quantity: Number(i.quantity),
+          unitCost: Number(i.unitCost),
+        })),
+        deliveryDate: (values.deliveryDate as dayjs.Dayjs).toISOString(),
         notes: (values.notes as string) || undefined,
       })
       message.success('Pedido creado exitosamente')
@@ -214,6 +222,67 @@ const OrdersPage: React.FC = () => {
     } finally { setPaymentSubmitting(false) }
   }
 
+  // ── Imprimir comprobante ──────────────────────────────────────────────────
+  const printVoucher = (order: Order) => {
+    const win = window.open('', '_blank', 'width=220,height=500')
+    if (!win) return
+    const deliveryStr = dayjs(order.deliveryDate).format('DD/MM/YYYY HH:mm')
+    const dash = '--------------------------------'
+    const W = 32
+    const pad = (l: string, r: string) => {
+      const maxL = W - r.length - 1
+      const left = l.length > maxL ? l.substring(0, maxL - 1) + '…' : l
+      return left + ' '.repeat(Math.max(1, W - left.length - r.length)) + r
+    }
+    const ctr = (t: string) => {
+      const p = Math.max(0, Math.floor((W - t.length) / 2))
+      return ' '.repeat(p) + t
+    }
+    const fmt = (n: number) => `$${Math.round(n).toLocaleString('es-CL')}`
+    const statusLabel: Record<string, string> = {
+      PENDING: 'Pendiente', IN_PROGRESS: 'En preparacion',
+      READY: 'Listo p/retirar', DELIVERED: 'Entregado', CANCELLED: 'Cancelado',
+    }
+    const itemLines = (order.items ?? []).map((item) => {
+      const qty = Number(item.quantity) % 1 === 0 ? Math.round(Number(item.quantity)) : item.quantity
+      const total = Math.round(Number(item.lineTotal ?? (Number(item.quantity) * Number(item.unitCost))))
+      const name = String(item.productName).length > W
+        ? String(item.productName).substring(0, W - 1) + '…'
+        : item.productName
+      return `${name}\n  ${qty} x ${fmt(Number(item.unitCost))}  ${fmt(total)}`
+    }).join('\n')
+    win.document.write(`<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>Pedido #${order.orderNumber}</title>
+<style>
+  @page{size:58mm auto;margin:0}
+  body{font-family:'Courier New',Courier,monospace;font-size:9px;margin:0;padding:0;width:48mm;color:#000;background:#fff}
+  pre{margin:0;white-space:pre;font-family:inherit;font-size:inherit}
+</style>
+</head><body><pre>
+${ctr('MINIMARKET')}
+${ctr('Comprobante de Pedido')}
+${ctr('#' + String(order.orderNumber))}
+${ctr(dayjs().format('DD/MM/YYYY HH:mm'))}
+${dash}
+Cliente: ${order.customerName}${order.customerPhone ? '\nTel: ' + order.customerPhone : ''}
+Entrega: ${deliveryStr} hrs
+Estado:  ${statusLabel[order.status] ?? order.status}
+${dash}
+${itemLines}
+${dash}
+${pad('TOTAL:', fmt(order.totalAmount))}
+${pad('Abonado:', fmt(order.amountPaid ?? 0))}
+${pad('Saldo:', fmt(order.pendingAmount ?? 0))}
+${dash}${order.notes ? '\nNotas: ' + order.notes + '\n' + dash : ''}
+${ctr('Gracias por su preferencia')}
+${dash}
+</pre>
+<script>window.onload=()=>{window.print();}</script>
+</body></html>`)
+    win.document.close()
+  }
+
   // ── Columnas ──────────────────────────────────────────────────────────────
   const columns: ColumnsType<Order> = [
     {
@@ -236,25 +305,46 @@ const OrdersPage: React.FC = () => {
       ),
     },
     {
-      title: 'Descripción',
-      dataIndex: 'description',
-      key: 'description',
-      ellipsis: true,
+      title: 'Productos',
+      key: 'items',
+      render: (_: unknown, r: Order) => {
+        const items = r.items ?? []
+        if (items.length === 0) return <Text type="secondary">—</Text>
+        const visible = items.slice(0, 3)
+        return (
+          <div style={{ lineHeight: 1.6 }}>
+            {visible.map((item, idx) => (
+              <div key={idx} style={{ fontSize: 12 }}>
+                <Text>• {item.productName}</Text>
+                <Text type="secondary"> ×{Number(item.quantity) % 1 === 0 ? Math.round(Number(item.quantity)) : item.quantity}</Text>
+              </div>
+            ))}
+            {items.length > 3 && (
+              <Text type="secondary" style={{ fontSize: 11 }}>+{items.length - 3} más</Text>
+            )}
+          </div>
+        )
+      },
     },
     {
       title: 'Entrega',
       dataIndex: 'deliveryDate',
       key: 'deliveryDate',
-      width: 100,
+      width: 130,
       render: (v: string) => {
         const d = dayjs(v)
-        const isOverdue = d.isBefore(dayjs(), 'day')
+        const isOverdue = d.isBefore(dayjs())
         const isToday   = d.isSame(dayjs(), 'day')
         return (
-          <Text style={{ color: isOverdue ? '#cf1322' : isToday ? '#d46b08' : undefined }}
-                strong={isToday || isOverdue}>
-            {d.format('DD/MM/YYYY')}
-          </Text>
+          <div>
+            <Text style={{ color: isOverdue ? '#cf1322' : isToday ? '#d46b08' : undefined }}
+                  strong={isToday || isOverdue}>
+              {d.format('DD/MM/YYYY')}
+            </Text>
+            <div>
+              <Text type="secondary" style={{ fontSize: 11 }}>{d.format('HH:mm')} hrs</Text>
+            </div>
+          </div>
         )
       },
     },
@@ -292,17 +382,20 @@ const OrdersPage: React.FC = () => {
     {
       title: 'Acciones',
       key: 'acciones',
-      width: 150,
+      width: 200,
       fixed: 'right' as const,
       render: (_: unknown, r: Order) => (
-        <Space size="small">
+        <Space size="small" wrap>
           {r.paymentStatus !== 'PAID' && r.status !== 'CANCELLED' && (
-            <Tooltip title="Registrar abono">
-              <Button size="small" type="primary" icon={<DollarOutlined />} onClick={() => openPayment(r)} />
-            </Tooltip>
+            <Button size="small" type="primary" icon={<DollarOutlined />} onClick={() => openPayment(r)}>
+              Abonar
+            </Button>
           )}
           <Tooltip title="Historial de abonos">
             <Button size="small" icon={<HistoryOutlined />} onClick={() => openHistory(r)} />
+          </Tooltip>
+          <Tooltip title="Imprimir comprobante">
+            <Button size="small" icon={<PrinterOutlined />} onClick={() => printVoucher(r)} />
           </Tooltip>
           {canChangeStatus && r.status !== 'DELIVERED' && r.status !== 'CANCELLED' && (
             <Tooltip title="Cambiar estado">
@@ -402,7 +495,7 @@ const OrdersPage: React.FC = () => {
         okText="Crear Pedido"
         cancelText="Cancelar"
         confirmLoading={createSubmitting}
-        width={520}
+        width={680}
         destroyOnHidden
       >
         <Form form={createForm} layout="vertical" style={{ marginTop: 8 }}>
@@ -442,26 +535,89 @@ const OrdersPage: React.FC = () => {
             />
           </Form.Item>
 
-          <Divider orientation="left" plain><Text type="secondary" style={{ fontSize: 12 }}>Detalle del pedido</Text></Divider>
-          <Form.Item name="description" label="Descripción del pedido"
-            rules={[{ required: true, message: 'Requerido' }]}>
-            <TextArea rows={3} placeholder="Ej: Torta de chocolate 3 pisos, decoración de princesa en colores rosado y blanco, para 20 personas" />
-          </Form.Item>
-          <Row gutter={12}>
-            <Col span={12}>
-              <Form.Item name="totalAmount" label="Precio total"
-                rules={[{ required: true, message: 'Requerido' }]}>
-                <InputNumber prefix="$" style={{ width: '100%' }} min={1} step={1000} precision={0} placeholder="0" size="large" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="deliveryDate" label="Fecha de entrega"
-                rules={[{ required: true, message: 'Requerido' }]}>
-                <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" size="large"
-                  disabledDate={(d) => d.isBefore(dayjs(), 'day')} />
-              </Form.Item>
-            </Col>
+          <Divider orientation="left" plain><Text type="secondary" style={{ fontSize: 12 }}>Productos</Text></Divider>
+          {/* Encabezado de columnas */}
+          <Row gutter={8} style={{ marginBottom: 4, paddingRight: 32 }}>
+            <Col flex="auto"><Text type="secondary" style={{ fontSize: 12 }}>Producto</Text></Col>
+            <Col style={{ width: 90 }}><Text type="secondary" style={{ fontSize: 12 }}>Cantidad</Text></Col>
+            <Col style={{ width: 110 }}><Text type="secondary" style={{ fontSize: 12 }}>Costo Unit.</Text></Col>
+            <Col style={{ width: 90 }}><Text type="secondary" style={{ fontSize: 12 }}>Total</Text></Col>
           </Row>
+          <Form.List name="items">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name }) => (
+                  <Row key={key} gutter={8} align="middle" style={{ marginBottom: 4 }}>
+                    <Col flex="auto">
+                      <Form.Item name={[name, 'productName']} noStyle
+                        rules={[{ required: true, message: 'Nombre requerido' }]}>
+                        <Input placeholder="Ej: Torta de Leche" />
+                      </Form.Item>
+                    </Col>
+                    <Col style={{ width: 90 }}>
+                      <Form.Item name={[name, 'quantity']} noStyle
+                        rules={[{ required: true, message: 'Requerida' }]}>
+                        <InputNumber style={{ width: '100%' }} min={1} step={1} precision={0} placeholder="0" />
+                      </Form.Item>
+                    </Col>
+                    <Col style={{ width: 110 }}>
+                      <Form.Item name={[name, 'unitCost']} noStyle
+                        rules={[{ required: true, message: 'Requerido' }]}>
+                        <InputNumber prefix="$" style={{ width: '100%' }} min={0} step={500} precision={0} placeholder="0" />
+                      </Form.Item>
+                    </Col>
+                    <Col style={{ width: 90 }}>
+                      <Form.Item noStyle shouldUpdate>
+                        {() => {
+                          const items: CreateOrderItemRequest[] = createForm.getFieldValue('items') ?? []
+                          const item = items[name] ?? {}
+                          const total = (Number(item.quantity) || 0) * (Number(item.unitCost) || 0)
+                          return <Text style={{ fontSize: 12, paddingLeft: 4 }}>{total > 0 ? fmt(total) : '—'}</Text>
+                        }}
+                      </Form.Item>
+                    </Col>
+                    <Col style={{ width: 24 }}>
+                      <Button type="text" size="small" danger icon={<DeleteOutlined />}
+                        onClick={() => remove(name)} style={{ padding: 0 }} />
+                    </Col>
+                  </Row>
+                ))}
+                <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}
+                  style={{ width: '100%', marginTop: 4 }}>
+                  Agregar Producto
+                </Button>
+                <Form.Item noStyle shouldUpdate>
+                  {() => {
+                    const items: CreateOrderItemRequest[] = createForm.getFieldValue('items') ?? []
+                    const total = items.reduce((s, i) => s + (Number(i?.quantity) || 0) * (Number(i?.unitCost) || 0), 0)
+                    return total > 0 ? (
+                      <div style={{ textAlign: 'right', marginTop: 8 }}>
+                        <Text strong>Total estimado: </Text>
+                        <Text strong style={{ color: '#1677ff', fontSize: 16 }}>{fmt(total)}</Text>
+                      </div>
+                    ) : null
+                  }}
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+          <div style={{ marginTop: 16 }}>
+            <Row gutter={12}>
+              <Col span={12}>
+                <Form.Item name="deliveryDate" label="Fecha y hora de entrega"
+                  rules={[{ required: true, message: 'Requerido' }]}>
+                  <DatePicker
+                    showTime={{ format: 'HH:mm', minuteStep: 15 }}
+                    style={{ width: '100%' }}
+                    format="DD/MM/YYYY HH:mm"
+                    size="large"
+                    disabledDate={(d) => d.isBefore(dayjs(), 'day')}
+                    placeholder="Selecciona fecha y hora"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </div>
           <Form.Item name="notes" label="Notas adicionales (opcional)">
             <TextArea rows={2} placeholder="Alergias, instrucciones especiales, etc." />
           </Form.Item>
@@ -566,7 +722,12 @@ const OrdersPage: React.FC = () => {
                 <Col>
                   <Text type="secondary">Cliente</Text>
                   <div><Text strong>{paymentTarget.customerName}</Text></div>
-                  <div><Text type="secondary" style={{ fontSize: 12 }}>{paymentTarget.description}</Text></div>
+                  {(paymentTarget.items ?? []).slice(0, 2).map((item, i) => (
+                  <div key={i}><Text type="secondary" style={{ fontSize: 12 }}>• {item.productName} ×{Number(item.quantity) % 1 === 0 ? Math.round(Number(item.quantity)) : item.quantity}</Text></div>
+                ))}
+                {(paymentTarget.items ?? []).length > 2 && (
+                  <Text type="secondary" style={{ fontSize: 11 }}>+{(paymentTarget.items ?? []).length - 2} más</Text>
+                )}
                 </Col>
                 <Col style={{ textAlign: 'right' }}>
                   <Text type="secondary">Pendiente</Text>

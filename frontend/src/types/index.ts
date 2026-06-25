@@ -469,6 +469,7 @@ export type SseEventType =
   | 'CAJA_CERRADA'
   | 'HEARTBEAT'
   | 'CONNECTED'
+  | 'PEDIDO_PROXIMO'
 
 export interface SseEvent {
   type: SseEventType
@@ -623,13 +624,22 @@ export interface CreateAlertRuleRequest {
 export type OrderStatus = 'PENDING' | 'IN_PROGRESS' | 'READY' | 'DELIVERED' | 'CANCELLED'
 export type OrderPaymentStatus = 'UNPAID' | 'PARTIAL' | 'PAID'
 
+export interface OrderItem {
+  id: string
+  productName: string
+  quantity: number
+  unitCost: number
+  lineTotal: number
+}
+
 export interface Order {
   id: string
   orderNumber: number
   customerId?: string
   customerName: string
   customerPhone?: string
-  description: string
+  description?: string
+  items: OrderItem[]
   totalAmount: number
   amountPaid: number
   pendingAmount: number
@@ -653,12 +663,17 @@ export interface OrderPayment {
   createdAt: string
 }
 
+export interface CreateOrderItemRequest {
+  productName: string
+  quantity: number
+  unitCost: number
+}
+
 export interface CreateOrderRequest {
   customerName: string
   customerPhone?: string
   customerId?: string
-  description: string
-  totalAmount: number
+  items: CreateOrderItemRequest[]
   deliveryDate: string
   notes?: string
 }

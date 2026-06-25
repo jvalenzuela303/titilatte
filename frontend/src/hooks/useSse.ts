@@ -35,17 +35,25 @@ export function useSse(options: SseOptions = {}) {
       reconnectDelay.current = MIN_RECONNECT_MS
     }
 
-    es.onmessage = (e: MessageEvent) => {
-      try {
-        const event = JSON.parse(e.data as string) as SseEvent
-        optionsRef.current.onEvent?.(event)
-        if (optionsRef.current.enableNotifications) {
-          showNotification(event)
+    // Named SSE events require addEventListener — onmessage only catches unnamed events
+    const namedTypes: SseEventType[] = [
+      'VENTA_CONFIRMADA', 'STOCK_CRITICO', 'CAJA_ABIERTA', 'CAJA_CERRADA',
+      'HEARTBEAT', 'CONNECTED', 'ALERTA_DISPARADA', 'PEDIDO_PROXIMO',
+    ]
+    namedTypes.forEach((type) => {
+      es.addEventListener(type, (e: MessageEvent) => {
+        try {
+          const data = JSON.parse(e.data as string) as Record<string, unknown>
+          const event: SseEvent = { type, data, timestamp: new Date().toISOString() }
+          optionsRef.current.onEvent?.(event)
+          if (optionsRef.current.enableNotifications) {
+            showNotification(event)
+          }
+        } catch {
+          // Ignore malformed frames
         }
-      } catch {
-        // Ignore malformed JSON frames (e.g. keep-alive comments)
-      }
-    }
+      })
+    })
 
     es.onerror = () => {
       es.close()
@@ -107,6 +115,23 @@ function showNotification(event: SseEvent): void {
         placement: 'bottomRight',
         duration: 3,
       }),
+    PEDIDO_PROXIMO: () =>
+      notification.warning({
+        message: '⏰ Pedido próximo a vencer',
+        description: `Pedido #${String(event.data.orderNumber ?? '')} — ${String(event.data.customerName ?? '')} (entrega: ${String(event.data.deliveryDate ?? '').slice(0, 16).replace('T', ' ')})`,
+        placement: 'topRight',
+        duration: 10,
+      }),
+    ALERTA_DISPARADA: () => {
+      const isCritical = String(event.data.severity ?? '') === 'CRITICAL'
+      const fn = isCritical ? notification.error : notification.warning
+      fn({
+        message: isCritical ? '🚨 Alerta crítica' : '⚠️ Alerta',
+        description: `${String(event.data.ruleName ?? '')} — ${String(event.data.message ?? '')}`,
+        placement: 'topRight',
+        duration: isCritical ? 0 : 10,
+      })
+    },
   }
 
   handlers[event.type]?.()

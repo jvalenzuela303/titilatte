@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.generator.EventType;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -39,7 +38,7 @@ public class Order {
     @Column(name = "customer_phone", length = 50)
     private String customerPhone;
 
-    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "total_amount", nullable = false, precision = 12, scale = 2)
@@ -57,8 +56,12 @@ public class Order {
     @Builder.Default
     private String paymentStatus = "UNPAID";
 
-    @Column(name = "delivery_date", nullable = false)
-    private LocalDate deliveryDate;
+    @Column(name = "delivery_date", nullable = false, columnDefinition = "TIMESTAMPTZ")
+    private OffsetDateTime deliveryDate;
+
+    @Column(name = "reminder_sent", nullable = false)
+    @Builder.Default
+    private Boolean reminderSent = false;
 
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
