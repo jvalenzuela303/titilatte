@@ -153,10 +153,10 @@ public class AlertServiceImpl implements AlertService {
         OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
 
         for (AlertRule rule : activeRules) {
+            if (!isDue(rule, now)) {
+                continue;
+            }
             try {
-                if (!isDue(rule, now)) {
-                    continue;
-                }
                 evaluateRule(rule, now);
             } catch (Exception ex) {
                 log.error("Error evaluating alert rule {} ({}): {}", rule.getId(), rule.getName(), ex.getMessage(), ex);
