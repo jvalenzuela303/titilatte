@@ -3,6 +3,9 @@ import { notification } from 'antd'
 import { useAuthStore } from '../store/authStore'
 import type { SseEvent, SseEventType } from '../types'
 
+const MIN_RECONNECT_MS = 1_000
+const MAX_RECONNECT_MS = 30_000
+
 interface SseOptions {
   onEvent?: (event: SseEvent) => void
   enableNotifications?: boolean
@@ -22,13 +25,14 @@ export function useSse(options: SseOptions = {}) {
   const connect = useCallback(() => {
     if (!accessToken) return
 
+    const tokenAtConnect = accessToken
     const base = import.meta.env.VITE_API_URL || '/api/v1'
-    const url = `${base}/events/stream?token=${accessToken}`
+    const url = `${base}/events/stream?token=${tokenAtConnect}`
     const es = new EventSource(url)
     eventSourceRef.current = es
 
     es.onopen = () => {
-      reconnectDelay.current = 1000
+      reconnectDelay.current = MIN_RECONNECT_MS
     }
 
     es.onmessage = (e: MessageEvent) => {
@@ -46,7 +50,15 @@ export function useSse(options: SseOptions = {}) {
     es.onerror = () => {
       es.close()
       eventSourceRef.current = null
-      const delay = Math.min(reconnectDelay.current, 30_000)
+
+      // If the token changed since we connected (e.g. refreshed by the axios
+      // interceptor), do NOT schedule a reconnect with the stale token.
+      // The useEffect dependency on `accessToken` will trigger a new connect
+      // automatically once the store updates.
+      const currentToken = useAuthStore.getState().accessToken
+      if (currentToken !== tokenAtConnect) return
+
+      const delay = Math.min(reconnectDelay.current, MAX_RECONNECT_MS)
       reconnectDelay.current = delay * 2
       reconnectTimeoutRef.current = setTimeout(connect, delay)
     }

@@ -69,6 +69,7 @@ services:
       target: runtime
       args:
         VITE_API_URL: /api/v1
+        VITE_DEMO_MODE: "true"
         BUILD_SCRIPT: build:nocheck
     image: minimarket-demo-frontend:latest
     container_name: minimarket-demo-frontend

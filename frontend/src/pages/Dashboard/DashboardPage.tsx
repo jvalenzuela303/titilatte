@@ -189,13 +189,15 @@ function AdminDashboardView({ data }: { data: AdminDashboard }) {
 
         <Col xs={24} sm={12} lg={6}>
           <Card>
-            <Statistic
-              title="Stock Critico"
-              value={data.lowStockCount}
-              suffix="productos"
-              valueStyle={{ color: data.lowStockCount > 0 ? '#ff4d4f' : '#52c41a' }}
-              prefix={<WarningOutlined />}
-            />
+            <Tooltip title="Productos con stock actual por debajo del mínimo configurado">
+              <Statistic
+                title="Stock Bajo Mínimo"
+                value={data.lowStockCount}
+                suffix="productos"
+                valueStyle={{ color: data.lowStockCount > 0 ? '#ff4d4f' : '#52c41a' }}
+                prefix={<WarningOutlined />}
+              />
+            </Tooltip>
             {data.lowStockCount === 0 && (
               <Text type="success" style={{ fontSize: 12 }}>
                 Todo el stock en niveles normales
@@ -349,13 +351,15 @@ function SupervisorDashboardView({ data }: { data: SupervisorDashboard }) {
 
         <Col xs={24} sm={12} lg={6}>
           <Card>
-            <Statistic
-              title="Stock Critico"
-              value={data.lowStockCount}
-              suffix="productos"
-              prefix={<WarningOutlined />}
-              valueStyle={{ color: data.lowStockCount > 0 ? '#ff4d4f' : '#52c41a' }}
-            />
+            <Tooltip title="Productos con stock actual por debajo del mínimo configurado">
+              <Statistic
+                title="Stock Bajo Mínimo"
+                value={data.lowStockCount}
+                suffix="productos"
+                prefix={<WarningOutlined />}
+                valueStyle={{ color: data.lowStockCount > 0 ? '#ff4d4f' : '#52c41a' }}
+              />
+            </Tooltip>
           </Card>
         </Col>
       </Row>

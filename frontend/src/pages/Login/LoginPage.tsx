@@ -57,7 +57,9 @@ const LoginPage: React.FC = () => {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'admin@minimarket.local', password: 'Admin1234!' },
+    defaultValues: import.meta.env.VITE_DEMO_MODE === 'true'
+      ? { email: 'admin@minimarket.local', password: 'Admin1234!' }
+      : { email: '', password: '' },
   })
 
   const onSubmit = async (values: LoginFormValues) => {
@@ -190,19 +192,21 @@ const LoginPage: React.FC = () => {
               </Button>
             </Form.Item>
 
-            <Alert
-              type="info"
-              showIcon
-              style={{ marginTop: 16, textAlign: 'left' }}
-              message="Credenciales de demo"
-              description={
-                <span style={{ fontSize: 12 }}>
-                  <b>Email:</b> admin@minimarket.local
-                  <br />
-                  <b>Contraseña:</b> Admin1234!
-                </span>
-              }
-            />
+            {import.meta.env.VITE_DEMO_MODE === 'true' && (
+              <Alert
+                type="info"
+                showIcon
+                style={{ marginTop: 16, textAlign: 'left' }}
+                message="Credenciales de demo"
+                description={
+                  <span style={{ fontSize: 12 }}>
+                    <b>Email:</b> admin@minimarket.local
+                    <br />
+                    <b>Contraseña:</b> Admin1234!
+                  </span>
+                }
+              />
+            )}
           </Form>
 
           <Text
