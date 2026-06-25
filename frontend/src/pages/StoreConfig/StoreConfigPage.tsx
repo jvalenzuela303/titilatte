@@ -149,7 +149,7 @@ const StoreConfigPage: React.FC = () => {
                 {loading ? (
                   <Skeleton active paragraph={{ rows: 4 }} />
                 ) : (
-                  <Descriptions column={1} size="middle" labelStyle={{ width: 160, color: token.colorTextSecondary }}>
+                  <Descriptions column={1} size="middle" styles={{ label: { width: 160, color: token.colorTextSecondary } }}>
                     <Descriptions.Item
                       label={
                         <Space size={6}>

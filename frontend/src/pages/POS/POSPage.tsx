@@ -19,6 +19,8 @@ import {
   theme,
   Descriptions,
   App,
+  Form,
+  Tooltip,
 } from 'antd'
 import {
   SearchOutlined,
@@ -30,6 +32,7 @@ import {
   PlusOutlined,
   LockOutlined,
   WalletOutlined,
+  UserAddOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -37,7 +40,8 @@ import apiClient from '@/config/axios'
 import { useCartStore } from '@/store/cartStore'
 import promotionService from '@/services/promotionService'
 import { cashService } from '@/services/cashService'
-import type { Product, Sale, SaleType, PaymentMethod, CreateSaleRequest, Promotion } from '@/types'
+import { customerService } from '@/services/customerService'
+import type { Product, Sale, SaleType, PaymentMethod, CreateSaleRequest, Promotion, Customer } from '@/types'
 import '@/styles/print.css'
 import ThermalReceipt from '@/components/ThermalReceipt'
 
@@ -95,6 +99,70 @@ const POSPage: React.FC = () => {
   const [completedSale, setCompletedSale] = useState<Sale | null>(null)
   const [ticketVisible, setTicketVisible] = useState(false)
   const [activePromotions, setActivePromotions] = useState<Promotion[]>([])
+
+  // Customer for credit sales
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
+  const [customerOptions, setCustomerOptions] = useState<Customer[]>([])
+  const [customerSearchLoading, setCustomerSearchLoading] = useState(false)
+
+  // Quick new customer modal
+  const [newCustomerForm] = Form.useForm()
+  const [newCustomerModalOpen, setNewCustomerModalOpen] = useState(false)
+  const [newCustomerSubmitting, setNewCustomerSubmitting] = useState(false)
+
+  const handleSaleTypeChange = (val: SaleType) => {
+    setSaleType(val)
+    if (val === 'CONTADO') {
+      setSelectedCustomer(null)
+      setCustomerOptions([])
+    }
+  }
+
+  const handleNewCustomerSubmit = async () => {
+    let values: Record<string, unknown>
+    try {
+      values = await newCustomerForm.validateFields()
+    } catch {
+      return
+    }
+    setNewCustomerSubmitting(true)
+    try {
+      const res = await customerService.create(values)
+      const created = res.data
+      setSelectedCustomer(created)
+      setCustomerOptions([created])
+      setNewCustomerModalOpen(false)
+      newCustomerForm.resetFields()
+      message.success(`Cliente "${created.fullName}" creado y seleccionado`)
+    } catch (err: unknown) {
+      const msg =
+        err &&
+        typeof err === 'object' &&
+        'response' in err &&
+        (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          ? (err as { response: { data: { message: string } } }).response.data.message
+          : 'Error al crear el cliente'
+      message.error(msg)
+    } finally {
+      setNewCustomerSubmitting(false)
+    }
+  }
+
+  const handleCustomerSearch = async (value: string) => {
+    if (!value.trim()) {
+      setCustomerOptions([])
+      return
+    }
+    setCustomerSearchLoading(true)
+    try {
+      const res = await customerService.getAll({ search: value, size: 10, active: true })
+      setCustomerOptions(res.data.content ?? [])
+    } catch {
+      // silencioso
+    } finally {
+      setCustomerSearchLoading(false)
+    }
+  }
 
   // Weight modal state
   const [weightModalProduct, setWeightModalProduct] = useState<Product | null>(null)
@@ -269,12 +337,21 @@ const POSPage: React.FC = () => {
       message.warning('El carrito está vacío')
       return
     }
-    if (paymentMethod === 'EFECTIVO' && (amountReceived === null || amountReceived < roundedTotal)) {
+    if ((saleType === 'CREDITO' || saleType === 'MIXTO') && !selectedCustomer) {
+      message.warning('Debes seleccionar un cliente para ventas a crédito')
+      return
+    }
+    if (paymentMethod === 'EFECTIVO' && saleType === 'CONTADO' && (amountReceived === null || amountReceived < roundedTotal)) {
       message.warning('El monto recibido es insuficiente')
       return
     }
 
-    const paidAmount = paymentMethod === 'EFECTIVO' ? (amountReceived ?? roundedTotal) : roundedTotal
+    const isCredit = saleType === 'CREDITO'
+    const paidAmount = isCredit
+      ? 0
+      : paymentMethod === 'EFECTIVO'
+        ? (amountReceived ?? roundedTotal)
+        : roundedTotal
     const payload: CreateSaleRequest = {
       type: saleType,
       items: items.map((i) => ({
@@ -282,9 +359,10 @@ const POSPage: React.FC = () => {
         quantity: i.quantity,
         ...(i.customUnitPrice !== undefined ? { customUnitPrice: i.customUnitPrice } : {}),
       })),
-      paymentMethod,
+      ...(isCredit ? {} : { paymentMethod }),
       paymentAmount: paidAmount,
-      changeAmount: paymentMethod === 'EFECTIVO' ? Math.max(0, paidAmount - roundedTotal) : 0,
+      changeAmount: !isCredit && paymentMethod === 'EFECTIVO' ? Math.max(0, paidAmount - roundedTotal) : 0,
+      ...(selectedCustomer ? { customerId: selectedCustomer.id } : {}),
     }
 
     setIsProcessing(true)
@@ -296,6 +374,8 @@ const POSPage: React.FC = () => {
       setAmountReceived(null)
       setPaymentMethod('EFECTIVO')
       setSaleType('CONTADO')
+      setSelectedCustomer(null)
+      setCustomerOptions([])
       message.success(`Ticket #${res.data.saleNumber} registrado exitosamente`)
     } catch {
       message.error('Error al procesar la venta. Intenta nuevamente.')
@@ -746,36 +826,119 @@ const POSPage: React.FC = () => {
                 </Text>
                 <Select
                   value={saleType}
-                  onChange={(val) => setSaleType(val)}
+                  onChange={handleSaleTypeChange}
                   style={{ width: '100%' }}
                   options={[
                     { value: 'CONTADO', label: 'Contado' },
-                    { value: 'CREDITO', label: 'Crédito' },
+                    { value: 'CREDITO', label: '🤝 Crédito (Fiado)' },
                     { value: 'MIXTO', label: 'Mixto' },
                   ]}
                 />
               </div>
 
-              <div>
-                <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
-                  Método de pago
-                </Text>
-                <Select
-                  value={paymentMethod}
-                  onChange={(val) => {
-                    setPaymentMethod(val)
-                    setAmountReceived(null)
-                  }}
-                  style={{ width: '100%' }}
-                  options={[
-                    { value: 'EFECTIVO', label: 'Efectivo' },
-                    { value: 'TARJETA', label: 'Tarjeta' },
-                    { value: 'TRANSFERENCIA', label: 'Transferencia' },
-                  ]}
-                />
-              </div>
+              {(saleType === 'CREDITO' || saleType === 'MIXTO') && (
+                <div>
+                  <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
+                    Cliente <Text type="danger">*</Text>
+                  </Text>
+                  <Space.Compact style={{ width: '100%' }}>
+                    <Select
+                      showSearch
+                      placeholder="Buscar por nombre o RUT..."
+                      filterOption={false}
+                      onSearch={handleCustomerSearch}
+                      loading={customerSearchLoading}
+                      style={{ flex: 1 }}
+                      notFoundContent={
+                        customerSearchLoading
+                          ? 'Buscando...'
+                          : 'No encontrado — usa el botón + para crear'
+                      }
+                      value={selectedCustomer?.id ?? undefined}
+                      onChange={(id) => {
+                        const found = customerOptions.find((c) => c.id === id) ?? null
+                        setSelectedCustomer(found)
+                      }}
+                      options={customerOptions.map((c) => ({
+                        value: c.id,
+                        label: (
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span>
+                              <strong>{c.fullName}</strong>
+                              {c.rut && <span style={{ color: '#888', marginLeft: 8, fontSize: 12 }}>{c.rut}</span>}
+                            </span>
+                            <span style={{ fontSize: 12, color: c.creditUsed > 0 ? '#cf1322' : '#52c41a' }}>
+                              Deuda: ${Math.round(c.creditUsed).toLocaleString('es-CL')}
+                            </span>
+                          </div>
+                        ),
+                      }))}
+                    />
+                    <Tooltip title="Nuevo cliente">
+                      <Button
+                        icon={<UserAddOutlined />}
+                        onClick={() => {
+                          newCustomerForm.resetFields()
+                          setNewCustomerModalOpen(true)
+                        }}
+                      />
+                    </Tooltip>
+                  </Space.Compact>
+                  {selectedCustomer && (
+                    <div style={{
+                      marginTop: 6,
+                      padding: '6px 10px',
+                      background: '#f6ffed',
+                      border: '1px solid #b7eb8f',
+                      borderRadius: 6,
+                      fontSize: 12,
+                    }}>
+                      <strong>{selectedCustomer.fullName}</strong>
+                      {' — '}
+                      Deuda actual:{' '}
+                      <strong style={{ color: selectedCustomer.creditUsed > 0 ? '#cf1322' : '#52c41a' }}>
+                        ${Math.round(selectedCustomer.creditUsed).toLocaleString('es-CL')}
+                      </strong>
+                      {selectedCustomer.creditLimit > 0 && (
+                        <span style={{ color: '#888' }}>
+                          {' '}/ límite ${Math.round(selectedCustomer.creditLimit).toLocaleString('es-CL')}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
 
-              {paymentMethod === 'EFECTIVO' && (
+              {saleType === 'CREDITO' ? (
+                <Alert
+                  type="info"
+                  showIcon
+                  message="Venta a crédito — sin cobro inmediato"
+                  description="La deuda quedará registrada en la cuenta del cliente."
+                  style={{ fontSize: 12 }}
+                />
+              ) : (
+                <div>
+                  <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
+                    Método de pago
+                  </Text>
+                  <Select
+                    value={paymentMethod}
+                    onChange={(val) => {
+                      setPaymentMethod(val)
+                      setAmountReceived(null)
+                    }}
+                    style={{ width: '100%' }}
+                    options={[
+                      { value: 'EFECTIVO', label: 'Efectivo' },
+                      { value: 'TARJETA', label: 'Tarjeta' },
+                      { value: 'TRANSFERENCIA', label: 'Transferencia' },
+                    ]}
+                  />
+                </div>
+              )}
+
+              {paymentMethod === 'EFECTIVO' && saleType !== 'CREDITO' && (
                 <div>
                   <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
                     Monto recibido ($)
@@ -862,19 +1025,25 @@ const POSPage: React.FC = () => {
             <Text type="secondary">
               Precio: ${Math.round(weightModalProduct.salePrice).toLocaleString('es-CL')} / {weightModalProduct.unit.abbreviation}
             </Text>
-            <InputNumber
-              autoFocus
-              min={0.001}
-              step={0.1}
-              precision={3}
-              addonAfter={weightModalProduct.unit.abbreviation}
-              style={{ width: '100%' }}
-              size="large"
-              placeholder="0.000"
-              value={weightInput}
-              onChange={(val) => setWeightInput(val)}
-              onPressEnter={handleAddWeightProduct}
-            />
+            <Space.Compact style={{ width: '100%' }}>
+              <InputNumber
+                autoFocus
+                min={0.001}
+                step={0.1}
+                precision={3}
+                style={{ width: '100%' }}
+                size="large"
+                placeholder="0.000"
+                value={weightInput}
+                onChange={(val) => setWeightInput(val)}
+                onPressEnter={handleAddWeightProduct}
+              />
+              <span className="ant-input-group-addon" style={{
+                display: 'flex', alignItems: 'center', padding: '0 11px',
+                border: '1px solid #d9d9d9', borderLeft: 0, borderRadius: '0 6px 6px 0',
+                background: '#fafafa', fontSize: 14,
+              }}>{weightModalProduct.unit.abbreviation}</span>
+            </Space.Compact>
             {weightInput !== null && weightInput > 0 && (
               <Text strong style={{ fontSize: 16 }}>
                 Total: ${Math.round(weightModalProduct.salePrice * weightInput).toLocaleString('es-CL')}
@@ -905,19 +1074,25 @@ const POSPage: React.FC = () => {
             <Text type="secondary">
               {customPriceModalProduct.description ?? 'Ingrese el monto total a cobrar al cliente.'}
             </Text>
-            <InputNumber
-              autoFocus
-              min={1}
-              step={100}
-              precision={0}
-              addonBefore="$"
-              style={{ width: '100%' }}
-              size="large"
-              placeholder="0"
-              value={customPriceInput}
-              onChange={(val) => setCustomPriceInput(val)}
-              onPressEnter={handleAddCustomPriceProduct}
-            />
+            <Space.Compact style={{ width: '100%' }}>
+              <span className="ant-input-group-addon" style={{
+                display: 'flex', alignItems: 'center', padding: '0 11px',
+                border: '1px solid #d9d9d9', borderRight: 0, borderRadius: '6px 0 0 6px',
+                background: '#fafafa', fontSize: 16,
+              }}>$</span>
+              <InputNumber
+                autoFocus
+                min={1}
+                step={100}
+                precision={0}
+                style={{ width: '100%' }}
+                size="large"
+                placeholder="0"
+                value={customPriceInput}
+                onChange={(val) => setCustomPriceInput(val)}
+                onPressEnter={handleAddCustomPriceProduct}
+              />
+            </Space.Compact>
           </Space>
         )}
       </Modal>
@@ -928,6 +1103,68 @@ const POSPage: React.FC = () => {
           <ThermalReceipt sale={completedSale} />
         </div>
       )}
+
+      {/* ── Modal: Nuevo cliente rápido ── */}
+      <Modal
+        title={
+          <Space>
+            <UserAddOutlined />
+            Nuevo Cliente
+          </Space>
+        }
+        open={newCustomerModalOpen}
+        onCancel={() => {
+          setNewCustomerModalOpen(false)
+          newCustomerForm.resetFields()
+        }}
+        onOk={handleNewCustomerSubmit}
+        okText="Crear y seleccionar"
+        cancelText="Cancelar"
+        confirmLoading={newCustomerSubmitting}
+        width={420}
+        destroyOnHidden
+      >
+        <Alert
+          type="info"
+          showIcon
+          message="El límite de crédito se asigna desde la página de Clientes (ADMIN/Supervisor)."
+          style={{ marginBottom: 16, fontSize: 12 }}
+        />
+        <Form form={newCustomerForm} layout="vertical">
+          <Row gutter={12}>
+            <Col span={12}>
+              <Form.Item
+                name="firstName"
+                label="Nombre"
+                rules={[{ required: true, message: 'Requerido' }]}
+              >
+                <Input placeholder="Nombre" autoFocus />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="lastName"
+                label="Apellido"
+                rules={[{ required: true, message: 'Requerido' }]}
+              >
+                <Input placeholder="Apellido" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={12}>
+            <Col span={12}>
+              <Form.Item name="rut" label="RUT">
+                <Input placeholder="12.345.678-9" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="phone" label="Teléfono">
+                <Input placeholder="+56912345678" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     </div>
   )
 }

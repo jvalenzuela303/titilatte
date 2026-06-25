@@ -4,6 +4,7 @@ import com.minimarket.modules.purchases.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface PurchaseService {
@@ -17,6 +18,10 @@ public interface PurchaseService {
     PurchaseResponse getPurchase(UUID id);
 
     Page<PurchaseResponse> getAllPurchases(Pageable pageable);
+
+    PurchasePaymentResponse registerPayment(UUID purchaseId, PurchasePaymentRequest request, String userEmail);
+
+    List<PurchasePaymentResponse> getPayments(UUID purchaseId);
 
     SupplierResponse createSupplier(SupplierRequest request);
 

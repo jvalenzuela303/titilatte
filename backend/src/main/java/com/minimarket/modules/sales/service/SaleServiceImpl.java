@@ -148,20 +148,26 @@ public class SaleServiceImpl implements SaleService {
             savedSale.getDetails().add(detail);
         }
 
-        // Add payment
-        BigDecimal changeAmount = request.changeAmount() != null
-                ? request.changeAmount()
-                : BigDecimal.ZERO;
-
-        Payment payment = Payment.builder()
-                .sale(savedSale)
-                .method(request.paymentMethod())
-                .amount(request.paymentAmount())
-                .changeAmount(changeAmount)
-                .reference(request.paymentReference())
-                .build();
-
-        savedSale.getPayments().add(payment);
+        // Add payment only for non-credit sales
+        if (request.type() != SaleType.CREDITO) {
+            if (request.paymentMethod() == null) {
+                throw new BusinessException("Payment method is required for non-credit sales.");
+            }
+            if (request.paymentAmount() == null || request.paymentAmount().compareTo(BigDecimal.ZERO) <= 0) {
+                throw new BusinessException("Payment amount must be greater than 0 for non-credit sales.");
+            }
+            BigDecimal changeAmount = request.changeAmount() != null
+                    ? request.changeAmount()
+                    : BigDecimal.ZERO;
+            Payment payment = Payment.builder()
+                    .sale(savedSale)
+                    .method(request.paymentMethod())
+                    .amount(request.paymentAmount())
+                    .changeAmount(changeAmount)
+                    .reference(request.paymentReference())
+                    .build();
+            savedSale.getPayments().add(payment);
+        }
 
         // Flush to ensure details and payments are persisted before status change
         saleRepository.save(savedSale);

@@ -129,7 +129,7 @@ export interface UpdateProductRequest {
   categoryId?: string
   taxId?: string
   unitId?: string
-  isActive?: boolean
+  active?: boolean
   trackStock?: boolean
 }
 
@@ -320,6 +320,19 @@ export interface PurchaseItem {
   newAvgCost?: number
 }
 
+export type PurchasePaymentStatus = 'UNPAID' | 'PARTIAL' | 'PAID'
+
+export interface PurchasePayment {
+  id: string
+  purchaseId: string
+  amount: number
+  paymentMethod: string
+  notes?: string
+  paidByEmail: string
+  paidAt: string
+  createdAt: string
+}
+
 export interface Purchase {
   id: string
   purchaseNumber: number
@@ -327,6 +340,9 @@ export interface Purchase {
   documentType: 'FACTURA' | 'BOLETA' | 'SIN_DOCUMENTO'
   documentNumber?: string
   totalAmount: number
+  amountPaid: number
+  pendingAmount: number
+  paymentStatus: PurchasePaymentStatus
   status: 'DRAFT' | 'CONFIRMED' | 'CANCELLED'
   notes?: string
   purchasedByEmail: string
@@ -600,6 +616,51 @@ export interface CreateAlertRuleRequest {
   checkIntervalMinutes: number
   recipientRole: string
   active: boolean
+}
+
+// ─── Orders (Pedidos Especiales) ──────────────────────────────────────────────
+
+export type OrderStatus = 'PENDING' | 'IN_PROGRESS' | 'READY' | 'DELIVERED' | 'CANCELLED'
+export type OrderPaymentStatus = 'UNPAID' | 'PARTIAL' | 'PAID'
+
+export interface Order {
+  id: string
+  orderNumber: number
+  customerId?: string
+  customerName: string
+  customerPhone?: string
+  description: string
+  totalAmount: number
+  amountPaid: number
+  pendingAmount: number
+  status: OrderStatus
+  paymentStatus: OrderPaymentStatus
+  deliveryDate: string
+  notes?: string
+  createdByEmail: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface OrderPayment {
+  id: string
+  orderId: string
+  amount: number
+  paymentMethod: string
+  notes?: string
+  paidByEmail: string
+  paidAt: string
+  createdAt: string
+}
+
+export interface CreateOrderRequest {
+  customerName: string
+  customerPhone?: string
+  customerId?: string
+  description: string
+  totalAmount: number
+  deliveryDate: string
+  notes?: string
 }
 
 // ─── Period Closes ────────────────────────────────────────────────────────────

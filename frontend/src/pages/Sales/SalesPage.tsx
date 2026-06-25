@@ -111,6 +111,12 @@ const SalesPage: React.FC = () => {
   const totalRevenue = confirmed.reduce((sum, s) => sum + s.totalAmount, 0)
   const totalTax = confirmed.reduce((sum, s) => sum + s.taxAmount, 0)
 
+  // Desglose por tipo (ventas normales vs fiadas)
+  const contadoSales = confirmed.filter((s) => s.type === 'CONTADO')
+  const crediSales   = confirmed.filter((s) => s.type === 'CREDITO' || s.type === 'MIXTO')
+  const contadoTotal = contadoSales.reduce((sum, s) => sum + s.totalAmount, 0)
+  const crediTotal   = crediSales.reduce((sum, s) => sum + s.totalAmount, 0)
+
   // ── Cancel handler ────────────────────────────────────────────────────────
   const handleCancel = async () => {
     if (!cancelSale || !cancelReason.trim()) {
@@ -261,6 +267,55 @@ const SalesPage: React.FC = () => {
               value={sales.filter((s) => s.status === 'CANCELLED').length}
               valueStyle={{ color: token.colorError }}
             />
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Desglose ventas normales vs fiadas */}
+      <Row gutter={[12, 12]} style={{ marginBottom: 16 }}>
+        <Col xs={24} sm={8}>
+          <Card
+            variant="borderless"
+            style={{ boxShadow: token.boxShadowTertiary, borderLeft: `4px solid ${token.colorSuccess}` }}
+          >
+            <Statistic
+              title={<span style={{ color: token.colorSuccess, fontWeight: 600 }}>Ventas Normales (Contado)</span>}
+              value={contadoSales.length}
+              suffix={<Text type="secondary" style={{ fontSize: 13 }}>ventas</Text>}
+            />
+            <Text strong style={{ color: token.colorSuccess }}>
+              ${Math.round(contadoTotal).toLocaleString('es-CL')}
+            </Text>
+          </Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card
+            variant="borderless"
+            style={{ boxShadow: token.boxShadowTertiary, borderLeft: `4px solid ${token.colorWarning}` }}
+          >
+            <Statistic
+              title={<span style={{ color: token.colorWarning, fontWeight: 600 }}>Ventas Fiadas (Crédito)</span>}
+              value={crediSales.length}
+              suffix={<Text type="secondary" style={{ fontSize: 13 }}>ventas</Text>}
+            />
+            <Text strong style={{ color: token.colorWarning }}>
+              ${Math.round(crediTotal).toLocaleString('es-CL')}
+            </Text>
+          </Card>
+        </Col>
+        <Col xs={24} sm={8}>
+          <Card
+            variant="borderless"
+            style={{ boxShadow: token.boxShadowTertiary, borderLeft: `4px solid ${token.colorPrimary}` }}
+          >
+            <Statistic
+              title={<span style={{ color: token.colorPrimary, fontWeight: 600 }}>Total del Período</span>}
+              value={confirmed.length}
+              suffix={<Text type="secondary" style={{ fontSize: 13 }}>ventas</Text>}
+            />
+            <Text strong style={{ color: token.colorPrimary }}>
+              ${Math.round(totalRevenue).toLocaleString('es-CL')}
+            </Text>
           </Card>
         </Col>
       </Row>

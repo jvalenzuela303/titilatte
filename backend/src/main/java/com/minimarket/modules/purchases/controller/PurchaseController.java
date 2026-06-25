@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -66,6 +67,26 @@ public class PurchaseController {
     public ResponseEntity<Page<PurchaseResponse>> findAll(
             @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(purchaseService.getAllPurchases(pageable));
+    }
+
+    // ---- Payments ----
+
+    @PostMapping("/{id}/payments")
+    @PreAuthorize("hasAnyRole('ADMIN','BODEGA','SUPERVISOR')")
+    @Operation(summary = "Registrar un abono/pago a una compra CONFIRMADA")
+    public ResponseEntity<PurchasePaymentResponse> registerPayment(
+            @PathVariable UUID id,
+            @Valid @RequestBody PurchasePaymentRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(purchaseService.registerPayment(id, request, userDetails.getUsername()));
+    }
+
+    @GetMapping("/{id}/payments")
+    @PreAuthorize("hasAnyRole('ADMIN','BODEGA','SUPERVISOR','CAJERO')")
+    @Operation(summary = "Listar todos los pagos de una compra")
+    public ResponseEntity<List<PurchasePaymentResponse>> getPayments(@PathVariable UUID id) {
+        return ResponseEntity.ok(purchaseService.getPayments(id));
     }
 
     // ---- Suppliers ----

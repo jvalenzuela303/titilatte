@@ -25,6 +25,10 @@ const AlertsPage = lazy(() => import('@/pages/Alerts/AlertsPage'))
 const PeriodClosePage = lazy(() => import('@/pages/PeriodClose/PeriodClosePage'))
 const SalesPage = lazy(() => import('@/pages/Sales/SalesPage'))
 const StoreConfigPage = lazy(() => import('@/pages/StoreConfig/StoreConfigPage'))
+const SuppliersPage = lazy(() => import('@/pages/Suppliers/SuppliersPage'))
+const FiadosPage = lazy(() => import('@/pages/Fiados/FiadosPage'))
+const CustomersPage = lazy(() => import('@/pages/Customers/CustomersPage'))
+const OrdersPage = lazy(() => import('@/pages/Orders/OrdersPage'))
 
 const PageFallback: React.FC = () => (
   <div
@@ -101,6 +105,10 @@ export default function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/stock" element={<StockPage />} />
             <Route path="/purchases" element={<PurchasesPage />} />
+            <Route path="/suppliers" element={<SuppliersPage />} />
+            <Route path="/fiados" element={<FiadosPage />} />
+            <Route path="/customers" element={<CustomersPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
             <Route path="/cash" element={<CashPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route

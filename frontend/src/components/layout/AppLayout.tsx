@@ -29,6 +29,10 @@ import {
   BellOutlined,
   CalendarOutlined,
   SettingOutlined,
+  TeamOutlined,
+  CreditCardOutlined,
+  IdcardOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
@@ -46,6 +50,9 @@ const operacionItems: MenuProps['items'] = [
     { key: '/dashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
     { key: '/pos',       icon: <ShoppingCartOutlined />, label: 'POS - Ventas' },
     { key: '/sales',     icon: <UnorderedListOutlined />, label: 'Ventas' },
+    { key: '/customers', icon: <IdcardOutlined />, label: 'Clientes' },
+    { key: '/fiados',    icon: <CreditCardOutlined />, label: 'Fiados' },
+    { key: '/orders',    icon: <FileTextOutlined />, label: 'Pedidos' },
     { key: '/cash',      icon: <WalletOutlined />, label: 'Caja' },
   ]},
 ]
@@ -55,6 +62,7 @@ const inventarioItems: MenuProps['items'] = [
     { key: '/products',  icon: <AppstoreOutlined />, label: 'Productos' },
     { key: '/stock',     icon: <InboxOutlined />, label: 'Stock' },
     { key: '/purchases', icon: <ShoppingOutlined />, label: 'Compras' },
+    { key: '/suppliers', icon: <TeamOutlined />, label: 'Proveedores' },
   ]},
 ]
 

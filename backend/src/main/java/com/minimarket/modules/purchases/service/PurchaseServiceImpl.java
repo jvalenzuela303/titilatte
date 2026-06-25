@@ -6,6 +6,7 @@ import com.minimarket.modules.products.domain.Product;
 import com.minimarket.modules.products.repository.ProductRepository;
 import com.minimarket.modules.purchases.domain.*;
 import com.minimarket.modules.purchases.dto.*;
+import com.minimarket.modules.purchases.repository.PurchasePaymentRepository;
 import com.minimarket.modules.purchases.repository.PurchaseRepository;
 import com.minimarket.modules.purchases.repository.SupplierRepository;
 import com.minimarket.modules.users.domain.User;
@@ -23,6 +24,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,6 +32,7 @@ import java.util.UUID;
 public class PurchaseServiceImpl implements PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
+    private final PurchasePaymentRepository purchasePaymentRepository;
     private final SupplierRepository supplierRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
@@ -223,6 +226,61 @@ public class PurchaseServiceImpl implements PurchaseService {
         return toSupplierResponse(supplier);
     }
 
+    @Override
+    @Transactional
+    public PurchasePaymentResponse registerPayment(UUID purchaseId, PurchasePaymentRequest request, String userEmail) {
+        Purchase purchase = purchaseRepository.findWithDetailsById(purchaseId)
+                .orElseThrow(() -> new EntityNotFoundException("Purchase", purchaseId));
+
+        if (purchase.getStatus() != PurchaseStatus.CONFIRMED) {
+            throw new BusinessException(
+                    "Solo se pueden registrar pagos en compras CONFIRMADAS. Estado actual: " + purchase.getStatus());
+        }
+
+        User payer = userRepository.findByEmailAndDeletedAtIsNull(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found: " + userEmail));
+
+        PurchasePayment payment = PurchasePayment.builder()
+                .purchaseId(purchaseId)
+                .amount(request.amount().setScale(2, RoundingMode.HALF_UP))
+                .paymentMethod(request.paymentMethod())
+                .notes(request.notes())
+                .paidBy(payer.getId())
+                .paidAt(OffsetDateTime.now())
+                .build();
+
+        PurchasePayment savedPayment = purchasePaymentRepository.save(payment);
+
+        BigDecimal newAmountPaid = purchase.getAmountPaid()
+                .add(request.amount())
+                .setScale(2, RoundingMode.HALF_UP);
+        purchase.setAmountPaid(newAmountPaid);
+
+        int cmp = newAmountPaid.compareTo(purchase.getTotalAmount());
+        if (cmp >= 0) {
+            purchase.setPaymentStatus("PAID");
+        } else {
+            purchase.setPaymentStatus("PARTIAL");
+        }
+
+        purchaseRepository.save(purchase);
+        log.info("Payment of {} registered for purchase id: {} by: {}", request.amount(), purchaseId, userEmail);
+
+        return toPaymentResponse(savedPayment, payer.getEmail());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PurchasePaymentResponse> getPayments(UUID purchaseId) {
+        if (!purchaseRepository.existsById(purchaseId)) {
+            throw new EntityNotFoundException("Purchase", purchaseId);
+        }
+        return purchasePaymentRepository.findByPurchaseIdOrderByCreatedAtDesc(purchaseId)
+                .stream()
+                .map(p -> toPaymentResponse(p, resolveBuyerEmail(p.getPaidBy())))
+                .collect(Collectors.toList());
+    }
+
     // ---- private helpers ----
 
     private String resolveBuyerEmail(UUID buyerId) {
@@ -260,19 +318,43 @@ public class PurchaseServiceImpl implements PurchaseService {
                 ))
                 .toList();
 
+        BigDecimal amountPaid = purchase.getAmountPaid() != null
+                ? purchase.getAmountPaid()
+                : BigDecimal.ZERO;
+        BigDecimal totalAmount = purchase.getTotalAmount() != null
+                ? purchase.getTotalAmount()
+                : BigDecimal.ZERO;
+        BigDecimal pendingAmount = totalAmount.subtract(amountPaid).max(BigDecimal.ZERO);
+
         return new PurchaseResponse(
                 purchase.getId(),
                 purchase.getPurchaseNumber(),
                 resolveSupplierName(purchase.getSupplierId()),
                 purchase.getDocumentType(),
                 purchase.getDocumentNumber(),
-                purchase.getTotalAmount(),
+                totalAmount,
                 purchase.getStatus(),
                 purchase.getNotes(),
                 buyerEmail,
                 purchase.getPurchaseDate(),
                 purchase.getCreatedAt(),
-                items
+                items,
+                amountPaid,
+                pendingAmount,
+                purchase.getPaymentStatus() != null ? purchase.getPaymentStatus() : "UNPAID"
+        );
+    }
+
+    private PurchasePaymentResponse toPaymentResponse(PurchasePayment payment, String paidByEmail) {
+        return new PurchasePaymentResponse(
+                payment.getId(),
+                payment.getPurchaseId(),
+                payment.getAmount(),
+                payment.getPaymentMethod(),
+                payment.getNotes(),
+                paidByEmail,
+                payment.getPaidAt(),
+                payment.getCreatedAt()
         );
     }
 

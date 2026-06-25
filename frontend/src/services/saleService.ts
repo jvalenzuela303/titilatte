@@ -7,6 +7,8 @@ export interface SaleFilters {
   startDate?: string
   endDate?: string
   status?: string
+  type?: string
+  sellerId?: string
 }
 
 const saleService = {
@@ -17,6 +19,8 @@ const saleService = {
     if (filters.startDate) params.set('startDate', filters.startDate)
     if (filters.endDate) params.set('endDate', filters.endDate)
     if (filters.status) params.set('status', filters.status)
+    if (filters.type) params.set('type', filters.type)
+    if (filters.sellerId) params.set('sellerId', filters.sellerId)
     return apiClient.get<PageResponse<Sale>>(`/sales?${params.toString()}`)
   },
 

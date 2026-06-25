@@ -19,10 +19,9 @@ public record CreateSaleRequest(
         @Valid
         List<SaleItemRequest> items,
 
-        @NotNull(message = "Payment method is required")
         PaymentMethod paymentMethod,
 
-        @NotNull @DecimalMin(value = "0.01", message = "Payment amount must be greater than 0")
+        @NotNull @DecimalMin(value = "0.0", message = "Payment amount must be >= 0")
         BigDecimal paymentAmount,
 
         @DecimalMin(value = "0.0", message = "Change amount must be >= 0")

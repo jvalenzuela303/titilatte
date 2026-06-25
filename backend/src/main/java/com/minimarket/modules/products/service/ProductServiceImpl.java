@@ -104,6 +104,10 @@ public class ProductServiceImpl implements ProductService {
             throw new EntityNotFoundException("Unit", request.unitId());
         }
 
+        // Default to main branch; multi-branch support will derive this from
+        // the authenticated user's branchId in a future iteration (Phase 4).
+        UUID branchId = UUID.fromString("00000000-0000-0000-0000-000000000001");
+
         Product product = Product.builder()
                 .barcode(request.barcode())
                 .name(request.name())
@@ -115,6 +119,7 @@ public class ProductServiceImpl implements ProductService {
                 .stockMaximum(request.stockMaximum())
                 .active(true)
                 .trackStock(request.trackStock() == null || request.trackStock())
+                .branchId(branchId)
                 .category(category)
                 .tax(tax)
                 .unit(unit)

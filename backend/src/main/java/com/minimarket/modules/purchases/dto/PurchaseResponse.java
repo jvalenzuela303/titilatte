@@ -20,5 +20,8 @@ public record PurchaseResponse(
         String purchasedByEmail,
         OffsetDateTime purchaseDate,
         OffsetDateTime createdAt,
-        List<PurchaseItemResponse> items
+        List<PurchaseItemResponse> items,
+        BigDecimal amountPaid,
+        BigDecimal pendingAmount,
+        String paymentStatus
 ) {}

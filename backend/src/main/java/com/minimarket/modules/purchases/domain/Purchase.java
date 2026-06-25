@@ -50,6 +50,14 @@ public class Purchase {
     @Builder.Default
     private PurchaseStatus status = PurchaseStatus.DRAFT;
 
+    @Column(name = "amount_paid", precision = 12, scale = 2)
+    @Builder.Default
+    private BigDecimal amountPaid = BigDecimal.ZERO;
+
+    @Column(name = "payment_status", length = 20)
+    @Builder.Default
+    private String paymentStatus = "UNPAID";
+
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
