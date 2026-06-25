@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
   Table, Button, Tag, Space, Select, Modal, Form, Input, InputNumber,
   Typography, Card, Row, Col, App, Tooltip, Descriptions, Divider,
-  Empty, DatePicker, Badge, Statistic,
+  Empty, DatePicker, Badge, Statistic, AutoComplete,
 } from 'antd'
 import {
   PlusOutlined, DollarOutlined, HistoryOutlined, EditOutlined,
@@ -12,6 +12,7 @@ import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import { orderService } from '@/services/orderService'
 import { customerService } from '@/services/customerService'
+import productService from '@/services/productService'
 import type { Order, OrderPayment, Customer, CreateOrderItemRequest } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import PageHeader from '@/components/common/PageHeader'
@@ -71,6 +72,32 @@ const OrdersPage: React.FC = () => {
   const [createSubmitting, setCreateSubmitting] = useState(false)
   const [customerOptions, setCustomerOptions] = useState<Customer[]>([])
   const [customerSearching, setCustomerSearching] = useState(false)
+
+  // ── Autocomplete de productos ─────────────────────────────────────────────
+  type ProductOption = { value: string; label: string; price: number }
+  const [productSuggestions, setProductSuggestions] = useState<Record<number, ProductOption[]>>({})
+  const productDebounce = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const searchProducts = useCallback((itemIndex: number, query: string) => {
+    if (productDebounce.current) clearTimeout(productDebounce.current)
+    if (!query.trim()) {
+      setProductSuggestions((prev) => ({ ...prev, [itemIndex]: [] }))
+      return
+    }
+    productDebounce.current = setTimeout(async () => {
+      try {
+        const res = await productService.getProducts({ name: query, active: true, size: 8 })
+        const opts: ProductOption[] = res.data.content.map((p) => ({
+          value: p.name,
+          label: p.name,
+          price: p.salePrice,
+        }))
+        setProductSuggestions((prev) => ({ ...prev, [itemIndex]: opts }))
+      } catch {
+        // silenciar error de búsqueda
+      }
+    }, 300)
+  }, [])
 
   // ── Cambiar estado ────────────────────────────────────────────────────────
   const [statusTarget, setStatusTarget] = useState<Order | null>(null)
@@ -152,6 +179,7 @@ const OrdersPage: React.FC = () => {
       setCreateOpen(false)
       createForm.resetFields()
       setCustomerOptions([])
+      setProductSuggestions({})
       fetchOrders(1)
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message
@@ -490,7 +518,7 @@ ${dash}
       <Modal
         title={<Space><PlusOutlined />Nuevo Pedido</Space>}
         open={createOpen}
-        onCancel={() => { setCreateOpen(false); createForm.resetFields(); setCustomerOptions([]) }}
+        onCancel={() => { setCreateOpen(false); createForm.resetFields(); setCustomerOptions([]); setProductSuggestions({}) }}
         onOk={handleCreateSubmit}
         okText="Crear Pedido"
         cancelText="Cancelar"
@@ -551,7 +579,16 @@ ${dash}
                     <Col flex="auto">
                       <Form.Item name={[name, 'productName']} noStyle
                         rules={[{ required: true, message: 'Nombre requerido' }]}>
-                        <Input placeholder="Ej: Torta de Leche" />
+                        <AutoComplete
+                          options={productSuggestions[name] ?? []}
+                          placeholder="Ej: Torta de Leche"
+                          onSearch={(q) => searchProducts(name, q)}
+                          onSelect={(value: string, option: ProductOption) => {
+                            createForm.setFieldValue(['items', name, 'unitCost'], option.price)
+                          }}
+                          filterOption={false}
+                          style={{ width: '100%' }}
+                        />
                       </Form.Item>
                     </Col>
                     <Col style={{ width: 90 }}>
