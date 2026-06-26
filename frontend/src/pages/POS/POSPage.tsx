@@ -22,6 +22,7 @@ import {
   Form,
   Tooltip,
 } from 'antd'
+import type { InputRef } from 'antd'
 import {
   SearchOutlined,
   DeleteOutlined,
@@ -180,7 +181,7 @@ const POSPage: React.FC = () => {
   const lastKeyTimeRef = useRef<number>(0)
   const barcodeBufferRef = useRef<string>('')
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchInputRef = useRef<InputRef>(null)
 
   const change =
     paymentMethod === 'EFECTIVO' && amountReceived !== null

@@ -197,7 +197,7 @@ export interface SaleItemRequest {
 export interface CreateSaleRequest {
   type: SaleType
   items: SaleItemRequest[]
-  paymentMethod: PaymentMethod
+  paymentMethod?: PaymentMethod
   paymentAmount: number
   changeAmount?: number
   paymentReference?: string
@@ -238,7 +238,7 @@ export interface StockMovement {
 
 export interface StockAdjustmentRequest {
   productId: string
-  movementType: 'AJUSTE' | 'COMPRA' | 'MERMA'
+  movementType: 'AJUSTE' | 'COMPRA' | 'MERMA' | 'PRODUCCION_PROPIA'
   quantity: number
   notes: string
 }
@@ -470,6 +470,7 @@ export type SseEventType =
   | 'HEARTBEAT'
   | 'CONNECTED'
   | 'PEDIDO_PROXIMO'
+  | 'ALERTA_DISPARADA'
 
 export interface SseEvent {
   type: SseEventType

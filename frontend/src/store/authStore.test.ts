@@ -5,18 +5,26 @@ import type { User, LoginResponse } from '@/types'
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 
+// mockUser reflects what the store constructs from LoginResponse (roles mapped as { id: name, name })
 const mockUser: User = {
   id: '11111111-1111-1111-1111-111111111111',
   email: 'cajero@minimarket.com',
   firstName: 'Juan',
   lastName: 'Pérez',
-  roles: [{ id: 'aaa', name: 'CAJERO' }],
+  roles: [{ id: 'CAJERO', name: 'CAJERO' }],
 }
 
 const mockLoginResponse: LoginResponse = {
   accessToken: 'mock-access-token-jwt',
   refreshToken: 'mock-refresh-token-uuid',
-  user: mockUser,
+  tokenType: 'Bearer',
+  expiresIn: 900000,
+  userId: '11111111-1111-1111-1111-111111111111',
+  email: 'cajero@minimarket.com',
+  firstName: 'Juan',
+  lastName: 'Pérez',
+  roles: ['CAJERO'],
+  branchId: null,
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

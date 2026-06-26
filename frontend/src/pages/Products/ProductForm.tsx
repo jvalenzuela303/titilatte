@@ -150,7 +150,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           purchasePrice: product.purchasePrice,
           salePrice: product.salePrice,
           stockMinimum: product.stockMinimum,
-          stockMaximum: product.stockMaximum,
+          stockMaximum: product.stockMaximum ?? 0,
           categoryId: product.category.id,
           taxId: product.tax.id,
           unitId: product.unit.id,
