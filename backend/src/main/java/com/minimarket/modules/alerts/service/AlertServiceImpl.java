@@ -146,6 +146,7 @@ public class AlertServiceImpl implements AlertService {
     // -------------------------------------------------------------------------
 
     @Override
+    @Transactional(timeout = 30)
     public void evaluateAllRules() {
         List<AlertRule> activeRules = alertRuleRepository.findAllByActiveTrueAndDeletedAtIsNull();
         log.debug("Evaluating {} active alert rules", activeRules.size());

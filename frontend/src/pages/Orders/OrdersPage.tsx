@@ -72,6 +72,7 @@ const OrdersPage: React.FC = () => {
   const [createSubmitting, setCreateSubmitting] = useState(false)
   const [customerOptions, setCustomerOptions] = useState<Customer[]>([])
   const [customerSearching, setCustomerSearching] = useState(false)
+  const customerSearchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // ── Autocomplete de productos ─────────────────────────────────────────────
   type ProductOption = { value: string; label: string; price: number }
@@ -142,14 +143,17 @@ const OrdersPage: React.FC = () => {
   const pendingDebt  = orders.reduce((s, o) => s + (o.pendingAmount ?? 0), 0)
 
   // ── Buscar cliente existente ──────────────────────────────────────────────
-  const handleCustomerSearch = async (value: string) => {
+  const handleCustomerSearch = (value: string) => {
     if (!value.trim()) { setCustomerOptions([]); return }
-    setCustomerSearching(true)
-    try {
-      const res = await customerService.getAll({ search: value, size: 8, active: true })
-      setCustomerOptions(res.data.content ?? [])
-    } catch { /* silencioso */ }
-    finally { setCustomerSearching(false) }
+    if (customerSearchTimerRef.current) clearTimeout(customerSearchTimerRef.current)
+    customerSearchTimerRef.current = setTimeout(async () => {
+      setCustomerSearching(true)
+      try {
+        const res = await customerService.getAll({ search: value, size: 8, active: true })
+        setCustomerOptions(res.data.content ?? [])
+      } catch { /* silencioso */ }
+      finally { setCustomerSearching(false) }
+    }, 300)
   }
 
   // ── Crear pedido ──────────────────────────────────────────────────────────

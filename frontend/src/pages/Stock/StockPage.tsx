@@ -121,8 +121,8 @@ const StockPage: React.FC = () => {
 
   const loadProducts = useCallback(async () => {
     try {
-      const res = await productService.getProducts({ size: 200, active: true })
-      setProducts(res.data.content)
+      const products = await productService.getCatalog()
+      setProducts(products)
     } catch {
       // non-critical
     }

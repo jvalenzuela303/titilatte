@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
   Modal,
   Form,
@@ -19,8 +19,8 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import { purchaseService } from '@/services/purchaseService'
-import { useProducts } from '@/hooks/useProducts'
-import type { Supplier, CreatePurchaseRequest } from '@/types'
+import productService from '@/services/productService'
+import type { Product, Supplier, CreatePurchaseRequest } from '@/types'
 
 const { Text } = Typography
 const { TextArea } = Input
@@ -53,11 +53,21 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ open, onClose, onSuccess })
   const [suppliersLoading, setSuppliersLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [items, setItems] = useState<PurchaseFormItem[]>([])
-  const { products, loading: productsLoading, getProducts } = useProducts()
+  const [products, setProducts] = useState<Product[]>([])
+  const [productsLoading, setProductsLoading] = useState(false)
+  const catalogLoadedRef = useRef(false)
 
   useEffect(() => {
     if (open) {
-      getProducts({ size: 200, active: true })
+      // Cargar catálogo solo si aún no fue cargado en esta sesión; el caché en
+      // productService evita el fetch de red en aperturas posteriores.
+      if (!catalogLoadedRef.current) {
+        setProductsLoading(true)
+        productService.getCatalog()
+          .then((data) => { setProducts(data); catalogLoadedRef.current = true })
+          .catch(() => {})
+          .finally(() => setProductsLoading(false))
+      }
       loadSuppliers()
     }
   }, [open]) // eslint-disable-line react-hooks/exhaustive-deps

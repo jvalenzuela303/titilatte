@@ -148,20 +148,24 @@ const POSPage: React.FC = () => {
     }
   }
 
-  const handleCustomerSearch = async (value: string) => {
+  const customerSearchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const handleCustomerSearch = (value: string) => {
     if (!value.trim()) {
       setCustomerOptions([])
       return
     }
-    setCustomerSearchLoading(true)
-    try {
-      const res = await customerService.getAll({ search: value, size: 10, active: true })
-      setCustomerOptions(res.data.content ?? [])
-    } catch {
-      // silencioso
-    } finally {
-      setCustomerSearchLoading(false)
-    }
+    if (customerSearchTimerRef.current) clearTimeout(customerSearchTimerRef.current)
+    customerSearchTimerRef.current = setTimeout(async () => {
+      setCustomerSearchLoading(true)
+      try {
+        const res = await customerService.getAll({ search: value, size: 10, active: true })
+        setCustomerOptions(res.data.content ?? [])
+      } catch {
+        // silencioso
+      } finally {
+        setCustomerSearchLoading(false)
+      }
+    }, 300)
   }
 
   // Weight modal state

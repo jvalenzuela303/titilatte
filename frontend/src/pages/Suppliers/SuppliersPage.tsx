@@ -73,8 +73,11 @@ const SuppliersPage: React.FC = () => {
   )
 
   useEffect(() => {
-    setPage(1)
-    fetchSuppliers(1)
+    if (page !== 1) {
+      setPage(1)
+    } else {
+      fetchSuppliers(1)
+    }
   }, [search, activeFilter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

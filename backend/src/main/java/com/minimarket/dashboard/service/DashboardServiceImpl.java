@@ -6,6 +6,7 @@ import com.minimarket.modules.cash.domain.CashMovementType;
 import com.minimarket.modules.cash.domain.CashStatus;
 import com.minimarket.modules.cash.repository.CashMovementRepository;
 import com.minimarket.modules.cash.repository.CashRegisterRepository;
+import com.minimarket.modules.users.domain.User;
 import com.minimarket.modules.users.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -25,6 +26,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -132,19 +135,24 @@ public class DashboardServiceImpl implements DashboardService {
         List<CashRegister> openRegisters = cashRegisterRepository
                 .findAllByStatus(CashStatus.OPEN);
 
+        // Batch-load all cashiers in one query to avoid N+1
+        Set<UUID> cashierIds = openRegisters.stream()
+                .map(CashRegister::getCashierId)
+                .collect(Collectors.toSet());
+        Map<UUID, String> cashierNames = userRepository.findAllById(cashierIds).stream()
+                .collect(Collectors.toMap(
+                        User::getId,
+                        u -> u.getFirstName() + " " + u.getLastName()
+                ));
+
         List<CashSummaryDto> cashSummaries = openRegisters.stream()
                 .map(cr -> {
-                    String cashierName = userRepository.findById(cr.getCashierId())
-                            .map(u -> u.getFirstName() + " " + u.getLastName())
-                            .orElse(null);
-
                     BigDecimal expected = computeExpectedAmount(cr);
-
                     return new CashSummaryDto(
                             cr.getId(),
                             cr.getRegisterNumber(),
                             cr.getCashierId(),
-                            cashierName,
+                            cashierNames.get(cr.getCashierId()),
                             cr.getOpeningAmount(),
                             expected,
                             cr.getStatus(),
@@ -207,13 +215,15 @@ public class DashboardServiceImpl implements DashboardService {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay = startOfDay.plusDays(1);
 
+        // Load cashier name once — userId == cashierId, no need to re-query inside the lambda
+        String cashierName = userRepository.findById(userId)
+                .map(u -> u.getFirstName() + " " + u.getLastName())
+                .orElse(null);
+
         // Current open cash register for this cashier (nullable)
         CashSummaryDto currentCash = cashRegisterRepository
                 .findByCashierIdAndStatus(userId, CashStatus.OPEN)
                 .map(cr -> {
-                    String cashierName = userRepository.findById(cr.getCashierId())
-                            .map(u -> u.getFirstName() + " " + u.getLastName())
-                            .orElse(null);
                     BigDecimal expected = computeExpectedAmount(cr);
                     return new CashSummaryDto(
                             cr.getId(),

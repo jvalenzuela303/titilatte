@@ -144,11 +144,11 @@ const PromotionForm: React.FC<PromotionFormProps> = ({
 
   const loadProducts = useCallback(async () => {
     try {
-      const res = await productService.getProducts({ size: 200, active: true })
-      setProducts(res.data.content)
+      const products = await productService.getCatalog()
+      setProducts(products)
       // Extract unique categories from products
       const catMap = new Map<string, ProductCategory2>()
-      res.data.content.forEach((p) => {
+      products.forEach((p) => {
         if (p.category && !catMap.has(p.category.id)) {
           catMap.set(p.category.id, p.category)
         }

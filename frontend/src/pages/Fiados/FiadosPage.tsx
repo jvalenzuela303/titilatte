@@ -128,8 +128,11 @@ const FiadosPage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    setPage(1)
-    fetchCustomers(1)
+    if (page !== 1) {
+      setPage(1)
+    } else {
+      fetchCustomers(1)
+    }
   }, [search, showOnlyDebt]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

@@ -14,6 +14,11 @@ export interface ProductFilters {
   active?: boolean
 }
 
+// Catalog cache: shared across all components that need the full active product list.
+// TTL of 5 minutes — avoids fetching 200 products on every modal open.
+let catalogCache: { data: Product[]; ts: number } | null = null
+const CATALOG_TTL_MS = 5 * 60 * 1000
+
 const productService = {
   getProducts: (filters: ProductFilters = {}) => {
     const params = new URLSearchParams()
@@ -25,19 +30,46 @@ const productService = {
     return apiClient.get<PageResponse<Product>>(`/products?${params.toString()}`)
   },
 
+  /** Returns the full active catalog (up to 200 items), cached for 5 min. */
+  getCatalog: async (): Promise<Product[]> => {
+    if (catalogCache && Date.now() - catalogCache.ts < CATALOG_TTL_MS) {
+      return catalogCache.data
+    }
+    const res = await apiClient.get<PageResponse<Product>>('/products?size=200&active=true')
+    catalogCache = { data: res.data.content, ts: Date.now() }
+    return res.data.content
+  },
+
+  invalidateCatalogCache: () => {
+    catalogCache = null
+  },
+
   getByBarcode: (code: string) =>
     apiClient.get<Product>(`/products/barcode/${encodeURIComponent(code)}`),
 
-  create: (data: CreateProductRequest) =>
-    apiClient.post<Product>('/products', data),
+  create: async (data: CreateProductRequest) => {
+    const res = await apiClient.post<Product>('/products', data)
+    catalogCache = null
+    return res
+  },
 
-  update: (id: string, data: UpdateProductRequest) =>
-    apiClient.put<Product>(`/products/${id}`, data),
+  update: async (id: string, data: UpdateProductRequest) => {
+    const res = await apiClient.put<Product>(`/products/${id}`, data)
+    catalogCache = null
+    return res
+  },
 
-  delete: (id: string) => apiClient.delete(`/products/${id}`),
+  delete: async (id: string) => {
+    const res = await apiClient.delete(`/products/${id}`)
+    catalogCache = null
+    return res
+  },
 
-  deactivate: (id: string) =>
-    apiClient.put<Product>(`/products/${id}`, { active: false }),
+  deactivate: async (id: string) => {
+    const res = await apiClient.put<Product>(`/products/${id}`, { active: false })
+    catalogCache = null
+    return res
+  },
 }
 
 export default productService

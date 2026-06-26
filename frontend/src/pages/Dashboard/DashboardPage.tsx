@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import {
   Row,
   Col,
@@ -69,6 +69,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const sseDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const fetchDashboard = useCallback(async () => {
     try {
@@ -93,7 +94,9 @@ export default function DashboardPage() {
         event.type === 'CAJA_ABIERTA' ||
         event.type === 'CAJA_CERRADA'
       ) {
-        void fetchDashboard()
+        // Debounce: si llegan varios eventos seguidos, solo refetch una vez
+        if (sseDebounceRef.current) clearTimeout(sseDebounceRef.current)
+        sseDebounceRef.current = setTimeout(() => { void fetchDashboard() }, 500)
       }
     },
     [fetchDashboard]

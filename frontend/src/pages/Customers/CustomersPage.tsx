@@ -105,8 +105,12 @@ const CustomersPage: React.FC = () => {
   )
 
   useEffect(() => {
-    setPage(1)
-    fetchCustomers(1)
+    // Al cambiar filtros, volver a página 1 y fetchear sin disparar el segundo useEffect
+    if (page !== 1) {
+      setPage(1) // el cambio de page disparará el siguiente useEffect
+    } else {
+      fetchCustomers(1)
+    }
   }, [search, activeFilter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

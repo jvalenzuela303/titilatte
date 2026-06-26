@@ -32,6 +32,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.OffsetDateTime;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -146,16 +147,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private RefreshToken findActiveRefreshToken(String tokenHash) {
-        return entityManager.createQuery(
+        List<RefreshToken> results = entityManager.createQuery(
                         "SELECT rt FROM RefreshToken rt " +
                         "JOIN FETCH rt.user u " +
                         "JOIN FETCH u.roles " +
                         "WHERE rt.tokenHash = :hash AND rt.revokedAt IS NULL",
                         RefreshToken.class)
                 .setParameter("hash", tokenHash)
-                .getResultStream()
-                .findFirst()
-                .orElseThrow(() -> new BusinessException("Invalid or revoked refresh token."));
+                .setMaxResults(1)
+                .getResultList();
+        if (results.isEmpty()) {
+            throw new BusinessException("Invalid or revoked refresh token.");
+        }
+        return results.get(0);
     }
 
     private String resolveClientIp() {

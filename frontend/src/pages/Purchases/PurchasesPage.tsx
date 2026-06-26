@@ -126,8 +126,11 @@ const PurchasesPage: React.FC = () => {
   )
 
   useEffect(() => {
-    setPage(1)
-    fetchPurchases(1)
+    if (page !== 1) {
+      setPage(1)
+    } else {
+      fetchPurchases(1)
+    }
   }, [statusFilter, dateRange]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
