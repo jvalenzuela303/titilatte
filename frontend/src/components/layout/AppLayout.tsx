@@ -45,38 +45,53 @@ const { useBreakpoint } = Grid
 const SIDER_WIDTH = 200
 const SIDER_COLLAPSED_WIDTH = 80
 
-const operacionItems: MenuProps['items'] = [
-  { type: 'group', label: 'Operación', children: [
-    { key: '/dashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
-    { key: '/pos',       icon: <ShoppingCartOutlined />, label: 'POS - Ventas' },
-    { key: '/sales',     icon: <UnorderedListOutlined />, label: 'Ventas' },
-    { key: '/customers', icon: <IdcardOutlined />, label: 'Clientes' },
-    { key: '/fiados',    icon: <CreditCardOutlined />, label: 'Créditos' },
-    { key: '/orders',    icon: <FileTextOutlined />, label: 'Pedidos' },
-    { key: '/cash',      icon: <WalletOutlined />, label: 'Caja' },
+// Ventas — operación diaria de caja
+const ventasItems: MenuProps['items'] = [
+  { type: 'group', label: 'Ventas', children: [
+    { key: '/dashboard', icon: <DashboardOutlined />,     label: 'Dashboard' },
+    { key: '/pos',       icon: <ShoppingCartOutlined />,  label: 'Punto de Venta' },
+    { key: '/sales',     icon: <UnorderedListOutlined />, label: 'Historial' },
+    { key: '/cash',      icon: <WalletOutlined />,        label: 'Caja' },
   ]},
 ]
 
+// Clientes — gestión de clientes, créditos y pedidos
+const clientesItems: MenuProps['items'] = [
+  { type: 'group', label: 'Clientes', children: [
+    { key: '/customers', icon: <IdcardOutlined />,    label: 'Clientes' },
+    { key: '/fiados',    icon: <CreditCardOutlined />, label: 'Créditos' },
+    { key: '/orders',    icon: <FileTextOutlined />,   label: 'Pedidos' },
+  ]},
+]
+
+// Inventario — catálogo de productos y control de stock
 const inventarioItems: MenuProps['items'] = [
   { type: 'group', label: 'Inventario', children: [
-    { key: '/products',  icon: <AppstoreOutlined />, label: 'Productos' },
-    { key: '/stock',     icon: <InboxOutlined />, label: 'Stock' },
-    { key: '/purchases', icon: <ShoppingOutlined />, label: 'Compras' },
-    { key: '/suppliers', icon: <TeamOutlined />, label: 'Proveedores' },
+    { key: '/products', icon: <AppstoreOutlined />, label: 'Productos' },
+    { key: '/stock',    icon: <InboxOutlined />,    label: 'Stock' },
   ]},
 ]
 
-// Items visible only to ADMIN and SUPERVISOR
+// Compras — aprovisionamiento y proveedores
+const comprasItems: MenuProps['items'] = [
+  { type: 'group', label: 'Compras', children: [
+    { key: '/purchases', icon: <ShoppingOutlined />, label: 'Compras' },
+    { key: '/suppliers', icon: <TeamOutlined />,     label: 'Proveedores' },
+  ]},
+]
+
+// Gestión — visible solo para ADMIN y SUPERVISOR
 const gestionItems: MenuProps['items'] = [
   { type: 'group', label: 'Gestión', children: [
-    { key: '/reports',      icon: <BarChartOutlined />, label: 'Reportes' },
-    { key: '/categories',   icon: <TagsOutlined />, label: 'Categorías' },
-    { key: '/promotions',   icon: <TagOutlined />, label: 'Promociones' },
-    { key: '/alerts',       icon: <BellOutlined />, label: 'Alertas' },
-    { key: '/period-close', icon: <CalendarOutlined />, label: 'Cierre Período' },
+    { key: '/reports',      icon: <BarChartOutlined />,  label: 'Reportes' },
+    { key: '/categories',   icon: <TagsOutlined />,      label: 'Categorías' },
+    { key: '/promotions',   icon: <TagOutlined />,       label: 'Promociones' },
+    { key: '/alerts',       icon: <BellOutlined />,      label: 'Alertas' },
+    { key: '/period-close', icon: <CalendarOutlined />,  label: 'Cierre de Período' },
   ]},
 ]
 
+// Administración — visible solo para ADMIN
 const adminItems: MenuProps['items'] = [
   { type: 'group', label: 'Administración', children: [
     { key: '/store-config', icon: <SettingOutlined />, label: 'Configuración' },
@@ -102,10 +117,10 @@ const AppLayout: React.FC = () => {
   const isMobile = !screens.md
 
   const menuItems: MenuProps['items'] = isAdmin
-    ? [...operacionItems, ...inventarioItems, ...gestionItems, ...adminItems]
+    ? [...ventasItems, ...clientesItems, ...inventarioItems, ...comprasItems, ...gestionItems, ...adminItems]
     : isSupervisor
-      ? [...operacionItems, ...inventarioItems, ...gestionItems]
-      : [...operacionItems, ...inventarioItems]
+      ? [...ventasItems, ...clientesItems, ...inventarioItems, ...comprasItems, ...gestionItems]
+      : [...ventasItems, ...clientesItems, ...inventarioItems, ...comprasItems]
 
   const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
     navigate(key)
