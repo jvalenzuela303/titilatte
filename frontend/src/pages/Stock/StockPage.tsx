@@ -18,6 +18,7 @@ import {
   theme,
   Spin,
   App,
+  Alert,
 } from 'antd'
 import {
   WarningOutlined,
@@ -364,6 +365,14 @@ const StockPage: React.FC = () => {
             </Button>
           )
         }
+      />
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Cómo funciona el Control de Stock?"
+        description="Monitorea el inventario en tiempo real. Registra ajustes de stock, revisa el historial de movimientos y consulta qué productos están por debajo del mínimo permitido."
       />
 
       {/* KPI summary */}

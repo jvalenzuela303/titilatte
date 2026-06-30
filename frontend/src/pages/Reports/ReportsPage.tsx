@@ -36,6 +36,10 @@ import {
   CartesianGrid,
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
 } from 'recharts'
 import dayjs from 'dayjs'
 import { reportService } from '@/services/reportService'
@@ -49,6 +53,9 @@ import type {
   CustomerDebt,
   DailySales,
   Order,
+  PaymentMethodSummary,
+  CategorySalesItem,
+  CategorySalesReportResponse,
 } from '@/types'
 
 const { Title, Text } = Typography
@@ -70,6 +77,93 @@ function LastUpdated({ at }: { at: Date | null }) {
         Actualizado {dayjs(at).format('HH:mm:ss')}
       </Tag>
     </Tooltip>
+  )
+}
+
+// ── Payment method breakdown ───────────────────────────────────────────────
+
+const PAYMENT_METHOD_CONFIG: Record<
+  PaymentMethodSummary['method'],
+  { label: string; color: string }
+> = {
+  EFECTIVO:      { label: 'Efectivo',      color: '#52c41a' },
+  TARJETA:       { label: 'Tarjeta',       color: '#1677ff' },
+  TRANSFERENCIA: { label: 'Transferencia', color: '#fa8c16' },
+  CREDITO:       { label: 'Crédito',       color: '#722ed1' },
+}
+
+const PaymentMethodBreakdown: React.FC<{ breakdown: PaymentMethodSummary[] }> = ({
+  breakdown,
+}) => {
+  if (breakdown.length === 0) return null
+
+  const pieData = breakdown.map((item) => ({
+    name: PAYMENT_METHOD_CONFIG[item.method]?.label ?? item.method,
+    value: item.totalAmount,
+    color: PAYMENT_METHOD_CONFIG[item.method]?.color ?? '#8c8c8c',
+  }))
+
+  return (
+    <Card title="Desglose por Método de Pago" style={{ marginBottom: 16 }}>
+      <Row gutter={[16, 16]} align="middle">
+        <Col xs={24} md={12}>
+          <Row gutter={[12, 12]}>
+            {breakdown.map((item) => {
+              const cfg = PAYMENT_METHOD_CONFIG[item.method] ?? {
+                label: item.method,
+                color: '#8c8c8c',
+              }
+              return (
+                <Col xs={24} sm={12} key={item.method}>
+                  <Card
+                    size="small"
+                    style={{ borderLeft: `4px solid ${cfg.color}` }}
+                    variant="borderless"
+                  >
+                    <Statistic
+                      title={cfg.label}
+                      value={item.totalAmount}
+                      prefix="$"
+                      precision={0}
+                      valueStyle={{ color: cfg.color, fontSize: 18 }}
+                    />
+                    <Text type="secondary" style={{ fontSize: 12 }}>
+                      {item.transactionCount} transacción{item.transactionCount !== 1 ? 'es' : ''}
+                    </Text>
+                  </Card>
+                </Col>
+              )
+            })}
+          </Row>
+        </Col>
+        <Col xs={24} md={12}>
+          <ResponsiveContainer width="100%" height={220}>
+            <PieChart>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                label={({ name, percent }) =>
+                  `${name} ${(percent * 100).toFixed(0)}%`
+                }
+                labelLine={false}
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={index} fill={entry.color} />
+                ))}
+              </Pie>
+              <RechartsTooltip
+                formatter={(value: number) => [fmt(value), 'Monto']}
+              />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </Col>
+      </Row>
+    </Card>
   )
 }
 
@@ -250,6 +344,12 @@ const SalesTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
                 </BarChart>
               </ResponsiveContainer>
             </Card>
+          )}
+
+          {(report.paymentMethodBreakdown?.length ?? 0) > 0 && (
+            <PaymentMethodBreakdown
+              breakdown={report.paymentMethodBreakdown!}
+            />
           )}
 
           {sellers.length > 0 && (
@@ -868,6 +968,220 @@ const DebtorsTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) =>
   )
 }
 
+// ── Tab: Ventas por Categoría ──────────────────────────────────────────────
+
+const CategorySalesTab: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
+  const { message } = App.useApp()
+  const [range, setRange] = useState<[dayjs.Dayjs, dayjs.Dayjs]>(defaultRange)
+  const [loading, setLoading] = useState(false)
+  const [reportData, setReportData] = useState<CategorySalesReportResponse | null>(null)
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
+
+  const generate = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true)
+    try {
+      const start = range[0].format('YYYY-MM-DD')
+      const end = range[1].format('YYYY-MM-DD')
+      const res = await reportService.getCategorySalesReport(start, end)
+      setReportData(res.data)
+      setLastUpdated(new Date())
+    } catch {
+      if (!silent) message.error('Error al generar el reporte por categoría')
+    } finally {
+      if (!silent) setLoading(false)
+    }
+  }, [range, message])
+
+  useEffect(() => {
+    if (refreshTrigger > 0 && reportData !== null) {
+      void generate(true)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshTrigger])
+
+  const categories = reportData?.categories ?? []
+
+  const totalUnits = categories.reduce((s, c) => s + c.totalUnits, 0)
+  const activeCategoryCount = categories.length
+
+  // Sort descending by totalAmount for the chart
+  const chartData = [...categories]
+    .sort((a, b) => b.totalAmount - a.totalAmount)
+    .slice(0, 12)
+    .map((c) => ({
+      name: c.categoryName.length > 18 ? `${c.categoryName.slice(0, 16)}…` : c.categoryName,
+      fullName: c.categoryName,
+      monto: c.totalAmount,
+    }))
+
+  const categoryColumns: ColumnsType<CategorySalesItem> = [
+    {
+      title: 'Familia',
+      dataIndex: 'familyName',
+      key: 'familyName',
+      sorter: (a, b) => a.familyName.localeCompare(b.familyName),
+      filters: Array.from(new Set(categories.map((c) => c.familyName))).map((f) => ({
+        text: f,
+        value: f,
+      })),
+      onFilter: (value, record) => record.familyName === value,
+    },
+    {
+      title: 'Categoría',
+      dataIndex: 'categoryName',
+      key: 'categoryName',
+      sorter: (a, b) => a.categoryName.localeCompare(b.categoryName),
+    },
+    {
+      title: 'Productos vendidos',
+      dataIndex: 'productCount',
+      key: 'productCount',
+      align: 'right',
+      width: 150,
+      sorter: (a, b) => a.productCount - b.productCount,
+    },
+    {
+      title: 'Unidades',
+      dataIndex: 'totalUnits',
+      key: 'totalUnits',
+      align: 'right',
+      width: 110,
+      sorter: (a, b) => a.totalUnits - b.totalUnits,
+    },
+    {
+      title: 'Descuentos',
+      dataIndex: 'totalDiscount',
+      key: 'totalDiscount',
+      align: 'right',
+      width: 120,
+      render: fmt,
+      sorter: (a, b) => a.totalDiscount - b.totalDiscount,
+    },
+    {
+      title: 'Total',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
+      align: 'right',
+      width: 130,
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.totalAmount - b.totalAmount,
+      render: (v: number) => (
+        <Text strong style={{ color: '#1677ff' }}>
+          {fmt(v)}
+        </Text>
+      ),
+    },
+  ]
+
+  return (
+    <div>
+      <Card style={{ marginBottom: 16 }}>
+        <Space wrap>
+          <RangePicker
+            format="DD/MM/YYYY"
+            value={range}
+            onChange={(vals) =>
+              setRange((vals as [dayjs.Dayjs, dayjs.Dayjs]) ?? defaultRange)
+            }
+          />
+          <Button
+            type="primary"
+            icon={<SearchOutlined />}
+            loading={loading}
+            onClick={() => generate(false)}
+          >
+            Generar Reporte
+          </Button>
+          <LastUpdated at={lastUpdated} />
+        </Space>
+      </Card>
+
+      {loading && (
+        <div style={{ textAlign: 'center', padding: 40 }}>
+          <Spin size="large" />
+        </div>
+      )}
+
+      {!loading && reportData && (
+        <>
+          <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+            <Col xs={24} sm={8}>
+              <Card>
+                <Statistic
+                  title="Total Vendido"
+                  value={reportData.grandTotal}
+                  prefix="$"
+                  precision={0}
+                  valueStyle={{ color: '#1677ff' }}
+                />
+              </Card>
+            </Col>
+            <Col xs={24} sm={8}>
+              <Card>
+                <Statistic
+                  title="Total Unidades"
+                  value={totalUnits}
+                />
+              </Card>
+            </Col>
+            <Col xs={24} sm={8}>
+              <Card>
+                <Statistic
+                  title="Categorías Activas"
+                  value={activeCategoryCount}
+                />
+              </Card>
+            </Col>
+          </Row>
+
+          {chartData.length > 0 && (
+            <Card title="Monto por Categoría (Top 12)" style={{ marginBottom: 16 }}>
+              <ResponsiveContainer width="100%" height={Math.max(220, chartData.length * 36)}>
+                <BarChart
+                  data={chartData}
+                  layout="vertical"
+                  margin={{ top: 4, right: 40, left: 8, bottom: 4 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                  <XAxis
+                    type="number"
+                    tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                    tick={{ fontSize: 11 }}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    width={130}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <RechartsTooltip
+                    formatter={(value: number, _name: string, props: { payload?: { fullName?: string } }) => [
+                      fmt(value),
+                      props.payload?.fullName ?? 'Monto',
+                    ]}
+                  />
+                  <Bar dataKey="monto" fill="#1677ff" radius={[0, 3, 3, 0]} name="Monto" />
+                </BarChart>
+              </ResponsiveContainer>
+            </Card>
+          )}
+
+          <Card>
+            <Table
+              rowKey="categoryId"
+              dataSource={categories}
+              columns={categoryColumns}
+              size="small"
+              pagination={{ pageSize: 20, showSizeChanger: false }}
+              locale={{ emptyText: 'Sin datos de categorías para el período' }}
+            />
+          </Card>
+        </>
+      )}
+    </div>
+  )
+}
+
 // ── Tab: Stock Crítico ─────────────────────────────────────────────────────
 
 interface StockCriticalItem {
@@ -1021,6 +1335,14 @@ const ReportsPage: React.FC = () => {
         Reportes
       </Title>
 
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué son los Reportes?"
+        description="Accede a informes detallados de ventas, utilidades, productos más vendidos, ventas por categoría, créditos pendientes y stock crítico. Puedes exportar los datos a Excel."
+      />
+
       <Tabs
         defaultActiveKey="sales"
         items={[
@@ -1038,6 +1360,11 @@ const ReportsPage: React.FC = () => {
             key: 'topProducts',
             label: 'Top Productos',
             children: <TopProductsTab refreshTrigger={salesTrigger} />,
+          },
+          {
+            key: 'byCategory',
+            label: 'Por Categoría',
+            children: <CategorySalesTab refreshTrigger={salesTrigger} />,
           },
           {
             key: 'orders',

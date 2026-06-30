@@ -20,6 +20,7 @@ import {
   Progress,
   Divider,
   Empty,
+  Alert,
 } from 'antd'
 import {
   PlusOutlined,
@@ -353,6 +354,14 @@ const PurchasesPage: React.FC = () => {
           </Button>
         </Col>
       </Row>
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué son las Compras?"
+        description="Gestiona las órdenes de compra a proveedores. Crea nuevas órdenes, registra la recepción de mercadería y el stock se actualiza automáticamente al confirmar cada compra."
+      />
 
       <Card style={{ marginBottom: 16 }}>
         <Space wrap>

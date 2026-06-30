@@ -743,13 +743,42 @@ const POSPage: React.FC = () => {
                     ]}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <Text strong ellipsis style={{ display: 'block', fontSize: 13 }}>
-                        {item.product.name}
-                      </Text>
+                      <Space size={4} style={{ flexWrap: 'nowrap' }}>
+                        <Text strong ellipsis style={{ display: 'block', fontSize: 13 }}>
+                          {item.product.name}
+                        </Text>
+                        {item.appliedPromotion && (
+                          <Tooltip
+                            title={
+                              <span>
+                                <strong>{item.appliedPromotion.promotionName}</strong>
+                                <br />
+                                {item.appliedPromotion.description}
+                                <br />
+                                Ahorro: ${Math.round(item.appliedPromotion.discountAmount).toLocaleString('es-CL')}
+                              </span>
+                            }
+                          >
+                            <Tag
+                              color="success"
+                              style={{ fontSize: 10, padding: '0 4px', lineHeight: '18px', cursor: 'help' }}
+                            >
+                              PROMO
+                            </Tag>
+                          </Tooltip>
+                        )}
+                      </Space>
                       <Text type="secondary" style={{ fontSize: 12 }}>
                         {item.customUnitPrice !== undefined
                           ? 'Precio libre'
                           : `$${Math.round(item.unitPrice).toLocaleString('es-CL')} / ${item.product.unit.abbreviation}`}
+                        {item.appliedPromotion && (
+                          <Text
+                            style={{ fontSize: 11, color: '#52c41a', marginLeft: 6 }}
+                          >
+                            -${Math.round(item.appliedPromotion.discountAmount).toLocaleString('es-CL')}
+                          </Text>
+                        )}
                       </Text>
                       <Space size={8} style={{ display: 'flex', marginTop: 4 }}>
                         {item.customUnitPrice !== undefined ? (

@@ -454,6 +454,14 @@ const CashPage: React.FC = () => {
         </Col>
       </Row>
 
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Cómo funciona la Caja?"
+        description="Gestiona el turno de caja: consulta el balance actual, registra egresos de efectivo y cierra la caja al finalizar el turno para generar el arqueo."
+      />
+
       <Tabs
         activeKey={activeTab}
         items={[

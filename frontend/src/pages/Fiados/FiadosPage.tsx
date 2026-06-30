@@ -20,6 +20,7 @@ import {
   Divider,
   Empty,
   Badge,
+  Alert,
 } from 'antd'
 import {
   DollarOutlined,
@@ -330,6 +331,14 @@ const FiadosPage: React.FC = () => {
             {showOnlyDebt ? 'Ver todos' : 'Solo con deuda'}
           </Button>
         }
+      />
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Cómo funcionan los Créditos?"
+        description="Controla las deudas y créditos otorgados a clientes. Registra abonos, consulta el saldo pendiente de cada cliente y establece límites de crédito personalizados."
       />
 
       {/* Tarjetas resumen */}

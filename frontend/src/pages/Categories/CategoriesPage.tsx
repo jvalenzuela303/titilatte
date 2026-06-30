@@ -16,6 +16,7 @@ import {
   App,
   theme,
   Popconfirm,
+  Alert,
 } from 'antd'
 import {
   PlusOutlined,
@@ -294,6 +295,14 @@ const CategoriesPage: React.FC = () => {
             </Button>
           </Space>
         }
+      />
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué son las Categorías?"
+        description="Organiza el catálogo de productos en familias y categorías. Una buena clasificación facilita la búsqueda en el Punto de Venta y enriquece los reportes de ventas por categoría."
       />
 
       <Card

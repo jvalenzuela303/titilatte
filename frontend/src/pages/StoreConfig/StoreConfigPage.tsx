@@ -13,6 +13,7 @@ import {
   App,
   theme,
   Divider,
+  Alert,
 } from 'antd'
 import {
   EditOutlined,
@@ -101,6 +102,14 @@ const StoreConfigPage: React.FC = () => {
         subtitle="Información general del local"
         breadcrumbs={[{ title: 'Administración' }, { title: 'Configuración de tienda' }]}
         extra={!editing ? editButton : null}
+      />
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué es la Configuración de Tienda?"
+        description="Ajusta los parámetros generales del sistema: nombre del local, datos fiscales, información de contacto y otras preferencias operacionales del minimarket."
       />
 
       <Row gutter={[24, 24]}>

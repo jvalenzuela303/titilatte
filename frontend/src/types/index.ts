@@ -295,6 +295,7 @@ export interface CartItem {
   unitPrice: number
   subtotal: number
   customUnitPrice?: number
+  appliedPromotion?: AppliedPromotion
 }
 
 // ─── Fase 2: Purchases ────────────────────────────────────────────
@@ -432,11 +433,38 @@ export interface DailySales {
   totalAmount: number
 }
 
+export type PaymentMethodType = 'EFECTIVO' | 'TARJETA' | 'TRANSFERENCIA' | 'CREDITO'
+
+export interface PaymentMethodSummary {
+  method: PaymentMethodType
+  totalAmount: number
+  transactionCount: number
+}
+
 export interface SalesReport {
   totalSales: number
   totalAmount: number
   totalDiscount: number
   dailyBreakdown: DailySales[]
+  paymentMethodBreakdown?: PaymentMethodSummary[]
+}
+
+export interface CategorySalesItem {
+  categoryId: string
+  categoryName: string
+  familyId: string
+  familyName: string
+  totalUnits: number
+  totalAmount: number
+  totalDiscount: number
+  productCount: number
+}
+
+export interface CategorySalesReportResponse {
+  startDate: string
+  endDate: string
+  grandTotal: number
+  categories: CategorySalesItem[]
 }
 
 export interface TopProduct {

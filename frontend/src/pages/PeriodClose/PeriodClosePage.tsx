@@ -334,6 +334,14 @@ const PeriodClosePage: React.FC = () => {
         breadcrumbs={[{ title: 'Inicio' }, { title: 'Cierre Período' }]}
       />
 
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué es el Cierre de Período?"
+        description="Ejecuta el cierre mensual del negocio: consolida las ventas, genera el resumen financiero del período y deja el sistema listo para el siguiente mes. Esta operación no se puede deshacer."
+      />
+
       <Card
         variant="borderless"
         style={{

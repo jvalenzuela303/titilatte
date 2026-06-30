@@ -50,11 +50,11 @@ public class ReportController {
 
     @GetMapping("/sales/by-category")
     @PreAuthorize("hasAnyRole('ADMIN','SUPERVISOR')")
-    @Operation(summary = "Ventas agrupadas por categoría de producto")
-    public ResponseEntity<List<SalesByCategoryResponse>> getByCategory(
+    @Operation(summary = "Ventas agrupadas por categoría y familia de producto")
+    public ResponseEntity<CategorySalesReportResponse> getByCategory(
             @RequestParam @DateTimeFormat(iso = DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DATE) LocalDate endDate) {
-        return ResponseEntity.ok(reportService.getSalesByCategory(startDate, endDate));
+        return ResponseEntity.ok(reportService.getCategorySalesReport(startDate, endDate));
     }
 
     @GetMapping("/top-products")

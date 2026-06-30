@@ -13,6 +13,8 @@ public interface ReportService {
 
     List<SalesByCategoryResponse> getSalesByCategory(LocalDate start, LocalDate end);
 
+    CategorySalesReportResponse getCategorySalesReport(LocalDate start, LocalDate end);
+
     List<TopProductsResponse> getTopProducts(LocalDate start, LocalDate end, int limit);
 
     ProfitReportResponse getProfitReport(LocalDate start, LocalDate end);

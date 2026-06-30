@@ -354,6 +354,14 @@ const CustomersPage: React.FC = () => {
         </Col>
       </Row>
 
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué es el módulo de Clientes?"
+        description="Administra la base de clientes del minimarket. Puedes registrar nuevos clientes, consultar su historial de compras y gestionar límites de crédito."
+      />
+
       <Card style={{ marginBottom: 16 }}>
         <Row gutter={12} wrap>
           <Col xs={24} sm={14} md={10}>

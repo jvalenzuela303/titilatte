@@ -13,6 +13,7 @@ import {
   theme,
   Typography,
   App,
+  Alert,
 } from 'antd'
 import {
   PlusOutlined,
@@ -246,6 +247,14 @@ const ProductsPage: React.FC = () => {
             </Button>
           )
         }
+      />
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué es el Catálogo de Productos?"
+        description="Administra todos los productos del minimarket: nombre, precio de venta, costo, categoría y niveles de stock. Desde aquí también se gestionan los códigos de barra y las unidades de medida."
       />
 
       {/* Filters */}

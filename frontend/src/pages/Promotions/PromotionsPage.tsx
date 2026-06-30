@@ -654,6 +654,21 @@ const PromotionsPage: React.FC = () => {
         }
       />
 
+      {/* Info: cómo funcionan las promociones en el POS */}
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Cómo funcionan las promociones?"
+        description={
+          <>
+            Las promociones activas se aplican automáticamente al agregar productos en el POS.
+            El sistema selecciona la mejor promoción disponible según el tipo y cantidad.
+            Puedes ver la promoción aplicada en el detalle de cada línea de venta.
+          </>
+        }
+      />
+
       {/* KPIs */}
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col xs={24} sm={8}>

@@ -62,7 +62,31 @@ public class ReportServiceImpl implements ReportService {
                 ))
                 .toList();
 
-        return new SalesReportResponse(totalSales, totalAmount, totalDiscount, dailyBreakdown);
+        Query paymentQuery = em.createNativeQuery("""
+                SELECT p.method,
+                       SUM(p.amount) AS total_amount,
+                       COUNT(p.id) AS transaction_count
+                FROM payments p
+                JOIN sales s ON s.id = p.sale_id
+                WHERE s.status = 'CONFIRMED'
+                  AND s.created_at >= :start AND s.created_at < :end
+                GROUP BY p.method
+                ORDER BY total_amount DESC
+                """);
+        paymentQuery.setParameter("start", start.atStartOfDay());
+        paymentQuery.setParameter("end", end.plusDays(1).atStartOfDay());
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> paymentRows = paymentQuery.getResultList();
+        List<PaymentMethodSummary> paymentMethodBreakdown = paymentRows.stream()
+                .map(row -> new PaymentMethodSummary(
+                        (String) row[0],
+                        new BigDecimal(row[1].toString()),
+                        ((Number) row[2]).longValue()
+                ))
+                .toList();
+
+        return new SalesReportResponse(totalSales, totalAmount, totalDiscount, dailyBreakdown, paymentMethodBreakdown);
     }
 
     @Override
@@ -124,6 +148,53 @@ public class ReportServiceImpl implements ReportService {
                         new BigDecimal(row[4].toString())
                 ))
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CategorySalesReportResponse getCategorySalesReport(LocalDate start, LocalDate end) {
+        Query query = em.createNativeQuery("""
+                SELECT pc.id AS category_id,
+                       pc.name AS category_name,
+                       pf.id AS family_id,
+                       pf.name AS family_name,
+                       COALESCE(SUM(sd.quantity), 0) AS total_units,
+                       COALESCE(SUM(sd.subtotal), 0) AS total_amount,
+                       COALESCE(SUM(sd.discount_amount), 0) AS total_discount,
+                       COUNT(DISTINCT sd.product_id) AS product_count
+                FROM sale_details sd
+                JOIN products pr ON pr.id = sd.product_id
+                JOIN product_categories pc ON pc.id = pr.category_id
+                JOIN product_families pf ON pf.id = pc.family_id
+                JOIN sales s ON s.id = sd.sale_id
+                WHERE s.status = 'CONFIRMED'
+                  AND s.created_at >= :start AND s.created_at < :end
+                GROUP BY pc.id, pc.name, pf.id, pf.name
+                ORDER BY total_amount DESC
+                """);
+        query.setParameter("start", start.atStartOfDay());
+        query.setParameter("end", end.plusDays(1).atStartOfDay());
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> rows = query.getResultList();
+        List<CategorySalesReport> categories = rows.stream()
+                .map(row -> new CategorySalesReport(
+                        row[0].toString(),
+                        (String) row[1],
+                        row[2].toString(),
+                        (String) row[3],
+                        ((Number) row[4]).longValue(),
+                        new BigDecimal(row[5].toString()),
+                        new BigDecimal(row[6].toString()),
+                        ((Number) row[7]).longValue()
+                ))
+                .toList();
+
+        BigDecimal grandTotal = categories.stream()
+                .map(CategorySalesReport::totalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new CategorySalesReportResponse(start, end, grandTotal, categories);
     }
 
     @Override

@@ -15,6 +15,7 @@ import {
   Col,
   Tooltip,
   App,
+  Alert,
 } from 'antd'
 import {
   PlusOutlined,
@@ -250,6 +251,14 @@ const SuppliersPage: React.FC = () => {
             </Button>
           )
         }
+      />
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué es el módulo de Proveedores?"
+        description="Administra el directorio de proveedores: nombre, RUT, contacto y condiciones comerciales. Los proveedores están vinculados a las órdenes de compra del sistema."
       />
 
       {/* Filtros */}

@@ -1,11 +1,21 @@
 import api from '../config/axios'
-import type { SalesReport, ProfitReport, TopProduct, SellerReport } from '../types'
+import type {
+  SalesReport,
+  ProfitReport,
+  TopProduct,
+  SellerReport,
+  CategorySalesReportResponse,
+} from '../types'
 
 export const reportService = {
   getSales: (startDate: string, endDate: string) =>
     api.get<SalesReport>('/reports/sales', { params: { startDate, endDate } }),
   getBySeller: (startDate: string, endDate: string) =>
     api.get<SellerReport[]>('/reports/sales/by-seller', {
+      params: { startDate, endDate },
+    }),
+  getCategorySalesReport: (startDate: string, endDate: string) =>
+    api.get<CategorySalesReportResponse>('/reports/sales/by-category', {
       params: { startDate, endDate },
     }),
   getTopProducts: (startDate: string, endDate: string, limit = 10) =>

@@ -18,6 +18,7 @@ import {
   Input,
   theme,
   Badge,
+  Alert,
 } from 'antd'
 import {
   SearchOutlined,
@@ -227,6 +228,14 @@ const SalesPage: React.FC = () => {
         </Title>
         <Text type="secondary">Consulta y gestiona las ventas registradas</Text>
       </div>
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué es el Historial de Ventas?"
+        description="Consulta todas las ventas registradas en el período. Puedes filtrar por fecha, vendedor o estado, ver el detalle de cada transacción y anular ventas si es necesario."
+      />
 
       {/* Summary cards */}
       <Row gutter={[12, 12]} style={{ marginBottom: 16 }}>

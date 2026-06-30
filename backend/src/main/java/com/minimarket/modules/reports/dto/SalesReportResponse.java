@@ -7,5 +7,6 @@ public record SalesReportResponse(
         long totalSales,
         BigDecimal totalAmount,
         BigDecimal totalDiscount,
-        List<DailySalesDto> dailyBreakdown
+        List<DailySalesDto> dailyBreakdown,
+        List<PaymentMethodSummary> paymentMethodBreakdown
 ) {}

@@ -2,6 +2,7 @@ package com.minimarket.modules.reports;
 
 import com.minimarket.modules.reports.dto.DailySalesDto;
 import com.minimarket.modules.reports.dto.DebtorResponse;
+import com.minimarket.modules.reports.dto.PaymentMethodSummary;
 import com.minimarket.modules.reports.dto.SalesReportResponse;
 import com.minimarket.modules.reports.service.ExcelExportService;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -48,6 +49,10 @@ class ExcelExportServiceTest {
                         new DailySalesDto(LocalDate.of(2026, 5, 10), 5L, new BigDecimal("250000.00")),
                         new DailySalesDto(LocalDate.of(2026, 5, 11), 6L, new BigDecimal("300000.00")),
                         new DailySalesDto(LocalDate.of(2026, 5, 12), 4L, new BigDecimal("200000.00"))
+                ),
+                List.of(
+                        new PaymentMethodSummary("CASH", new BigDecimal("500000.00"), 10L),
+                        new PaymentMethodSummary("CARD", new BigDecimal("250000.00"), 5L)
                 )
         );
 
@@ -120,7 +125,7 @@ class ExcelExportServiceTest {
     void generateSalesExcel_WhenEmptyBreakdown_ShouldReturnValidWorkbook() throws Exception {
         // Arrange — report with no daily breakdown
         SalesReportResponse emptyReport = new SalesReportResponse(
-                0L, BigDecimal.ZERO, BigDecimal.ZERO, List.of()
+                0L, BigDecimal.ZERO, BigDecimal.ZERO, List.of(), List.of()
         );
 
         // Act

@@ -155,6 +155,14 @@ function AdminDashboardView({ data }: { data: AdminDashboard }) {
         <Text type="secondary">Resumen operacional del dia</Text>
       </div>
 
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué es el Dashboard?"
+        description="Muestra el resumen operacional del día: ventas totales, estado de caja, alertas de stock y métricas clave del negocio en tiempo real."
+      />
+
       {/* Row 1: KPIs */}
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={6}>

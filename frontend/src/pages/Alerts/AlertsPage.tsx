@@ -435,6 +435,14 @@ const AlertsPage: React.FC = () => {
         }
       />
 
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Cómo funcionan las Alertas?"
+        description="Configura reglas automáticas para recibir notificaciones cuando el stock de un producto baje del mínimo u ocurran eventos importantes. Puedes revisar el historial completo de disparos."
+      />
+
       <Card
         variant="borderless"
         style={{

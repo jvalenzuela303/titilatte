@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
   Table, Button, Tag, Space, Select, Modal, Form, Input, InputNumber,
   Typography, Card, Row, Col, App, Tooltip, Descriptions, Divider,
-  Empty, DatePicker, Badge, Statistic, AutoComplete,
+  Empty, DatePicker, Badge, Statistic, AutoComplete, Alert,
 } from 'antd'
 import {
   PlusOutlined, DollarOutlined, HistoryOutlined, EditOutlined,
@@ -450,6 +450,14 @@ ${dash}
             Nuevo Pedido
           </Button>
         }
+      />
+
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="¿Qué son los Pedidos Especiales?"
+        description="Gestiona encargos anticipados de clientes: tortas, productos específicos o entregas diferidas. Puedes crear pedidos, actualizar su estado y registrar el pago al momento de la entrega."
       />
 
       {/* Tarjetas resumen */}
