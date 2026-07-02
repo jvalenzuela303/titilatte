@@ -39,11 +39,33 @@ jobs:
     name: Backend CI (Java 21 / Maven)
     runs-on: ubuntu-latest
 
-    # Variables de entorno para los tests de Spring Boot.
-    # Se usa H2 en memoria para tests (perfil "test") — sin necesidad de
-    # un PostgreSQL real en el runner de CI.
+    # PostgreSQL 16 real — requerido por los triggers PL/pgSQL y RLS.
+    # H2 no soporta las funciones PL/pgSQL usadas en las migraciones Flyway
+    # (fn_apply_stock_movement, audit log triggers, RLS policies).
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: minimarket_ci
+          POSTGRES_USER: minimarket
+          POSTGRES_PASSWORD: minimarket_ci_secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    # Variables de entorno para Spring Boot en CI.
+    # NO se activa el perfil "test" (que apunta a H2) — se usa application.yml
+    # base que lee las variables de entorno del datasource directamente.
     env:
-      SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/minimarket_ci
+      SPRING_DATASOURCE_USERNAME: minimarket
+      SPRING_DATASOURCE_PASSWORD: minimarket_ci_secret
+      # JWT_SECRET: mínimo 32 bytes (256 bits). Solo para CI — nunca reusar en producción.
+      JWT_SECRET: Y2lTZWNyZXRLZXlGb3JDSVRLC3RpbmdPbmx5QmFzZTY0RW5jb2RlZE1pbmltdW0yNTZCaXRzUmVxdWlyZWQ=
       # Suprime el banner de Spring Boot en los logs de CI para reducir ruido
       SPRING_MAIN_BANNER_MODE: off
 
@@ -68,9 +90,10 @@ jobs:
       # --- Tests unitarios ----------------------------------------------------
       # Ejecuta solo los tests (fase "test"). Esto es rápido y falla pronto
       # si hay errores de compilación o tests fallidos.
+      # Nota: se usa ./mvnw (Maven wrapper) para consistencia con el entorno local.
       - name: Ejecutar tests unitarios
         working-directory: backend
-        run: mvn -B test -Dspring.profiles.active=test
+        run: ./mvnw -B test
 
       # --- Verify (tests de integración + empaquetado) ------------------------
       # La fase "verify" incluye: compile → test → package → verify.
@@ -79,7 +102,7 @@ jobs:
       # en el job docker-build-check.
       - name: Verificar build completo (verify)
         working-directory: backend
-        run: mvn -B verify -Dspring.profiles.active=test -DskipTests=false
+        run: ./mvnw -B verify -DskipTests=false
 
       # --- Reportes de Surefire -----------------------------------------------
       # Sube los reportes XML de Surefire como artifact para revisión en la UI

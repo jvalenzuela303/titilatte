@@ -32,6 +32,10 @@ frontend/node_modules/
 #claude 
 .claude
 
+#playwright-mcp/
+.playwright-mcp/
+
+
 # ---- IDEs ----
 .idea/
 *.iml
