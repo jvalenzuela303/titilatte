@@ -1,6 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import type { Sale } from '@/types'
+import { useStoreConfig } from '@/hooks/useStoreConfig'
 
 const DASH_LINE = '--------------------------------'
 const CENTER_WIDTH = 32
@@ -28,17 +29,26 @@ const PAYMENT_LABELS: Record<string, string> = {
 }
 
 const ThermalReceipt: React.FC<{ sale: Sale }> = ({ sale }) => {
+  const storeConfig = useStoreConfig()
+
   // Usar los valores reales del backend (calculados por línea de producto)
   const iva  = sale.taxAmount
   const neto = sale.totalAmount - iva
 
+  const storeName    = storeConfig?.name     ?? 'MINIMARKET'
+  const storeRut     = storeConfig?.rut      ? `RUT: ${storeConfig.rut}` : null
+  const storeAddress = storeConfig?.address  ?? null
+  const storePhone   = storeConfig?.phone    ? `Tel: ${storeConfig.phone}` : null
+
+  const headerLines: string[] = [center(storeName.toUpperCase())]
+  if (storeRut)     headerLines.push(center(storeRut))
+  if (storeAddress) headerLines.push(center(storeAddress))
+  if (storePhone)   headerLines.push(center(storePhone))
+
   const lines: string[] = [
-    center('MINIMARKET'),
-    center('RUT: 76.123.456-7'),
-    center('Av. Principal 123, Santiago'),
-    center('Tel: (2) 2345-6789'),
+    ...headerLines,
     DASH_LINE,
-    center('BOLETA DE VENTAS Y SERVICIOS'),
+    center('VOUCHER DE VENTAS Y SERVICIOS'),
     center(`N° ${String(sale.saleNumber).padStart(6, '0')}`),
     center(dayjs(sale.createdAt).format('DD/MM/YYYY HH:mm:ss')),
     DASH_LINE,

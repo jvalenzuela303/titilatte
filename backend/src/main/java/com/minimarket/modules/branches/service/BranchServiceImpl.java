@@ -31,6 +31,14 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public BranchDto getConfig() {
+        return branchRepository.findFirstByIsActiveTrueOrderByCreatedAtAsc()
+                .map(this::toDto)
+                .orElse(new BranchDto(null, "Minimarket", null, null, null, true));
+    }
+
+    @Override
     @Transactional
     public BranchDto create(BranchRequest request) {
         Branch branch = Branch.builder()

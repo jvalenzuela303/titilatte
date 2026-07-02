@@ -20,6 +20,11 @@ public class BranchController {
 
     private final BranchService branchService;
 
+    @GetMapping("/config")
+    public ResponseEntity<BranchDto> getConfig() {
+        return ResponseEntity.ok(branchService.getConfig());
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','SUPERVISOR')")
     public ResponseEntity<List<BranchDto>> findAll() {

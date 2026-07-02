@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface BranchService {
     List<BranchDto> findAll();
     BranchDto findById(UUID id);
+    BranchDto getConfig();
     BranchDto create(BranchRequest request);
     BranchDto update(UUID id, BranchRequest request);
     void deactivate(UUID id);

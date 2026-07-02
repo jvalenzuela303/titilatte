@@ -17,6 +17,7 @@ export interface BranchRequest {
 }
 
 export const branchService = {
+  getConfig: () => api.get<Branch>('/branches/config'),
   findAll: () => api.get<Branch[]>('/branches'),
   findById: (id: string) => api.get<Branch>(`/branches/${id}`),
   create: (data: BranchRequest) => api.post<Branch>('/branches', data),
