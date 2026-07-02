@@ -1,0 +1,227 @@
+# =============================================================================
+# Auto PR — Apertura automática de Pull Requests
+# =============================================================================
+# Propósito: Crear automáticamente un Pull Request cuando se hace push a una
+# rama de feature, fix, hotfix o chore. Reduce el trabajo manual de abrir
+# PRs y garantiza que siempre existan para revisión de código.
+#
+# Triggers:
+#   - push → ramas con prefijo feature/**, fix/**, hotfix/**, chore/**,
+#             refactor/**, perf/**, docs/**, test/**
+#
+# Comportamiento:
+#   - Si ya existe un PR abierto para la rama → lo actualiza (no duplica)
+#   - Target branch → develop (si existe) o main como fallback
+#   - Label automático según prefijo del branch (feat, fix, hotfix…)
+#   - Asigna el PR al autor del push
+#   - Título y cuerpo generados desde los commits del branch
+#   - PRs de hotfix/** → target directo a main (bypass develop)
+#
+# Secretos requeridos:
+#   - Ninguno adicional. Usa GITHUB_TOKEN automático con permisos
+#     pull-requests: write y contents: read.
+#
+# Configuración recomendada en el repositorio:
+#   Settings → Branches → Branch protection rules → develop / main:
+#   - Require pull request reviews before merging
+#   - Require status checks to pass (ci workflow)
+# =============================================================================
+
+name: Auto PR
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'fix/**'
+      - 'hotfix/**'
+      - 'chore/**'
+      - 'refactor/**'
+      - 'perf/**'
+      - 'docs/**'
+      - 'test/**'
+
+# Solo un workflow de auto-PR por rama a la vez.
+# Si llegan dos pushes rápidos a la misma rama, el segundo espera al primero.
+concurrency:
+  group: auto-pr-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job: open-pr — Crea o actualiza el PR para la rama actual
+  # ---------------------------------------------------------------------------
+  open-pr:
+    name: Abrir Pull Request automático
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- Checkout -----------------------------------------------------------
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+        with:
+          # fetch-depth: 0 descarga todo el historial para poder calcular
+          # los commits del branch respecto a la rama base.
+          fetch-depth: 0
+
+      # --- Determinar rama base (develop o main) ------------------------------
+      # Los hotfix van directo a main. Todo lo demás va a develop si existe.
+      - name: Determinar rama base del PR
+        id: base
+        run: |
+          BRANCH="${{ github.ref_name }}"
+
+          # Hotfix siempre va directo a main (parche de emergencia)
+          if [[ "$BRANCH" == hotfix/* ]]; then
+            echo "branch=main" >> "$GITHUB_OUTPUT"
+            echo "=> Hotfix detectado: base = main"
+            exit 0
+          fi
+
+          # Para el resto: develop si existe en el remoto, sino main
+          if git ls-remote --exit-code --heads origin develop &>/dev/null; then
+            echo "branch=develop" >> "$GITHUB_OUTPUT"
+            echo "=> Rama develop encontrada: base = develop"
+          else
+            echo "branch=main" >> "$GITHUB_OUTPUT"
+            echo "=> Rama develop no existe: base = main (fallback)"
+          fi
+
+      # --- Determinar label según prefijo del branch --------------------------
+      # Mapea el prefijo del branch name a un label de GitHub Issues/PRs.
+      # Los labels deben existir previamente en el repositorio.
+      # Crear con: gh label create "feat" --color "0075ca" --description "Nueva funcionalidad"
+      - name: Determinar label del PR
+        id: label
+        run: |
+          BRANCH="${{ github.ref_name }}"
+
+          case "$BRANCH" in
+            feature/*)  echo "name=feat"     >> "$GITHUB_OUTPUT" ;;
+            fix/*)      echo "name=fix"      >> "$GITHUB_OUTPUT" ;;
+            hotfix/*)   echo "name=hotfix"   >> "$GITHUB_OUTPUT" ;;
+            chore/*)    echo "name=chore"    >> "$GITHUB_OUTPUT" ;;
+            refactor/*) echo "name=refactor" >> "$GITHUB_OUTPUT" ;;
+            perf/*)     echo "name=perf"     >> "$GITHUB_OUTPUT" ;;
+            docs/*)     echo "name=docs"     >> "$GITHUB_OUTPUT" ;;
+            test/*)     echo "name=test"     >> "$GITHUB_OUTPUT" ;;
+            *)          echo "name="         >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      # --- Generar título del PR desde el branch name -------------------------
+      # Convierte "feature/agregar-modulo-clientes" en "feat: agregar modulo clientes"
+      - name: Generar título del PR
+        id: title
+        run: |
+          BRANCH="${{ github.ref_name }}"
+
+          # Extraer prefijo y nombre (todo después del primer /)
+          PREFIX="${BRANCH%%/*}"
+          SLUG="${BRANCH#*/}"
+
+          # Reemplazar guiones por espacios y quitar underscores
+          DESCRIPTION=$(echo "$SLUG" | tr '-' ' ' | tr '_' ' ')
+
+          # Mapear prefijo a tipo Conventional Commits
+          case "$PREFIX" in
+            feature)  TYPE="feat" ;;
+            fix)      TYPE="fix" ;;
+            hotfix)   TYPE="fix" ;;
+            chore)    TYPE="chore" ;;
+            refactor) TYPE="refactor" ;;
+            perf)     TYPE="perf" ;;
+            docs)     TYPE="docs" ;;
+            test)     TYPE="test" ;;
+            *)        TYPE="$PREFIX" ;;
+          esac
+
+          TITLE="${TYPE}: ${DESCRIPTION}"
+          echo "text=$TITLE" >> "$GITHUB_OUTPUT"
+          echo "=> Título generado: $TITLE"
+
+      # --- Generar cuerpo del PR desde los commits del branch -----------------
+      # Lista los commits nuevos respecto a la rama base para el cuerpo del PR.
+      - name: Generar cuerpo del PR
+        id: body
+        run: |
+          BASE="${{ steps.base.outputs.branch }}"
+          BRANCH="${{ github.ref_name }}"
+
+          # Obtener la lista de commits nuevos en este branch vs la base
+          COMMITS=$(git log origin/$BASE..HEAD --pretty=format:"- %s" 2>/dev/null || \
+                    git log HEAD~5..HEAD --pretty=format:"- %s")
+
+          # Escribir el cuerpo del PR en un archivo temporal (evita problemas
+          # con caracteres especiales en variables de entorno)
+          cat > /tmp/pr-body.md << BODY
+          ## Descripción
+
+          <!-- Describe brevemente qué hace este PR y por qué es necesario -->
+
+          ## Cambios incluidos
+
+          ${COMMITS}
+
+          ## Checklist
+
+          - [ ] Tests agregados o actualizados
+          - [ ] Build pasa localmente (\`./mvnw verify\` / \`npm run build\`)
+          - [ ] No hay credenciales ni secrets en el código
+          - [ ] Migraciones Flyway versionadas correctamente (si aplica)
+
+          ---
+          *PR generado automáticamente desde rama \`$BRANCH\` → \`$BASE\`*
+          BODY
+
+          echo "file=/tmp/pr-body.md" >> "$GITHUB_OUTPUT"
+
+      # --- Crear o actualizar el PR -------------------------------------------
+      # peter-evans/create-pull-request detecta si ya existe un PR abierto
+      # para la rama y lo actualiza en lugar de crear uno nuevo.
+      # Esto evita duplicados si se hacen múltiples pushes al mismo branch.
+      - name: Crear o actualizar Pull Request
+        id: pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          # Token con permisos pull-requests: write (del bloque permissions)
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # La rama base se determinó en el step anterior
+          base: ${{ steps.base.outputs.branch }}
+          # Título generado desde el nombre del branch
+          title: ${{ steps.title.outputs.text }}
+          # Cuerpo con lista de commits y checklist
+          body-path: /tmp/pr-body.md
+          # Labels (el label debe existir en el repo; se ignora si no existe)
+          labels: ${{ steps.label.outputs.name }}
+          # Asignar al autor del push
+          assignees: ${{ github.actor }}
+          # draft: false — PR listo para revisión desde el primer push.
+          # Cambiar a true si se prefiere que arranque como borrador.
+          draft: false
+
+      # --- Resumen en la UI de Actions ----------------------------------------
+      - name: Resumen del PR
+        if: steps.pr.outputs.pull-request-url != ''
+        run: |
+          ACTION="${{ steps.pr.outputs.pull-request-operation }}"
+          URL="${{ steps.pr.outputs.pull-request-url }}"
+          NUMBER="${{ steps.pr.outputs.pull-request-number }}"
+
+          if [[ "$ACTION" == "created" ]]; then
+            MSG="PR #${NUMBER} creado"
+          else
+            MSG="PR #${NUMBER} actualizado"
+          fi
+
+          echo "### $MSG" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Campo | Valor |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| URL | $URL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Base | \`${{ steps.base.outputs.branch }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Label | \`${{ steps.label.outputs.name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Autor | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
