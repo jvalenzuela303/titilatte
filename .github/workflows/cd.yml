@@ -83,7 +83,7 @@ jobs:
       # También extrae labels OCI estándar (autor, URL, descripción).
       - name: Extraer metadata para imagen Backend
         id: meta-backend
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/${{ github.repository }}/backend
           tags: |
@@ -97,7 +97,7 @@ jobs:
       # --- Metadata Frontend --------------------------------------------------
       - name: Extraer metadata para imagen Frontend
         id: meta-frontend
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/${{ github.repository }}/frontend
           tags: |
@@ -110,7 +110,7 @@ jobs:
       # generados por metadata-action. El caché de capas se almacena en el
       # registro GHCR (type=registry) para persistir entre runs.
       - name: Build & Push Backend
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./backend
           file: ./backend/Dockerfile
@@ -127,7 +127,7 @@ jobs:
 
       # --- Build & Push Frontend ----------------------------------------------
       - name: Build & Push Frontend
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
@@ -193,8 +193,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           # Puerto SSH — usa el valor del secret o 22 como default
           port: ${{ secrets.SSH_PORT || 22 }}
-          # Timeout de conexión SSH (segundos)
-          connect_timeout: 30s
+          # Timeout de conexión SSH — parámetro correcto en appleboy/ssh-action@v1
+          timeout: 30s
           # Script ejecutado en el servidor remoto.
           # Todas las variables sensibles llegan desde el bloque env: de arriba.
           # Ningún secret se interpola directamente en este bloque de script.
@@ -257,10 +257,11 @@ jobs:
 
     steps:
       - name: Notificar en Slack
-        uses: slackapi/slack-github-action@v1
+        uses: slackapi/slack-github-action@v2
         with:
           # SLACK_WEBHOOK_URL debe ser un Incoming Webhook de Slack.
           # Crear en: https://api.slack.com/apps → Incoming Webhooks → Add New Webhook
+          # v2 requiere webhook + webhook-type (no disponible en v1)
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
