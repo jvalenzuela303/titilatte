@@ -10,7 +10,6 @@
 # Jobs:
 #   1. build-and-push — Construye y publica imágenes a ghcr.io
 #   2. deploy         — Despliega en el servidor de producción via SSH
-#   3. notify         — Notifica resultado del deploy a Slack (siempre)
 #
 # Secretos requeridos (configurar en Settings → Secrets → Actions):
 #   - SSH_HOST          — IP o dominio del servidor de producción
@@ -18,7 +17,6 @@
 #   - SSH_PRIVATE_KEY   — Clave privada SSH (contenido del archivo .pem o id_rsa)
 #   - SSH_PORT          — Puerto SSH (default: 22, puede omitirse)
 #   - ENV_FILE          — Contenido completo del .env de producción
-#   - SLACK_WEBHOOK_URL — URL del Incoming Webhook de Slack
 #
 # GITHUB_TOKEN es automático — no requiere configuración manual.
 # Tiene permisos de escritura en packages para publicar en ghcr.io.
@@ -244,78 +242,3 @@ jobs:
             echo "==> Verificando estado de los contenedores:"
             docker compose ps
 
-  # ---------------------------------------------------------------------------
-  # Job 3: Notify — Notifica resultado del deploy a Slack
-  # ---------------------------------------------------------------------------
-  notify:
-    name: Notificar Resultado en Slack
-    runs-on: ubuntu-latest
-    needs: deploy
-    # SIEMPRE se ejecuta, incluso si el job "deploy" falló o fue cancelado.
-    # Esto garantiza que el equipo reciba notificaciones de fallos, no solo éxitos.
-    if: always()
-
-    steps:
-      - name: Notificar en Slack
-        uses: slackapi/slack-github-action@v2
-        with:
-          # SLACK_WEBHOOK_URL debe ser un Incoming Webhook de Slack.
-          # Crear en: https://api.slack.com/apps → Incoming Webhooks → Add New Webhook
-          # v2 requiere webhook + webhook-type (no disponible en v1)
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "${{ needs.deploy.result == 'success' && 'Deploy exitoso' || 'Deploy fallido' }} — Minimarket"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Estado:*\n${{ needs.deploy.result == 'success' && ':white_check_mark: Exitoso' || ':x: Fallido' }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Rama:*\n`${{ github.ref_name }}`"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|`${{ github.sha }}`>"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Autor:*\n${{ github.actor }}"
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Commit message:*\n${{ github.event.head_commit.message }}"
-                  }
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "Ver workflow"
-                      },
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                    }
-                  ]
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
