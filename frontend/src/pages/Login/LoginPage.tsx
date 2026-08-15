@@ -209,23 +209,25 @@ const LoginPage: React.FC = () => {
             )}
           </Form>
 
-          <Text
-            style={{
-              display: 'block',
-              textAlign: 'center',
-              fontSize: 13,
-              marginTop: 8,
-              color: token.colorTextTertiary,
-            }}
-          >
-            ¿Primera vez en el sistema?{' '}
-            <Link
-              to="/tutorial"
-              style={{ color: token.colorPrimary, fontWeight: 500 }}
+          {!import.meta.env.PROD && (
+            <Text
+              style={{
+                display: 'block',
+                textAlign: 'center',
+                fontSize: 13,
+                marginTop: 8,
+                color: token.colorTextTertiary,
+              }}
             >
-              Ver guía de roles
-            </Link>
-          </Text>
+              ¿Primera vez en el sistema?{' '}
+              <Link
+                to="/tutorial"
+                style={{ color: token.colorPrimary, fontWeight: 500 }}
+              >
+                Ver guía de roles
+              </Link>
+            </Text>
+          )}
         </Space>
       </Card>
     </div>

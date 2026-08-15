@@ -86,7 +86,9 @@ export default function App() {
         <Routes>
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/tutorial" element={<TutorialPage />} />
+          {!import.meta.env.PROD && (
+            <Route path="/tutorial" element={<TutorialPage />} />
+          )}
 
           {/* Root redirect */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
