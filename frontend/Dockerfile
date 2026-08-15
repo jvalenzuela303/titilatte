@@ -52,6 +52,8 @@ ENV VITE_API_URL=${VITE_API_URL}
 
 # BUILD_SCRIPT permite usar "build:nocheck" en demos/staging para omitir tsc
 ARG BUILD_SCRIPT=build
+# Aumentar el heap de Node.js para evitar OOM en servidores con RAM limitada (< 2 GB)
+ENV NODE_OPTIONS="--max-old-space-size=700"
 RUN npm run ${BUILD_SCRIPT} && \
     # Verifica que el directorio dist fue generado
     ls -lh dist/
