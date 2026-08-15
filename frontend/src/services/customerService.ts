@@ -9,7 +9,7 @@ export const customerService = {
   update: (id: string, data: Partial<Customer>) =>
     api.put<Customer>(`/customers/${id}`, data),
   updateCreditLimit: (id: string, data: { newLimit: number; reason: string }) =>
-    api.put(`/customers/${id}/credit-limit`, data),
+    api.patch(`/customers/${id}/credit-limit`, data),
   registerPayment: (
     id: string,
     data: { amount: number; paymentMethod: string; notes?: string },

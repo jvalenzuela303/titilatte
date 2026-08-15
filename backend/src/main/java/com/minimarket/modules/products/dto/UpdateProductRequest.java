@@ -33,5 +33,7 @@ public record UpdateProductRequest(
 
         UUID unitId,
 
-        Boolean trackStock
+        Boolean trackStock,
+
+        Boolean allowCustomPrice
 ) {}

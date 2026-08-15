@@ -40,6 +40,13 @@ export interface ProductCategory {
   updatedAt: string
 }
 
+export interface CreateFamilyRequest {
+  code: string
+  name: string
+  description?: string
+  active?: boolean
+}
+
 export interface CreateCategoryRequest {
   code: string
   name: string

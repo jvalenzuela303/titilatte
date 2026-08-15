@@ -119,6 +119,7 @@ public class ProductServiceImpl implements ProductService {
                 .stockMaximum(request.stockMaximum())
                 .active(true)
                 .trackStock(request.trackStock() == null || request.trackStock())
+                .allowCustomPrice(Boolean.TRUE.equals(request.allowCustomPrice()))
                 .branchId(branchId)
                 .category(category)
                 .tax(tax)
@@ -155,6 +156,7 @@ public class ProductServiceImpl implements ProductService {
         if (request.stockMaximum() != null) product.setStockMaximum(request.stockMaximum());
         if (request.active() != null) product.setActive(request.active());
         if (request.trackStock() != null) product.setTrackStock(request.trackStock());
+        if (request.allowCustomPrice() != null) product.setAllowCustomPrice(request.allowCustomPrice());
 
         BigDecimal finalSalePrice = product.getSalePrice();
         BigDecimal finalPurchasePrice = product.getPurchasePrice();

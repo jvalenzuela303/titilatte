@@ -35,5 +35,7 @@ public record CreateProductRequest(
         @NotNull(message = "Unit ID is required")
         UUID unitId,
 
-        Boolean trackStock
+        Boolean trackStock,
+
+        Boolean allowCustomPrice
 ) {}

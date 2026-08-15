@@ -152,7 +152,8 @@ const CustomersPage: React.FC = () => {
       fetchCustomers(page)
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'errorFields' in err) return
-      message.error('Error al guardar el cliente')
+      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message
+      message.error(msg ?? 'Error al guardar el cliente')
     } finally {
       setCustomerSubmitting(false)
     }

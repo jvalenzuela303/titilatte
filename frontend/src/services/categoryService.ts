@@ -4,6 +4,7 @@ import type {
   ProductFamily,
   CreateCategoryRequest,
   UpdateCategoryRequest,
+  CreateFamilyRequest,
 } from '@/types'
 
 const categoryService = {
@@ -15,6 +16,18 @@ const categoryService = {
 
   getFamilies: () =>
     apiClient.get<ProductFamily[]>('/categories/families'),
+
+  getAllFamilies: () =>
+    apiClient.get<ProductFamily[]>('/categories/families/all'),
+
+  createFamily: (data: CreateFamilyRequest) =>
+    apiClient.post<ProductFamily>('/categories/families', data),
+
+  updateFamily: (id: string, data: CreateFamilyRequest) =>
+    apiClient.put<ProductFamily>(`/categories/families/${id}`, data),
+
+  deleteFamily: (id: string) =>
+    apiClient.delete(`/categories/families/${id}`),
 
   create: (data: CreateCategoryRequest) =>
     apiClient.post<ProductCategory>('/categories', data),

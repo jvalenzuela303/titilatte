@@ -58,6 +58,7 @@ const productSchema = z
     taxId: z.string().min(1, 'Selecciona un impuesto'),
     unitId: z.string().min(1, 'Selecciona una unidad de medida'),
     trackStock: z.boolean(),
+    allowCustomPrice: z.boolean(),
   })
   .refine((d) => d.salePrice >= d.purchasePrice, {
     message: 'El precio de venta debe ser mayor o igual al precio de compra',
@@ -111,6 +112,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       taxId: '',
       unitId: '',
       trackStock: true,
+      allowCustomPrice: false,
     },
   })
 
@@ -155,6 +157,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           taxId: product.tax.id,
           unitId: product.unit.id,
           trackStock: product.trackStock,
+          allowCustomPrice: product.allowCustomPrice,
         })
       } else {
         reset({
@@ -169,6 +172,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           taxId: '',
           unitId: '',
           trackStock: true,
+          allowCustomPrice: false,
         })
       }
     }
@@ -376,6 +380,24 @@ const ProductForm: React.FC<ProductFormProps> = ({
           />
           <Text type="secondary" style={{ marginLeft: 10, fontSize: 12 }}>
             Desactiva para productos de elaboración propia con stock volátil (pan, pasteles)
+          </Text>
+        </Form.Item>
+
+        <Form.Item label="Precio libre (pesado)">
+          <Controller
+            name="allowCustomPrice"
+            control={control}
+            render={({ field }) => (
+              <Switch
+                checked={field.value}
+                onChange={field.onChange}
+                checkedChildren="Sí"
+                unCheckedChildren="No"
+              />
+            )}
+          />
+          <Text type="secondary" style={{ marginLeft: 10, fontSize: 12 }}>
+            Activa para productos vendidos por peso (pan, cecina, queso). El cajero ingresa el monto en el POS.
           </Text>
         </Form.Item>
 
