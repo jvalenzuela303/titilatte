@@ -122,9 +122,10 @@ services:
       # Producción: frontend en contenedor nginx interno (puerto 80).
       # El override de desarrollo sobreescribe estos valores.
       FRONTEND_UPSTREAM: "frontend:80"
-      # CSP estricto para producción: sin inline scripts, sin websocket extra.
-      CSP_SCRIPT_SRC: "'self'"
-      CSP_CONNECT_EXTRA: ""
+      # CSP: permite scripts de Cloudflare Web Analytics.
+      # Añadir aquí otros dominios externos si se integran más herramientas.
+      CSP_SCRIPT_SRC: "'self' https://static.cloudflareinsights.com"
+      CSP_CONNECT_EXTRA: "https://cloudflareinsights.com"
     ports:
       # Puerto HTTP expuesto al host; único punto de entrada público.
       - "${NGINX_HTTP_PORT:-80}:80"
