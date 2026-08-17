@@ -48,7 +48,12 @@ public class CustomerServiceImpl implements CustomerService {
         // value sent in the request. Only ADMIN/SUPERVISOR can set a credit limit via
         // PATCH /customers/{id}/credit-limit. Allowing the creation endpoint (accessible to
         // CAJERO) to set an arbitrary limit would bypass role-based credit controls.
+        // Default to main branch; multi-branch support will derive this from
+        // the authenticated user's branchId in a future iteration (Phase 4).
+        UUID branchId = UUID.fromString("00000000-0000-0000-0000-000000000001");
+
         Customer customer = Customer.builder()
+                .branchId(branchId)
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .rut(request.rut())

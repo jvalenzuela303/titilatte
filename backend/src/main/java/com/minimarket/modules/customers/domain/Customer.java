@@ -29,6 +29,9 @@ public class Customer {
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
+    @Column(name = "branch_id")
+    private UUID branchId;
+
     @Column(name = "rut", length = 20)
     private String rut;
 
