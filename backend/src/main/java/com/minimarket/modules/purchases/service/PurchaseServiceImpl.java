@@ -74,7 +74,12 @@ public class PurchaseServiceImpl implements PurchaseService {
                 ? request.purchaseDate()
                 : OffsetDateTime.now();
 
+        // Default to main branch; multi-branch support will derive this from
+        // the authenticated user's branchId in a future iteration (Phase 4).
+        UUID branchId = UUID.fromString("00000000-0000-0000-0000-000000000001");
+
         Purchase purchase = Purchase.builder()
+                .branchId(branchId)
                 .supplierId(request.supplierId())
                 .documentType(request.documentType())
                 .documentNumber(request.documentNumber())

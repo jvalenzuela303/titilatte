@@ -30,6 +30,9 @@ public class Purchase {
     @Column(name = "purchase_number", insertable = false, updatable = false)
     private Long purchaseNumber;
 
+    @Column(name = "branch_id")
+    private UUID branchId;
+
     @Column(name = "supplier_id")
     private UUID supplierId;
 
