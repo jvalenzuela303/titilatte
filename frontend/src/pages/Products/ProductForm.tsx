@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import {
@@ -14,6 +14,7 @@ import {
   Divider,
   Typography,
   App,
+  Alert,
 } from 'antd'
 import apiClient from '@/config/axios'
 import type { Product, ProductCategory } from '@/types'
@@ -40,11 +41,9 @@ const productSchema = z
     description: z.string().max(500).optional(),
     purchasePrice: z
       .number({ required_error: 'El precio de compra es requerido' })
-      .int('Debe ser un número entero')
       .positive('Debe ser mayor a 0'),
     salePrice: z
       .number({ required_error: 'El precio de venta es requerido' })
-      .int('Debe ser un número entero')
       .positive('Debe ser mayor a 0'),
     stockMinimum: z
       .number({ required_error: 'El stock mínimo es requerido' })
@@ -97,6 +96,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -115,6 +115,13 @@ const ProductForm: React.FC<ProductFormProps> = ({
       allowCustomPrice: false,
     },
   })
+
+  const watchedPurchasePrice = useWatch({ control, name: 'purchasePrice' })
+  const watchedSalePrice = useWatch({ control, name: 'salePrice' })
+  const priceConflict =
+    typeof watchedPurchasePrice === 'number' &&
+    typeof watchedSalePrice === 'number' &&
+    watchedSalePrice < watchedPurchasePrice
 
   // Load categories, taxes and units when modal opens
   useEffect(() => {
@@ -358,6 +365,27 @@ const ProductForm: React.FC<ProductFormProps> = ({
             </Form.Item>
           </Col>
         </Row>
+
+        {priceConflict && (
+          <Alert
+            type="warning"
+            showIcon
+            style={{ marginBottom: 12 }}
+            message="El precio de venta es menor al precio de compra"
+            description={
+              <>
+                El precio de venta (${watchedSalePrice?.toLocaleString('es-CL')}) no puede ser
+                menor que el precio de compra (${watchedPurchasePrice?.toLocaleString('es-CL')}).{' '}
+                <span
+                  style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={() => setValue('salePrice', watchedPurchasePrice, { shouldValidate: true })}
+                >
+                  Igualar precio de venta al de compra
+                </span>
+              </>
+            }
+          />
+        )}
 
         <Divider orientation="left" plain>
           <Text type="secondary" style={{ fontSize: 12 }}>

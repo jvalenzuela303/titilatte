@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import type { AxiosError } from 'axios'
 import {
   Table,
   Button,
@@ -89,8 +90,9 @@ const ProductsPage: React.FC = () => {
       setFormOpen(false)
       setEditingProduct(null)
       loadProducts(pagination.current)
-    } catch {
-      message.error('Error al guardar el producto')
+    } catch (err) {
+      const apiMsg = (err as AxiosError<{ message: string }>)?.response?.data?.message
+      message.error(apiMsg || 'Error al guardar el producto')
     } finally {
       setIsSubmitting(false)
     }
