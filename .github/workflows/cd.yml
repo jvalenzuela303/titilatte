@@ -1,25 +1,23 @@
 # =============================================================================
 # CD — Despliegue Continuo
 # =============================================================================
-# Propósito: Publicar imágenes Docker a GHCR y desplegar en producción
-# automáticamente cuando se hace push a main (merge de PR aprobado).
+# Propósito: Publicar imágenes Docker a GHCR (backup/rollback) y desplegar
+# en producción automáticamente cuando se hace push a main.
 #
-# Triggers:
-#   - push → main (solo cuando CI pasa en el mismo commit)
+# Estrategia de deploy:
+#   El servidor construye las imágenes localmente (git pull + docker compose build).
+#   Las imágenes en ghcr.io sirven como respaldo versionado para rollbacks.
 #
 # Jobs:
-#   1. build-and-push — Construye y publica imágenes a ghcr.io
-#   2. deploy         — Despliega en el servidor de producción via SSH
+#   1. build-and-push — Construye y publica imágenes a ghcr.io (backup)
+#   2. deploy         — git pull + rebuild + restart en el servidor via SSH
 #
-# Secretos requeridos (configurar en Settings → Secrets → Actions):
-#   - SSH_HOST          — IP o dominio del servidor de producción
-#   - SSH_USER          — Usuario SSH (p.ej. "deploy" o "ubuntu")
-#   - SSH_PRIVATE_KEY   — Clave privada SSH (contenido del archivo .pem o id_rsa)
-#   - SSH_PORT          — Puerto SSH (default: 22, puede omitirse)
-#   - ENV_FILE          — Contenido completo del .env de producción
-#
-# GITHUB_TOKEN es automático — no requiere configuración manual.
-# Tiene permisos de escritura en packages para publicar en ghcr.io.
+# Secretos requeridos (Settings → Secrets and variables → Actions):
+#   - SSH_HOST          — IP del servidor: 38.107.237.131
+#   - SSH_USER          — Usuario SSH: root
+#   - SSH_PRIVATE_KEY   — Clave privada SSH (contenido de ~/.ssh/id_ed25519)
+#   - SSH_PORT          — Puerto SSH: 22
+#   - ENV_FILE          — Contenido completo de /opt/titilatte/infra/.env
 # =============================================================================
 
 name: CD
@@ -176,69 +174,48 @@ jobs:
       - name: Deploy en servidor de producción
         uses: appleboy/ssh-action@v1
         env:
-          # Los secrets sensibles se pasan como variables de entorno SSH.
-          # appleboy/ssh-action los reenvía a la sesión remota a través del canal
-          # SSH cifrado. Nunca se interpolan inline en el bloque "script:",
-          # por lo que su contenido no aparece en los logs de GitHub Actions.
           ENV_FILE: ${{ secrets.ENV_FILE }}
-          GHCR_PULL_TOKEN: ${{ secrets.GHCR_PULL_TOKEN }}
-          GHCR_PULL_USER: ${{ secrets.GHCR_PULL_USER }}
           IMAGE_TAG: ${{ github.sha }}
           DEPLOY_ACTOR: ${{ github.actor }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # Puerto SSH — usa el valor del secret o 22 como default
-          port: ${{ secrets.SSH_PORT || 22 }}
-          # Timeout de conexión SSH — parámetro correcto en appleboy/ssh-action@v1
-          timeout: 30s
-          # Script ejecutado en el servidor remoto.
-          # Todas las variables sensibles llegan desde el bloque env: de arriba.
-          # Ningún secret se interpola directamente en este bloque de script.
-          envs: ENV_FILE,IMAGE_TAG,DEPLOY_ACTOR,GHCR_PULL_TOKEN,GHCR_PULL_USER
+          port: ${{ secrets.SSH_PORT }}
+          timeout: 300s
+          envs: ENV_FILE,IMAGE_TAG,DEPLOY_ACTOR
           script: |
             set -euo pipefail
 
-            echo "==> Iniciando deploy del commit: ${IMAGE_TAG}"
+            echo "==> Deploy del commit: ${IMAGE_TAG}"
             echo "==> Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             echo "==> Iniciado por: ${DEPLOY_ACTOR}"
 
-            # Navegar al directorio de la aplicación
-            cd /opt/minimarket
+            # Directorio de la aplicación
+            cd /opt/titilatte
 
-            # Escribir el archivo .env de producción desde la variable de entorno.
-            # ENV_FILE llega como variable de entorno SSH (no interpolada en el script),
-            # por lo que su contenido nunca aparece en los logs de GitHub Actions.
-            printf '%s' "${ENV_FILE}" > .env
-            chmod 600 .env
+            # Actualizar .env de producción
+            printf '%s' "${ENV_FILE}" > infra/.env
+            chmod 600 infra/.env
 
-            # Hacer login en ghcr.io desde el servidor para poder hacer pull
-            # de las imágenes privadas.
-            # SEGURIDAD: GHCR_PULL_TOKEN es un PAT con scope read:packages únicamente.
-            # Nunca se usa el GITHUB_TOKEN del runner — ese token solo existe en
-            # el entorno de Actions y no debe transmitirse a servidores externos.
-            echo "${GHCR_PULL_TOKEN}" | docker login ghcr.io \
-              -u "${GHCR_PULL_USER}" --password-stdin
+            # Traer el código más reciente
+            echo "==> git pull..."
+            git pull origin main
 
-            # Descargar las nuevas imágenes antes de recrear contenedores.
-            # Esto reduce el tiempo en que los contenedores están detenidos.
-            echo "==> Descargando nuevas imágenes..."
-            docker compose pull
+            # Rebuild y restart de contenedores
+            # Solo rebuildeamos lo que cambió (Docker cache layer)
+            echo "==> Rebuilding imágenes..."
+            cd infra
+            docker compose -f docker-compose.yml -f docker-compose.ssl.yml build
 
-            # Recrear los contenedores con las nuevas imágenes.
-            # -d: background (detached mode)
-            # --remove-orphans: elimina contenedores de servicios que ya no
-            #   están definidos en docker-compose.yml
-            echo "==> Aplicando nuevas imágenes..."
-            docker compose up -d --remove-orphans
+            echo "==> Aplicando cambios..."
+            docker compose -f docker-compose.yml -f docker-compose.ssl.yml \
+              up -d --remove-orphans
 
-            # Limpiar imágenes sin uso para liberar espacio en disco.
-            # -f evita la confirmación interactiva.
+            # Limpiar imágenes sin uso para no llenar el disco
             echo "==> Limpiando imágenes obsoletas..."
             docker image prune -f
 
-            echo "==> Deploy completado exitosamente"
-            echo "==> Verificando estado de los contenedores:"
-            docker compose ps
+            echo "==> Deploy completado"
+            docker compose -f docker-compose.yml -f docker-compose.ssl.yml ps
 
